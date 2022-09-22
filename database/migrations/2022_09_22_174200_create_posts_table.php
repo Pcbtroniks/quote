@@ -22,7 +22,6 @@ return new class extends Migration
             $table->string('image', 260)->nullable();
             $table->text('description')->nullable();
             $table->text('text')->nullable();
-            $table->string('image', 260)->nullable();
             $table->enum('posted', ['yes', 'not'])->default('not');
             $table->enum('type', ['adverd', 'post', 'course', 'movie'])->default('post');
 
