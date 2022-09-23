@@ -43,26 +43,25 @@ import { useForm } from '@inertiajs/inertia-vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
 
 import JetDangerButton from '@/Components/DangerButton.vue';
-import JetFormSection from '@/Components/FormSection.vue';
+import FormSection from '@/Components/FormSection.vue';
 import JetInputError from '@/Components/InputError.vue';
 import JetButton from '@/Components/PrimaryButton.vue';
 import JetLabel from '@/Components/InputLabel.vue';
 import JetInput from '@/Components/TextInput.vue';
-import FormSection from '../../../../../vendor/laravel/jetstream/stubs/inertia/resources/js/Components/FormSection.vue';
 
 
 
     export default {
 
         components: {
-    JetLabel,
-    JetInput,
-    JetButton,
-    AppLayout,
-    JetInputError,
-    JetDangerButton,
-    FormSection
-},
+                    JetLabel,
+                    JetInput,
+                    JetButton,
+                    AppLayout,
+                    JetInputError,
+                    JetDangerButton,
+                    FormSection
+                },
 
         props: {
             errors: Object
