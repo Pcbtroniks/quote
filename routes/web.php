@@ -3,6 +3,7 @@
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\PostController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\QuoteController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -31,3 +32,7 @@ Route::inertia('/inertia', 'Dashboard/Post/Index');
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::resource('/category', CategoryController::class);
+
+Route::get('/quote/create', [QuoteController::class, 'index'])->name('quote');
+
+Route::post('/quote/create', [QuoteController::class, 'store'])->name('quote.store');

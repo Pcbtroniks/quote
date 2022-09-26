@@ -12,9 +12,8 @@
                 Create a Category
             </template>
 
-            <template #form>
+            <template #form submitted="submit">
 
-                <form @submit.prevent="submit">
                 
                 <jet-label for="title">Title</jet-label>
                 <jet-input type="text" v-model="form.title" />
@@ -26,7 +25,6 @@
 
                 <jet-button>Send</jet-button>
             
-            </form>
 
             </template>
         
