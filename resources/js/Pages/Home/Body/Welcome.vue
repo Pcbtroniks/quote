@@ -273,12 +273,12 @@ import { useForm } from '@inertiajs/inertia-vue3';
           <div class="flex items-center">
             <input
               type="radio"
-              name="radio1"
-              id="radioButton1"
+              name="nacionales"
+              id="nacionales1"
               class="h-5 w-5"
             />
             <label
-              for="radioButton1"
+              for="nacionales1"
               class="pl-3 text-base font-medium text-[#07074D]"
             >
               Si
@@ -287,12 +287,12 @@ import { useForm } from '@inertiajs/inertia-vue3';
           <div class="flex items-center">
             <input
               type="radio"
-              name="radio1"
-              id="radioButton2"
+              name="nacionales"
+              id="nacionales2"
               class="h-5 w-5"
             />
             <label
-              for="radioButton2"
+              for="nacionales2"
               class="pl-3 text-base font-medium text-[#07074D]"
             >
               No
@@ -316,7 +316,7 @@ import { useForm } from '@inertiajs/inertia-vue3';
               type="text"
               name="fName"
               id="fName"
-              placeholder="Nombre del titular"
+              placeholder="$"
               class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
             />
           </div>
@@ -339,7 +339,7 @@ import { useForm } from '@inertiajs/inertia-vue3';
               type="text"
               name="fName"
               id="fName"
-              placeholder="Nombre del titular"
+              placeholder="$"
               class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
             />
           </div>
