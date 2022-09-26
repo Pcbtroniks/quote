@@ -21,18 +21,19 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
+    
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
+    
+    Route::inertia('/inertia', 'Dashboard/Post/Index');
+
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+
+    Route::resource('/category', CategoryController::class);
+
+    Route::get('/quote/create', [QuoteController::class, 'index'])->name('quote');
+
+    Route::post('/quote/create', [QuoteController::class, 'store'])->name('quote.store');
 });
-
-
-Route::inertia('/inertia', 'Dashboard/Post/Index');
-
-Route::get('/', [HomeController::class, 'index'])->name('home');
-
-Route::resource('/category', CategoryController::class);
-
-Route::get('/quote/create', [QuoteController::class, 'index'])->name('quote');
-
-Route::post('/quote/create', [QuoteController::class, 'store'])->name('quote.store');
