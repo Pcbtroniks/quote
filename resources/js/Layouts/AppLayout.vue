@@ -43,14 +43,16 @@ const logout = () => {
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
                                 <Link :href="route('dashboard')">
-                                    <ApplicationMark class="block h-9 w-auto" />
+                                    <ApplicationMark class="block h-10 w-auto" />
+                                    <!-- <img src="/assets/freetravelers-logo.jpg" class="block h-9 w-auto" alt="Logo Freetravelers"> -->
                                 </Link>
                             </div>
 
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Dashboard
+
+                                <NavLink :href="route('home')" :active="route().current('home')">
+                                    Cotizador
                                 </NavLink>
                             </div>
                         </div>
