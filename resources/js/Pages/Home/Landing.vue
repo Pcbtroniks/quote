@@ -6,8 +6,8 @@ const slider = ref(null);
 
 setTimeout(function moveSlide() {
 
-    const max = slider.value.scrollWidth - slider.value.clientWidth;
-    const left = slider.value.clientWidth;
+    const max = slider.value?.scrollWidth - slider.value?.clientWidth;
+    const left = slider.value?.clientWidth;
 
 
     if (max === slider.value.scrollLeft) {
@@ -22,6 +22,7 @@ setTimeout(function moveSlide() {
 </script>
 
 <template>
+    <h1>{{ $page.props.flash.message }}</h1>
     <div class="h-96 w-full overflow-hidden flex flex-nowrap text-center" ref="slider">
         <div class="bg-blue-600 text-white space-y-4 flex-none w-full flex flex-col items-center justify-center">
             <h2 class="text-4xl max-w-md">Your Big Ideia</h2>
