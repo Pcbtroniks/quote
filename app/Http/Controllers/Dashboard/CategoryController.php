@@ -3,18 +3,12 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-<<<<<<< HEAD
-=======
 use App\Http\Requests\Category\StoreRequest;
 use App\Models\Category;
->>>>>>> 7fa1e998dcd0b4e2b949a8f0b144001fe48c4717
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-<<<<<<< HEAD
-    //
-=======
 
     public function index()
     {
@@ -77,5 +71,4 @@ class CategoryController extends Controller
     {
         //
     }
->>>>>>> 7fa1e998dcd0b4e2b949a8f0b144001fe48c4717
 }
