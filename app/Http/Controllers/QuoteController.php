@@ -15,7 +15,7 @@ class QuoteController extends Controller
 
     public function store(){
         
-        dd(request()->all());
+        return redirect()->route('dashboard')->with('message','Some message');
 
     }
 

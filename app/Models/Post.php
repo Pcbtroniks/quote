@@ -11,15 +11,18 @@ class Post extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'slug', 'date', 'image', 'text', 'description', 'posted', 'type', 'category_id'];
-    use HasFactory;
+    protected $fillable = [ 'title', 'slug', 'date','image', 'text', 'description', 'posted', 'type', 'category_id' ];
 
-    public function category()
-    {
+    public function category(){
+
         return $this->belongsTo(Category::class);
+    
     }
-    public function tags()
-    {
-        return $this->morphToMany(Tag::class, 'taggables');
+
+    public function tags(){
+
+        return $this->morphToMany(Tag::class,'taggables');
+    
     }
+
 }
