@@ -3,7 +3,9 @@
 import FormSection from '@/Components/FormSection.vue';
 import { useForm } from '@inertiajs/inertia-vue3';
 import { Inertia } from '@inertiajs/inertia';
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
+
+const parks = ref(['xcaret basica', 'xcaret plus', 'xcaret de noche', 'xplor dia', 'xplor fuego', 'xoximilco', 'xelha','xenxes', 'xavage basico', 'xavage all inclusive']);
 
 const prices = {
     adults: 100,
@@ -56,6 +58,7 @@ const CalculateCost = () => {
 
             <div class="mt-4 text-2xl text-center">
                 Nueva reservación 
+                <p class="text-lg">Fecha: {{ today }}</p>
             </div>
         
         </div>
@@ -72,7 +75,7 @@ const CalculateCost = () => {
                     <summary
                         class="outline-none cursor-pointer focus:font-bold text-2xl font-semibold marker:text-transparent group-open:before:rotate-90  before:origin-center relative before:w-[18px] before:h-[18px] before:transition-transform before:duration-200 before:-left-1 before:top-2/4 before:-translate-y-2/4 before:absolute before:bg-no-repeat before:bg-[length:18px_18px] before:bg-center before:bg-[url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22h-6%20w-6%22%20fill%3D%22none%22%20viewBox%3D%220%200%2024%2024%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222%22%3E%0A%20%20%3Cpath%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20d%3D%22M9%205l7%207-7%207%22%20%2F%3E%0A%3C%2Fsvg%3E')]"
                     >
-                        Costo {{ Cost.total > 0 ? Cost.total + '$ usd' : '' }} 
+                        Precio al publico {{ Cost.total > 0 ? Cost.total + '$ usd' : '' }} 
                     </summary>
                 
                     <hr class="my-2 scale-x-150"/>
@@ -102,7 +105,7 @@ const CalculateCost = () => {
 
                         <!-- Reservation Date -->
 
-                        <div class="-mx-3 flex flex-wrap">
+                        <div class="hidden -mx-3 flex flex-wrap">
                             <div class="w-full px-3 ">
                             <div class="mb-5">
                                 <label
@@ -295,13 +298,13 @@ const CalculateCost = () => {
                                     >
                                         Parque
                                     </label>
-                                    <input
-                                      type="text"
-                                      name="fName"
-                                      id="fName"
-                                      placeholder=""
-                                      class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                    />
+                                    <select 
+                                        name="park" 
+                                        class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                                        >
+                                        <option value="null" selected disabled>-- Seleccione un parque --</option>
+                                        <option class="capitalize" v-for="park in parks" value="{{ park }}">{{ park }}</option>
+                                    </select>
 
                                 </div>
                             </div>
