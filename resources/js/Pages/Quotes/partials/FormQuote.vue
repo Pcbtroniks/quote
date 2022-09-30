@@ -23,7 +23,7 @@ const CalculateCost = () => {
 }
 
     const form = useForm({
-        fechaReservacion: null,
+        fechaReservacion:  new Date().toISOString().split('T')[0],
         tipoReservacion: null,
         FechaActividad: null,
         nombreTitular: '',
@@ -43,6 +43,9 @@ const CalculateCost = () => {
     
     }
 
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const today = new Date().toLocaleDateString(undefined, options);
+
 
 </script>
     
@@ -52,7 +55,7 @@ const CalculateCost = () => {
         <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
 
             <div class="mt-4 text-2xl text-center">
-                Nueva reservación
+                Nueva reservación 
             </div>
         
         </div>
@@ -110,9 +113,11 @@ const CalculateCost = () => {
                                 </label>
                                 <input
                                 type="date"
-                                name="date"
+                                name="fechaReservacion"
+                                v-model="form.fechaReservacion"
                                 id="date"
                                 class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                                disabled
                                 />
                             </div>
                             </div>
