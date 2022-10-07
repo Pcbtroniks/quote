@@ -26,7 +26,7 @@ const CalculateCost = () => {
 
     const form = useForm({
         fechaReservacion:  new Date().toISOString().split('T')[0],
-        tipoReservacion: null,
+        tipoReservacion: 1,
         FechaActividad: null,
         nombreTitular: '',
         adultos: 0,
@@ -126,6 +126,57 @@ const CalculateCost = () => {
                             </div>
                         </div>
 
+                        <!-- Nationals -->
+
+                        <div class="mb-5">
+
+                            <label class="mb-3 block text-base font-medium text-[#07074D]">
+                                Nacionales?
+                            </label>
+
+                            <div class="flex items-center space-x-6">
+
+                                <div class="flex items-center">
+
+                                    <input
+                                    type="radio"
+                                    name="nacionales"
+                                    id="nacionales1"
+                                    class="h-5 w-5"
+                                    checked
+                                    @change="CalculateCost"
+                                    />
+                                    <label
+                                    for="nacionales1"
+                                    class="pl-3 text-base font-medium text-[#07074D]"
+                                    >
+                                    Si
+                                    </label>
+
+                                </div>
+
+                                <div class="flex items-center">
+                                    
+                                    <input
+                                    type="radio"
+                                    name="nacionales"
+                                    id="nacionales2"
+                                    class="h-5 w-5"
+                                    @change="CalculateCost"
+                                    />
+                                    <label
+                                    for="nacionales2"
+                                    class="pl-3 text-base font-medium text-[#07074D]"
+                                    >
+                                    No
+                                    </label>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
                         <!-- Reservation Type -->
 
                         <div class="mb-5">
@@ -138,6 +189,7 @@ const CalculateCost = () => {
                                 type="radio"
                                 name="radio1"
                                 id="radioButton1"
+                                checked
                                 class="h-5 w-5"
                                 />
                                 <label
@@ -307,56 +359,6 @@ const CalculateCost = () => {
                                     </select>
 
                                 </div>
-                            </div>
-
-                        </div>
-
-                        <!-- Nationals -->
-
-                        <div class="mb-5">
-
-                            <label class="mb-3 block text-base font-medium text-[#07074D]">
-                                Nacionales?
-                            </label>
-
-                            <div class="flex items-center space-x-6">
-
-                                <div class="flex items-center">
-
-                                    <input
-                                      type="radio"
-                                      name="nacionales"
-                                      id="nacionales1"
-                                      class="h-5 w-5"
-                                      @change="CalculateCost"
-                                    />
-                                    <label
-                                      for="nacionales1"
-                                      class="pl-3 text-base font-medium text-[#07074D]"
-                                    >
-                                      Si
-                                    </label>
-
-                                </div>
-
-                                <div class="flex items-center">
-                                    
-                                    <input
-                                      type="radio"
-                                      name="nacionales"
-                                      id="nacionales2"
-                                      class="h-5 w-5"
-                                      @change="CalculateCost()"
-                                    />
-                                    <label
-                                      for="nacionales2"
-                                      class="pl-3 text-base font-medium text-[#07074D]"
-                                    >
-                                      No
-                                    </label>
-
-                                </div>
-
                             </div>
 
                         </div>
