@@ -1,0 +1,1 @@
+import{_ as o}from"./_plugin-vue_export-helper.cdc0426e.js";import{o as s,d as t,F as n,a as e}from"./app.a380200b.js";const r={},c=e("p",null," Adultos: 2 ",-1),a=e("p",null," Ni\xF1os: 2 ",-1);function _(l,m){return s(),t(n,null,[c,a],64)}const f=o(r,[["render",_]]);export{f as default};
