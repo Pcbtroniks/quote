@@ -4,67 +4,67 @@ import FormSection from '@/Components/FormSection.vue';
 import { useForm } from '@inertiajs/inertia-vue3';
 import { Inertia } from '@inertiajs/inertia';
 import { reactive, ref } from 'vue';
-import ToggleButton from './ToggleButton.vue';
+import {prices,
+        parks ,
+        tours ,
+        today ,
+        amounts,
+        profit as pr
+    } from './Actions/Data.js';
 
-const profit = ref(15);
-
-const parks = ref(['xcaret basica', 'xcaret plus', 'xcaret de noche', 'xplor dia', 'xplor fuego', 'xoximilco', 'xelha','xenxes', 'xavage basico', 'xavage all inclusive']);
-
-const tours = ref(['TOUR XCARET BASICO', 'TOUR XCARET PLUS', 'TOUR XCARET BASICO DOS DIAS', 'TOUR XCARET PLUS DOS DIAS', 'TOUR XCARET DE NOCHE', 'TOUR XCARET XCLUSIVO DE NOCHE', 'TOUR XPLOR DIA','TOUR XPLOR FUEGO', 'TOUR XELHA', 'SHUTTLE XELHA', 'TOUR TULUM XELHA','TOUR COBA XELHA', 'TOUR XOXIMILCO', 'TOUR XIXEN CLASICO', 'TOUR XIXEN DE LUJO', 'TOUR XENOTES', 'TOUR XENSES', 'TOUR TULUM XENSES', 'TOUR TULUM COBA', 'TOUR XAVAGE BASICO', 'TOUR XAVAGE ALL INCLUSIVE', 'DOLPHINE RIDE']);
-
-const prices = {
-    adults: 100,
-    kids: 50,
-    season: 'baja'
-}
+const profit = ref(pr.max);
+const importes = ref(amounts);
 
 const tipoReserva = function(){
     const types = ['No especificada', 'Entrada', 'Parque', 'Tour'];
     return types[form.tipoReservacion];
 }
 
-let Cost = reactive({ total: 0 });
+const form = useForm({
+    fechaReservacion:  new Date().toISOString().split('T')[0],
+    tipoReservacion: 1,
+    FechaActividad: null,
+    nombreTitular: '',
+    adultos: 0,
+    menores: 0,
+    infantes: 0,
+    parque: null,
+    nacionales: false,
+    precioPublico: true,
+    costo: true,
+    notas: true,
+})
+
+function submit(){
+
+    Inertia.post(route('quote.store'), form);
+
+}
+
+let Cost = reactive({ total: 0, sugested: 0 });
 
 const ApplyFormula = () => {
 
     CalculateCost();
-    let pro = profit ?? 15;
 
-    return Cost.total * ( ( 100 - pro ) / 100 );
+    const result = Cost.total * ( ( 100 - profit.value ) / 100 );
+
+    return result;
 
 }
 
 const CalculateCost = () => {
+    
     const costAdults = form.adultos * prices.adults;
     const costKids = form.menores * prices.kids;
     const totalCost = costAdults + costKids;
     Cost.total = totalCost;
+
+    Cost.sugested = Cost.total * ( ( 100 - pr.max ) / 100 );
+
 }
 
-    const form = useForm({
-        fechaReservacion:  new Date().toISOString().split('T')[0],
-        tipoReservacion: 1,
-        FechaActividad: null,
-        nombreTitular: '',
-        adultos: 0,
-        menores: 0,
-        infantes: 0,
-        parque: null,
-        nacionales: true,
-        precioPublico: true,
-        costo: true,
-        notas: true,
-    })
-
-    function submit(){
-
-        Inertia.post(route('quote.store'), form);
-    
-    }
-
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    const today = new Date().toLocaleDateString(undefined, options);
-
+const Current = ref(0);
 
 </script>
     
@@ -75,7 +75,7 @@ const CalculateCost = () => {
 
             <div class="mt-4 text-2xl text-center">
                 Nueva reservación 
-                <p class="text-lg">Fecha: {{ today }}</p>
+                <p class="text-lg">Fecha de hoy: {{ today }}</p>
             </div>
         
         </div>
@@ -99,22 +99,25 @@ const CalculateCost = () => {
                     <hr class="my-2 scale-x-150"/>
                 
                     <div class="text-sm -m-4 -mt-2 p-4 bg-gray-50">
-                        <p class="mb-4">( Precios x temporada {{ prices.season }} )</p>
-                        <p>Nacionales: {{ form.nacionales ? 'Si' : 'No' }}</p>
+                        <p class="mb-4">( Temporada {{ prices.season }}, Tarifa {{ form.nacionales ? 'Nacional' : 'Internacional' }})</p>
+                        
                         <br>
                         <p>Adultos: {{ `${form.adultos} x ${prices.adults} = ${form.adultos * prices.adults}` }}</p>
                         <p>Menores: {{ `${form.menores} x ${prices.kids} = ${form.menores * prices.kids}` }}</p>
                         <p>Infantes: {{ `${form.infantes}` }} - no pagan</p>
                         <br>
+
                         <p>Tipo de reserva: {{ tipoReserva() }}</p>
                         <br>
-                        <p>Costo: {{ Cost.total > 0 ? ApplyFormula() + '$ usd' : '' }}</p>
-                        <p>Ganancia: {{ Cost.total > 0 ? ( Cost.total - ApplyFormula() ) + '$ usd' : '' }}</p>
+                        <p>Precio sugerido al publico: {{ Current }} </p>
+                        <p>Costo para la agencia: {{ Cost.sugested }}</p>
+                        <p>Ganancia de vendedor: {{ Cost.total > 0 ? ( Current - Cost.sugested ) + '$ usd' : '' }}</p>
                         <p>
-                            <small>Con un porcentaje del {{ profit }}% sobre el precio</small>
+                            <small>Porcentaje de ganancia {{ profit }}% sobre el precio</small>
                         </p>
-                        <!-- <input class="rounded-lg overflow-hidden appearance-none bg-gray-400 h-3 w-128" type="range" min="1" max="100" step="1" value="15" /> -->
-                        <input v-model="profit" type="range" min="0" max="15" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" />
+                        <input v-model="profit" type="range" min="0" :max="15" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" />
+                        <p>Precio {{ `${Cost.sugested} - ${Cost.total}` }}</p>
+                        <input v-model="Current" type="range" :min="Cost.sugested" :max="Cost.total" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" />
 
                     </div>
                     </details>
@@ -396,7 +399,7 @@ const CalculateCost = () => {
                         </div>
 
                         <!-- Park -->
-                        <div v-if="form.tipoReservacion === 1" class="-mx-3 flex flex-wrap">
+                        <div v-if="form.tipoReservacion == 1" class="-mx-3 flex flex-wrap">
 
                             <div class="w-full px-3">
                                 <div class="mb-5">
@@ -410,7 +413,7 @@ const CalculateCost = () => {
                                     <select 
                                         @change="ApplyFormula()"
                                         name="park" 
-                                        class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                                        class="capitalize w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                                         >
                                         <option value="null" selected disabled>-- Seleccione un parque --</option>
                                         <option class="capitalize" v-for="park in parks" value="{{ park }}">{{ park }}</option>
@@ -422,7 +425,7 @@ const CalculateCost = () => {
                         </div>
 
                         <!-- Tour -->
-                        <div v-if="form.tipoReservacion ===  2" class="-mx-3 flex flex-wrap">
+                        <div v-if="form.tipoReservacion ==  2 || form.tipoReservacion ==  3" class="-mx-3 flex flex-wrap">
 
                             <div class="w-full px-3">
                                 <div class="mb-5">
@@ -448,7 +451,7 @@ const CalculateCost = () => {
 
                         <!-- Zona  -->
                         
-                        <div v-if="form.tipoReservacion ===  2" class="-mx-3 flex flex-wrap">
+                        <div v-if="form.tipoReservacion ==  2 || form.tipoReservacion ==  3" class="-mx-3 flex flex-wrap">
 
                             <div class="w-full px-3">
                                 <div class="mb-5">
