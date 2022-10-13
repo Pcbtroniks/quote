@@ -112,11 +112,13 @@ const Current = ref(0);
                         <p>Precio sugerido al publico: {{ Current }} </p>
                         <p>Costo para la agencia: {{ Cost.sugested }}</p>
                         <p>Ganancia de vendedor: {{ Cost.total > 0 ? ( Current - Cost.sugested ) + '$ usd' : '' }}</p>
-                        <p>
+                        <!-- <p>
                             <small>Porcentaje de ganancia {{ profit }}% sobre el precio</small>
+                        </p> -->
+                        <!-- <input v-model="profit" type="range" min="0" :max="15" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" /> -->
+                        <p>
+                            <small>Calcular precio {{ `min: ${Cost.sugested} - max: ${Cost.total}` }}</small>
                         </p>
-                        <input v-model="profit" type="range" min="0" :max="15" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" />
-                        <p>Precio {{ `${Cost.sugested} - ${Cost.total}` }}</p>
                         <input v-model="Current" type="range" :min="Cost.sugested" :max="Cost.total" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" />
 
                     </div>
