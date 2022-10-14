@@ -10,7 +10,10 @@ import {prices,
         today ,
         amounts,
         profit as pr
-    } from './Actions/Data.js';
+    } from './Providers/Data.js';
+import InputText from './InputText.vue';
+import InputLabel from './InputLabel.vue';
+import InputNumber from './InputNumber.vue';
 
 const profit = ref(pr.max);
 const importes = ref(amounts);
@@ -100,7 +103,7 @@ const Current = ref(0);
                 
                     <div class="text-sm -m-4 -mt-2 p-4 bg-gray-50">
                         <p class="mb-4">( Temporada {{ prices.season }}, Tarifa {{ form.nacionales ? 'Nacional' : 'Internacional' }})</p>
-                        
+                        <p>A nombre de: {{ form.nombreTitular }}</p>
                         <br>
                         <p>Adultos: {{ `${form.adultos} x ${prices.adults} = ${form.adultos * prices.adults}` }}</p>
                         <p>Menores: {{ `${form.menores} x ${prices.kids} = ${form.menores * prices.kids}` }}</p>
@@ -318,21 +321,22 @@ const Current = ref(0);
                         <div class="-mx-3 flex flex-wrap">
                           
                             <div class="w-full px-3">
+
                                 <div class="mb-5">
-                                    <label
-                                      for="fName"
-                                      class="mb-3 block text-base font-medium text-[#07074D]"
-                                    >
-                                      Nombre del titular
-                                    </label>
-                                    <input
-                                      type="text"
-                                      name="fName"
-                                      id="fName"
-                                      placeholder="Nombre del titular"
-                                      class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                    />
+
+                                    <InputLabel 
+                                        for="QuoteTitular">
+                                            Nombre del titular
+                                    </InputLabel>
+                                    
+                                    <InputText 
+                                        placeholder="Nombre..."
+                                        id="QuoteTitular" 
+                                        name="QuoteTitular"  
+                                        v-model="form.nombreTitular" />
+
                                 </div>
+
                             </div>
 
                         </div>
@@ -342,38 +346,28 @@ const Current = ref(0);
                         <div class="flex flex-wrap justify-between">
 
                             <div class="mb-5 w-28">
-                                <label
-                                for="adultos"
-                                class="mb-3 block text-base font-medium text-[#07074D]"
-                                >
-                                Adultos
-                                </label>
-                                <input
-                                    type="number"
-                                    name="adultos"
-                                    id="adultos"
+                                
+                                <InputLabel
+                                    for="adultos"
+                                    >
+                                        Adultos
+                                </InputLabel>
+
+                                <InputNumber
+                                    :idn="adultos"
                                     v-model="form.adultos"
-                                    placeholder="0"
-                                    min="0"
-                                    class="w-full appearance-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                                 />
+
                             </div>
 
                             <div class="mb-5 w-28">
-                                <label
-                                for="menores"
-                                class="mb-3 block text-base font-medium text-[#07074D]"
-                                >
-                                Menores
-                                </label>
-                                <input
-                                type="number"
-                                name="menores"
-                                id="menores"
-                                v-model="form.menores"
-                                placeholder="0"
-                                min="0"
-                                class="w-full appearance-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                                <InputLabel for="menores">
+                                    Menores
+                                </InputLabel>
+                                <InputNumber
+                                    name="menores"
+                                    id="menores"
+                                    v-model="form.menores"
                                 />
                             </div>
 
