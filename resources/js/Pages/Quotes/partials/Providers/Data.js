@@ -1,4 +1,9 @@
-// Dates
+// Settings
+
+export const tipoReserva = (tipoId) => {
+    const types = ['No especificada', 'Entrada', 'Tour', 'Paquete'];
+    return types[tipoId] ?? 'Invalida';
+}
 
 const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 export const today = new Date().toLocaleDateString(undefined, options);
