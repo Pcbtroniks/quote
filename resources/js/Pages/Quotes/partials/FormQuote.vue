@@ -17,22 +17,30 @@ const profit = ref(pr.max);
 
 const form = useForm({
     fechaReservacion:  new Date().toISOString().split('T')[0],
-    tipoReservacion: 1,
     FechaActividad: null,
+    precioPublico: true,
+    tipoReservacion: 1,
+    nacionales: false,
     nombreTitular: '',
+    importeVenta: 0,
+    parque: null,
+    pickUp: null,
+    infantes: 0,
+    notas: null,
     adultos: 0,
     menores: 0,
-    infantes: 0,
-    parque: null,
-    nacionales: false,
-    precioPublico: true,
-    costo: true,
-    notas: true,
     zona: null,
-    pickUp: null
 })
 
+function preSubmit(){
+
+    form.tipoReservacion = tipoReserva(form.tipoReservacion);
+
+}
+
 function submit(){
+
+    preSubmit();
 
     Inertia.post(route('quote.store'), form);
 
@@ -44,9 +52,9 @@ const ApplyFormula = () => {
 
     CalculateCost();
 
-    const result = Cost.total * ( ( 100 - profit.value ) / 100 );
+    form.importeVenta = Cost.total * ( ( 100 - profit.value ) / 100 );
 
-    return result;
+    return form.importeVenta;
 
 }
 
@@ -58,7 +66,7 @@ const CalculateCost = () => {
     Cost.total = totalCost;
 
     Cost.sugested = Cost.total * ( ( 100 - pr.max ) / 100 );
-
+    form.precioPublico = Cost.total;
 }
 
 const getZone = () => {
@@ -233,7 +241,9 @@ const Current = ref(0);
                                     Fecha de actividad
                                 </InputLabel>
 
-                                <InputDate :id-name="'fechaAvtidad'"  />
+                                <InputDate 
+                                    v-model="form.FechaActividad" 
+                                    :id-name="'fechaAvtidad'"  />
                             </div>
                             </div>
                         </div>
@@ -254,7 +264,7 @@ const Current = ref(0);
                                     <InputText 
                                         placeholder="Nombre..."
                                         id="QuoteTitular" 
-                                        name="QuoteTitular"  
+                                        name="nombreTitular"  
                                         v-model="form.nombreTitular" />
 
                                 </div>
@@ -321,12 +331,13 @@ const Current = ref(0);
                                     </InputLabel>
                                     <select 
                                         @change="ApplyFormula()"
+                                        v-model="form.parque"
                                         id="park"
-                                        name="park" 
+                                        name="parque" 
                                         class="capitalize w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                                         >
                                         <option value="null" selected disabled>-- Seleccione un parque --</option>
-                                        <option class="capitalize" v-for="park in parks" value="{{ park }}">{{ park }}</option>
+                                        <option class="capitalize" v-for="park in parks" :value="park">{{ park }}</option>
                                     </select>
 
                                 </div>
@@ -387,7 +398,7 @@ const Current = ref(0);
 
                         <!-- Pick Up Hotel -->
 
-                        <div v-if="form.zona !== null" class="-mx-3 flex flex-wrap">
+                        <div v-if="form.zona !== null && form.tipoReservacion != 'entrada'" class="-mx-3 flex flex-wrap">
     
                           <div class="w-full px-3">
 
