@@ -33,7 +33,12 @@ Route::middleware([
 
     Route::resource('/category', CategoryController::class);
 
-    Route::get('/quote/create', [QuoteController::class, 'index'])->name('quote');
+    /* Quotes */
 
+    
+    Route::get('/quote/create', [QuoteController::class, 'index'])->name('quote');
+    
     Route::post('/quote/create', [QuoteController::class, 'store'])->name('quote.store');
+    
+    Route::get('/quote/preview', [QuoteController::class, 'show'])->name('quote.preview');
 });

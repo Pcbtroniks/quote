@@ -20,4 +20,8 @@ class QuoteController extends Controller
 
     }
 
+    public function show(){
+        return inertia('Quotes/Preview/Index');
+    }
+
 }
