@@ -1,6 +1,6 @@
 <script setup>
 
-import {prices , parks , tours , today , tipoReserva , profit as pr } from './Providers/Data.js';
+import {prices , parks , tours , today , tipoReserva , profit as pr, zones } from './Providers/Data.js';
 import FormSection from '@/Components/FormSection.vue';
 import { useForm } from '@inertiajs/inertia-vue3';
 import { Inertia } from '@inertiajs/inertia';
@@ -28,6 +28,8 @@ const form = useForm({
     precioPublico: true,
     costo: true,
     notas: true,
+    zona: null,
+    pickUp: null
 })
 
 function submit(){
@@ -57,6 +59,10 @@ const CalculateCost = () => {
 
     Cost.sugested = Cost.total * ( ( 100 - pr.max ) / 100 );
 
+}
+
+const getZone = () => {
+    form.pickUp = zones[form.zona];
 }
 
 const Current = ref(0);
@@ -310,14 +316,12 @@ const Current = ref(0);
                             <div class="w-full px-3">
                                 <div class="mb-5">
 
-                                    <label
-                                      for="fName"
-                                      class="mb-3 block text-base font-medium text-[#07074D]"
-                                    >
+                                    <InputLabel for="park">
                                         Parque
-                                    </label>
+                                    </InputLabel>
                                     <select 
                                         @change="ApplyFormula()"
+                                        id="park"
                                         name="park" 
                                         class="capitalize w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                                         >
@@ -361,23 +365,53 @@ const Current = ref(0);
 
                             <div class="w-full px-3">
                                 <div class="mb-5">
-                                    <label
-                                      for="zona"
-                                      class="mb-3 block text-base font-medium text-[#07074D]"
-                                    >
-                                      Zona
-                                    </label>
-                                    <input
-                                      type="text"
-                                      name="zona"
-                                      id="zona"
-                                      placeholder=""
-                                      class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                    />
+                                    <InputLabel for="zone">
+                                        Zona
+                                    </InputLabel>
+                                    <select
+                                        v-model="form.zona"
+                                        @change="() => {ApplyFormula(); getZone()}"
+                                        id="zone"
+                                        name="zone" 
+                                        class="capitalize w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                                        >
+                                        <option value="null" selected disabled>-- Seleccione su zona --</option>
+                                        <option  value="playaDelCarmen">Playa del Carmen</option>
+                                        <option class="capitalize" value="Cancun">Cancun</option>
+                                        <option class="capitalize" value="rivieraMaya">Riviera Maya</option>
+                                    </select>
                                 </div>
                             </div>
 
                         </div>
+
+                        <!-- Pick Up Hotel -->
+
+                        <div v-if="form.zona !== null" class="-mx-3 flex flex-wrap">
+    
+                          <div class="w-full px-3">
+
+                              <div class="mb-5">
+
+                                  <InputLabel 
+                                      for="pickUpZone">
+                                          Hotel del pickup
+                                  </InputLabel>
+                                  
+                                  <select 
+                                        name="pickUpZone"
+                                        id="pickUpZone"
+                                        class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                                        >
+                                        <option value="null" selected disabled>-- Seleccione un hotel --</option>
+                                        <option class="capitalize" v-for="z in form.pickUp" value="{{ z }}">{{ z }}</option>
+                                    </select>
+
+                              </div>
+
+                          </div>
+
+                      </div>
 
                         <!-- Notes Text Area -->
 
