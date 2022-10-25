@@ -1,13 +1,13 @@
 <script setup>
 
-/* document.designMode = 'on'; */
+document.designMode = 'on';
 
 </script>
 
 <template>
-    <div  class="QuotePDF px-[69px] py-[48px]">
+    <div  class="QuotePDF px-[69px] py-[48px]" spellcheck="false">
         <!-- top -->
-        <div class="flex justify-between">
+        <div class="flex justify-between" spellcheck="false">
 
             <div>
                 <img class="w-[350px]" src="/assets/freetravelers-logo.jpg" alt="Logo Freetravelers">
@@ -39,11 +39,11 @@
 
             <table class="border-collapse border" style="width: 1084px;">
                 <tbody>
-                    <tr style="height: 60px;">
-                        <td style="height: 60px; border: 1px solid; width: 301px; text-align: center;">Nombre / Name</td>
-                        <td style="height: 60px; border: 1px solid;">&nbsp;</td>
-                        <td style="height: 60px; border: 1px solid;">&nbsp;</td>
-                        <td style="height: 60px; border: 1px solid;">&nbsp;</td>
+                    <tr style="height: 60px; text-align: center;">
+                        <td style="height: 60px; border: 1px solid; width: 301px;" spellcheck="false">Nombre / Name</td>
+                        <td style="height: 60px; border: 1px solid;" colspan="3">&nbsp;</td>
+                        <!-- <td style="height: 60px; border: 1px solid;">&nbsp;</td>
+                        <td style="height: 60px; border: 1px solid;">&nbsp;</td> -->
                     </tr>
                     <tr style="height: 26.5px; text-align: center;">
                         <td style="height: 58.5px; border: 1px solid;" rowspan="2">Pasajeros / Passengers</td>
@@ -51,8 +51,10 @@
                         <td style="height: 26.5px; border: 1px solid; width: 258.66px; font-size: x-small;">Menores (5 a 11 años)/Minors (ages 5 to 11)</td>
                         <td style="height: 26.5px; border: 1px solid; width: 258.66px; font-size: x-small;">Infantes (0 a 4 años)/Infants (ages 0 to 4)</td>
                     </tr>
-                    <tr style="height: 32px;">
-                        <td style="height: 32px; border: 1px solid;" colspan="3">&nbsp;&nbsp;&nbsp;</td>
+                    <tr style="height: 32px; text-align: center;">
+                        <td style="height: 32px; border: 1px solid;">&nbsp;</td>
+                        <td style="height: 32px; border: 1px solid;">&nbsp;</td>
+                        <td style="height: 32px; border: 1px solid;">&nbsp;</td>
                     </tr>
                 </tbody>
             </table>
@@ -69,28 +71,28 @@
             </div>
             <table style="width: 1077; border: solid 1px;">
                 <tbody>
-                    <tr style="height: 59px; text-align: center;">
+                    <tr style="height: 59px; text-align: center;" spellcheck="false">
                         <td style="height: 59px; border: 1px solid; width: 301px;">Fecha Actividad/ Date of the activity:</td>
-                        <td style="height: 59px; border: 1px solid; max-width: 474.98px;" colspan="2">Hola mundo xdxdxd</td>
+                        <td style="height: 59px; border: 1px solid; width: 474.98px; max-width: 1px;" colspan="2">&nbsp;</td>
+                        <td style="height: 59px; border: 1px solid; width: 301.2px; text-align: left;">Horario /<br>Schedule <span style="padding-left: 24px"> 30 Octubre 2022</span></td>
+                    </tr>
+                    <tr style="height: 59px; text-align: center;">
+                        <td style="height: 59px; border: 1px solid">Lugar de Pick up</td>
+                        <td style="height: 59px; border: 1px solid; width: 474.98px; max-width: 1px;" colspan="2">&nbsp;&nbsp;</td>
+                        <td style="height: 59px; border: 1px solid; width: 301.2px; text-align: left; font-style: bold;">Cuarto /<br>Room <span style="padding-left: 24px"> Cuarto No. 202</span></td>
+                    </tr>
+                    <tr style="height: 59px;text-align: center;">
+                        <td style="height: 59px; border: 1px solid">Entrada/ Entrance</td>
+                        <td style="height: 59px; border: 1px solid; width: 474.98px; max-width: 1px;" colspan="2">&nbsp;&nbsp;</td>
+                        <td style="height: 59px; border: 1px solid">&nbsp;</td>
+                    </tr>
+                    <tr style="height: 59px; text-align: center;">
+                        <td style="height: 59px; border: 1px solid">Tour</td>
+                        <td style="height: 59px; border: 1px solid; max-width: 11.27px;" colspan="2">&nbsp;&nbsp;</td>
                         <td style="height: 59px; border: 1px solid">&nbsp;</td>
                     </tr>
                     <tr style="height: 59px;">
-                        <td style="height: 59px; border: 1px solid">&nbsp;</td>
-                        <td style="height: 59px; border: 1px solid; max-width: 1px; width: 1px;" colspan="2">&nbsp;&nbsp;</td>
-                        <td style="height: 59px; border: 1px solid">&nbsp;</td>
-                    </tr>
-                    <tr style="height: 59px;">
-                        <td style="height: 59px; border: 1px solid">&nbsp;</td>
-                        <td style="height: 59px; border: 1px solid; max-width: 474.98px;" colspan="2">&nbsp;&nbsp;</td>
-                        <td style="height: 59px; border: 1px solid">&nbsp;</td>
-                    </tr>
-                    <tr style="height: 59px;">
-                        <td style="height: 59px; border: 1px solid">&nbsp;</td>
-                        <td style="height: 59px; border: 1px solid; max-width: 474.98px;" colspan="2">&nbsp;&nbsp;</td>
-                        <td style="height: 59px; border: 1px solid">&nbsp;</td>
-                    </tr>
-                    <tr style="height: 59px;">
-                        <td style="height: 59px; border: 1px solid">&nbsp;</td>
+                        <td style="height: 59px; border: 1px solid; text-align: center;">PAQUETE/ PACKAGE</td>
                         <td style="height: 59px; " colspan="3">&nbsp;&nbsp;&nbsp;</td>
                     </tr>
                     <tr style="height: 59px;">
