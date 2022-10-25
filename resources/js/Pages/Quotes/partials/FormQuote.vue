@@ -74,7 +74,11 @@ const getZone = () => {
     form.pickUp = zones[form.zona];
 }
 
-const Current = ref(0)
+const getPickUpTime = () => {
+
+}
+
+const Current = ref(0);
 
 </script>
     
@@ -118,10 +122,6 @@ const Current = ref(0)
                         <p>Precio sugerido al publico: {{ Current }} </p>
                         <p>Costo para la agencia: {{ Cost.sugested }}</p>
                         <p>Ganancia de vendedor: {{ Cost.total > 0 ? ( Current - Cost.sugested ) + '$ usd' : '' }}</p>
-                        <!-- <p>
-                            <small>Porcentaje de ganancia {{ profit }}% sobre el precio</small>
-                        </p> -->
-                        <!-- <InputRange v-model.number="profit" :max="15" /> -->
                         <p>
                             <small>Calcular precio {{ `min: ${Cost.sugested} - max: ${Cost.total}` }}</small>
                         </p>
@@ -431,15 +431,15 @@ const Current = ref(0)
 
                             <div class="w-full px-3">
                                 <div class="mb-5">
-                                    <label
-                                      for="fName"
-                                      class="mb-3 block text-base font-medium text-[#07074D]"
+                                    <InputLabel
+                                      for="notes"
                                     >
                                         Notas
-                                    </label>
+                                    </InputLabel>
                                     <textarea
+                                    v-model="form.notas"
                                     class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                    name="" id="" cols="30" rows="10"></textarea>
+                                    name="note" id="notes" cols="30" rows="10"></textarea>
                                 </div>
                             </div>
 
