@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Quote\Save;
+use App\Repositories\Quotes\Quote;
 use Illuminate\Http\Request;
 
 class QuoteController extends Controller
@@ -13,10 +15,12 @@ class QuoteController extends Controller
     
     }
 
-    public function store(){
+    public function store(Save $request, Quote $quote){
+
+        $quote->save($request);
         
-        return dd(request()->all());
-        return redirect()->route('dashboard')->with('message','Some message');
+        dd($request->validated());
+
 
     }
 

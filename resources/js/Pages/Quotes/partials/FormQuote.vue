@@ -1,5 +1,7 @@
 <script setup>
 
+import Swal from 'sweetalert2';
+
 import {prices , parks , tours , today , tipoReserva , profit as pr, zones } from './Providers/Data.js';
 import FormSection from '@/Components/FormSection.vue';
 import { useForm } from '@inertiajs/inertia-vue3';
@@ -17,7 +19,7 @@ const profit = ref(pr.max);
 
 const form = useForm({
     fechaReservacion:  new Date().toISOString().split('T')[0],
-    FechaActividad: null,
+    fechaActividad: null,
     precioPublico: true,
     tipoReservacion: 1,
     nacionales: false,
@@ -30,6 +32,7 @@ const form = useForm({
     adultos: 0,
     menores: 0,
     zona: null,
+    season: 'low'
 })
 
 function preSubmit(){
@@ -38,11 +41,13 @@ function preSubmit(){
 
 }
 
-function submit(){
+async function submit(){
 
     preSubmit();
 
-    Inertia.post(route('quote.store'), form);
+    form.post(route('quote.store'));
+
+    console.log(form);
 
 }
 
@@ -73,10 +78,6 @@ const getZone = () => {
     form.pickUp = zones[form.zona];
 }
 
-const getPickUpTime = () => {
-
-}
-
 const Current = ref(0);
 
 
@@ -84,10 +85,10 @@ const Current = ref(0);
 
 watchEffect(() => {
     form.nacionales = form.tipoReservacion != 1 ? false : form.nacionales ;
-    console.log(form.nacionales);
 });
 
 </script>
+
     
 <template>
 
@@ -95,7 +96,7 @@ watchEffect(() => {
         <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
 
             <div class="mt-4 text-2xl text-center">
-                Nueva reservación 
+                Nueva cotización 
                 <p class="text-lg">Fecha de hoy: {{ today }}</p>
             </div>
         
@@ -246,11 +247,12 @@ watchEffect(() => {
                             <div class="w-full px-3 ">
                             <div class="mb-5">
                                 <InputLabel for="fechaAvtidad">
-                                    Fecha de actividad
+                                    Fecha de actividad <span v-if="form.errors.fechaActividad" class="text-red-500">* {{ form.errors.fechaActividad }}</span>
                                 </InputLabel>
 
-                                <InputDate 
-                                    v-model="form.FechaActividad" 
+                                <InputDate
+                                    required
+                                    v-model="form.fechaActividad" 
                                     :id-name="'fechaAvtidad'"  />
                             </div>
                             </div>

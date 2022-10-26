@@ -36,7 +36,7 @@ Route::middleware([
     /* Quotes */
 
     
-    Route::get('/quote/create', [QuoteController::class, 'index'])->name('quote');
+    Route::get('/quote', [QuoteController::class, 'index'])->name('quote');
     
     Route::post('/quote/create', [QuoteController::class, 'store'])->name('quote.store');
     
