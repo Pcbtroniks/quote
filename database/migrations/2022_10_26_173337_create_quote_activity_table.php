@@ -1,0 +1,50 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('quote_activity', function (Blueprint $table) {
+            $table->id();
+
+            $table->foreignId('quote_id')
+                    ->constrained()
+                    ->cascadeOnUpdate()
+                    ->cascadeOnDelete();
+
+            $table->foreignId('activity_id')
+                    ->constrained()
+                    ->cascadeOnUpdate()
+                    ->cascadeOnDelete();
+
+            $table->foreignId('hotel_id')
+                    ->nullable()
+                    ->constrained()
+                    ->cascadeOnUpdate()
+                    ->cascadeOnDelete();
+
+            $table->time('pickup_time')->nullable();
+
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('quote_activity');
+    }
+};
