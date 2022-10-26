@@ -13,8 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('park_entrances', function (Blueprint $table) {
+        Schema::create('zones', function (Blueprint $table) {
             $table->id();
+            
+            $table->string('name');
+            $table->string('alias');
+
             $table->timestamps();
         });
     }
@@ -26,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('park_entrances');
+        Schema::dropIfExists('zones');
     }
 };

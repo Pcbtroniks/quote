@@ -1,78 +1,76 @@
 [
-  [
-    {
+  {
+    "id": 1,
+    "uudi?": "",
+    "quote_holder": "Jean Langarica",
+    "nationals": "no",
+    "season": "low",
+    "user_id": {
       "id": 1,
-      "uudi?": "",
-      "quote_holder": "Jean Langarica",
-      "nationals": "no",
-      "season": "low",
-      "user_id": {
+      "name": "Jean"
+    },
+    "quote_type": "Entrance",
+    "kids": 1,
+    "adults": 2,
+    "infants": 0,
+    "public_price": 300,
+    "agency_price": 280,
+    "activities": [
+      {
         "id": 1,
-        "name": "Jean"
-      },
-      "quote_type": "Entrance",
-      "kids": 1,
-      "adults": 2,
-      "infants": 0,
-      "public_price": 300,
-      "agency_price": 280,
-      "activities": [
-        {
+        "quote_id": 1,
+        "type": "park",
+        "name": "Entrada Xcaret",
+        "data": {
           "id": 1,
-          "quote_id": 1,
-          "type": "park",
-          "name": "Entrada Xcaret",
-          "data": {
-            "id": 1,
-            "name": "Xcaret",
-            "timestamps": "2020-01-21"
+          "name": "Xcaret",
+          "timestamps": "2020-01-21"
+        },
+        "zone": {
+          "name": ""
+        },
+        "zone_fee": "",
+        "pickup_hotel": "",
+        "pickup_time": "",
+        "created_at": "2022/10/20",
+        "updated_at": "2022/10/20",
+        "prices": {
+          "adults": {
+            "total": 240,
+            "description_prices": {
+              "id": 1,
+              "amount": 120,
+              "type": "adult",
+              "season": "low",
+              "activity_id": 1
+            }
           },
-          "zone": {
-            "name": ""
-          },
-          "zone_fee": "",
-          "pickup_hotel": "",
-          "pickup_time": "",
-          "created_at": "2022/10/20",
-          "updated_at": "2022/10/20",
-          "prices": {
-            "adults": {
-              "total": 240,
-              "description_prices": {
-                "id": 1,
-                "amount": 120,
-                "type": "adult",
-                "season": "low",
-                "activity_id": 1
-              }
-            },
-            "minors": {
-              "total": 60,
-              "description_prices": {
-                "id": 1,
-                "amount": 60,
-                "type": "minor",
-                "season": "low",
-                "activity_id": 1
-              }
+          "minors": {
+            "total": 60,
+            "description_prices": {
+              "id": 1,
+              "amount": 60,
+              "type": "minor",
+              "season": "low",
+              "activity_id": 1
             }
           }
         }
-      ],
-      "coupon_id": {
-        "id": 1,
-        "code": "TIM001",
-        "confirmation_key": "ABCD123",
-        "public_price": 300,
-        "agency_price": 280,
-        "agency_gain": 20,
-        "created_at": "2022/10/20",
-        "updated_at": "2022/10/20"
-      },
+      }
+    ],
+    "coupon_id": {
+      "id": 1,
+      "code": "TIM001",
+      "confirmation_key": "ABCD123",
+      "public_price": 300,
+      "agency_price": 280,
+      "agency_gain": 20,
       "created_at": "2022/10/20",
       "updated_at": "2022/10/20"
-    }
-  ],
+    },
+    "created_at": "2022/10/20",
+    "updated_at": "2022/10/20"
+  },
 {
   "dudas": [
     "Que pongo cuando no hay Pickup disponible",
@@ -112,5 +110,31 @@
   "A mejorar": [
     "Agregar Iconos",
     "Limpieza del Formulario"
+  ],
+  "some": [
+    "xcaret basico",
+    "xcaret plus",
+    "xelha",
+    "xplor dia",
+    "xplor fuego",
+    "xenses",
+    "dolphin ride",
+    "xenotes",
+    "xoximilco",
+    "xichen clasico",
+    "xichen deluxe",
+    "tulum-xelha",
+    "coba-xelha",
+    "tulum-xenses",
+    "coba-tulum",
+    "xavage"
+  ],
+  "alter": [
+      "basico dos dias",
+      "basico plus dos dias",
+      "xcaret de noche",
+      "xcaret xclusivo de noche",
+      "shuttle xelha",
+      "xavage all inclusive"
   ]
 }]

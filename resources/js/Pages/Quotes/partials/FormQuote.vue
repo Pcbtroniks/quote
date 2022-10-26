@@ -4,7 +4,7 @@ import {prices , parks , tours , today , tipoReserva , profit as pr, zones } fro
 import FormSection from '@/Components/FormSection.vue';
 import { useForm } from '@inertiajs/inertia-vue3';
 import { Inertia } from '@inertiajs/inertia';
-import { reactive, ref } from 'vue';
+import { reactive, ref, watchEffect } from 'vue';
 
 import InputNumber from './InputNumber.vue';
 import InputLabel from './InputLabel.vue';
@@ -79,6 +79,14 @@ const getPickUpTime = () => {
 
 const Current = ref(0);
 
+
+// Entradas
+
+watchEffect(() => {
+    form.nacionales = form.tipoReservacion != 1 ? false : form.nacionales ;
+    console.log(form.nacionales);
+});
+
 </script>
     
 <template>
@@ -145,7 +153,7 @@ const Current = ref(0);
 
                         <!-- Nationals -->
 
-                        <div class="mb-5">
+                        <div v-if="form.tipoReservacion == 1" class="mb-5">
 
                             <small class="text-gray-400">Descuento para  mexicanos, presentar INE o pasaporte.</small>
 
@@ -262,7 +270,7 @@ const Current = ref(0);
                                     </InputLabel>
                                     
                                     <InputText 
-                                        placeholder="Nombre..."
+                                        placeholder="Aa"
                                         id="QuoteTitular" 
                                         name="nombreTitular"  
                                         v-model="form.nombreTitular" />
