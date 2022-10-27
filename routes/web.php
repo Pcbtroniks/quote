@@ -40,7 +40,7 @@ Route::middleware([
     
     Route::post('/quote/create', [QuoteController::class, 'store'])->name('quote.store');
     
-    Route::get('/quote/preview', [QuoteController::class, 'preview'])->name('quote.preview');
+    Route::get('/quote/preview/{quoteId}', [QuoteController::class, 'preview'])->name('quote.preview');
 
     // Activities
 

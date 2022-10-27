@@ -24,10 +24,15 @@ class Quote {
     
     }
 
-    public function preview($id){
+    public function previewEntrance($id){
 
-        return ModelsQuote::find($id);
-    
+        $quote =  ModelsQuote::where('id', $id)
+                            ->with(['user','coupon', 'listed_activity'])
+                            ->first();
+        $quote->load('listed_activities');
+
+        $quote->activity = Activity::findOrFail($quote->listed_activity->id) ?? '';
+        return $quote;
     }
 
     public function save(Request $request){

@@ -51,7 +51,7 @@ const logout = () => {
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
 
-                                <NavLink :href="route('home')" :active="route().current('home')">
+                                <NavLink :href="route('quote')" :active="route().current('quote')">
                                     Cotizador
                                 </NavLink>
                             </div>

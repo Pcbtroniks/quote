@@ -3,6 +3,8 @@
 const props = defineProps({
     quote: Object
 })
+
+console.log(props.quote);
 </script>
 
 <template>
@@ -42,7 +44,7 @@ const props = defineProps({
                 <tbody>
                     <tr style="height: 60px; text-align: center;">
                         <td style="height: 60px; border: 1px solid; width: 301px;" spellcheck="false">Nombre / Name</td>
-                        <td style="height: 60px; border: 1px solid;" colspan="3">&nbsp;</td>
+                        <td style="height: 60px; border: 1px solid;" colspan="3">{{ quote.holder_name }}</td>
                         <!-- <td style="height: 60px; border: 1px solid;">&nbsp;</td>
                         <td style="height: 60px; border: 1px solid;">&nbsp;</td> -->
                     </tr>
@@ -53,9 +55,9 @@ const props = defineProps({
                         <td style="height: 26.5px; border: 1px solid; width: 258.66px; font-size: x-small;">Infantes (0 a 4 años)/Infants (ages 0 to 4)</td>
                     </tr>
                     <tr style="height: 32px; text-align: center;">
-                        <td style="height: 32px; border: 1px solid;">&nbsp;</td>
-                        <td style="height: 32px; border: 1px solid;">&nbsp;</td>
-                        <td style="height: 32px; border: 1px solid;">&nbsp;</td>
+                        <td style="height: 32px; border: 1px solid;">{{ quote.adults }}</td>
+                        <td style="height: 32px; border: 1px solid;">{{ quote.minors }}</td>
+                        <td style="height: 32px; border: 1px solid;">{{ quote.infants }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -74,17 +76,17 @@ const props = defineProps({
                 <tbody>
                     <tr style="height: 59px; text-align: center;" spellcheck="false">
                         <td style="height: 59px; border: 1px solid; width: 301px;">Fecha Actividad/ Date of the activity:</td>
-                        <td style="height: 59px; border: 1px solid; width: 474.98px; max-width: 1px;" colspan="2">&nbsp;</td>
-                        <td style="height: 59px; border: 1px solid; width: 301.2px; text-align: left;">Horario /<br>Schedule <span style="padding-left: 24px"> 30 Octubre 2022</span></td>
+                        <td style="height: 59px; border: 1px solid; width: 474.98px; max-width: 1px;" colspan="2">{{ quote.activity_date }}</td>
+                        <td style="height: 59px; border: 1px solid; width: 301.2px; text-align: left;">Horario /<br>Schedule <span style="padding-left: 24px"> </span></td>
                     </tr>
                     <tr style="height: 59px; text-align: center;">
                         <td style="height: 59px; border: 1px solid">Lugar de Pick up</td>
                         <td style="height: 59px; border: 1px solid; width: 474.98px; max-width: 1px;" colspan="2">&nbsp;&nbsp;</td>
-                        <td style="height: 59px; border: 1px solid; width: 301.2px; text-align: left; font-style: bold;">Cuarto /<br>Room <span style="padding-left: 24px"> Cuarto No. 202</span></td>
+                        <td style="height: 59px; border: 1px solid; width: 301.2px; text-align: left; font-style: bold;">Cuarto /<br>Room <span style="padding-left: 24px"> </span></td>
                     </tr>
                     <tr style="height: 59px;text-align: center;">
                         <td style="height: 59px; border: 1px solid">Entrada/ Entrance</td>
-                        <td style="height: 59px; border: 1px solid; width: 474.98px; max-width: 1px;" colspan="2">&nbsp;&nbsp;</td>
+                        <td style="height: 59px; border: 1px solid; width: 474.98px; max-width: 1px;" colspan="2">{{ quote.activity.name }}</td>
                         <td style="height: 59px; border: 1px solid">&nbsp;</td>
                     </tr>
                     <tr style="height: 59px; text-align: center;">

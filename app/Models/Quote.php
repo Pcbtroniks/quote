@@ -41,6 +41,12 @@ class Quote extends Model
 
     public function listed_activity(){
 
+        return $this->hasOne(QuoteActivity::class);
+
+    }
+
+    public function listed_activities(){
+
         return $this->hasMany(QuoteActivity::class);
 
     }

@@ -39,9 +39,9 @@ class QuoteController extends Controller
 
     }
 
-    public function preview(Quote $quoteData, $quote_id = null){
+    public function preview(Quote $quoteData, $quoteId = 3){
 
-        $quote = $quoteData->preview(1);
+        $quote = $quoteData->previewEntrance($quoteId);
 
         return inertia('Quotes/Preview/Index', compact('quote'));
     }
