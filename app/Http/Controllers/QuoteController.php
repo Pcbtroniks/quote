@@ -3,15 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Quote\Save;
+use App\Models\Activity;
 use App\Repositories\Quotes\Quote;
 use Illuminate\Http\Request;
 
 class QuoteController extends Controller
 {
     
-    public function index(){
+    public function index(Quote $quote){
 
-        return inertia('Quotes/Index');
+        $parks = $quote->getParks();
+
+        return inertia('Quotes/Index', compact('parks'));
+    
+    }
+
+    public function parks(Quote $quote){
+
+        return response()->json($quote->getParks());
+    
+    }
+
+    public function tours(Quote $quote){
+
+        return response()->json($quote->getTours());
     
     }
 
@@ -24,7 +39,7 @@ class QuoteController extends Controller
 
     }
 
-    public function show(){
+    public function preview(){
         return inertia('Quotes/Preview/Index');
     }
 

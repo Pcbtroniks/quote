@@ -7,9 +7,6 @@ use Illuminate\Http\Request;
 
 class TagController extends Controller
 {
-<<<<<<< HEAD
-    //
-=======
     /**
      * Display a listing of the resource.
      *
@@ -85,5 +82,4 @@ class TagController extends Controller
     {
         //
     }
->>>>>>> 7fa1e998dcd0b4e2b949a8f0b144001fe48c4717
 }

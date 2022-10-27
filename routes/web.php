@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\Dashboard\CategoryController;
-use App\Http\Controllers\Dashboard\PostController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\NDController;
 use App\Http\Controllers\QuoteController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -21,6 +21,8 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
+
+    Route::get('/', [HomeController::class, 'index'])->name('home');
     
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
@@ -28,8 +30,6 @@ Route::middleware([
 
     
     Route::inertia('/inertia', 'Dashboard/Post/Index');
-
-    Route::get('/', [HomeController::class, 'index'])->name('home');
 
     Route::resource('/category', CategoryController::class);
 
@@ -40,5 +40,17 @@ Route::middleware([
     
     Route::post('/quote/create', [QuoteController::class, 'store'])->name('quote.store');
     
-    Route::get('/quote/preview', [QuoteController::class, 'show'])->name('quote.preview');
+    Route::get('/quote/preview', [QuoteController::class, 'preview'])->name('quote.preview');
+
+    // Activities
+
+    Route::get('parks', [QuoteController::class, 'parks'])->name('parks');
+
+    Route::get('tours', [QuoteController::class, 'parks'])->name('parks');
+
+    // Miscelaneus
+    Route::get('ND', [NDController::class, 'index'])->name('ND');
+    // Miscelaneus
+    Route::get('ND/Quote', [NDController::class, 'quote'])->name('NDQuote');
+    Route::get('ND/Quote/activity', [NDController::class, 'activity'])->name('NDQuoteActivity');
 });

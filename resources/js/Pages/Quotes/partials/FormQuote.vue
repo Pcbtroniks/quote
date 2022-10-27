@@ -5,7 +5,6 @@ import Swal from 'sweetalert2';
 import {prices , parks , tours , today , tipoReserva , profit as pr, zones } from './Providers/Data.js';
 import FormSection from '@/Components/FormSection.vue';
 import { useForm } from '@inertiajs/inertia-vue3';
-import { Inertia } from '@inertiajs/inertia';
 import { reactive, ref, watchEffect } from 'vue';
 
 import InputNumber from './InputNumber.vue';
@@ -14,6 +13,12 @@ import InputRange from './InputRange.vue';
 import InputText from './InputText.vue';
 import Summary from './Summary.vue';
 import InputDate from './InputDate.vue';
+
+const props = defineProps({
+    parks: Array
+});
+
+console.log(props);
 
 const profit = ref(pr.max);
 
@@ -347,7 +352,7 @@ watchEffect(() => {
                                         class="capitalize w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                                         >
                                         <option value="null" selected disabled>-- Seleccione un parque --</option>
-                                        <option class="capitalize" v-for="park in parks" :value="park">{{ park }}</option>
+                                        <option class="capitalize" v-for="park in props.parks" :value="park.id">{{ park.name }}</option>
                                     </select>
 
                                 </div>

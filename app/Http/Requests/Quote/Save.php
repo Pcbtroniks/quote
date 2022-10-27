@@ -34,6 +34,7 @@ class Save extends FormRequest
             'adultos' => ['required'],
             'menores' => ['required'],
             'infantes' => ['required'],
+            'parque' => ['required'],
             'season' => ['required']
         ];
     }

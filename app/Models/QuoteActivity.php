@@ -9,6 +9,8 @@ class QuoteActivity extends Model
 {
     use HasFactory;
 
+    protected $table = 'quote_activity';
+
     public $fillable = [
         'quote_id',
         'activity_id',
@@ -19,6 +21,12 @@ class QuoteActivity extends Model
     public function quote(){
 
         return $this->belongsTo(Quote::class);
+
+    }
+
+    public function activities(){
+
+        return $this->hasMany(Activity::class, 'id', 'activity_id');
 
     }
 }
