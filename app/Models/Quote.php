@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Quote extends Model
 {
@@ -41,5 +43,13 @@ class Quote extends Model
 
         return $this->hasMany(QuoteActivity::class);
 
+    }
+
+    public function createdAt(): Attribute{
+
+        return Attribute::make(
+            get: fn ($date) => Carbon::parse($date)->format('m/d/Y'),
+        );
+    
     }
 }

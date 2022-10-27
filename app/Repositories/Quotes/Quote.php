@@ -24,6 +24,12 @@ class Quote {
     
     }
 
+    public function preview($id){
+
+        return ModelsQuote::find($id);
+    
+    }
+
     public function save(Request $request){
 
         $coupon = Coupon::create([
