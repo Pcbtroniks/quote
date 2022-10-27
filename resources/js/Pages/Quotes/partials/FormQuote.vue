@@ -56,7 +56,7 @@ async function submit(){
 
 }
 
-let Cost = reactive({ total: 0, sugested: 0 });
+let Cost = reactive({ total: 0, sugested: 0, reference: 0 });
 
 const ApplyFormula = () => {
 
@@ -74,6 +74,7 @@ const CalculateCost = () => {
     const costKids = form.menores * prices.kids;
     const totalCost = costAdults + costKids;
     Cost.total = totalCost;
+    Cost.reference = totalCost;
 
     Cost.sugested = Cost.total * ( ( 100 - pr.max ) / 100 );
     form.precioPublico = Cost.total;
@@ -138,7 +139,7 @@ watchEffect(() => {
                         <p>
                             <small>Calcular precio {{ `min: ${Cost.sugested} - max: ${Cost.total}` }}</small>
                         </p>
-                        <InputRange v-model="Current" :min="Cost.sugested" :max="Cost.total" />
+                        <InputRange v-model.number="referenceCost" :min="Cost.sugested" :max="Cost.total" />
                     </template>
                 </Summary>
 
