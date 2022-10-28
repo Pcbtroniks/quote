@@ -41,7 +41,7 @@ const form = useForm({
 const QuoteProgress = reactive({
     hotels: [],
     tours: [],
-    price: 0,
+    prices: [],
 });
 
 const getTours = async () => {
@@ -55,6 +55,15 @@ const getHotels = async () => {
 
     const res = await fetch(route('hotels', {'zone': form.zona == 1  ? form.zona : 2} ));
     QuoteProgress.hotels = await res.json();
+
+}
+
+const getParkPrice = async (activity, zone, season) => {
+
+    const res = await fetch(route('prices.park', { activity, zone, season }))
+    const data = await res.json();
+
+    console.log(data);
 
 }
 
@@ -79,6 +88,8 @@ let Cost = reactive({ total: 0, sugested: 0, reference: 0 });
 const ApplyFormula = () => {
 
     CalculateCost();
+
+    getParkPrice( form.parque, 4, 'low' );
 
     form.importeVenta = Cost.total * ( ( 100 - profit.value ) / 100 );
 

@@ -8,7 +8,7 @@ class Zone {
 
     public function all(){
 
-        return ModelsZone::all('id', 'name');
+        return ModelsZone::whereIn('id', [1,2,3])->get();
     
     }
 

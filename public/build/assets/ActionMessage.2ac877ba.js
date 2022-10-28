@@ -1,5 +1,0 @@
-<<<<<<<< HEAD:public/build/assets/ActionMessage.5aa91a0e.js
-import{o as s,d as t,b as o,w as n,v as c,x as i,a as r,q as l,T as d}from"./app.e9d8bd02.js";const v={class:"text-sm text-gray-600"},m={__name:"ActionMessage",props:{on:Boolean},setup(e){return(a,_)=>(s(),t("div",null,[o(d,{"leave-active-class":"transition ease-in duration-1000","leave-from-class":"opacity-100","leave-to-class":"opacity-0"},{default:n(()=>[c(r("div",v,[l(a.$slots,"default")],512),[[i,e.on]])]),_:3})]))}};export{m as _};
-========
-import{o as s,d as t,b as o,w as n,v as c,x as i,a as r,q as l,T as d}from"./app.f2476175.js";const v={class:"text-sm text-gray-600"},m={__name:"ActionMessage",props:{on:Boolean},setup(e){return(a,_)=>(s(),t("div",null,[o(d,{"leave-active-class":"transition ease-in duration-1000","leave-from-class":"opacity-100","leave-to-class":"opacity-0"},{default:n(()=>[c(r("div",v,[l(a.$slots,"default")],512),[[i,e.on]])]),_:3})]))}};export{m as _};
->>>>>>>> master:public/build/assets/ActionMessage.2ac877ba.js

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Quote;
 use App\Models\QuoteActivity;
 use App\Models\Zone as ModelsZone;
+use App\Repositories\Prices\Price;
 use App\Repositories\Zones\Zone;
 use Illuminate\Support\Str;
 
@@ -27,5 +28,9 @@ class NDController extends Controller
 
     public function zones(){
         return ModelsZone::all();
+    }
+
+    public function price(){
+        return (new Price)->getParkPrice(1, 4, 'low');
     }
 }

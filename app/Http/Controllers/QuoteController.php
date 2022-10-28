@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Quote\Save;
 use App\Models\Activity;
+use App\Repositories\Prices\Price;
 use App\Repositories\Quotes\Quote;
 use App\Repositories\Zones\Hotel;
 use App\Repositories\Zones\Zone;
@@ -36,6 +37,12 @@ class QuoteController extends Controller
     public function hotels(Hotel $hotels, $zone){
 
         return response()->json($hotels->getByZone($zone));
+    
+    }
+
+    public function price(Price $price, $activity, $zone, $season){
+
+        return response()->json($price->getParkPrice($activity, $zone, $season));
     
     }
 
