@@ -1,11 +1,10 @@
 <script setup>
 
-import Swal from 'sweetalert2';
-
-import {prices , parks , tours , today , tipoReserva , profit as pr, zones } from './Providers/Data.js';
 import FormSection from '@/Components/FormSection.vue';
-import { useForm } from '@inertiajs/inertia-vue3';
+import { useForm, usePage } from '@inertiajs/inertia-vue3';
 import { reactive, ref, watchEffect } from 'vue';
+
+import {prices , today , tipoReserva , profit as pr } from './Providers/Data.js';
 
 import InputNumber from './InputNumber.vue';
 import InputLabel from './InputLabel.vue';
@@ -14,13 +13,12 @@ import InputText from './InputText.vue';
 import Summary from './Summary.vue';
 import InputDate from './InputDate.vue';
 
+import Swal from 'sweetalert2'
+
 const props = defineProps({
-    parks: Array
+    parks: Array,
+    zones: Array
 });
-
-console.log(props);
-
-const profit = ref(pr.max);
 
 const form = useForm({
     fechaReservacion:  new Date().toISOString().split('T')[0],
@@ -40,19 +38,39 @@ const form = useForm({
     season: 'low'
 })
 
+const QuoteProgress = reactive({
+    hotels: [],
+    tours: [],
+    price: 0,
+});
+
+const getTours = async () => {
+    
+    const res = await fetch(route('tours'));
+    QuoteProgress.tours = await res.json();
+
+}
+
+const getHotels = async () => {
+
+    const res = await fetch(route('hotels', {'zone': form.zona == 1  ? form.zona : 2} ));
+    QuoteProgress.hotels = await res.json();
+
+}
+
+const profit = ref(pr.max);
+
 function preSubmit(){
 
     form.tipoReservacion = tipoReserva(form.tipoReservacion);
 
 }
 
-async function submit(){
+function submit(){
 
     preSubmit();
 
     form.post(route('quote.store'));
-
-    console.log(form);
 
 }
 
@@ -80,10 +98,6 @@ const CalculateCost = () => {
     form.precioPublico = Cost.total;
 }
 
-const getZone = () => {
-    form.pickUp = zones[form.zona];
-}
-
 const Current = ref(0);
 
 
@@ -92,6 +106,17 @@ const Current = ref(0);
 watchEffect(() => {
     form.nacionales = form.tipoReservacion != 1 ? false : form.nacionales ;
 });
+
+if(usePage().props.value.flash.message ){
+
+console.log(usePage().props.value.flash.message);
+
+Swal.fire(
+    'Good job!',
+    usePage().props.value.flash.message,
+    'success'
+    )
+}
 
 </script>
 
@@ -139,7 +164,7 @@ watchEffect(() => {
                         <p>
                             <small>Calcular precio {{ `min: ${Cost.sugested} - max: ${Cost.total}` }}</small>
                         </p>
-                        <InputRange v-model.number="referenceCost" :min="Cost.sugested" :max="Cost.total" />
+                        <InputRange v-model.number="Cost.reference" :min="Cost.sugested" :max="Cost.total" />
                     </template>
                 </Summary>
 
@@ -214,6 +239,7 @@ watchEffect(() => {
                             </div>
                             <div class="flex items-center">
                                 <input
+                                @click="() => getTours()"
                                 value="2"
                                 type="radio"
                                 name="tipoReservacion"
@@ -253,13 +279,13 @@ watchEffect(() => {
                             <div class="w-full px-3 ">
                             <div class="mb-5">
                                 <InputLabel for="fechaAvtidad">
-                                    Fecha de actividad <span v-if="form.errors.fechaActividad" class="text-red-500">* {{ form.errors.fechaActividad }}</span>
+                                    Fecha de actividad <span v-if="form.errors.fechaActividad" class="text-red-500">* Por favor llene este campo</span>
                                 </InputLabel>
 
                                 <InputDate
                                     required
                                     v-model="form.fechaActividad" 
-                                    :id-name="'fechaAvtidad'"  />
+                                    :id-name="'fechaActividad'"  />
                             </div>
                             </div>
                         </div>
@@ -374,11 +400,12 @@ watchEffect(() => {
                                         Tour
                                     </label>
                                     <select 
+                                        v-if="QuoteProgress.tours"
                                         name="park" 
                                         class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                                         >
                                         <option value="null" selected disabled>-- Seleccione un tour --</option>
-                                        <option class="capitalize" v-for="tour in tours" value="{{ tour }}">{{ tour }}</option>
+                                        <option class="capitalize" v-for="tour in QuoteProgress.tours" value="{{ tour.id }}">{{ tour.name }}</option>
                                     </select>
 
                                 </div>
@@ -397,15 +424,13 @@ watchEffect(() => {
                                     </InputLabel>
                                     <select
                                         v-model="form.zona"
-                                        @change="() => {ApplyFormula(); getZone()}"
+                                        @change="() => { getHotels() }"
                                         id="zone"
                                         name="zone" 
                                         class="capitalize w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                                         >
                                         <option value="null" selected disabled>-- Seleccione su zona --</option>
-                                        <option  value="playaDelCarmen">Playa del Carmen</option>
-                                        <option class="capitalize" value="Cancun">Cancun</option>
-                                        <option class="capitalize" value="rivieraMaya">Riviera Maya</option>
+                                        <option v-for="zone in zones"  :value="zone.id">{{ zone.name }}</option>
                                     </select>
                                 </div>
                             </div>
@@ -426,12 +451,13 @@ watchEffect(() => {
                                   </InputLabel>
                                   
                                   <select 
+                                        v-if="QuoteProgress.hotels"
                                         name="pickUpZone"
                                         id="pickUpZone"
                                         class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                                         >
                                         <option value="null" selected disabled>-- Seleccione un hotel --</option>
-                                        <option class="capitalize" v-for="z in form.pickUp" value="{{ z }}">{{ z }}</option>
+                                        <option v-if="QuoteProgress.hotels" class="capitalize" v-for="h in QuoteProgress.hotels" :value="h.id">{{ h.name }}</option>
                                     </select>
 
                               </div>

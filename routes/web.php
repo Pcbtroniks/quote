@@ -46,11 +46,14 @@ Route::middleware([
 
     Route::get('parks', [QuoteController::class, 'parks'])->name('parks');
 
-    Route::get('tours', [QuoteController::class, 'parks'])->name('parks');
+    Route::get('tours', [QuoteController::class, 'tours'])->name('tours');
+
+    Route::get('hotels/{zone}', [QuoteController::class, 'hotels'])->name('hotels');
 
     // Miscelaneus
     Route::get('ND', [NDController::class, 'index'])->name('ND');
     // Miscelaneus
     Route::get('ND/Quote', [NDController::class, 'quote'])->name('NDQuote');
     Route::get('ND/Quote/activity', [NDController::class, 'activity'])->name('NDQuoteActivity');
+    Route::get('ND/zones', [NDController::class, 'zones'])->name('ND.zones');
 });

@@ -44,6 +44,9 @@ class Quote {
             'paid_status' => 'none',
         ]);
 
+        Coupon::where('id', $coupon->id)
+                ->update(['code' => 'TIM' . str_pad( $coupon->id , 5, '0', STR_PAD_LEFT)]);
+
         $data = [
             'user_id' => auth()->user()->id,
             'activity_id' => $request->parque,

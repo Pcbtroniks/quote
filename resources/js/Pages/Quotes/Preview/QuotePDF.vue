@@ -24,7 +24,7 @@ console.log(props.quote);
                             <td style="height: 30px;" class="border">Cúpon de servicio / service coupon</td>
                         </tr>
                         <tr style="height: 40px;">
-                            <td style="height: 40px;" class="border">{{ quote.id }}</td>
+                            <td style="height: 40px;" class="border">{{ quote.coupon.code }}</td>
                         </tr>
                         <tr style="height: 30px;">
                             <td style="height: 30px;" class="border">Lugar y fecha / Date and place</td>
@@ -87,7 +87,7 @@ console.log(props.quote);
                     <tr style="height: 59px;text-align: center;">
                         <td style="height: 59px; border: 1px solid">Entrada/ Entrance</td>
                         <td style="height: 59px; border: 1px solid; width: 474.98px; max-width: 1px;" colspan="2">{{ quote.activity.name }}</td>
-                        <td style="height: 59px; border: 1px solid">&nbsp;</td>
+                        <td style="height: 59px; border: 1px solid">{{ quote.national == 1 ? 'PROMOMEX' : '' }}</td>
                     </tr>
                     <tr style="height: 59px; text-align: center;">
                         <td style="height: 59px; border: 1px solid">Tour</td>

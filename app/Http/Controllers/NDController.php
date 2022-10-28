@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Quote;
 use App\Models\QuoteActivity;
+use App\Models\Zone as ModelsZone;
+use App\Repositories\Zones\Zone;
 use Illuminate\Support\Str;
 
 use Illuminate\Http\Request;
@@ -21,5 +23,9 @@ class NDController extends Controller
 
     public function activity(){
         return QuoteActivity::find(2)->activities;
+    }
+
+    public function zones(){
+        return ModelsZone::all();
     }
 }

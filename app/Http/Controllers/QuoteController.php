@@ -5,16 +5,19 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Quote\Save;
 use App\Models\Activity;
 use App\Repositories\Quotes\Quote;
+use App\Repositories\Zones\Hotel;
+use App\Repositories\Zones\Zone;
 use Illuminate\Http\Request;
 
 class QuoteController extends Controller
 {
     
-    public function index(Quote $quote){
+    public function index(Quote $quote, Zone $zone){
 
         $parks = $quote->getParks();
+        $zones = $zone->all();
 
-        return inertia('Quotes/Index', compact('parks'));
+        return inertia('Quotes/Index', compact('parks','zones'));
     
     }
 
@@ -30,11 +33,18 @@ class QuoteController extends Controller
     
     }
 
+    public function hotels(Hotel $hotels, $zone){
+
+        return response()->json($hotels->getByZone($zone));
+    
+    }
+
     public function store(Save $request, Quote $quote){
 
         $quote->save($request);
         
-        dd($request->validated());
+        return to_route('quote')
+                ->with('message' , 'Cotización realizada con exito');
 
 
     }
