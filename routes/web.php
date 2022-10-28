@@ -56,6 +56,7 @@ Route::middleware([
     Route::get('ND', [NDController::class, 'index'])->name('ND');
     // Miscelaneus
     Route::get('ND/Quote', [NDController::class, 'quote'])->name('NDQuote');
+    Route::get('nd/quote/uuid/{uuid}', [NDController::class, 'quoteuuid'])->name('nd.quote.uuid');
     Route::get('ND/Quote/activity', [NDController::class, 'activity'])->name('NDQuoteActivity');
     Route::get('ND/zones', [NDController::class, 'zones'])->name('ND.zones');
     Route::get('ND/price', [NDController::class, 'price'])->name('ND.price');

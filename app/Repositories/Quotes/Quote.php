@@ -24,11 +24,11 @@ class Quote {
     
     }
 
-    public function previewEntrance($id){
+    public function preview($uuid){
 
-        $quote =  ModelsQuote::where('id', $id)
+        $quote =  ModelsQuote::where('uuid', $uuid)
                             ->with(['user','coupon', 'listed_activity'])
-                            ->first();
+                            ->firstOrFail();
         $quote->load('listed_activities');
 
         $quote->activity = Activity::findOrFail($quote->listed_activity->id) ?? '';
@@ -37,15 +37,7 @@ class Quote {
 
     public function save(Request $request){
 
-        $coupon = Coupon::create([
-            'code' => '',
-            'public_price' => $request->precioPublico,
-            'agency_price' => $request->importeVenta,
-            'paid_status' => 'none',
-        ]);
-
-        Coupon::where('id', $coupon->id)
-                ->update(['code' => 'TIM' . str_pad( $coupon->id , 5, '0', STR_PAD_LEFT)]);
+        $coupon = $this->make_coupon($request);
 
         $data = [
             'user_id' => auth()->user()->id,
@@ -66,13 +58,51 @@ class Quote {
         ];
 
         $quote = ModelsQuote::create( $data );
-        
-        $activities = QuoteActivity::create([
-            'quote_id' => $quote->id,
-            'activity_id' => $data['activity_id'],
+
+        $activities = $this->add_park($quote->id, $data['activity_id']);
+
+        $quote->url = route('quote.preview', ['quoteId' => $quote->uuid]);
+        return $quote;
+    }
+
+    public function add_park($quote, $activity) {
+
+        return $this->add_activity($quote, $activity, null, null);
+
+    }
+
+    public function add_tour($quote, $activity, $hotel, $pickup_time) {
+
+        return $this->add_activity($quote, $activity, $hotel, $pickup_time);
+
+    }
+
+    public function add_activity($quote_id , $activity_id, $hotel_id, $pickup_time){
+
+        return QuoteActivity::create([
+            'quote_id' => $quote_id,
+            'activity_id' => $activity_id,
+            'hotel_id' => $hotel_id,
+            'pickup_time' => $pickup_time,
         ]);
 
-        return $quote;
+    }
+
+    public function make_coupon(Request $request){
+
+        $coupon = Coupon::create([
+            'code' => '',
+            'public_price' => $request->precioPublico,
+            'agency_price' => $request->importeVenta,
+            'paid_status' => 'none',
+        ]);
+
+        
+        Coupon::where('id', $coupon->id)
+                ->update(['code' => 'TIM' . str_pad( $coupon->id , 5, '0', STR_PAD_LEFT)]);
+
+        return $coupon;
+
     }
 
 }

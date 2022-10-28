@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Quote\Save;
-use App\Models\Activity;
+use Illuminate\Support\Facades\Mail;
 use App\Repositories\Prices\Price;
 use App\Repositories\Quotes\Quote;
+use App\Http\Requests\Quote\Save;
 use App\Repositories\Zones\Hotel;
 use App\Repositories\Zones\Zone;
 use Illuminate\Http\Request;
+use App\Mail\QuoteCreated;
 
 class QuoteController extends Controller
 {
@@ -48,7 +49,9 @@ class QuoteController extends Controller
 
     public function store(Save $request, Quote $quote){
 
-        $quote->save($request);
+        $quote = $quote->save($request);
+
+        Mail::to('jeanmacario048@gmail.com')->send(new QuoteCreated($quote));
         
         return to_route('quote')
                 ->with('message' , 'Cotización realizada con exito');
@@ -56,9 +59,9 @@ class QuoteController extends Controller
 
     }
 
-    public function preview(Quote $quoteData, $quoteId = 3){
+    public function preview(Quote $quoteData, $uuid){
 
-        $quote = $quoteData->previewEntrance($quoteId);
+        $quote = $quoteData->preview($uuid);
 
         return inertia('Quotes/Preview/Index', compact('quote'));
     }

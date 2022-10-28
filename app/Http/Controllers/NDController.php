@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Coupon;
 use App\Models\Quote;
 use App\Models\QuoteActivity;
 use App\Models\Zone as ModelsZone;
@@ -19,7 +20,11 @@ class NDController extends Controller
 
     public function quote(){
         return Quote::find(3);
-        return Quote::find(3)->listed_activity[0]->activities->count();
+        // return Quote::find(3)->listed_activity[0]->activities->count();
+    }
+
+    public function quoteuuid($uuid){
+        return Quote::where('uuid', $uuid)->first();
     }
 
     public function activity(){
