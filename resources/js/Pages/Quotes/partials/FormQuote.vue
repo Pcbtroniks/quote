@@ -1,10 +1,10 @@
 <script setup>
 
 import FormSection from '@/Components/FormSection.vue';
-import { useForm, usePage } from '@inertiajs/inertia-vue3';
-import { reactive, ref, watchEffect } from 'vue';
+import { useForm } from '@inertiajs/inertia-vue3';
+import { reactive, watchEffect } from 'vue';
 
-import {prices , today , tipoReserva , profit as pr } from './Providers/Data.js';
+import { today , tipoReserva, getSeason } from './Providers/Data.js';
 
 import InputNumber from './InputNumber.vue';
 import InputLabel from './InputLabel.vue';
@@ -39,9 +39,28 @@ const form = useForm({
 })
 
 const QuoteProgress = reactive({
+    season: 'low',
     hotels: [],
     tours: [],
-    prices: [],
+    resume: {
+        total: {
+            adults: 0,
+            minors: 0,
+        }
+    },
+    prices: {
+        totalPublicPrice: 0,
+        totalAgencyPrice: 0,
+        reference: 0,
+        cost: {
+            adult: 0,
+            minor: 0,
+        },
+        profit: {
+            percentage: 5,
+            amount: 0
+        }
+    }
 });
 
 const getTours = async () => {
@@ -58,75 +77,70 @@ const getHotels = async () => {
 
 }
 
-const getParkPrice = async (activity, zone, season) => {
+const getPrice = async (activity, zone, season) => {
 
-    const res = await fetch(route('prices.park', { activity, zone, season }))
+    const res = await fetch(route('prices', { activity, zone, season }))
     const data = await res.json();
 
-    console.log(data);
+    return data;
 
 }
 
-const profit = ref(pr.max);
+const getCost = () => {
 
-function preSubmit(){
+QuoteProgress.resume.total.adults = form.adultos * QuoteProgress.prices.cost.adult;
+QuoteProgress.resume.total.minors = form.menores * QuoteProgress.prices.cost.minor;
 
-    form.tipoReservacion = tipoReserva(form.tipoReservacion);
+QuoteProgress.prices.totalPublicPrice = QuoteProgress.resume.total.adults + QuoteProgress.resume.total.minors;
+QuoteProgress.prices.totalPublicPrice = QuoteProgress.prices.totalPublicPrice.toFixed(2);
+form.precioPublico = QuoteProgress.prices.totalPublicPrice;
+form.importeVenta = getComputedPrice().toFixed(2);
+QuoteProgress.prices.totalAgencyPrice = form.importeVenta;
 
-}
+QuoteProgress.prices.reference = (QuoteProgress.prices.totalPublicPrice - QuoteProgress.prices.totalAgencyPrice).toFixed(2);
 
-function submit(){
-
-    preSubmit();
-
-    form.post(route('quote.store'));
-
-}
-
-let Cost = reactive({ total: 0, sugested: 0, reference: 0 });
-
-const ApplyFormula = () => {
-
-    CalculateCost();
-
-    getParkPrice( form.parque, 4, 'low' );
-
-    form.importeVenta = Cost.total * ( ( 100 - profit.value ) / 100 );
-
-    return form.importeVenta;
+console.log(QuoteProgress);
 
 }
 
-const CalculateCost = () => {
+const getComputedPrice = () => {
+return QuoteProgress.prices.totalPublicPrice * ( ( 100 - QuoteProgress.prices.profit.percentage ) / 100 );
+}
+
+const getParkCost = async () => {
     
-    const costAdults = form.adultos * prices.adults;
-    const costKids = form.menores * prices.kids;
-    const totalCost = costAdults + costKids;
-    Cost.total = totalCost;
-    Cost.reference = totalCost;
-
-    Cost.sugested = Cost.total * ( ( 100 - pr.max ) / 100 );
-    form.precioPublico = Cost.total;
+    const prices = await getPrice(form.parque, form.nacionales ? 4 : 5 , form.season);
+    
+    QuoteProgress.prices.cost.adult = prices.adult.amount;
+    QuoteProgress.prices.cost.minor = prices.minor.amount;
+    
+    getCost();
 }
 
-const Current = ref(0);
-
-
-// Entradas
+const hasAmount = (n) => {
+    return n > 0 ? n + '$ usd' : ''
+}
 
 watchEffect(() => {
     form.nacionales = form.tipoReservacion != 1 ? false : form.nacionales ;
 });
 
-if(usePage().props.value.flash.message ){
+watchEffect(() => {
+    form.season = getSeason(form.fechaActividad);
+});
 
-console.log(usePage().props.value.flash.message);
+function preSubmit(){
 
-Swal.fire(
-    'Good job!',
-    usePage().props.value.flash.message,
-    'success'
-    )
+form.tipoReservacion = tipoReserva(form.tipoReservacion);
+
+}
+
+function submit(){
+
+preSubmit();
+
+form.post(route('quote.store'));
+
 }
 
 </script>
@@ -154,28 +168,28 @@ Swal.fire(
                 <Summary>
 
                     <template #header>
-                        Precio al publico {{ Cost.total > 0 ? Cost.total + '$ usd' : '' }} 
+                        Precio al publico {{ hasAmount(QuoteProgress.prices.totalPublicPrice) }} 
                         <!-- Precio al publico {{ Cost.total > 0 ? ApplyFormula() + '$ usd' : '' }}  -->
                     </template>
 
                     <template #content>
-                        <p class="mb-4">( Temporada {{ prices.season }}, Tarifa {{ form.nacionales ? 'Nacional' : 'Internacional' }})</p>
+                        <p class="mb-4">( Temporada {{ QuoteProgress.season }}, Tarifa {{ form.nacionales ? 'Nacional' : 'Internacional' }})</p>
                         <p>A nombre de: {{ form.nombreTitular }}</p>
                         <br>
-                        <p>Adultos: {{ `${form.adultos} x ${prices.adults} = ${form.adultos * prices.adults}` }}</p>
-                        <p>Menores: {{ `${form.menores} x ${prices.kids} = ${form.menores * prices.kids}` }}</p>
+                        <p>Adultos: {{ `${form.adultos} x ${QuoteProgress.prices.cost.adult} = ${form.adultos * QuoteProgress.prices.cost.adult}` }}</p>
+                        <p>Menores: {{ `${form.menores} x ${QuoteProgress.prices.cost.minor} = ${form.menores * QuoteProgress.prices.cost.minor}` }}</p>
                         <p>Infantes: {{ `${form.infantes}` }} - no pagan</p>
                         <br>
 
                         <p>Tipo de reserva: {{ tipoReserva(form.tipoReservacion) }}</p>
                         <br>
-                        <p>Precio sugerido al publico: {{ Current }} </p>
-                        <p>Costo para la agencia: {{ Cost.sugested }}</p>
-                        <p>Ganancia de vendedor: {{ Cost.total > 0 ? ( Current - Cost.sugested ) + '$ usd' : '' }}</p>
-                        <p>
-                            <small>Calcular precio {{ `min: ${Cost.sugested} - max: ${Cost.total}` }}</small>
+                        <p>Precio sugerido al publico: {{ QuoteProgress.prices.totalPublicPrice }} </p>
+                        <p>Costo para la agencia: {{ QuoteProgress.prices.totalAgencyPrice }}</p>
+                        <!-- <p>Ganancia de vendedor: {{ hasAmount( QuoteProgress.prices.reference ) }}</p> -->
+                        <!-- <p>
+                            <small>Calcular precio {{ `min: ${QuoteProgress.prices.totalAgencyPrice} - max: ${QuoteProgress.prices.totalPublicPrice}` }}</small>
                         </p>
-                        <InputRange v-model.number="Cost.reference" :min="Cost.sugested" :max="Cost.total" />
+                        <InputRange v-model.number="QuoteProgress.prices.reference" :min.number="form.importeVenta" :max.number="QuoteProgress.prices.totalPublicPrice" /> -->
                     </template>
                 </Summary>
 
@@ -383,7 +397,7 @@ Swal.fire(
                                         Parque
                                     </InputLabel>
                                     <select 
-                                        @change="ApplyFormula()"
+                                        @change="getParkCost()"
                                         v-model="form.parque"
                                         id="park"
                                         name="parque" 

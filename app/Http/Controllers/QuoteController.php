@@ -40,9 +40,9 @@ class QuoteController extends Controller
     
     }
 
-    public function price(Price $price, $activity, $zone, $season){
+    public function price($activity, $zone, $season){
 
-        return response()->json($price->getParkPrice($activity, $zone, $season));
+        return response()->json(Price::get($activity, $zone, $season));
     
     }
 

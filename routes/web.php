@@ -50,7 +50,7 @@ Route::middleware([
 
     Route::get('hotels/{zone}', [QuoteController::class, 'hotels'])->name('hotels');
     
-    Route::get('prices/{activity}/{zone}/{season}', [QuoteController::class, 'price'])->name('prices.park');
+    Route::get('prices/{activity}/{zone}/{season}', [QuoteController::class, 'price'])->name('prices');
 
     // Miscelaneus
     Route::get('ND', [NDController::class, 'index'])->name('ND');
