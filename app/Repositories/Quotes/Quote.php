@@ -31,7 +31,7 @@ class Quote {
                             ->firstOrFail();
         $quote->load('listed_activities');
 
-        $quote->activity = Activity::findOrFail($quote->listed_activity->id) ?? '';
+        $quote->activity = Activity::findOrFail($quote->listed_activity->activity_id) ?? '';
         return $quote;
     }
 
@@ -39,10 +39,34 @@ class Quote {
 
         $coupon = $this->make_coupon($request);
 
-        $data = [
+        $data = $this->parse_quote($request, $coupon->id);
+
+        $quote = ModelsQuote::create( $data );
+
+        if($request->tipoReservacion == 'entrada'){
+
+            $activities = $this->add_park($quote->id, $data['activity_id']);
+            
+        }else if($request->tipoReservacion == 'tour'){
+            
+            $activities = $this->add_tour($quote->id, $request->parque['activity'], $request->parque['hotel'], $request->parque['pickup'] );
+            
+        } else {
+            
+            $activities = $this->add_combo($quote->id, $request->parque);
+        
+        }
+
+
+        $quote->url = route('quote.preview', ['quoteId' => $quote->uuid]);
+        return $quote;
+    }
+
+    public function parse_quote(Request $request, $coupon){
+        return [
             'user_id' => auth()->user()->id,
             'activity_id' => $request->parque,
-            'coupon_id' => $coupon->id,
+            'coupon_id' => $coupon,
             'uuid' => Str::uuid()->toString(),
             'season' => $request->season,
             'national' => $request->nacionales,
@@ -56,13 +80,17 @@ class Quote {
             'status' => 'created',
 
         ];
+    }
+    
+    public function add_combo($quote, $activities) {
 
-        $quote = ModelsQuote::create( $data );
+        foreach ($activities as $activity) {
 
-        $activities = $this->add_park($quote->id, $data['activity_id']);
+            $this->add_activity($quote, $activity['activity'], $activity['hotel'], $activity['pickup']);
+        
+        }
 
-        $quote->url = route('quote.preview', ['quoteId' => $quote->uuid]);
-        return $quote;
+
     }
 
     public function add_park($quote, $activity) {

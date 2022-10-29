@@ -1,8 +1,8 @@
 // Settings
 
 export const tipoReserva = (tipoId) => {
-    const types = ['No especificada', 'Entrada', 'Tour', 'Paquete'];
-    return types[tipoId] ?? 'Invalida';
+    const types = ['no especificada', 'entrada', 'tour', 'paquete'];
+    return types[tipoId] ?? 'invalida';
 }
 
 const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };

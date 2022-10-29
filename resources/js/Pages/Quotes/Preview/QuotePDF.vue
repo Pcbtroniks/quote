@@ -77,7 +77,7 @@ console.log(props.quote);
                     <tr style="height: 59px; text-align: center;" spellcheck="false">
                         <td style="height: 59px; border: 1px solid; width: 301px;">Fecha Actividad/ Date of the activity:</td>
                         <td style="height: 59px; border: 1px solid; width: 474.98px; max-width: 1px;" colspan="2">{{ quote.activity_date }}</td>
-                        <td style="height: 59px; border: 1px solid; width: 301.2px; text-align: left;">Horario /<br>Schedule <span style="padding-left: 24px"> </span></td>
+                        <td style="height: 59px; border: 1px solid; width: 301.2px; text-align: left;">Horario /<br>Schedule <span style="padding-left: 24px">{{ quote.quote_type == 'tour' ? quote.listed_activity?.pickup_time : '' }}</span></td>
                     </tr>
                     <tr style="height: 59px; text-align: center;">
                         <td style="height: 59px; border: 1px solid">Lugar de Pick up</td>
@@ -86,12 +86,12 @@ console.log(props.quote);
                     </tr>
                     <tr style="height: 59px;text-align: center;">
                         <td style="height: 59px; border: 1px solid">Entrada/ Entrance</td>
-                        <td style="height: 59px; border: 1px solid; width: 474.98px; max-width: 1px;" colspan="2">{{ quote.activity.name }}</td>
+                        <td style="height: 59px; border: 1px solid; width: 474.98px; max-width: 1px;" colspan="2">{{ quote.quote_type == 'entrada' ? quote.activity.name : '' }}</td>
                         <td style="height: 59px; border: 1px solid">{{ quote.national == 1 ? 'PROMOMEX' : '' }}</td>
                     </tr>
                     <tr style="height: 59px; text-align: center;">
                         <td style="height: 59px; border: 1px solid">Tour</td>
-                        <td style="height: 59px; border: 1px solid; max-width: 11.27px;" colspan="2">&nbsp;&nbsp;</td>
+                        <td style="height: 59px; border: 1px solid; max-width: 11.27px;" colspan="2">{{ quote.quote_type == 'tour' ? quote.activity.name : '' }}</td>
                         <td style="height: 59px; border: 1px solid">&nbsp;</td>
                     </tr>
                     <tr style="height: 59px;">

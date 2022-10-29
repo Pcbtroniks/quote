@@ -28,20 +28,43 @@ const form = useForm({
     nacionales: false,
     nombreTitular: '',
     importeVenta: 0,
-    parque: null,
+    parque1: {
+            pickup: "15:50",
+            activity: 1,
+            hotel: 10,
+        },
     pickUp: null,
     infantes: 0,
     notas: null,
     adultos: 0,
     menores: 0,
     zona: null,
-    season: 'low'
+    season: 'low',
+    parque: [
+        {
+            pickup: "12:00",
+            activity: 11,
+            hotel: 10,
+        },
+        {
+            pickup: "12:00",
+            activity: 12,
+            hotel: 10,
+        }
+    ],
 })
 
 const QuoteProgress = reactive({
     season: 'low',
     hotels: [],
     tours: [],
+    nPackTours: 0,
+    tour: {
+        activity: 0,
+        pickup: "12:00",
+        hotel: null,
+
+    },
     resume: {
         total: {
             adults: 0,
@@ -116,6 +139,16 @@ const getParkCost = async () => {
     
     getCost();
 }
+const getTourCost = async () => {
+    
+    // return console.log(form);
+    const prices = await getPrice(form.parque.activity, form.zona, form.season);
+    // return console.log(prices);
+    QuoteProgress.prices.cost.adult = prices.adult.amount;
+    QuoteProgress.prices.cost.minor = prices.minor.amount;
+    
+    getCost();
+}
 
 const hasAmount = (n) => {
     return n > 0 ? n + '$ usd' : ''
@@ -128,6 +161,14 @@ watchEffect(() => {
 watchEffect(() => {
     form.season = getSeason(form.fechaActividad);
 });
+
+watchEffect(() => {
+    console.log(QuoteProgress.nPackTours);
+});
+
+const setTour = () => {
+    form.parque = QuoteProgress.tour;
+}
 
 function preSubmit(){
 
@@ -281,12 +322,13 @@ form.post(route('quote.store'));
                             </div>
                             <div class="flex items-center">
                                 <input
-                                value="3"
-                                type="radio"
-                                name="tipoReservacion"
-                                id="radioButton3"
-                                class="h-5 w-5"
-                                v-model="form.tipoReservacion"
+                                    @click="() => getTours()"
+                                    value="3"
+                                    type="radio"
+                                    name="tipoReservacion"
+                                    id="radioButton3"
+                                    class="h-5 w-5"
+                                    v-model="form.tipoReservacion"
                                 />
                                 <label
                                 for="radioButton3"
@@ -403,7 +445,7 @@ form.post(route('quote.store'));
                                         name="parque" 
                                         class="capitalize w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                                         >
-                                        <option value="null" selected disabled>-- Seleccione un parque --</option>
+                                        <option value="null" disabled selected>-- Seleccione un parque --</option>
                                         <option class="capitalize" v-for="park in props.parks" :value="park.id">{{ park.name }}</option>
                                     </select>
 
@@ -413,7 +455,7 @@ form.post(route('quote.store'));
                         </div>
 
                         <!-- Tour -->
-                        <div v-if="form.tipoReservacion ==  2 || form.tipoReservacion ==  3" class="-mx-3 flex flex-wrap">
+                        <div v-if="form.tipoReservacion ==  2" class="-mx-3 flex flex-wrap">
 
                             <div class="w-full px-3">
                                 <div class="mb-5">
@@ -424,13 +466,14 @@ form.post(route('quote.store'));
                                     >
                                         Tour
                                     </label>
-                                    <select 
+                                    <select
+                                        v-model="QuoteProgress.tour.activity"
                                         v-if="QuoteProgress.tours"
-                                        name="park" 
+                                        name="parque" 
                                         class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                                         >
                                         <option value="null" selected disabled>-- Seleccione un tour --</option>
-                                        <option class="capitalize" v-for="tour in QuoteProgress.tours" value="{{ tour.id }}">{{ tour.name }}</option>
+                                        <option class="capitalize" v-for="tour in QuoteProgress.tours" :value="tour.id">{{ tour.name }}</option>
                                     </select>
 
                                 </div>
@@ -438,9 +481,96 @@ form.post(route('quote.store'));
 
                         </div>
 
+                        <!-- Paquete -->
+                        <div v-if="form.tipoReservacion ==  3" class="-mx-3 flex flex-wrap">
+
+                            <div class="mb-5 w-28">
+                                
+                                <InputLabel for="number_of_activitys">
+                                        Numero de actividades
+                                </InputLabel>
+
+                                <InputNumber
+                                    v-model.number="QuoteProgress.nPackTours"
+                                    id-name="number_of_activitys"
+                                />
+
+                            </div>
+
+                        </div>
+                        <!-- N Pack tours -->
+                        <div v-if="form.tipoReservacion ==  3 && QuoteProgress.nPackTours != 0" class="-mx-3 flex flex-wrap">
+
+                            <div v-for="act in QuoteProgress.nPackTours" class="w-full px-3">
+                                
+                                <div class="mb-5">
+
+                                    <label
+                                    for="fName"
+                                    class="mb-3 block text-base font-medium text-[#07074D]"
+                                    >
+                                        Tour
+                                    </label>
+                                    <select
+                                        v-model="QuoteProgress.tour.activity"
+                                        v-if="QuoteProgress.tours"
+                                        name="parque" 
+                                        class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                                        >
+                                        <option value="null" selected disabled> -- Seleccione un tour -- </option>
+                                        <option class="capitalize" v-for="tour in QuoteProgress.tours" :value="tour.id">{{ tour.name }}</option>
+                                    </select>
+
+                                </div>
+
+                                <div class="mb-5">
+                                    <InputLabel for="zone">
+                                        Zona
+                                    </InputLabel>
+                                    <select
+                                        v-model="form.zona"
+                                        @change="() => { getHotels() }"
+                                        id="zone"
+                                        name="zone" 
+                                        class="capitalize w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                                        >
+                                        <option value="null" selected disabled>-- Seleccione su zona --</option>
+                                        <option v-for="zone in zones"  :value="zone.id">{{ zone.name }}</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-5">
+
+                                    <InputLabel 
+                                        for="pickUpZone">
+                                            Hotel del pickup
+                                    </InputLabel>
+                                    
+                                    <select
+                                            @input="() => setTour()"
+                                            @change="getTourCost()"
+                                            v-model="QuoteProgress.tour.hotel"
+                                            v-if="QuoteProgress.hotels"
+                                            name="pickUpZone"
+                                            id="pickUpZone"
+                                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                                            >
+                                            <option value="null" selected disabled>-- Seleccione un hotel --</option>
+                                            <option v-if="QuoteProgress.hotels" class="capitalize" v-for="h in QuoteProgress.hotels" :value="h.id">{{ h.name }}</option>
+                                    </select>
+
+                                </div>
+
+                                <hr>
+                                <br>
+                                <!-- End v-for -->
+                            </div>
+
+                        </div>
+
                         <!-- Zona  -->
                         
-                        <div v-if="form.tipoReservacion ==  2 || form.tipoReservacion ==  3" class="-mx-3 flex flex-wrap">
+                        <div v-if="form.tipoReservacion ==  2" class="-mx-3 flex flex-wrap">
 
                             <div class="w-full px-3">
                                 <div class="mb-5">
@@ -464,18 +594,21 @@ form.post(route('quote.store'));
 
                         <!-- Pick Up Hotel -->
 
-                        <div v-if="form.zona !== null && form.tipoReservacion != 'entrada'" class="-mx-3 flex flex-wrap">
+                        <div v-if="form.zona !== null && form.tipoReservacion == 2" class="-mx-3 flex flex-wrap">
     
                           <div class="w-full px-3">
 
-                              <div class="mb-5">
+                            <div class="mb-5">
 
-                                  <InputLabel 
+                                <InputLabel 
                                       for="pickUpZone">
                                           Hotel del pickup
-                                  </InputLabel>
+                                </InputLabel>
                                   
-                                  <select 
+                                <select
+                                        @input="() => setTour()"
+                                        @change="getTourCost()"
+                                        v-model="QuoteProgress.tour.hotel"
                                         v-if="QuoteProgress.hotels"
                                         name="pickUpZone"
                                         id="pickUpZone"
@@ -483,13 +616,13 @@ form.post(route('quote.store'));
                                         >
                                         <option value="null" selected disabled>-- Seleccione un hotel --</option>
                                         <option v-if="QuoteProgress.hotels" class="capitalize" v-for="h in QuoteProgress.hotels" :value="h.id">{{ h.name }}</option>
-                                    </select>
+                                </select>
 
-                              </div>
+                            </div>
 
                           </div>
 
-                      </div>
+                        </div>
 
                         <!-- Notes Text Area -->
 

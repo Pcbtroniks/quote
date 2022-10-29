@@ -42,7 +42,7 @@ class QuoteController extends Controller
     }
 
     public function price($activity, $zone, $season){
-
+        if($zone == 2) $zone = 1;
         return response()->json(Price::get($activity, $zone, $season));
     
     }
