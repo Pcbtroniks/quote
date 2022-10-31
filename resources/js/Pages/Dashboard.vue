@@ -1,7 +1,7 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import Welcome from '@/Components/Welcome.vue';
-import Landing from '@/Pages/Home/Landing.vue';
+import QuoteList from './Home/QuoteList.vue';
+
 </script>
 
 <template>
@@ -15,7 +15,7 @@ import Landing from '@/Pages/Home/Landing.vue';
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                    <Landing />
+                    <QuoteList />
                 </div>
             </div>
         </div>
