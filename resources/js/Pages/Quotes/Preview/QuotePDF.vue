@@ -144,7 +144,8 @@ console.log(props.quote);
 
         </div>
             
-        <div class="mt-4 flex">
+        <!-- Firma y sellos -->
+        <div class="mt-4 flex justify-between">
             
             <div style="margin: 2rem 0">
                 <span style="border-bottom: 1px solid #000000; height: 8px; width: 25rem; display: block;"></span>
@@ -154,7 +155,29 @@ console.log(props.quote);
             <div>
                 <img src="/assets/Logo.png" alt="Logo Freetraveler">
             </div>
+            <div style="width: 7rem;">
+                <img style="width: 100%;" src="/assets/sello_vero_44.png" alt="Sello Vero 44">
+            </div>
 
+        </div>
+
+        <!-- Politicas de cancelacion -->
+        <div class="mt-4 flex flex-col">
+
+            <div>
+                <p style="font-weight: bold;">Politicas de Cancelacion/Cancellation policies</p>
+            </div>
+            
+            <div>
+                <p style="font-size: small;">
+                    Todo cambio o cancelacion de una reservacion de: ENTRADA, TOUR O PAQUETE  que se haya pagado con anticipacion se debera efectuar con 36 horas de anticipacion para proceder a su devolucion, para los casos de NO SHOW existe la posibilidad de reagendar la actividad con al menos 30 horas de anticipacion SIN PENALIDAD, en caso de no existir posibilidad de reagendar se aplica la politica de Certificado de Extension con validez de 1 año a partir de la fecha de la operacion del Tour. Para casos por afectaciones de salud, sera necesario presentar constancia medica que acredite su estado de salud para reagendar el servicio sin penalidad/ Any change or cancellation of a reservation paid in advance for an entrance, tour or package should be done 36 hours before the time on the reservation for a chance to be refunded, in case of not showing for the reservation the chance to reschedule the activity at least 30 hours in advance WITH NO PENALTY, in case of not having a chance to reschedule an extension certificate for one year will be extended for you, starting in the scheluded date for your tour. In case of health restrictions it will be necessary to show medical record to prove your health status to reschedule the servicie WITH NO PENALTY.
+                </p>
+            </div>
+            
+            <div class="self-end flex">
+                <p class="font-bold">Clave de cancelacion / <br> Cancellation code</p>
+                <div class="w-[576px] h-[59px] border border-black border-t-0"></div>
+            </div>
         </div>
     </div>
 </template>
