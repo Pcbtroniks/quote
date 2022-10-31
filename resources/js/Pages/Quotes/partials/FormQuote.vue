@@ -23,7 +23,7 @@ const props = defineProps({
 const form = useForm({
     fechaReservacion:  new Date().toISOString().split('T')[0],
     fechaActividad: null,
-    precioPublico: true,
+    precioPublico: null,
     tipoReservacion: 1,
     nacionales: false,
     nombreTitular: '',
@@ -168,13 +168,24 @@ watchEffect(() => {
     // console.log(QuoteProgress.nPackTours);
 });
 
+watchEffect(() => {
+    console.log(form.precioPublico);
+})
+
 const setTourHotel = async (index) => {
     if(index == 1){
         QuoteProgress.hotels[1] = await getHotels(1);
     }else {
         QuoteProgress.hotels[2] = {index: await getHotels(2)};
     }
-    console.log(QuoteProgress.hotels);
+}
+
+const loadPrices = async(activity, zone, season, key) => {
+    const price = await getPrice(activity, zone, season);
+    QuoteProgress.nTours[key].public_price = (form.adultos * Number(price.adult.amount)) + (form.menores * Number(price.minor.amount));
+    form.precioPublico += QuoteProgress.nTours[key].public_price;
+    form.importeVenta += form.precioPublico * ( ( 100 - QuoteProgress.prices.profit.percentage ) / 100 );
+    console.log(QuoteProgress.nTours);
 }
 
 const setTour = () => {
@@ -182,6 +193,8 @@ const setTour = () => {
 }
 
 function preSubmit(){
+
+form.parque = QuoteProgress.nTours;
 
 form.tipoReservacion = tipoReserva(form.tipoReservacion);
 
@@ -559,6 +572,7 @@ form.post(route('quote.store'));
                                     </InputLabel>
                                     
                                     <select
+                                            @input="() => loadPrices(act.activity, act.zone, form.season, (act.key - 1))"
                                             v-model="act.pickup_hotel"
                                             v-if="QuoteProgress.hotels"
                                             name="pickUpZone"
