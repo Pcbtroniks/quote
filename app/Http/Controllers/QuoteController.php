@@ -51,10 +51,11 @@ class QuoteController extends Controller
 
         $quote = $quote->save($request);
 
+        // dd($quote);
+
         Mail::to('jeanmacario048@gmail.com')->send(new QuoteCreated($quote));
         
-        return to_route('quote')
-                ->with('message' , 'Cotización realizada con exito');
+        return to_route('quote')->with('message' , 'Cotización realizada con exito');
 
 
     }

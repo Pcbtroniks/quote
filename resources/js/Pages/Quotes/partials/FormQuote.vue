@@ -149,11 +149,10 @@ const getParkCost = async () => {
     
     getCost();
 }
-const getTourCost = async () => {
+const getTourCost = async (activity = form.parque.activity, zona = form.zona, season = form.season) => {
     
-    // return console.log(form);
-    const prices = await getPrice(form.parque.activity, form.zona, form.season);
-    // return console.log(prices);
+    const prices = await getPrice(activity, zona, season);
+    
     QuoteProgress.prices.cost.adult = prices.adult.amount;
     QuoteProgress.prices.cost.minor = prices.minor.amount;
     
@@ -173,6 +172,24 @@ watchEffect(() => {
 });
 
 watchEffect(() => {
+
+    var arr = [];
+    var len = QuoteProgress.nPackTours;
+    for (var i = 0; i < len; i++) {
+        arr.push({
+            "key": (i + 1),
+            "activity": null,
+            "zone": null,
+            "pickup_hotel": null,
+            "pickup_time": null,
+            "activty_date": null,
+            "public_price": null,
+            "agency_price": null
+    });
+    }
+
+    QuoteProgress.nTours = arr;
+    console.log(QuoteProgress.nTours);
     console.log(QuoteProgress.nPackTours);
 });
 
@@ -508,11 +525,12 @@ form.post(route('quote.store'));
                             </div>
 
                         </div>
-                        <!-- N Pack tours -->
-                        <div v-if="form.tipoReservacion ==  3 && QuoteProgress.nPackTours != 0" class="-mx-3 flex flex-wrap">
+                        <!-- N Pack tours | ntoursdiv-->
+                        <div v-if="form.tipoReservacion ==  3 && QuoteProgress.nTours != 0" class="-mx-3 flex flex-wrap">
 
-                            <div v-for="act in QuoteProgress.nPackTours" class="w-full px-3">
+                            <div v-for="act in QuoteProgress.nTours" class="w-full px-3">
                                 
+                                <h2>Actividad {{ act.key }}</h2>
                                 <div class="mb-5">
 
                                     <label
@@ -522,9 +540,9 @@ form.post(route('quote.store'));
                                         Tour
                                     </label>
                                     <select
-                                        v-model="QuoteProgress.tour.activity"
+                                        v-model="act.activity"
                                         v-if="QuoteProgress.tours"
-                                        name="parque" 
+                                        name="Activity" 
                                         class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                                         >
                                         <option value="null" selected disabled> -- Seleccione un tour -- </option>
@@ -538,7 +556,7 @@ form.post(route('quote.store'));
                                         Zona
                                     </InputLabel>
                                     <select
-                                        v-model="form.zona"
+                                        v-model="act.zone"
                                         @change="() => { getHotels() }"
                                         id="zone"
                                         name="zone" 
@@ -559,7 +577,7 @@ form.post(route('quote.store'));
                                     <select
                                             @input="() => setTour()"
                                             @change="getTourCost()"
-                                            v-model="QuoteProgress.tour.hotel"
+                                            v-model="act.pickup_hotel"
                                             v-if="QuoteProgress.hotels"
                                             name="pickUpZone"
                                             id="pickUpZone"

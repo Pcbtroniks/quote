@@ -81,7 +81,7 @@ console.log(props.quote);
                     </tr>
                     <tr style="height: 59px; text-align: center;">
                         <td style="height: 59px; border: 1px solid">Lugar de Pick up</td>
-                        <td style="height: 59px; border: 1px solid; width: 474.98px; max-width: 1px;" colspan="2">&nbsp;&nbsp;</td>
+                        <td style="height: 59px; border: 1px solid; width: 474.98px; max-width: 1px;" colspan="2">{{ quote.hotel.name }}</td>
                         <td style="height: 59px; border: 1px solid; width: 301.2px; text-align: left; font-style: bold;">Cuarto /<br>Room <span style="padding-left: 24px"> </span></td>
                     </tr>
                     <tr style="height: 59px;text-align: center;">

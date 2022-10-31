@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 
 use App\Models\Quote as ModelsQuote;
 use App\Models\QuoteActivity;
+use Illuminate\Support\Facades\DB;
 
 class Quote {
 
@@ -38,6 +39,7 @@ class Quote {
         $quote->load('listed_activities');
 
         $quote->activity = Activity::findOrFail($quote->listed_activity->activity_id) ?? '';
+        $quote->hotel = DB::table('hotels')->where( 'id', $quote->listed_activity->hotel_id)->first('name') ?? '';
         return $quote;
     }
 
