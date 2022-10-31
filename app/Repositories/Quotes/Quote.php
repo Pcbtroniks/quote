@@ -12,6 +12,12 @@ use App\Models\QuoteActivity;
 
 class Quote {
 
+    public static function get(){
+        $quote =  ModelsQuote::with(['user','coupon', 'listed_activity'])->paginate(2);
+
+        return $quote;
+    }
+
     public function getParks(){
 
         return Activity::where('type', 'park')->get();

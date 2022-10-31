@@ -9,7 +9,11 @@ class HomeController extends Controller
 {
     public function index(){
 
-        return response()->json(['message' => 'Welcome']);
+        
+        $quotes = Quote::get(2);
+        // dd($quotes);
+
+        return inertia('Dashboard', compact('quotes'));
 
     }
 }

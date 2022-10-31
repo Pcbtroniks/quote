@@ -24,9 +24,7 @@ Route::middleware([
 
     Route::get('/', [HomeController::class, 'index'])->name('home');
     
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
 
     
     Route::inertia('/inertia', 'Dashboard/Post/Index');

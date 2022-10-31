@@ -1,4 +1,10 @@
 <script setup>
+import Pagination from '../../Shared/Pagination.vue';
+
+
+defineProps({
+    quotes: Object
+})
 
 </script>
 
@@ -30,36 +36,48 @@
                                     <div class="font-semibold text-left">Pax</div>
                                 </th>
                                 <th class="p-2 whitespace-nowrap">
-                                    <div class="font-semibold text-left">Spent</div>
+                                    <div class="font-semibold text-left">Tipo Act.</div>
                                 </th>
                                 <th class="p-2 whitespace-nowrap">
-                                    <div class="font-semibold text-center">Country</div>
+                                    <div class="font-semibold text-left">Precio agencia</div>
+                                </th>
+                                <th class="p-2 whitespace-nowrap">
+                                    <div class="font-semibold text-left">Precio Publico</div>
+                                </th>
+                                <th class="p-2 whitespace-nowrap">
+                                    <div class="font-semibold text-center">Zona</div>
                                 </th>
                             </tr>
                         </thead>
                         <tbody class="text-sm divide-y divide-gray-100">
-                            <tr>
+                            <tr v-for="quote in quotes.data">
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="flex items-center">
-                                        <div class="font-medium text-gray-800">2022/10/25</div>
+                                        <div class="font-medium text-gray-800">{{ quote.created_at }}</div>
                                     </div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="flex items-center">
-                                        <div class="font-medium text-gray-800">TIM001</div>
+                                        <div class="font-medium text-gray-800">{{ quote.coupon.code }}</div>
                                     </div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="flex items-center">
-                                        <div class="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"><img class="rounded-full" src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg" width="40" height="40" alt="Alex Shatov"></div>
-                                        <div class="font-medium text-gray-800">Alex Shatov</div>
+                                        <!-- <div class="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"><img class="rounded-full" src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg" width="40" height="40" alt="Alex Shatov"></div> -->
+                                        <div class="font-medium text-gray-800">{{ quote.holder_name }}</div>
                                     </div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
-                                    <div class="text-left">Adultos: 2, Niños: 1, Infantes: 0</div>
+                                    <div class="text-left">Adultos: {{ quote.adults }}, Niños: {{ quote.minors }}, Infantes: {{ quote.infants }}</div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
-                                    <div class="text-left font-medium text-green-500">$2,890.66</div>
+                                    <div class="text-left font-medium text-green-500 capitalize">{{ quote.quote_type }}</div>
+                                </td>
+                                <td class="p-2 whitespace-nowrap">
+                                    <div class="text-left font-medium text-green-500" :title=" '$' + (quote.coupon.public_price - quote.coupon.agency_price).toFixed(2)">${{ quote.coupon.agency_price }}</div>
+                                </td>
+                                <td class="p-2 whitespace-nowrap">
+                                    <div class="text-left font-medium text-green-500">${{ quote.coupon.public_price }}</div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="text-lg text-center">??</div>
@@ -67,6 +85,11 @@
                             </tr>
                         </tbody>
                     </table>
+
+                </div>
+
+                <div class="flex justify-center">    
+                    <Pagination :links="quotes" />
                 </div>
             </div>
         </div>

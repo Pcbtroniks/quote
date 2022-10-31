@@ -161,7 +161,7 @@ const getTourCost = async () => {
 }
 
 const hasAmount = (n) => {
-    return n > 0 ? n + '$ usd' : ''
+    return n > 0 ? '$' + n  : ''
 }
 
 watchEffect(() => {
@@ -227,15 +227,15 @@ form.post(route('quote.store'));
                         <p class="mb-4">( Temporada {{ QuoteProgress.season }}, Tarifa {{ form.nacionales ? 'Nacional' : 'Internacional' }})</p>
                         <p>A nombre de: {{ form.nombreTitular }}</p>
                         <br>
-                        <p>Adultos: {{ `${form.adultos} x ${QuoteProgress.prices.cost.adult} = ${form.adultos * QuoteProgress.prices.cost.adult}` }}</p>
-                        <p>Menores: {{ `${form.menores} x ${QuoteProgress.prices.cost.minor} = ${form.menores * QuoteProgress.prices.cost.minor}` }}</p>
+                        <p>Adultos: {{ `${form.adultos} x $${QuoteProgress.prices.cost.adult} = $${form.adultos * QuoteProgress.prices.cost.adult}` }}</p>
+                        <p>Menores: {{ `${form.menores} x $${QuoteProgress.prices.cost.minor} = $${form.menores * QuoteProgress.prices.cost.minor}` }}</p>
                         <p>Infantes: {{ `${form.infantes}` }} - no pagan</p>
                         <br>
 
                         <p>Tipo de reserva: {{ tipoReserva(form.tipoReservacion) }}</p>
                         <br>
-                        <p>Precio sugerido al publico: {{ QuoteProgress.prices.totalPublicPrice }} </p>
-                        <p>Costo para la agencia: {{ QuoteProgress.prices.totalAgencyPrice }}</p>
+                        <p>Precio sugerido al publico: ${{ QuoteProgress.prices.totalPublicPrice }} </p>
+                        <p>Costo para la agencia: ${{ QuoteProgress.prices.totalAgencyPrice }}</p>
                         <!-- <p>Ganancia de vendedor: {{ hasAmount( QuoteProgress.prices.reference ) }}</p> -->
                         <!-- <p>
                             <small>Calcular precio {{ `min: ${QuoteProgress.prices.totalAgencyPrice} - max: ${QuoteProgress.prices.totalPublicPrice}` }}</small>
