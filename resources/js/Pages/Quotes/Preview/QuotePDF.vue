@@ -110,6 +110,51 @@ console.log(props.quote);
                 <div class="w-[576px] h-[59px] border border-black border-t-0"></div>
             </div>
         </div>
+
+        <!-- Clausula descuentos ncionales -->
+        <div class="mt-4 flex flex-col">
             
+            <div style="text-align:center; width: 100%;">
+                <p style="font-weight: bold; font-size:x-large">Descuento para  mexicanos, presentar INE o pasaporte</p>
+            
+            </div>
+
+            <div style="width: 100%;">
+                <p style="font-weight: bold;">
+                    Requisitos para recibir el servicio según sea el caso/ Requirements to recieve the service, as the case may be:
+                </p>
+
+                <ol>
+                    <li>1.- Verificar que el cupon tenga clave de confirmacion ya que sin ella no se podra brindar el servicio/Verify the confirmation code in the coupon, for in case of not having it the service won't be provided</li>
+                </ol>
+
+                <ol>
+                    <li>2.- Presentar este cupon impreso y firmado por el titular/ Show this coupon printed and signed by the titular</li>
+                </ol>
+
+                <ol>
+                    <li>3.- Presentar identificacion oficial con fotografia/ Show official ID with photo</li>
+                </ol>
+
+                <ol>
+                    <li>4.- Una vez entregado lo anterior debera recibir los brazaletes con los cuales podra disfrutar del parque/ After showing the above you should recieve the bracelets with which you will be able to enter the park</li>
+                </ol>
+
+            </div>
+
+        </div>
+            
+        <div class="mt-4 flex">
+            
+            <div style="margin: 2rem 0">
+                <span style="border-bottom: 1px solid #000000; height: 8px; width: 25rem; display: block;"></span>
+                <p>Nombre y firma del titular/Main passanger`s singature</p>
+            </div>
+        
+            <div>
+                <img src="/assets/Logo.png" alt="Logo Freetraveler">
+            </div>
+
+        </div>
     </div>
 </template>

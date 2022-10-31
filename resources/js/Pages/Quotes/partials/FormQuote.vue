@@ -59,6 +59,16 @@ const QuoteProgress = reactive({
     hotels: [],
     tours: [],
     nPackTours: 0,
+    nTours:[
+            {
+            "key": 1,
+            "activity": 1,
+            "pickup_hotel": "Hotel Name",
+            "pickup_time": "",
+            "activty_date": "000-00-00",
+            "total": 209.89
+        }
+    ],
     tour: {
         activity: 0,
         pickup: "12:00",
