@@ -28,11 +28,6 @@ const form = useForm({
     nacionales: false,
     nombreTitular: '',
     importeVenta: 0,
-    parque1: {
-            pickup: "15:50",
-            activity: 1,
-            hotel: 10,
-        },
     pickUp: null,
     infantes: 0,
     notas: null,
@@ -40,18 +35,7 @@ const form = useForm({
     menores: 0,
     zona: null,
     season: 'low',
-    parque: [
-        {
-            pickup: "12:00",
-            activity: 11,
-            hotel: 10,
-        },
-        {
-            pickup: "12:00",
-            activity: 12,
-            hotel: 10,
-        }
-    ],
+    parque: null,
 })
 
 const QuoteProgress = reactive({
@@ -59,16 +43,7 @@ const QuoteProgress = reactive({
     hotels: [],
     tours: [],
     nPackTours: 0,
-    nTours:[
-            {
-            "key": 1,
-            "activity": 1,
-            "pickup_hotel": "Hotel Name",
-            "pickup_time": "",
-            "activty_date": "000-00-00",
-            "total": 209.89
-        }
-    ],
+    nTours:[],
     tour: {
         activity: 0,
         pickup: "12:00",
@@ -103,10 +78,11 @@ const getTours = async () => {
 
 }
 
-const getHotels = async () => {
+const getHotels = async (zone = form.zona) => {
 
-    const res = await fetch(route('hotels', {'zone': form.zona == 1  ? form.zona : 2} ));
-    QuoteProgress.hotels = await res.json();
+    const res = await fetch(route('hotels', {'zone': zone == 1  ? zone : 2} ));
+    const data = QuoteProgress.hotels = await res.json();
+    return await data;
 
 }
 
@@ -176,22 +152,30 @@ watchEffect(() => {
     var arr = [];
     var len = QuoteProgress.nPackTours;
     for (var i = 0; i < len; i++) {
-        arr.push({
-            "key": (i + 1),
-            "activity": null,
-            "zone": null,
-            "pickup_hotel": null,
-            "pickup_time": null,
-            "activty_date": null,
-            "public_price": null,
-            "agency_price": null
-    });
+             arr.push({
+                    "key": (i + 1),
+                    "activity": null,
+                    "zone": null,
+                    "pickup_hotel": null,
+                    "pickup_time": null,
+                    "activty_date": null,
+                    "public_price": null,
+                    "agency_price": null
+            });
     }
-
     QuoteProgress.nTours = arr;
-    console.log(QuoteProgress.nTours);
-    console.log(QuoteProgress.nPackTours);
+    // console.log(QuoteProgress.nTours);
+    // console.log(QuoteProgress.nPackTours);
 });
+
+const setTourHotel = async (index) => {
+    if(index == 1){
+        QuoteProgress.hotels[1] = await getHotels(1);
+    }else {
+        QuoteProgress.hotels[2] = {index: await getHotels(2)};
+    }
+    console.log(QuoteProgress.hotels);
+}
 
 const setTour = () => {
     form.parque = QuoteProgress.tour;
@@ -534,8 +518,8 @@ form.post(route('quote.store'));
                                 <div class="mb-5">
 
                                     <label
-                                    for="fName"
-                                    class="mb-3 block text-base font-medium text-[#07074D]"
+                                        for="fName"
+                                        class="mb-3 block text-base font-medium text-[#07074D]"
                                     >
                                         Tour
                                     </label>
@@ -557,10 +541,10 @@ form.post(route('quote.store'));
                                     </InputLabel>
                                     <select
                                         v-model="act.zone"
-                                        @change="() => { getHotels() }"
-                                        id="zone"
-                                        name="zone" 
-                                        class="capitalize w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                                        @input="(event) => setTourHotel(event.target.value)"
+                                            id="zone"
+                                            name="zone" 
+                                            class="capitalize w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                                         >
                                         <option value="null" selected disabled>-- Seleccione su zona --</option>
                                         <option v-for="zone in zones"  :value="zone.id">{{ zone.name }}</option>
@@ -575,8 +559,6 @@ form.post(route('quote.store'));
                                     </InputLabel>
                                     
                                     <select
-                                            @input="() => setTour()"
-                                            @change="getTourCost()"
                                             v-model="act.pickup_hotel"
                                             v-if="QuoteProgress.hotels"
                                             name="pickUpZone"

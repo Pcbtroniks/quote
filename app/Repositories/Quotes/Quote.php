@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 class Quote {
 
     public static function get(){
-        $quote =  ModelsQuote::with(['user','coupon', 'listed_activity'])->paginate(2);
+        $quote =  ModelsQuote::with(['user','coupon', 'listed_activity'])->paginate(5);
 
         return $quote;
     }
