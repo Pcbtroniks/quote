@@ -1,0 +1,109 @@
+[
+  {
+    "id": 1,
+    "uudi?": "",
+    "quote_holder": "Jean Langarica",
+    "nationals": "no",
+    "season": "low",
+    "user_id": {
+      "id": 1,
+      "name": "Jean"
+    },
+    "quote_type": "Entrance",
+    "kids": 1,
+    "adults": 2,
+    "infants": 0,
+    "public_price": 300,
+    "agency_price": 280,
+    "activities": [
+      {
+        "id": 1,
+        "quote_id": 1,
+        "type": "park",
+        "name": "Entrada Xcaret",
+        "zone": {
+          "name": ""
+        },
+        "zone_fee": "",
+        "pickup_hotel": "",
+        "pickup_time": "",
+        "created_at": "2022/10/20",
+        "updated_at": "2022/10/20",
+        "prices": {
+          "adults": {
+            "total": 240,
+            "description_prices": {
+              "id": 1,
+              "amount": 120,
+              "type": "adult",
+              "season": "low",
+              "activity_id": 1
+            }
+          },
+          "minors": {
+            "total": 60,
+            "description_prices": {
+              "id": 1,
+              "amount": 60,
+              "type": "minor",
+              "season": "low",
+              "activity_id": 1
+            }
+          }
+        }
+      }
+    ],
+    "coupon_id": {
+      "id": 1,
+      "code": "TIM001",
+      "confirmation_key": "ABCD123",
+      "public_price": 300,
+      "agency_price": 280,
+      "agency_gain": 20,
+      "created_at": "2022/10/20",
+      "updated_at": "2022/10/20"
+    },
+    "created_at": "2022/10/20",
+    "updated_at": "2022/10/20"
+  },
+{
+  "dudas": [
+    "Que pongo cuando no hay Pickup disponible",
+    "",
+    "Como se calculan algunos datos del panel de control"
+  ],
+  "anotaciones": [
+    "Pickup R.M y PDC son lo mismo",
+    "falta Pickup de PDC"
+  ],
+  "Pendientes": [
+    "Pickups Playa del carmen",
+    "Ejemplo Cupon prerellenado"
+  ],
+  "pickups": [
+    "xcaret &| (Xcaret Noche)",
+    "xplor &",
+    "xenses 1 &",
+    "xavage 1 |(xavage)",
+    "xel-ha &",
+    "tulum xelha &",
+    "xichen deluxe  &",
+    "xichen deluxe &",
+    "xichen clasico &",
+    "coba xelha &",
+    "coba tulum xh &",
+    "tulum xenses &",
+    "xenses 2 &",
+    "xavage 2 |R",
+    "xenotes &",
+    "xplor fuego &",
+    "xoximilco &",
+
+
+    "Xcaret noche"
+  ],
+  "A mejorar": [
+    "Agregar Iconos",
+    "Limpieza del Formulario"
+  ]
+}]

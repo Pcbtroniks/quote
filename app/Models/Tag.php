@@ -10,10 +10,12 @@ class Tag extends Model
 {
     use HasFactory;
 
-    protected $fillable =['title','slug','image','text'];
-    
-    public function posts()
-    {
+    protected $fillable = [ 'title', 'slug', 'image', 'text' ];
+
+    public function posts(){
+
         $this->hasMany(Post::class);
+
     }
+
 }

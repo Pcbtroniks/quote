@@ -15,8 +15,13 @@ class QuoteController extends Controller
 
     public function store(){
         
-        dd(request()->all());
+        return dd(request()->all());
+        return redirect()->route('dashboard')->with('message','Some message');
 
+    }
+
+    public function show(){
+        return inertia('Quotes/Preview/Index');
     }
 
 }
