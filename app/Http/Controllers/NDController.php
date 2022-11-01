@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 class NDController extends Controller
 {
     public function index(){
+        return range('A', 'C');
         return response()->json(['message' => Str::uuid()->toString()]);
     }
 

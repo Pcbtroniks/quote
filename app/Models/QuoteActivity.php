@@ -14,6 +14,7 @@ class QuoteActivity extends Model
     public $fillable = [
         'quote_id',
         'activity_id',
+        'date',
         'hotel_id',
         'pickup_time',
     ];

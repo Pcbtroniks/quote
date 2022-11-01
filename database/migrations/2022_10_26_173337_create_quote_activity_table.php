@@ -33,6 +33,7 @@ return new class extends Migration
                     ->cascadeOnDelete();
 
             $table->time('pickup_time')->nullable();
+            $table->date('date');
 
             $table->timestamps();
         });

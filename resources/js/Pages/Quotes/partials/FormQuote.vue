@@ -33,7 +33,7 @@ const form = useForm({
     menores: 0,
     zona: null,
     season: 'low',
-    parque: null,
+    actividad: null,
 })
 
 const getHotels = async (zone = form.zona) => {
@@ -76,14 +76,14 @@ return QuoteProgress.prices.totalPublicPrice * ( ( 100 - QuoteProgress.prices.pr
 
 const getParkCost = async () => {
     
-    const prices = await getPrice(form.parque, form.nacionales ? 4 : 5 , form.season);
+    const prices = await getPrice(form.actividad, form.nacionales ? 4 : 5 , form.season);
     
     QuoteProgress.prices.cost.adult = prices.adult.amount;
     QuoteProgress.prices.cost.minor = prices.minor.amount;
     
     getCost();
 }
-const getTourCost = async (activity = form.parque.activity, zona = form.zona, season = form.season) => {
+const getTourCost = async (activity = form.actividad.activity, zona = form.zona, season = form.season) => {
     
     const prices = await getPrice(activity, zona, season);
     
@@ -103,7 +103,6 @@ watchEffect(() => {
 
 watchEffect(() => {
     form.season = getSeason(form.fechaActividad);
-    console.log(form.season);
 });
 
 watchEffect(() => {
@@ -117,7 +116,7 @@ watchEffect(() => {
                     "zone": null,
                     "hotel": null,
                     "pickup": null,
-                    "activty_date": null,
+                    "activity_date": null,
                     "public_price": null,
                     "agency_price": null
             });
@@ -143,17 +142,15 @@ const loadPrices = async(activity, zone, season, key) => {
 }
 
 const setTour = () => {
-    form.parque = QuoteProgress.tour;
+    form.actividad = QuoteProgress.tour;
 }
 
 function preSubmit(){
-
-    if(form.tipoReservacion === '3'){
-        form.parque = QuoteProgress.nTours;
-    }
-
-form.tipoReservacion = parseQuoteType(form.tipoReservacion);
-
+    if(form.tipoReservacion == 3){
+        form.actividad = QuoteProgress.nTours;
+        // form.fechaReservacion = QuoteProgress.nTours[0].activity_date
+    }    
+    form.tipoReservacion = parseQuoteType(form.tipoReservacion);
 }
 
 function submit(){
@@ -161,7 +158,7 @@ function submit(){
 preSubmit();
 
 form.post(route('quote.store'));
-
+QuoteProgress.nTours = [];
 form.reset()
 
 }
@@ -323,7 +320,7 @@ form.reset()
 
                         <!-- Activity Date -->
 
-                        <div class="-mx-3 flex flex-wrap">
+                        <div v-if="form.tipoReservacion" class="-mx-3 flex flex-wrap">
                             <div class="w-full px-3 ">
                             <div class="mb-5">
                                 <InputLabel for="fechaAvtidad">
@@ -421,7 +418,7 @@ form.reset()
                                     </InputLabel>
                                     <select 
                                         @change="getParkCost()"
-                                        v-model="form.parque"
+                                        v-model="form.actividad"
                                         id="park"
                                         name="parque" 
                                         class="capitalize w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
@@ -503,6 +500,17 @@ form.reset()
                                         <option class="capitalize" v-for="tour in QuoteProgress.tours" :value="tour.id">{{ tour.name }}</option>
                                     </select>
 
+                                </div>
+
+                                <div class="mb-5">
+                                    <InputLabel :for="'fechaAvtidad'+act.key">
+                                        Fecha de actividad <span v-if="form.errors.fechaActividad" class="text-red-500">* Por favor llene este campo</span>
+                                    </InputLabel>
+
+                                    <InputDate
+                                        required
+                                        v-model="act.activity_date" 
+                                        :id-name="'fechaActividad'+act.key"  />
                                 </div>
 
                                 <div class="mb-5">

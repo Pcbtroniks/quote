@@ -45,8 +45,6 @@ console.log(props.quote);
                     <tr style="height: 60px; text-align: center;">
                         <td style="height: 60px; border: 1px solid; width: 301px;" spellcheck="false">Nombre / Name</td>
                         <td style="height: 60px; border: 1px solid;" colspan="3">{{ quote.holder_name }}</td>
-                        <!-- <td style="height: 60px; border: 1px solid;">&nbsp;</td>
-                        <td style="height: 60px; border: 1px solid;">&nbsp;</td> -->
                     </tr>
                     <tr style="height: 26.5px; text-align: center;">
                         <td style="height: 58.5px; border: 1px solid;" rowspan="2">Pasajeros / Passengers</td>
@@ -76,7 +74,7 @@ console.log(props.quote);
                 <tbody>
                     <tr style="height: 59px; text-align: center;" spellcheck="false">
                         <td style="height: 59px; border: 1px solid; width: 301px;">Fecha Actividad/ Date of the activity:</td>
-                        <td style="height: 59px; border: 1px solid; width: 474.98px; max-width: 1px;" colspan="2">{{ quote.quote_type != 'paquete' ? quote.activity_date : '' }}</td>
+                        <td style="height: 59px; border: 1px solid; width: 474.98px; max-width: 1px;" colspan="2">{{ quote.quote_type != 'paquete' ? quote.listed_activity.date : '' }}</td>
                         <td style="height: 59px; border: 1px solid; width: 301.2px; text-align: left;">Horario /<br>Schedule <span style="padding-left: 24px">{{ quote.quote_type == 'tour' ? quote.listed_activity?.pickup_time : '' }}</span></td>
                     </tr>
                     <tr style="height: 59px; text-align: center;">
@@ -86,7 +84,7 @@ console.log(props.quote);
                     </tr>
                     <tr style="height: 59px;text-align: center;">
                         <td style="height: 59px; border: 1px solid">Entrada/ Entrance</td>
-                        <td style="height: 59px; border: 1px solid; width: 474.98px; max-width: 1px;" colspan="2">{{ quote.quote_type == 'entrada' ? quote.activity.name : '' }}</td>
+                        <td style="height: 59px; border: 1px solid; width: 474.98px; max-width: 1px;" colspan="2">{{ quote.type == 'entrada' ? quote.activity.name : '' }}</td>
                         <td style="height: 59px; border: 1px solid">{{ quote.national == 1 ? 'PROMOMEX' : '' }}</td>
                     </tr>
                     <tr style="height: 59px; text-align: center;">
@@ -97,7 +95,7 @@ console.log(props.quote);
                     <tr style="height: 59px;">
                         <td style="height: 59px; border: 1px solid; text-align: center;">PAQUETE/ PACKAGE</td>
                         <td style="height: 59px; " colspan="3">
-                            <p style="margin-left: 1rem" v-for="a in quote.listed_activities">Tour: {{a.activity.name}}, Fecha: {{a.activity.created_at}}, Hora del Pickup: {{a.activity.pickup_time}}</p>
+                            <p style="margin-left: 1rem" v-if="quote.quote_type == 'paquete'" v-for="a in quote.listed_activities">Tour: {{a.activity.name}}, Fecha: {{a.activity.activity_date}}, Hora del Pickup: {{a.activity.pickup_time}}</p>
                         </td>
                     </tr>
                     <tr style="height: 59px;">

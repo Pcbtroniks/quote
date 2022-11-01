@@ -20,6 +20,8 @@ return new class extends Migration
             $table->decimal('public_price');
             $table->decimal('agency_price');
             $table->string('paid_status');
+            $table->string('confirmation_key')->nullable();
+            $table->string('cancellation_key')->nullable();
 
             $table->timestamps();
         });

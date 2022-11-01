@@ -36,6 +36,7 @@ class Quote {
         $quote =  ModelsQuote::where('uuid', $uuid)
                             ->with(['user','coupon', 'listed_activity'])
                             ->firstOrFail();
+                            
         $quote->load('listed_activities');
         $quote->listed_activities->load('activity');
 
@@ -54,11 +55,11 @@ class Quote {
 
         if($request->tipoReservacion == 'entrada'){
 
-            $activities = $this->add_park($quote->id, $data['activity_id']);
+            $activities = $this->add_park($quote->id, $data['activity_id'], $data['date']);
             
         }else if($request->tipoReservacion == 'tour'){
             
-            $activities = $this->add_tour($quote->id, $request->parque['activity'], $request->parque['hotel'], $request->parque['pickup'] );
+            $activities = $this->add_tour($quote->id, $request->parque['activity'], $request->parque['hotel'], $request->parque['pickup'],  $request->parque['date'] );
             
         } else {
             
@@ -73,21 +74,20 @@ class Quote {
 
     public function parse_quote(Request $request, $coupon){
         return [
-            'user_id' => auth()->user()->id,
-            'activity_id' => $request->parque,
             'coupon_id' => $coupon,
+            'user_id' => auth()->user()->id,
+            'activity_id' => $request->actividad,
+            'date' => $request->fechaActividad,
             'uuid' => Str::uuid()->toString(),
             'season' => $request->season,
             'national' => $request->nacionales,
-            'quote_type' => $request->tipoReservacion,
-            'activity_date' => $request->fechaActividad,
+            'type' => $request->tipoReservacion,
             'holder_name' => $request->nombreTitular,
             'adults' => $request->adultos,
             'minors' => $request->menores,
             'infants' => $request->infantes,
             'notes' => $request->notas ?? '',
             'status' => 'created',
-
         ];
     }
     
@@ -95,30 +95,31 @@ class Quote {
 
         foreach ($activities as $activity) {
 
-            $this->add_activity($quote, $activity['activity'], $activity['hotel'], $activity['pickup']);
+            $this->add_activity($quote, $activity['activity'], $activity['hotel'], $activity['pickup'], $activity['activity_date']);
         
         }
 
 
     }
 
-    public function add_park($quote, $activity) {
+    public function add_park($quote, $activity, $date) {
 
-        return $this->add_activity($quote, $activity, null, null);
-
-    }
-
-    public function add_tour($quote, $activity, $hotel, $pickup_time) {
-
-        return $this->add_activity($quote, $activity, $hotel, $pickup_time);
+        return $this->add_activity($quote, $activity, null, null, $date);
 
     }
 
-    public function add_activity($quote_id , $activity_id, $hotel_id, $pickup_time){
+    public function add_tour($quote, $activity, $hotel, $pickup_time, $date) {
+
+        return $this->add_activity($quote, $activity, $hotel, $pickup_time, $date);
+
+    }
+
+    public function add_activity($quote_id , $activity_id, $hotel_id, $pickup_time, $date){
 
         return QuoteActivity::create([
             'quote_id' => $quote_id,
             'activity_id' => $activity_id,
+            'date' => $date,
             'hotel_id' => $hotel_id,
             'pickup_time' => $pickup_time,
         ]);

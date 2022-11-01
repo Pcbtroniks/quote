@@ -19,14 +19,13 @@ return new class extends Migration
 
             $table->string('national')->default('no');
             $table->string('season');
-            $table->string('quote_type');
-            $table->date('activity_date');
+            $table->string('type');
             $table->string('holder_name');
             $table->integer('adults');
             $table->integer('minors');
             $table->integer('infants');
             $table->text('notes');
-            $table->string('status');
+            $table->string('status')->default('created');
             
             $table->foreignId('user_id')
                     ->constrained()
