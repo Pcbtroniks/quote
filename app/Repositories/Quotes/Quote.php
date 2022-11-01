@@ -37,6 +37,7 @@ class Quote {
                             ->with(['user','coupon', 'listed_activity'])
                             ->firstOrFail();
         $quote->load('listed_activities');
+        $quote->listed_activities->load('activity');
 
         $quote->activity = Activity::findOrFail($quote->listed_activity->activity_id) ?? '';
         $quote->hotel = DB::table('hotels')->where( 'id', $quote->listed_activity->hotel_id)->first('name') ?? '';
@@ -61,7 +62,7 @@ class Quote {
             
         } else {
             
-            $activities = $this->add_combo($quote->id, $request->parque);
+            $activities = $this->add_package($quote->id, $request->parque);
         
         }
 
@@ -90,7 +91,7 @@ class Quote {
         ];
     }
     
-    public function add_combo($quote, $activities) {
+    public function add_package($quote, $activities) {
 
         foreach ($activities as $activity) {
 

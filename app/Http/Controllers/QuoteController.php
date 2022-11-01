@@ -48,7 +48,7 @@ class QuoteController extends Controller
     }
 
     public function store(Save $request, Quote $quote){
-        
+
         $quote = $quote->save($request);
 
         Mail::to('jeanmacario048@gmail.com')->send(new QuoteCreated($quote));

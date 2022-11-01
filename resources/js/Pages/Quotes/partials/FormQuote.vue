@@ -2,9 +2,9 @@
 
 import FormSection from '@/Components/FormSection.vue';
 import { useForm } from '@inertiajs/inertia-vue3';
-import { reactive, watchEffect } from 'vue';
+import { watchEffect } from 'vue';
 
-import { today , tipoReserva, getSeason } from './Providers/Data.js';
+import { QuoteProgress, Today , getSeason, getTours, parseQuoteType } from './Providers/Services.js';
 
 import InputNumber from './InputNumber.vue';
 import InputLabel from './InputLabel.vue';
@@ -12,8 +12,6 @@ import InputRange from './InputRange.vue';
 import InputText from './InputText.vue';
 import Summary from './Summary.vue';
 import InputDate from './InputDate.vue';
-
-import Swal from 'sweetalert2'
 
 const props = defineProps({
     parks: Array,
@@ -37,46 +35,6 @@ const form = useForm({
     season: 'low',
     parque: null,
 })
-
-const QuoteProgress = reactive({
-    season: 'low',
-    hotels: [],
-    tours: [],
-    nPackTours: 0,
-    nTours:[],
-    tour: {
-        activity: 0,
-        pickup: "12:00",
-        hotel: null,
-
-    },
-    resume: {
-        total: {
-            adults: 0,
-            minors: 0,
-        }
-    },
-    prices: {
-        totalPublicPrice: 0,
-        totalAgencyPrice: 0,
-        reference: 0,
-        cost: {
-            adult: 0,
-            minor: 0,
-        },
-        profit: {
-            percentage: 5,
-            amount: 0
-        }
-    }
-});
-
-const getTours = async () => {
-    
-    const res = await fetch(route('tours'));
-    QuoteProgress.tours = await res.json();
-
-}
 
 const getHotels = async (zone = form.zona) => {
 
@@ -145,6 +103,7 @@ watchEffect(() => {
 
 watchEffect(() => {
     form.season = getSeason(form.fechaActividad);
+    console.log(form.season);
 });
 
 watchEffect(() => {
@@ -156,8 +115,8 @@ watchEffect(() => {
                     "key": (i + 1),
                     "activity": null,
                     "zone": null,
-                    "pickup_hotel": null,
-                    "pickup_time": null,
+                    "hotel": null,
+                    "pickup": null,
                     "activty_date": null,
                     "public_price": null,
                     "agency_price": null
@@ -193,7 +152,7 @@ function preSubmit(){
         form.parque = QuoteProgress.nTours;
     }
 
-form.tipoReservacion = tipoReserva(form.tipoReservacion);
+form.tipoReservacion = parseQuoteType(form.tipoReservacion);
 
 }
 
@@ -217,7 +176,7 @@ form.reset()
 
             <div class="mt-4 text-2xl text-center">
                 Nueva cotización 
-                <p class="text-lg">Fecha de hoy: {{ today }}</p>
+                <p class="text-lg">Fecha de hoy: {{ Today }}</p>
             </div>
         
         </div>
@@ -233,11 +192,10 @@ form.reset()
 
                     <template #header>
                         Precio al publico {{ hasAmount(QuoteProgress.prices.totalPublicPrice) }} 
-                        <!-- Precio al publico {{ Cost.total > 0 ? ApplyFormula() + '$ usd' : '' }}  -->
                     </template>
 
                     <template #content>
-                        <p class="mb-4">( Temporada {{ QuoteProgress.season == 'low' ? 'Baja' : 'Alta'}}, Tarifa {{ form.nacionales ? 'Nacional' : 'Internacional' }})</p>
+                        <p class="mb-4">( Temporada {{ form.season == 'low' ? 'Baja' : 'Alta'}}, Tarifa {{ form.nacionales ? 'Nacional' : 'Internacional' }})</p>
                         <p>A nombre de: {{ form.nombreTitular }}</p>
                         <br>
                         <p>Adultos: {{ `${form.adultos} x $${QuoteProgress.prices.cost.adult} = $${form.adultos * QuoteProgress.prices.cost.adult}` }}</p>
@@ -245,7 +203,7 @@ form.reset()
                         <p>Infantes: {{ `${form.infantes}` }} - no pagan</p>
                         <br>
 
-                        <p>Tipo de reserva: {{ tipoReserva(form.tipoReservacion) }}</p>
+                        <p>Tipo de reserva: {{ parseQuoteType(form.tipoReservacion) }}</p>
                         <br>
                         <p>Precio sugerido al publico: ${{ QuoteProgress.prices.totalPublicPrice }} </p>
                         <p>Costo para la agencia: ${{ QuoteProgress.prices.totalAgencyPrice }}</p>

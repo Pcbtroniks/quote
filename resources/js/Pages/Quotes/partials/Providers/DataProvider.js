@@ -6,6 +6,7 @@ export const tipoReserva = (tipoId) => {
 }
 
 const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
 export const today = new Date().toLocaleDateString(undefined, options);
 
 
