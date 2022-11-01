@@ -48,15 +48,14 @@ class QuoteController extends Controller
     }
 
     public function store(Save $request, Quote $quote){
-
-        dd($request);
         
         $quote = $quote->save($request);
 
         Mail::to('jeanmacario048@gmail.com')->send(new QuoteCreated($quote));
         
-        return to_route('quote')->with('message' , 'Cotización realizada con exito');
-
+        return redirect()
+                ->route('quote')
+                ->with('message' , 'Cotización realizada con exito');
 
     }
 

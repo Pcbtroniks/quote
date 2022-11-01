@@ -164,13 +164,8 @@ watchEffect(() => {
             });
     }
     QuoteProgress.nTours = arr;
-    // console.log(QuoteProgress.nTours);
-    // console.log(QuoteProgress.nPackTours);
 });
 
-watchEffect(() => {
-    console.log(form.precioPublico);
-})
 
 const setTourHotel = async (index) => {
     if(index == 1){
@@ -194,7 +189,9 @@ const setTour = () => {
 
 function preSubmit(){
 
-form.parque = QuoteProgress.nTours;
+    if(form.tipoReservacion === '3'){
+        form.parque = QuoteProgress.nTours;
+    }
 
 form.tipoReservacion = tipoReserva(form.tipoReservacion);
 
@@ -205,6 +202,8 @@ function submit(){
 preSubmit();
 
 form.post(route('quote.store'));
+
+form.reset()
 
 }
 
@@ -238,7 +237,7 @@ form.post(route('quote.store'));
                     </template>
 
                     <template #content>
-                        <p class="mb-4">( Temporada {{ QuoteProgress.season }}, Tarifa {{ form.nacionales ? 'Nacional' : 'Internacional' }})</p>
+                        <p class="mb-4">( Temporada {{ QuoteProgress.season == 'low' ? 'Baja' : 'Alta'}}, Tarifa {{ form.nacionales ? 'Nacional' : 'Internacional' }})</p>
                         <p>A nombre de: {{ form.nombreTitular }}</p>
                         <br>
                         <p>Adultos: {{ `${form.adultos} x $${QuoteProgress.prices.cost.adult} = $${form.adultos * QuoteProgress.prices.cost.adult}` }}</p>
