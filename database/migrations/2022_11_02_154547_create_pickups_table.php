@@ -26,6 +26,8 @@ return new class extends Migration
                     ->cascadeOnUpdate()
                     ->cascadeOnDelete();
 
+            $table->time('pickup_time');
+
             $table->foreignId('zone_id')
                     ->nullable()
                     ->constrained()
