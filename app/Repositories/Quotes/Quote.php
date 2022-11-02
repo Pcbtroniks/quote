@@ -36,7 +36,7 @@ class Quote {
         $quote =  ModelsQuote::where('uuid', $uuid)
                             ->with(['user','coupon', 'listed_activity'])
                             ->firstOrFail();
-                            
+
         $quote->load('listed_activities');
         $quote->listed_activities->load('activity');
 
@@ -59,11 +59,11 @@ class Quote {
             
         }else if($request->tipoReservacion == 'tour'){
             
-            $activities = $this->add_tour($quote->id, $request->parque['activity'], $request->parque['hotel'], $request->parque['pickup'],  $request->parque['date'] );
+            $activities = $this->add_tour($quote->id, $request->actividad['activity'], $request->actividad['hotel'], $request->actividad['pickup'],  $request->fechaActividad );
             
         } else {
             
-            $activities = $this->add_package($quote->id, $request->parque);
+            $activities = $this->add_package($quote->id, $request->actividad);
         
         }
 

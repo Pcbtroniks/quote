@@ -71,7 +71,7 @@ defineProps({
                                     <div class="text-left">Adultos: {{ quote.adults }}, Niños: {{ quote.minors }}, Infantes: {{ quote.infants }}</div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
-                                    <div class="text-left font-medium text-green-500 capitalize">{{ quote.quote_type }}</div>
+                                    <div class="text-left font-medium text-green-500 capitalize">{{ quote.type }}</div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="text-left font-medium text-green-500" :title=" '$' + (quote.coupon.public_price - quote.coupon.agency_price).toFixed(2)">${{ quote.coupon.agency_price }}</div>

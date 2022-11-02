@@ -148,7 +148,6 @@ const setTour = () => {
 function preSubmit(){
     if(form.tipoReservacion == 3){
         form.actividad = QuoteProgress.nTours;
-        // form.fechaReservacion = QuoteProgress.nTours[0].activity_date
     }    
     form.tipoReservacion = parseQuoteType(form.tipoReservacion);
 }
