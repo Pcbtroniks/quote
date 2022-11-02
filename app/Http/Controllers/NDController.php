@@ -6,17 +6,26 @@ use App\Models\Coupon;
 use App\Models\Quote;
 use App\Models\QuoteActivity;
 use App\Models\Zone as ModelsZone;
+use App\Repositories\Activities\Pickup;
 use App\Repositories\Prices\Price;
 use App\Repositories\Zones\Zone;
 use Illuminate\Support\Str;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class NDController extends Controller
 {
     public function index(){
         return range('A', 'C');
         return response()->json(['message' => Str::uuid()->toString()]);
+    }
+
+    public function pickups( Pickup $pickup , $activity = 1, $hotel = 1)
+    {
+        $return = $pickup->hotel($hotel);
+
+        return $return ?? 'Sin pickup';
     }
 
     public function quote(){
