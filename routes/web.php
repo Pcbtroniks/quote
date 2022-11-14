@@ -58,5 +58,5 @@ Route::middleware([
     Route::get('ND/Quote/activity', [NDController::class, 'activity'])->name('NDQuoteActivity');
     Route::get('ND/zones', [NDController::class, 'zones'])->name('ND.zones');
     Route::get('ND/price', [NDController::class, 'price'])->name('ND.price');
-    Route::get('nd/pickups/{hotel?}/{activity?}', [NDController::class, 'pickups'])->name('nd.quote.uuid');
+    Route::get('nd/pickups/{activity?}/{hotel?}', [NDController::class, 'pickups'])->name('nd.pickup.get');
 });

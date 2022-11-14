@@ -23,9 +23,9 @@ class NDController extends Controller
 
     public function pickups( Pickup $pickup , $activity = 1, $hotel = 1)
     {
-        $return = $pickup->hotel($hotel);
+        $return = $pickup->getOrNull( $activity , $hotel);
 
-        return $return ?? 'Sin pickup';
+        return $return ?? false;
     }
 
     public function quote(){

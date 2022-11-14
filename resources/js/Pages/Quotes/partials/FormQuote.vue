@@ -4,7 +4,8 @@ import FormSection from '@/Components/FormSection.vue';
 import { useForm } from '@inertiajs/inertia-vue3';
 import { watchEffect } from 'vue';
 
-import { QuoteProgress, Today , getSeason, getTours, parseQuoteType } from './Providers/Services.js';
+import { QuoteProgress, getSeason, getTours, getHotels, getPrice, loadHotels } from './Providers/Services.js';
+import { Today, parseQuoteType } from './Providers/Helpers.js';
 
 import InputNumber from './InputNumber.vue';
 import InputLabel from './InputLabel.vue';
@@ -36,23 +37,6 @@ const form = useForm({
     actividad: null,
 })
 
-const getHotels = async (zone = form.zona) => {
-
-    const res = await fetch(route('hotels', {'zone': zone == 1  ? zone : 2} ));
-    const data = QuoteProgress.hotels = await res.json();
-    return await data;
-
-}
-
-const getPrice = async (activity, zone, season) => {
-
-    const res = await fetch(route('prices', { activity, zone, season }))
-    const data = await res.json();
-
-    return data;
-
-}
-
 const getCost = () => {
 
 QuoteProgress.resume.total.adults = form.adultos * QuoteProgress.prices.cost.adult;
@@ -83,6 +67,7 @@ const getParkCost = async () => {
     
     getCost();
 }
+
 const getTourCost = async (activity = form.actividad.activity, zona = form.zona, season = form.season) => {
     
     const prices = await getPrice(activity, zona, season);
@@ -125,13 +110,13 @@ watchEffect(() => {
 });
 
 
-const setTourHotel = async (index) => {
-    if(index == 1){
-        QuoteProgress.hotels[1] = await getHotels(1);
-    }else {
-        QuoteProgress.hotels[2] = {index: await getHotels(2)};
-    }
-}
+// const setTourHotel = async (index) => {
+//     if(index == 1){
+//         QuoteProgress.hotels[1] = await getHotels(1);
+//     }else {
+//         QuoteProgress.hotels[2] = {index: await getHotels(2)};
+//     }
+// }
 
 const loadPrices = async(activity, zone, season, key) => {
     const price = await getPrice(activity, zone, season);
@@ -419,7 +404,8 @@ form.reset()
                                         @change="getParkCost()"
                                         v-model="form.actividad"
                                         id="park"
-                                        name="parque" 
+                                        name="parque"
+                                        ref="park"
                                         class="capitalize w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                                         >
                                         <option value="null" disabled selected>-- Seleccione un parque --</option>
@@ -536,7 +522,7 @@ form.reset()
                                     </InputLabel>
                                     
                                     <select
-                                            @input="() => loadPrices(act.activity, act.zone, form.season, (act.key - 1))"
+                                            @input="loadPrices(act.activity, act.zone, form.season, (act.key - 1))"
                                             v-model="act.pickup_hotel"
                                             v-if="QuoteProgress.hotels"
                                             name="pickUpZone"
@@ -544,7 +530,7 @@ form.reset()
                                             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                                             >
                                             <option value="null" selected disabled>-- Seleccione un hotel --</option>
-                                            <option v-if="QuoteProgress.hotels" class="capitalize" v-for="h in QuoteProgress.hotels" :value="h.id">{{ h.name }}</option>
+                                            <option v-if="QuoteProgress.hotels[act.zone]" class="capitalize" v-for="h in QuoteProgress.hotels[act.zone]" :value="h.id">{{ h.name }}</option>
                                     </select>
 
                                 </div>
@@ -567,7 +553,7 @@ form.reset()
                                     </InputLabel>
                                     <select
                                         v-model="form.zona"
-                                        @change="() => { getHotels() }"
+                                        @change="getHotels( $event.target.value )"
                                         id="zone"
                                         name="zone" 
                                         class="capitalize w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
@@ -594,16 +580,16 @@ form.reset()
                                 </InputLabel>
                                   
                                 <select
-                                        @input="() => setTour()"
-                                        @change="getTourCost()"
-                                        v-model="QuoteProgress.tour.hotel"
-                                        v-if="QuoteProgress.hotels"
-                                        name="pickUpZone"
-                                        id="pickUpZone"
-                                        class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                        >
+                                    @input="() => setTour()"
+                                    @change="getTourCost()"
+                                    v-model="QuoteProgress.tour.hotel"
+                                    v-if="QuoteProgress.hotels"
+                                    name="pickUpZone"
+                                    id="pickUpZone"
+                                    class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                                >
                                         <option value="null" selected disabled>-- Seleccione un hotel --</option>
-                                        <option v-if="QuoteProgress.hotels" class="capitalize" v-for="h in QuoteProgress.hotels" :value="h.id">{{ h.name }}</option>
+                                        <option v-if="form.tipoReservacion == 2 && QuoteProgress.hotels" class="capitalize" v-for="h in QuoteProgress.hotels" :value="h.id">{{ h.name }}</option>
                                 </select>
 
                             </div>

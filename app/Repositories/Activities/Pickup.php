@@ -6,8 +6,14 @@ use Illuminate\Support\Facades\DB;
 
 class Pickup {
 
+    private $pickup;
 
-    public function get($activity, $hotel){
+    public function __construct()
+    {
+        $this->pickup = ['response' => null];
+    }
+
+    public function get( $activity , $hotel ){
         return DB::table('pickups', 'p')
         ->where('hotel_id', $hotel)
         ->where('activity_id', $activity)
@@ -17,7 +23,11 @@ class Pickup {
         ->first(['p.pickup_time', 'a.name as activity', 'h.name as hotel', 'z.name as zone']);
     }
 
-    public function hotel( $hotel){
+    public function getOrNull( $activity, $hotel){
+        return $this->get($activity, $hotel) ?? $this->pickup;
+    }
+
+    public function getHotel( $hotel ){
         return DB::table('pickups', 'p')
         ->where('hotel_id', $hotel)
         ->join('activities as a', 'p.activity_id', '=', 'a.id')
