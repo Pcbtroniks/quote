@@ -4,8 +4,8 @@ import FormSection from '@/Components/FormSection.vue';
 import { useForm } from '@inertiajs/inertia-vue3';
 import { watchEffect } from 'vue';
 
-import { QuoteProgress, getSeason, getTours, getHotels, getPrice, loadHotels } from './Providers/Services.js';
-import { Today, parseQuoteType } from './Providers/Helpers.js';
+import { QuoteProgress, getSeason, getTours, getHotels, getPrice, loadHotels, getActivityPickup, getPickup } from './Providers/Services.js';
+import { Today, parseQuoteType, fixedAdd } from './Providers/Helpers.js';
 
 import InputNumber from './InputNumber.vue';
 import InputLabel from './InputLabel.vue';
@@ -30,7 +30,7 @@ const form = useForm({
     pickUp: null,
     infantes: 0,
     notas: null,
-    adultos: 0,
+    adultos: 1,
     menores: 0,
     zona: null,
     season: 'low',
@@ -42,8 +42,7 @@ const getCost = () => {
 QuoteProgress.resume.total.adults = form.adultos * QuoteProgress.prices.cost.adult;
 QuoteProgress.resume.total.minors = form.menores * QuoteProgress.prices.cost.minor;
 
-QuoteProgress.prices.totalPublicPrice = QuoteProgress.resume.total.adults + QuoteProgress.resume.total.minors;
-QuoteProgress.prices.totalPublicPrice = QuoteProgress.prices.totalPublicPrice.toFixed(2);
+QuoteProgress.prices.totalPublicPrice = fixedAdd(QuoteProgress.resume.total.adults, QuoteProgress.resume.total.minors);
 form.precioPublico = QuoteProgress.prices.totalPublicPrice;
 form.importeVenta = getComputedPrice().toFixed(2);
 QuoteProgress.prices.totalAgencyPrice = form.importeVenta;
@@ -68,7 +67,7 @@ const getParkCost = async () => {
     getCost();
 }
 
-const getTourCost = async (activity = form.actividad.activity, zona = form.zona, season = form.season) => {
+const getTourCost = async (activity, zona , season ) => {
     
     const prices = await getPrice(activity, zona, season);
     
@@ -109,25 +108,18 @@ watchEffect(() => {
     QuoteProgress.nTours = arr;
 });
 
-
-// const setTourHotel = async (index) => {
-//     if(index == 1){
-//         QuoteProgress.hotels[1] = await getHotels(1);
-//     }else {
-//         QuoteProgress.hotels[2] = {index: await getHotels(2)};
-//     }
-// }
-
 const loadPrices = async(activity, zone, season, key) => {
     const price = await getPrice(activity, zone, season);
-    QuoteProgress.nTours[key].public_price = (form.adultos * Number(price.adult.amount)) + (form.menores * Number(price.minor.amount));
+    QuoteProgress.nTours[key].public_price = fixedAdd((form.adultos * Number(price.adult.amount)), (form.menores * Number(price.minor.amount)));
     form.precioPublico += QuoteProgress.nTours[key].public_price;
     form.importeVenta += form.precioPublico * ( ( 100 - QuoteProgress.prices.profit.percentage ) / 100 );
     console.log(QuoteProgress.nTours);
 }
 
-const setTour = () => {
+const setTour = async ( activity, hotel ) => {
+    QuoteProgress.tour.pickup = await getPickup(activity, hotel).catch(data => data.pickup_time) ?? 'N/D';
     form.actividad = QuoteProgress.tour;
+    console.log(QuoteProgress);
 }
 
 function preSubmit(){
@@ -466,7 +458,7 @@ form.reset()
 
                             <div v-for="act in QuoteProgress.nTours" class="w-full px-3">
                                 
-                                <h2>Actividad {{ act.key }}</h2>
+                                <h2>Actividad {{ act.key }} </h2>
                                 <div class="mb-5">
 
                                     <label
@@ -504,7 +496,7 @@ form.reset()
                                     </InputLabel>
                                     <select
                                         v-model="act.zone"
-                                        @input="(event) => setTourHotel(event.target.value)"
+                                        @input="(event) => loadHotels(event.target.value)"
                                             id="zone"
                                             name="zone" 
                                             class="capitalize w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
@@ -523,16 +515,28 @@ form.reset()
                                     
                                     <select
                                             @input="loadPrices(act.activity, act.zone, form.season, (act.key - 1))"
-                                            v-model="act.pickup_hotel"
+                                            @focusout="getActivityPickup((act.key - 1), act.activity, act.hotel)"
+                                            v-model="act.hotel"
                                             v-if="QuoteProgress.hotels"
                                             name="pickUpZone"
                                             id="pickUpZone"
                                             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                                             >
                                             <option value="null" selected disabled>-- Seleccione un hotel --</option>
-                                            <option v-if="QuoteProgress.hotels[act.zone]" class="capitalize" v-for="h in QuoteProgress.hotels[act.zone]" :value="h.id">{{ h.name }}</option>
+                                            <option v-if="QuoteProgress.hotels[act.zone == 1 ? 'cancun' : 'rm']" class="capitalize" v-for="h in QuoteProgress.hotels[act.zone == 1 ? 'cancun' : 'rm']" :value="h.id">{{ h.name }}</option>
                                     </select>
 
+                                </div>
+
+                                <div class="mb-5" v-if="act.pickup">
+                                    <InputLabel>
+                                        Hora de su pickup
+                                    </InputLabel>
+                                    <InputText
+                                        disabled
+                                        aria-disabled="true"
+                                        :value="act.pickup.slice(0,5)"
+                                        />
                                 </div>
 
                                 <hr>
@@ -572,7 +576,7 @@ form.reset()
     
                           <div class="w-full px-3">
 
-                            <div class="mb-5">
+                            <div class="mb-5" v-if="QuoteProgress.tour.activity">
 
                                 <InputLabel 
                                       for="pickUpZone">
@@ -580,8 +584,8 @@ form.reset()
                                 </InputLabel>
                                   
                                 <select
-                                    @input="() => setTour()"
-                                    @change="getTourCost()"
+                                    @input="setTour(QuoteProgress.tour.activity, $event.target.value)"
+                                    @change="getTourCost(form.actividad.activity, form.zona, form.actividad)"
                                     v-model="QuoteProgress.tour.hotel"
                                     v-if="QuoteProgress.hotels"
                                     name="pickUpZone"
@@ -589,7 +593,7 @@ form.reset()
                                     class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                                 >
                                         <option value="null" selected disabled>-- Seleccione un hotel --</option>
-                                        <option v-if="form.tipoReservacion == 2 && QuoteProgress.hotels" class="capitalize" v-for="h in QuoteProgress.hotels" :value="h.id">{{ h.name }}</option>
+                                        <option v-if="Array.isArray(QuoteProgress.hotels)" class="capitalize" v-for="h in QuoteProgress.hotels" :value="h.id">{{ h.name }}</option>
                                 </select>
 
                             </div>
