@@ -59,4 +59,5 @@ Route::middleware([
     Route::get('ND/zones', [NDController::class, 'zones'])->name('ND.zones');
     Route::get('ND/price', [NDController::class, 'price'])->name('ND.price');
     Route::get('nd/pickups/{activity?}/{hotel?}', [NDController::class, 'pickups'])->name('nd.pickup.get');
+    Route::get('nd/email', [NDController::class, 'newQuoteMail'])->name('nd.email');
 });

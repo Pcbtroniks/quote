@@ -11,6 +11,8 @@ class Quote extends Model
 {
     use HasFactory;
 
+    protected $appends = ['url'];
+
     public $fillable = [
         'uuid',
         'user_id',
@@ -56,5 +58,13 @@ class Quote extends Model
             get: fn ($date) => Carbon::parse($date)->format('m/d/Y'),
         );
     
+    }
+
+    protected function url(): Attribute{
+
+        return Attribute::make(
+            get: fn ($not, $attributes) => route('quote.preview', ['quoteId' => $attributes['uuid']])
+        );
+
     }
 }

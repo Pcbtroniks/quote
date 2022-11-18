@@ -98,7 +98,7 @@ export const getSeason = (Date) => {
 export const getPrice = async (activity, zone, season) => {
 
     const res = await fetch(route('prices', { activity, zone, season }))
-    return await res.json();;
+    return await res.json();
 
 }
 
@@ -106,17 +106,19 @@ export const loadHotels = async ( zone ) => {
 
     if(zone == 1 && !QuoteProgress.hotels.cancun){
         QuoteProgress.hotels.cancun = [...await fetchHotels(1)];
-        console.log('cargar Cancun Hoteles');
+        return QuoteProgress;
+        // console.log('cargar Cancun Hoteles');
     } else if(QuoteProgress.hotels.cancun) {
-        console.log('Cancun ya tiene Hoteles cargados');
+        // console.log('Cancun ya tiene Hoteles cargados');
         return QuoteProgress;
     }
 
     if((zone == 2 || zone == 3) && !QuoteProgress.hotels.rm) {
         QuoteProgress.hotels.rm = [...await fetchHotels(2)];
-        console.log('cargar R.M. y P.D.C Hoteles');
+        return QuoteProgress;
+        // console.log('cargar R.M. y P.D.C Hoteles');
     } else if(QuoteProgress.hotels.rm) {
-        console.log('R.M. y P.D.C ya tiene Hoteles cargados');
+        // console.log('R.M. y P.D.C ya tiene Hoteles cargados');
         return QuoteProgress;
     }
 

@@ -22,7 +22,7 @@ const props = defineProps({
 const form = useForm({
     fechaReservacion:  new Date().toISOString().split('T')[0],
     fechaActividad: null,
-    precioPublico: null,
+    precioPublico: 0,
     tipoReservacion: 1,
     nacionales: false,
     nombreTitular: '',
@@ -110,14 +110,16 @@ watchEffect(() => {
 
 const loadPrices = async(activity, zone, season, key) => {
     const price = await getPrice(activity, zone, season);
+    
     QuoteProgress.nTours[key].public_price = fixedAdd((form.adultos * Number(price.adult.amount)), (form.menores * Number(price.minor.amount)));
-    form.precioPublico += QuoteProgress.nTours[key].public_price;
+    form.precioPublico = fixedAdd(form.precioPublico, QuoteProgress.nTours[key].public_price);
     form.importeVenta += form.precioPublico * ( ( 100 - QuoteProgress.prices.profit.percentage ) / 100 );
     console.log(QuoteProgress.nTours);
+    console.log(form);
 }
 
 const setTour = async ( activity, hotel ) => {
-    QuoteProgress.tour.pickup = await getPickup(activity, hotel).catch(data => data.pickup_time) ?? 'N/D';
+    QuoteProgress.tour.pickup = await getPickup(activity, hotel).then(data => data.pickup_time) ?? 'N/D';
     form.actividad = QuoteProgress.tour;
     console.log(QuoteProgress);
 }
@@ -585,7 +587,7 @@ form.reset()
                                   
                                 <select
                                     @input="setTour(QuoteProgress.tour.activity, $event.target.value)"
-                                    @change="getTourCost(form.actividad.activity, form.zona, form.actividad)"
+                                    @change="getTourCost(QuoteProgress.tour.activity, form.zona, form.season)"
                                     v-model="QuoteProgress.tour.hotel"
                                     v-if="QuoteProgress.hotels"
                                     name="pickUpZone"

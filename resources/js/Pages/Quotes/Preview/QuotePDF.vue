@@ -95,7 +95,7 @@ console.log(props.quote);
                     <tr style="height: 59px;">
                         <td style="height: 59px; border: 1px solid; text-align: center;">PAQUETE/ PACKAGE</td>
                         <td style="height: 59px; " colspan="3">
-                            <p style="margin-left: 1rem" v-if="quote.type == 'paquete'" v-for="a in quote.listed_activities">Tour: {{a.activity.name}}, Fecha: {{a.date}}, Hora del Pickup: {{a.pickup_time}}</p>
+                            <p style="margin-left: 1rem" v-if="quote.type == 'paquete'" v-for="a in quote.listed_activities">Tour: {{a.activity.name}}, Fecha: {{a.date}}, Hora del Pickup: {{a.pickup_time}}, Hotel del pickup: {{a.hotel_id}}</p>
                         </td>
                     </tr>
                     <tr style="height: 59px;">
