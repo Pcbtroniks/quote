@@ -21,9 +21,9 @@ return new class extends Migration
             $table->decimal('sale_amount');
             $table->decimal('sale_percentage');
             $table->decimal('sale_amount_paid');
-            $table->decimal('cost_amount');
-            $table->decimal('cost_percentage');
-            $table->decimal('cost_amount_paid');
+            $table->decimal('cost_amount')->nullable();
+            $table->decimal('cost_percentage')->nullable();
+            $table->decimal('cost_amount_paid')->nullable();
             $table->string('paid_status')->default('unpaid');
             $table->string('status')->default('created');
             $table->string('confirmation_key')->nullable();
