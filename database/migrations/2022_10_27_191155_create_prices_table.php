@@ -16,20 +16,21 @@ return new class extends Migration
         Schema::create('prices', function (Blueprint $table) {
             $table->id();
 
-            $table->decimal('amount');
-
             $table->foreignId('activity_id')
-                    ->constrained()
-                    ->cascadeOnUpdate()
-                    ->cascadeOnDelete();
+                ->constrained()
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
 
-            $table->foreignId('zone_id')
-                    ->nullable()
-                    ->constrained()
-                    ->cascadeOnUpdate()
-                    ->cascadeOnDelete();
+        $table->foreignId('zone_id')
+                ->nullable()
+                ->constrained()
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+
+            $table->decimal('amount');
             
             $table->string('season')->default('low');
+            
             $table->string('type');
 
             $table->timestamps();
