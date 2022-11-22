@@ -16,23 +16,17 @@ return new class extends Migration
         Schema::create('pickups', function (Blueprint $table) {
             $table->id();
 
+            $table->foreignId('activity_id')
+            ->constrained()
+            ->cascadeOnUpdate()
+            ->cascadeOnDelete();
+
             $table->foreignId('hotel_id')
                     ->constrained()
                     ->cascadeOnUpdate()
                     ->cascadeOnDelete();
 
-            $table->foreignId('activity_id')
-                    ->constrained()
-                    ->cascadeOnUpdate()
-                    ->cascadeOnDelete();
-
             $table->time('pickup_time');
-
-            $table->foreignId('zone_id')
-                    ->nullable()
-                    ->constrained()
-                    ->cascadeOnUpdate()
-                    ->cascadeOnDelete();
 
             $table->timestamps();
         });
