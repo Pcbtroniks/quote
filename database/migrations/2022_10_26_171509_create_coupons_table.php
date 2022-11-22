@@ -25,7 +25,7 @@ return new class extends Migration
             $table->decimal('cost_percentage');
             $table->decimal('cost_amount_paid');
             $table->string('paid_status')->default('unpaid');
-            $table->string('status')->default('created');;
+            $table->string('status')->default('created');
             $table->string('confirmation_key')->nullable();
             $table->string('cancellation_key')->nullable();
 

@@ -17,6 +17,15 @@ return new class extends Migration
             $table->id();
             $table->uuid();
 
+            $table->foreignId('user_id')
+                ->constrained()
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
+            $table->foreignId('coupon_id')
+                ->constrained()
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
+
             $table->string('national')->default('no');
             $table->string('season');
             $table->string('type');
@@ -24,17 +33,7 @@ return new class extends Migration
             $table->integer('adults');
             $table->integer('minors');
             $table->integer('infants');
-            $table->text('notes');
-            $table->string('status')->default('created');
-            
-            $table->foreignId('user_id')
-                    ->constrained()
-                    ->cascadeOnDelete()
-                    ->cascadeOnUpdate();
-            $table->foreignId('coupon_id')
-                    ->constrained()
-                    ->cascadeOnDelete()
-                    ->cascadeOnUpdate();
+            $table->text('observations');
 
             $table->timestamps();
         });
