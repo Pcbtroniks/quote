@@ -16,12 +16,12 @@ return new class extends Migration
         Schema::create('hotels', function (Blueprint $table) {
             $table->id();
 
-            $table->string('name');
-
             $table->foreignId('zone_id')
-                    ->constrained()
-                    ->onUpdate('cascade')
-                    ->onDelete('cascade');
+            ->constrained()
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
+
+            $table->string('name');
 
             $table->timestamps();
         });
