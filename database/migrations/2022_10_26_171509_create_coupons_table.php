@@ -18,8 +18,14 @@ return new class extends Migration
 
             $table->string('code');
             $table->decimal('public_price');
-            $table->decimal('agency_price');
-            $table->string('paid_status');
+            $table->decimal('sale_amount');
+            $table->decimal('sale_percentage');
+            $table->decimal('sale_amount_paid');
+            $table->decimal('cost_amount');
+            $table->decimal('cost_percentage');
+            $table->decimal('cost_amount_paid');
+            $table->string('paid_status')->default('unpaid');
+            $table->string('status')->default('created');;
             $table->string('confirmation_key')->nullable();
             $table->string('cancellation_key')->nullable();
 
