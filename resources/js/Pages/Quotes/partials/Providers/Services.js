@@ -63,7 +63,7 @@ export const getTours = async () => {
 
 export const fetchHotels = async ( zone ) => {
 
-    return await HttpGet(route('hotels', {'zone': zone == 1  ? zone : 2} ));
+    return await HttpGet(route('hotels', {'zone': zone} ));
     
 }
 
