@@ -119,7 +119,7 @@ const loadPrices = async(activity, zone, season, key) => {
 }
 
 const setTour = async ( activity, hotel ) => {
-    QuoteProgress.tour.pickup = await getPickup(activity, hotel).then(data => data.pickup_time) ?? 'N/D';
+    QuoteProgress.tour.pickup = await getPickup(activity, hotel).then(data => data.pickup_time) ?? '00:00:00';
     form.actividad = QuoteProgress.tour;
     console.log(QuoteProgress);
 }

@@ -121,7 +121,7 @@ class Quote {
             'activity_id' => $activity_id,
             'date' => $date,
             'hotel_id' => $hotel_id,
-            'pickup_time' => $pickup_time,
+            'pickup_time' => $pickup_time ?? '00:00:00',
         ]);
 
     }
