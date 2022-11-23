@@ -79,7 +79,7 @@ console.log(props.quote);
                     </tr>
                     <tr style="height: 59px; text-align: center;">
                         <td style="height: 59px; border: 1px solid">Lugar de Pick up</td>
-                        <td style="height: 59px; border: 1px solid; width: 474.98px; max-width: 1px;" colspan="2">{{ quote.hotel.name }}</td>
+                        <td style="height: 59px; border: 1px solid; width: 474.98px; max-width: 1px;" colspan="2" v-if="quote.type == 'paquete'">{{ quote.hotel.name }}</td>
                         <td style="height: 59px; border: 1px solid; width: 301.2px; text-align: left; font-style: bold;">Cuarto /<br>Room <span style="padding-left: 24px"> </span></td>
                     </tr>
                     <tr style="height: 59px;text-align: center;">
@@ -95,7 +95,7 @@ console.log(props.quote);
                     <tr style="height: 59px;">
                         <td style="height: 59px; border: 1px solid; text-align: center;">PAQUETE/ PACKAGE</td>
                         <td style="height: 59px; " colspan="3">
-                            <p style="margin-left: 1rem" v-if="quote.type == 'paquete'" v-for="a in quote.listed_activities">Tour: {{a.activity.name}}, Fecha: {{a.date}}, Hora del Pickup: {{a.pickup_time}}, Hotel del pickup: {{a.hotel_id}}</p>
+                            <p style="margin-left: 1rem" v-if="quote.type == 'paquete'" v-for="a in quote.listed_activities">{{a.activity.name}}, {{a.date}}, Pickup en {{a.hotel.name}} a las {{a.pickup_time.slice(0,5)}}</p>
                         </td>
                     </tr>
                     <tr style="height: 59px;">

@@ -58,7 +58,11 @@ defineProps({
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="flex items-center">
-                                        <div class="font-medium text-gray-800">{{ quote.coupon.code }}</div>
+                                        <div class="font-medium text-gray-800 hover:text-green-500">
+                                            <a :href="route('quote.preview' , quote.uuid)">
+                                                {{ quote.coupon.code }}
+                                            </a>
+                                        </div>
                                     </div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
@@ -68,7 +72,7 @@ defineProps({
                                     </div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
-                                    <div class="text-left">Adultos: {{ quote.adults }}, Niños: {{ quote.minors }}, Infantes: {{ quote.infants }}</div>
+                                    <div class="text-left">{{ quote.adults }}.{{ quote.minors }}.{{ quote.infants }}</div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="text-left font-medium text-green-500 capitalize">{{ quote.type }}</div>

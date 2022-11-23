@@ -39,6 +39,7 @@ class Quote {
 
         $quote->load('listed_activities');
         $quote->listed_activities->load('activity');
+        $quote->listed_activities->load('hotel');
 
         $quote->activity = Activity::findOrFail($quote->listed_activity->activity_id) ?? '';
         $quote->hotel = DB::table('hotels')->where( 'id', $quote->listed_activity->hotel_id)->first('name') ?? '';

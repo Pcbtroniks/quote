@@ -36,4 +36,10 @@ class QuoteActivity extends Model
         return $this->hasMany(Activity::class, 'id', 'activity_id');
 
     }
+
+    public function hotel() {
+     
+        return $this->belongsTo(Hotel::class, 'hotel_id', 'id');
+     
+    }
 }
