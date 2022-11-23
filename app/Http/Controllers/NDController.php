@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Coupon;
 use App\Models\Quote;
 use App\Models\QuoteActivity;
+use App\Models\Team as TeamModel;
 use App\Models\User;
 use App\Models\Zone as ModelsZone;
 use App\Repositories\Activities\Pickup;
 use App\Repositories\Prices\Price;
 use App\Repositories\Quotes\Quote as QuotesQuote;
+use App\Repositories\Teams\Team;
 use App\Repositories\Zones\Zone;
 use Illuminate\Support\Str;
 
@@ -22,6 +24,11 @@ class NDController extends Controller
     public function index(){
         return range('A', 'C');
         return response()->json(['message' => Str::uuid()->toString()]);
+    }
+
+    public function users(User $user,TeamModel $team){
+        return Team::getPublicTeam();
+        return $user->teams;
     }
 
     public function newQuoteMail(){

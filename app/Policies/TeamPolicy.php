@@ -39,9 +39,10 @@ class TeamPolicy
      * @param  \App\Models\User  $user
      * @return mixed
      */
-    public function create(User $user)
+    public function create(User $user,Team $team)
     {
-        return true;
+        $team = $team ?? 1;
+        return $user->belongsToTeam($team);
     }
 
     /**

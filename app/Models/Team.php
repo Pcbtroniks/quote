@@ -12,6 +12,8 @@ class Team extends JetstreamTeam
 {
     use HasFactory;
 
+    public const PublicTeam = 'Public';
+
     /**
      * The attributes that should be cast.
      *
