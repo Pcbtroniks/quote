@@ -136,8 +136,7 @@ function submit(){
 preSubmit();
 
 form.post(route('quote.store'));
-QuoteProgress.nTours = [];
-form.reset()
+location.reload();
 
 }
 

@@ -53,9 +53,7 @@ class QuoteController extends Controller
 
         Mail::to('jeanmacario048@gmail.com')->send(new QuoteCreated($quote));
         
-        return redirect()
-                ->route('quote')
-                ->with('message' , 'Cotización realizada con exito');
+        return redirect()->route('quote');
 
     }
 
