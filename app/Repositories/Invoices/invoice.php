@@ -16,6 +16,18 @@ class Invoice {
      
     }
 
+    public function get() {
+     
+        return $this->invoice::all();
+     
+    }
+    
+    public function getPaginated(int $limit = 5) {
+     
+        return $this->invoice::paginate(5);
+     
+    }
+
     public function store(Request $request){
 
         return $this->invoice::create([

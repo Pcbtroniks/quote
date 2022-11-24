@@ -15,6 +15,7 @@ const createTeam = () => {
         errorBag: 'createInvoice',
         preserveScroll: true,
     });
+    form.reset();
 };
 </script>
 

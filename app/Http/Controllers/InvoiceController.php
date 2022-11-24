@@ -9,14 +9,17 @@ use Illuminate\Http\Request;
 class InvoiceController extends Controller
 {
 
-    public function index(){
-        return inertia('Invoices/Create');
+    public function index(Invoice $invoice){
+
+        $invoices = $invoice->getPaginated(10);
+        return inertia('Invoices/Create', compact('invoices'));
     }
 
     public function store(StoreInvoiceRequest $request, Invoice $invoice){
 
         $invoice->store($request);
-        return $request;
+
+        return to_route('invoices')->banner('Invoice created successfully.');;
     }
 
 }

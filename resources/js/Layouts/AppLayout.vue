@@ -81,6 +81,22 @@ const logout = () => {
                                         <div class="w-60">
                                             <!-- Team Management -->
                                             <template v-if="$page.props.jetstream.hasTeamFeatures">
+
+                                                <div class="block px-4 py-2 text-xs text-gray-400">
+                                                    Invoices
+                                                </div>
+
+                                                <!-- Invoice Settings -->
+                                                <DropdownLink v-if="$page.props.jetstream.canCreateTeams" :href="route('invoices', $page.props.user.current_team)">
+                                                    Create New Invoice
+                                                </DropdownLink>
+<!-- 
+                                                <DropdownLink v-if="$page.props.jetstream.canCreateTeams" :href="route('teams.create')">
+                                                    Create New Agency
+                                                </DropdownLink> -->
+
+                                                <div class="border-t border-gray-100" />
+
                                                 <div class="block px-4 py-2 text-xs text-gray-400">
                                                     Manage Agency
                                                 </div>
