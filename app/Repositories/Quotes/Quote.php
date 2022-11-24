@@ -15,7 +15,6 @@ class Quote {
 
     public static function get(){
         $quote =  ModelsQuote::with(['user','coupon', 'listed_activity'])->paginate(5);
-
         return $quote;
     }
 
@@ -87,8 +86,7 @@ class Quote {
             'adults' => $request->adultos,
             'minors' => $request->menores,
             'infants' => $request->infantes,
-            'notes' => $request->notas ?? '',
-            'status' => 'created',
+            'observations' => $request->notas ?? ''
         ];
     }
     
@@ -132,7 +130,9 @@ class Quote {
         $coupon = Coupon::create([
             'code' => '',
             'public_price' => $request->precioPublico,
-            'agency_price' => $request->importeVenta,
+            'sale_amount' => $request->importeVenta,
+            'sale_percentage' => 5, 
+            'sale_amount_paid' => 0.00, 
             'paid_status' => 'none',
         ]);
 

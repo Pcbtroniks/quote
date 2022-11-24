@@ -39,6 +39,9 @@ defineProps({
                                     <div class="font-semibold text-left">Tipo Act.</div>
                                 </th>
                                 <th class="p-2 whitespace-nowrap">
+                                    <div class="font-semibold text-left">Actividad</div>
+                                </th>
+                                <th class="p-2 whitespace-nowrap">
                                     <div class="font-semibold text-left">Precio agencia</div>
                                 </th>
                                 <th class="p-2 whitespace-nowrap">
@@ -91,14 +94,19 @@ defineProps({
                                         </span>
                                     </div>
                                 </td>
+                                <td class="p-2 whitespace-nowrap">
+                                    <div class="text-left font-medium capitalize" >
+                                        {{ quote.listed_activity.activity_id }}
+                                    </div>
+                                </td>
                                 <td class="p-2 whitespace-nowrap cursor-default">
-                                    <div class="text-left font-medium text-green-500" :title=" '$' + (quote.coupon.public_price - quote.coupon.agency_price).toFixed(2)">${{ quote.coupon.agency_price }}</div>
+                                    <div class="text-left font-medium text-green-500" :title=" '$' + (quote.coupon.public_price - quote.coupon.sale_amount).toFixed(2)">${{ quote.coupon.sale_amount }}</div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap cursor-default">
                                     <div class="text-left font-medium text-green-500">${{ quote.coupon.public_price }}</div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
-                                    <div class="text-lg text-center">??</div>
+                                    <div class="text-lg text-center">N/A</div>
                                 </td>
                             </tr>
                         </tbody>

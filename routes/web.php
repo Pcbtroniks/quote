@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\NDController;
 use App\Http\Controllers\QuoteController;
 use Illuminate\Support\Facades\Route;
@@ -50,6 +51,9 @@ Route::middleware([
     Route::get('prices/{activity}/{zone}/{season}', [QuoteController::class, 'price'])->name('prices');
 
     // Invoices
+
+    Route::get('invoices/', [InvoiceController::class, 'index'])->name('invoices');
+    Route::post('invoices/', [InvoiceController::class, 'store'])->name('invoices.store');
 
     // Nucleo ed diagnostico
     Route::get('ND', [NDController::class, 'index'])->name('ND');

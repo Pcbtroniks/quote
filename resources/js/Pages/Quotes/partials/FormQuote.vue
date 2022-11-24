@@ -137,6 +137,7 @@ function submit(){
 preSubmit();
 
 form.post(route('quote.store'));
+
 location.reload();
 
 }

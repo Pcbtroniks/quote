@@ -24,8 +24,7 @@ class Quote extends Model
         'adults',
         'minors',
         'infants',
-        'notes',
-        'status'
+        'observations'
     ];
 
     public function user(){
