@@ -27,8 +27,14 @@ class NDController extends Controller
     }
 
     public function users(User $user,TeamModel $team){
-        return Team::getPublicTeam();
+        dd(User::first(['id']));
+        dd(auth()->user()->id);
         return $user->teams;
+    }
+
+    public function teams(){
+        dd(User::first(['id'])->id);
+        return Team::getPublicTeam();
     }
 
     public function newQuoteMail(){

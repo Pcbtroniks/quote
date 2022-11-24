@@ -12,8 +12,14 @@ class Coupon extends Model
     public $fillable = [
         'code',
         'public_price',
-        'agency_price',
+        'sale_amount',
+        'sale_percentage',
+        'sale_amount_paid',
+        'cost_amount',
+        'cost_percentage',
+        'cost_amount_paid',
         'paid_status',
+        'status',
     ];
 
     public function quote(){

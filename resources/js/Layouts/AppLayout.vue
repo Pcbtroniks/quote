@@ -44,7 +44,6 @@ const logout = () => {
                             <div class="shrink-0 flex items-center">
                                 <Link :href="route('dashboard')">
                                     <ApplicationMark class="block h-10 w-auto" />
-                                    <!-- <img src="/assets/freetravelers-logo.jpg" class="block h-9 w-auto" alt="Logo Freetravelers"> -->
                                 </Link>
                             </div>
 

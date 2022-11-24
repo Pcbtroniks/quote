@@ -16,8 +16,8 @@ class Team {
             ['name' => TeamModel::PublicTeam],
             [
                 'name' => TeamModel::PublicTeam,
-                'user_id' => auth()->user()->id ?? 1,
-                'personal_team' => true
+                'user_id' => auth()->user()->id ?? User::first(['id'])->id,
+                'personal_team' => false
             ]
 
         );
