@@ -74,8 +74,8 @@ console.log(props.quote);
                 <tbody>
                     <tr style="height: 59px; text-align: center;" spellcheck="false">
                         <td style="height: 59px; border: 1px solid; width: 301px;">Fecha Actividad/ Date of the activity:</td>
-                        <td style="height: 59px; border: 1px solid; width: 474.98px; max-width: 1px;" colspan="2">{{ quote.quote_type != 'paquete' ? quote.listed_activity.date : '' }}</td>
-                        <td style="height: 59px; border: 1px solid; width: 301.2px; text-align: left;">Horario /<br>Schedule <span style="padding-left: 24px">{{ quote.type == 'tour' ? quote.listed_activity?.pickup_time.slice(0,5) : '' }}</span></td>
+                        <td style="height: 59px; border: 1px solid; width: 474.98px; max-width: 1px;" colspan="2">{{ quote.type == 'tour' ? quote.listed_activity.date : '' }}</td>
+                        <td style="height: 59px; border: 1px solid; width: 301.2px; text-align: left;">Horario /<br>Schedule <span style="padding-left: 24px">{{ quote.type == 'tour' ? quote.listed_activity.pickup_time.slice(0,5) : '' }}</span></td>
                     </tr>
                     <tr style="height: 59px; text-align: center;">
                         <td style="height: 59px; border: 1px solid">Lugar de Pick up</td>
@@ -95,7 +95,7 @@ console.log(props.quote);
                     <tr style="height: 59px;">
                         <td style="height: 59px; border: 1px solid; text-align: center;">PAQUETE/ PACKAGE</td>
                         <td style="height: 59px; " colspan="3">
-                            <p style="margin-left: 1rem" v-if="quote.type == 'paquete'" v-for="a in quote.listed_activities">{{a.activity.name}}, {{a.date}}, Pickup en {{a.hotel.name}} a las {{a.pickup_time.slice(0,5)}}</p>
+                            <p style="margin-left: 1rem; text-transform: lowercase;" v-if="quote.type == 'paquete'" v-for="a in quote.listed_activities">{{a.activity.name}}, Pickup {{a.hotel.name}} a las {{a.pickup_time.slice(0,5)}} el {{a.date}}</p>
                         </td>
                     </tr>
                     <tr style="height: 59px;">
