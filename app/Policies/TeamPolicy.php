@@ -41,8 +41,7 @@ class TeamPolicy
      */
     public function create(User $user,Team $team)
     {
-        $team = $team ?? 1;
-        return $user->belongsToTeam($team);
+        return true;
     }
 
     /**

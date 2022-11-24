@@ -49,7 +49,9 @@ Route::middleware([
     
     Route::get('prices/{activity}/{zone}/{season}', [QuoteController::class, 'price'])->name('prices');
 
-    // Miscelaneus
+    // Invoices
+
+    // Nucleo ed diagnostico
     Route::get('ND', [NDController::class, 'index'])->name('ND');
     // Miscelaneus
     Route::get('nd/users/{user}/{team?}', [NDController::class, 'users'])->name('nd.users');

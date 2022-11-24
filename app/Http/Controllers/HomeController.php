@@ -11,7 +11,6 @@ class HomeController extends Controller
 
         
         $quotes = Quote::get(2);
-        // dd($quotes);
 
         return inertia('Dashboard', compact('quotes'));
 

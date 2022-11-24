@@ -82,23 +82,23 @@ const logout = () => {
                                             <!-- Team Management -->
                                             <template v-if="$page.props.jetstream.hasTeamFeatures">
                                                 <div class="block px-4 py-2 text-xs text-gray-400">
-                                                    Manage Team
+                                                    Manage Agency
                                                 </div>
 
                                                 <!-- Team Settings -->
                                                 <DropdownLink :href="route('teams.show', $page.props.user.current_team)">
-                                                    Team Settings
+                                                    Agency Settings
                                                 </DropdownLink>
 
                                                 <DropdownLink v-if="$page.props.jetstream.canCreateTeams" :href="route('teams.create')">
-                                                    Create New Team
+                                                    Create New Agency
                                                 </DropdownLink>
 
                                                 <div class="border-t border-gray-100" />
 
                                                 <!-- Team Switcher -->
                                                 <div class="block px-4 py-2 text-xs text-gray-400">
-                                                    Switch Teams
+                                                    Switch Agency
                                                 </div>
 
                                                 <template v-for="team in $page.props.user.all_teams" :key="team.id">

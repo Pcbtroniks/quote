@@ -27,7 +27,7 @@ class NDController extends Controller
     }
 
     public function users(User $user,TeamModel $team){
-        dd(User::first(['id']));
+        dd(User::first(['id'])->can('update'));
         dd(auth()->user()->id);
         return $user->teams;
     }
