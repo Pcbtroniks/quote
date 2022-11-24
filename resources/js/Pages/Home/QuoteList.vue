@@ -77,17 +77,19 @@ defineProps({
                                 </td>
                                 <td class="p-2 whitespace-nowrap cursor-default">
                                     <div class="text-left" :title="`Adultos ${ quote.adults }, Niños: ${ quote.minors }, Infantes: ${ quote.infants }`">
-                                        <svg class="inline" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                            <path d="M3.33331 17.4998V6.6665C3.33331 6.00346 3.59671 5.36758 4.06555 4.89874C4.53439 4.4299 5.17027 4.1665 5.83331 4.1665H14.1666C14.8297 4.1665 15.4656 4.4299 15.9344 4.89874C16.4033 5.36758 16.6666 6.00346 16.6666 6.6665V11.6665C16.6666 12.3295 16.4033 12.9654 15.9344 13.4343C15.4656 13.9031 14.8297 14.1665 14.1666 14.1665H6.66665L3.33331 17.4998Z" stroke="#52525B" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"></path>
-                                            <path d="M10 9.1665V9.17484" stroke="#52525B" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"></path>
-                                            <path d="M6.66669 9.1665V9.17484" stroke="#52525B" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"></path>
-                                            <path d="M13.3333 9.1665V9.17484" stroke="#52525B" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"></path>
-                                        </svg>
                                         {{ quote.adults }}.{{ quote.minors }}.{{ quote.infants }}
                                     </div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
-                                    <div class="text-left font-medium text-green-500 capitalize">{{ quote.type }}</div>
+                                    <div class="text-left font-medium text-green-500 capitalize" :title="quote.type == 'entrada' && quote.national == '1' ? 'Promomex' : ''">
+                                        {{ quote.type }}
+                                        <span v-if="quote.type == 'entrada' && quote.national == '1'">
+                                            <svg title="Promomex" class="inline" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                                <path d="M9.16667 2.5L16.6667 10C17.0911 10.4745 17.0911 11.1922 16.6667 11.6667L11.6667 16.6667C11.1922 17.0911 10.4745 17.0911 10 16.6667L2.5 9.16667V5.83333C2.5 3.99238 3.99238 2.5 5.83333 2.5H9.16667" stroke="#52525B" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                <circle cx="7.50004" cy="7.49967" r="1.66667" stroke="#52525B" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"></circle>
+                                            </svg>
+                                        </span>
+                                    </div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap cursor-default">
                                     <div class="text-left font-medium text-green-500" :title=" '$' + (quote.coupon.public_price - quote.coupon.agency_price).toFixed(2)">${{ quote.coupon.agency_price }}</div>
