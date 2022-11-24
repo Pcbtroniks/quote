@@ -22,10 +22,12 @@ class UpdateTeamName implements UpdatesTeamNames
 
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
+            'sale_amount_percentage' => ['nullable', 'string'],
         ])->validateWithBag('updateTeamName');
 
         $team->forceFill([
             'name' => $input['name'],
+            'sale_amount_percentage' => $input['sale_amount_percentage'],
         ])->save();
     }
 }

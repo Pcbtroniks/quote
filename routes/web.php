@@ -5,7 +5,6 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NDController;
 use App\Http\Controllers\QuoteController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /* Route::get('/', function () {
     return Inertia::render('Welcome', [

@@ -14,7 +14,9 @@ const props = defineProps({
 
 const form = useForm({
     name: props.team.name,
+    sale_amount_percentage: props.team.sale_amount_percentage ?? "5",
 });
+console.log(props.permissions);
 
 const updateTeamName = () => {
     form.put(route('teams.update', props.team), {
@@ -27,17 +29,17 @@ const updateTeamName = () => {
 <template>
     <FormSection @submitted="updateTeamName">
         <template #title>
-            Team Name
+            Agency Name
         </template>
 
         <template #description>
-            The team's name and owner information.
+            The agency's name and owner information.
         </template>
 
         <template #form>
             <!-- Team Owner Information -->
             <div class="col-span-6">
-                <InputLabel value="Team Owner" />
+                <InputLabel value="Agency Owner" />
 
                 <div class="flex items-center mt-2">
                     <img class="w-12 h-12 rounded-full object-cover" :src="team.owner.profile_photo_url" :alt="team.owner.name">
@@ -53,7 +55,7 @@ const updateTeamName = () => {
 
             <!-- Team Name -->
             <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="name" value="Team Name" />
+                <InputLabel for="name" value="Agency Name" />
 
                 <TextInput
                     id="name"
@@ -64,6 +66,22 @@ const updateTeamName = () => {
                 />
 
                 <InputError :message="form.errors.name" class="mt-2" />
+            </div>
+
+            <!-- Agency Sale percentage -->
+            <div class="col-span-6 sm:col-span-4">
+                <InputLabel for="name" value="Agency Sale Percentage %" />
+
+                <TextInput
+                    id="name"
+                    v-model="form.sale_amount_percentage   "
+                    type="number"
+                    class="mt-1 block w-full"
+                    placeholder="%"
+                    :disabled="! permissions.canUpdateTeam"
+                />
+
+                <InputError :message="form.errors.sale_amount_percentage" class="mt-2" />
             </div>
         </template>
 
