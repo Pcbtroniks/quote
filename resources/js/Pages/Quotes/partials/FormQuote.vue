@@ -121,7 +121,7 @@ const loadPrices = async(activity, zone, season, key) => {
 const setTour = async ( activity, hotel ) => {
     QuoteProgress.tour.pickup = await getPickup(activity, hotel).then(data => data.pickup_time) ?? '00:00:00';
     form.actividad = QuoteProgress.tour;
-    console.log(QuoteProgress);
+    console.log('se ha añadido el pickup y seteado la actividad tour');
 }
 
 function preSubmit(){
@@ -454,6 +454,61 @@ location.reload();
                             </div>
 
                         </div>
+
+                        <!-- Zona  -->
+                        <div v-if="form.tipoReservacion ==  2" class="-mx-3 flex flex-wrap">
+
+                            <div class="w-full px-3">
+                                <div class="mb-5">
+                                    <InputLabel for="zone">
+                                        Zona
+                                    </InputLabel>
+                                    <select
+                                        v-model="form.zona"
+                                        @change="getHotels( $event.target.value )"
+                                        id="zone"
+                                        name="zone" 
+                                        class="capitalize w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                                        >
+                                        <option value="null" selected disabled>-- Seleccione su zona --</option>
+                                        <option v-for="zone in zones"  :value="zone.id">{{ zone.name }}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Pick Up Hotel -->
+                        <div v-if="form.zona !== null && form.tipoReservacion == 2" class="-mx-3 flex flex-wrap">
+
+                            <div class="w-full px-3">
+
+                                <div class="mb-5" v-if="QuoteProgress.tour.activity">
+
+                                    <InputLabel 
+                                        for="pickUpZone">
+                                            Hotel del pickup
+                                    </InputLabel>
+                                    
+                                    <select
+                                        @input="setTour(QuoteProgress.tour.activity, $event.target.value)"
+                                        @change="getTourCost(QuoteProgress.tour.activity, form.zona, form.season)"
+                                        v-model="QuoteProgress.tour.hotel"
+                                        v-if="QuoteProgress.hotels"
+                                        name="pickUpZone"
+                                        id="pickUpZone"
+                                        class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                                    >
+                                            <option value="null" selected disabled>-- Seleccione un hotel --</option>
+                                            <option v-if="Array.isArray(QuoteProgress.hotels)" class="capitalize" v-for="h in QuoteProgress.hotels" :value="h.id">{{ h.name }}</option>
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                        
                         <!-- N Pack tours | ntoursdiv-->
                         <div v-if="form.tipoReservacion ==  3 && QuoteProgress.nTours != 0" class="-mx-3 flex flex-wrap">
 
@@ -547,64 +602,7 @@ location.reload();
 
                         </div>
 
-                        <!-- Zona  -->
-                        
-                        <div v-if="form.tipoReservacion ==  2" class="-mx-3 flex flex-wrap">
-
-                            <div class="w-full px-3">
-                                <div class="mb-5">
-                                    <InputLabel for="zone">
-                                        Zona
-                                    </InputLabel>
-                                    <select
-                                        v-model="form.zona"
-                                        @change="getHotels( $event.target.value )"
-                                        id="zone"
-                                        name="zone" 
-                                        class="capitalize w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                        >
-                                        <option value="null" selected disabled>-- Seleccione su zona --</option>
-                                        <option v-for="zone in zones"  :value="zone.id">{{ zone.name }}</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <!-- Pick Up Hotel -->
-
-                        <div v-if="form.zona !== null && form.tipoReservacion == 2" class="-mx-3 flex flex-wrap">
-    
-                          <div class="w-full px-3">
-
-                            <div class="mb-5" v-if="QuoteProgress.tour.activity">
-
-                                <InputLabel 
-                                      for="pickUpZone">
-                                          Hotel del pickup
-                                </InputLabel>
-                                  
-                                <select
-                                    @input="setTour(QuoteProgress.tour.activity, $event.target.value)"
-                                    @change="getTourCost(QuoteProgress.tour.activity, form.zona, form.season)"
-                                    v-model="QuoteProgress.tour.hotel"
-                                    v-if="QuoteProgress.hotels"
-                                    name="pickUpZone"
-                                    id="pickUpZone"
-                                    class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                >
-                                        <option value="null" selected disabled>-- Seleccione un hotel --</option>
-                                        <option v-if="Array.isArray(QuoteProgress.hotels)" class="capitalize" v-for="h in QuoteProgress.hotels" :value="h.id">{{ h.name }}</option>
-                                </select>
-
-                            </div>
-
-                          </div>
-
-                        </div>
-
                         <!-- Notes Text Area -->
-
                         <div class="-mx-3 flex flex-wrap">
 
                             <div class="w-full px-3">
