@@ -14,7 +14,7 @@ const props = defineProps({
 
 const form = useForm({
     name: props.team.name,
-    sale_amount_percentage: props.team.sale_amount_percentage ?? "5",
+    sale_amount_percentage: props.team.sale_amount_percentage,
 });
 console.log(props.permissions);
 

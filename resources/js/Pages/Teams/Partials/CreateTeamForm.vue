@@ -8,6 +8,7 @@ import TextInput from '@/Components/TextInput.vue';
 
 const form = useForm({
     name: '',
+    sale_amount_percentage: null,
 });
 
 const createTeam = () => {
@@ -21,16 +22,16 @@ const createTeam = () => {
 <template>
     <FormSection @submitted="createTeam">
         <template #title>
-            Team Details
+            Agency Details
         </template>
 
         <template #description>
-            Create a new team to collaborate with others on projects.
+            Create a new agency to collaborate with others on projects.
         </template>
 
         <template #form>
             <div class="col-span-6">
-                <InputLabel value="Team Owner" />
+                <InputLabel value="Freetraveler Administrator" />
 
                 <div class="flex items-center mt-2">
                     <img class="object-cover w-12 h-12 rounded-full" :src="$page.props.user.profile_photo_url" :alt="$page.props.user.name">
@@ -43,9 +44,9 @@ const createTeam = () => {
                     </div>
                 </div>
             </div>
-
+            <!-- Team Name -->
             <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="name" value="Team Name" />
+                <InputLabel for="name" value="Agency Name" />
                 <TextInput
                     id="name"
                     v-model="form.name"
@@ -54,6 +55,20 @@ const createTeam = () => {
                     autofocus
                 />
                 <InputError :message="form.errors.name" class="mt-2" />
+            </div>
+            <!-- Agency Sale Percentage -->
+            <div class="col-span-6 sm:col-span-4">
+                <InputLabel for="sale_amount_percentage" value="Agency Sale Percentage %5" />
+                <TextInput
+                disabled
+                placeholder="At the moment you can only change this in 'Agency settings\''"
+                    id="sale_amount_percentage"
+                    v-model="form.sale_amount_percentage"
+                    type="text"
+                    class="block w-full mt-1"
+                    autofocus
+                />
+                <InputError :message="form.errors.sale_amount_percentage" class="mt-2" />
             </div>
         </template>
 
