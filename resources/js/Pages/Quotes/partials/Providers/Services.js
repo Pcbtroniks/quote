@@ -14,7 +14,7 @@ export const QuoteProgress = reactive({
     nTours:[],
     tour: {
         activity: 0,
-        pickup: "12:00",
+        pickup: null,
         hotel: null,
 
     },

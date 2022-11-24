@@ -12,6 +12,7 @@ import InputLabel from './InputLabel.vue';
 import InputRange from './InputRange.vue';
 import InputText from './InputText.vue';
 import Summary from './Summary.vue';
+import Alert from '@/Components/Alert.vue';
 import InputDate from './InputDate.vue';
 
 const props = defineProps({
@@ -506,6 +507,13 @@ location.reload();
                                 </div>
 
                             </div>
+
+                        </div>
+                        
+                        <!-- Pick Up Hotel Time -->
+                        <div v-if="form.tipoReservacion ==  2 && QuoteProgress.tour.pickup" class="-mx-3 flex flex-wrap">
+
+                            <Alert :msg="QuoteProgress.tour.pickup == '00:00:00' ? 'Lo sentimos, por el momento no tenemos un pickup disponible, estamos trabajando en ello.' : `Su pickup sera a las: ${QuoteProgress.tour.pickup.slice(0,5)} hrs. en el hotel especificado, procure tener al menos 15 minutos de antelación.`" />
 
                         </div>
                         
