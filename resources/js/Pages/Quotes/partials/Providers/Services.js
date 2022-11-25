@@ -5,6 +5,7 @@ export const QuoteProgress = reactive({
     season: 'low',
     hotels: {
         cancun: null,
+        pdc: null,
         rm: null
     },
     cancunHotels: null,
@@ -80,12 +81,12 @@ export const fetchPickup = async ( activity, hotel ) => {
 }
 
 export const getPickup = async ( activity, hotel ) => {
-    if(!activity || !hotel ) return null;
+
     return await fetchPickup( activity, hotel );
 }
 
 export const getActivityPickup = async ( key, activity, hotel ) => {
-
+    if(!activity || !hotel ) return console.warn(`acticity( ${activity} )  or hotel( ${hotel} ) invalid:`);
     QuoteProgress.nTours[key].pickup = await getPickup(activity, hotel).then(data => data.pickup_time);
 
 }
@@ -107,18 +108,21 @@ export const loadHotels = async ( zone ) => {
     if(zone == 1 && !QuoteProgress.hotels.cancun){
         QuoteProgress.hotels.cancun = [...await fetchHotels(1)];
         return QuoteProgress;
-        // console.log('cargar Cancun Hoteles');
-    } else if(QuoteProgress.hotels.cancun) {
-        // console.log('Cancun ya tiene Hoteles cargados');
+    } else if(zone == 1 && QuoteProgress.hotels.cancun) {
         return QuoteProgress;
     }
 
-    if((zone == 2 || zone == 3) && !QuoteProgress.hotels.rm) {
+    if(zone == 2 && !QuoteProgress.hotels.rm) {
         QuoteProgress.hotels.rm = [...await fetchHotels(2)];
         return QuoteProgress;
-        // console.log('cargar R.M. y P.D.C Hoteles');
-    } else if(QuoteProgress.hotels.rm) {
-        // console.log('R.M. y P.D.C ya tiene Hoteles cargados');
+    } else if(zone == 2 && QuoteProgress.hotels.rm) {
+        return QuoteProgress;
+    }
+
+    if(zone == 3 && !QuoteProgress.hotels.pdc) {
+        QuoteProgress.hotels.pdc = [...await fetchHotels(3)];
+        return QuoteProgress;
+    } else if(zone == 3 && QuoteProgress.hotels.pdc) {
         return QuoteProgress;
     }
 

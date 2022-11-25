@@ -5,7 +5,7 @@ import { useForm } from '@inertiajs/inertia-vue3';
 import { watchEffect } from 'vue';
 
 import { QuoteProgress, getSeason, getTours, getHotels, getPrice, loadHotels, getActivityPickup, getPickup } from './Providers/Services.js';
-import { Today, parseQuoteType, fixedAdd } from './Providers/Helpers.js';
+import { Today, parseQuoteType, fixedAdd, zoneToString } from './Providers/Helpers.js';
 
 import InputNumber from './InputNumber.vue';
 import InputLabel from './InputLabel.vue';
@@ -588,7 +588,7 @@ location.reload();
                                             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                                             >
                                             <option value="null" selected disabled>-- Seleccione un hotel --</option>
-                                            <option v-if="QuoteProgress.hotels[act.zone == 1 ? 'cancun' : 'rm']" class="capitalize" v-for="h in QuoteProgress.hotels[act.zone == 1 ? 'cancun' : 'rm']" :value="h.id">{{ h.name }}</option>
+                                            <option v-if="QuoteProgress.hotels[zoneToString(act.zone)]" class="capitalize" v-for="h in QuoteProgress.hotels[zoneToString(act.zone)]" :value="h.id">{{ h.name }}</option>
                                     </select>
 
                                 </div>
