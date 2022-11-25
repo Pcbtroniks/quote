@@ -105,10 +105,10 @@ const HttpGet = async (URL, Options) => {
 
                         <div class="grid grid-cols-6 p-5 gap-y-2">
 
-                        <!-- Profile Picture -->
-                        <!-- <div>
-                            <img src="https://picsum.photos/seed/2/200/200" class="max-w-16 max-h-16 rounded-full" />
-                        </div> -->
+                        <!--  -->
+                        <div>
+
+                        </div>
 
                         <!-- Description -->
                         <div class="col-span-5 md:col-span-4 ml-4">
