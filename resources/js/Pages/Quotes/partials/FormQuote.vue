@@ -83,7 +83,7 @@ const hasAmount = (n) => {
 }
 
 watchEffect(() => {
-    form.nacionales = form.tipoReservacion != 1 ? false : form.nacionales ;
+    form.nacionales = form.tipoReservacion != 1 ? false : form.nacionales;
 });
 
 watchEffect(() => {
@@ -151,7 +151,7 @@ location.reload();
         <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
 
             <div class="mt-4 text-2xl text-center">
-                Nueva cotización 
+                Nueva reservación 
                 <p class="text-lg">Fecha de hoy: {{ Today }}</p>
             </div>
         
@@ -160,7 +160,7 @@ location.reload();
         <FormSection @submitted="submit">
 
             <template #title>
-                <div class="md:mx-14 md:my-10 font-bold">Resumen de la cotización.</div>
+                <div class="md:mx-14 md:my-10 font-bold">Resumen de la reserva.</div>
             </template>
             <template #description>
                 <!-- component -->

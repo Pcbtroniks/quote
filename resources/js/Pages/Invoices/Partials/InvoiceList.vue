@@ -1,6 +1,6 @@
 <script setup>
     import FormSection from '@/Components/FormSection.vue';
-    import Pagination from './../../../Shared/Pagination.vue';
+    import Pagination from '../../../Shared/Pagination.vue';
 
 const props = defineProps({
 invoices: Object
@@ -12,11 +12,11 @@ invoices: Object
     <FormSection>
 
     <template #title>
-        Invoice Details
+        Invoice List
     </template>
 
     <template #description>
-        Create a new invoice to start assigning it to coupons.
+        Check the invoices created.
     </template>
 
     <template #form>

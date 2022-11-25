@@ -21,10 +21,16 @@ class Invoice {
         return $this->invoice::all();
      
     }
+
+    public function find(InvoiceModel $ID) {
+     
+        return $this->invoice::find($ID);
+     
+    }
     
     public function getPaginated(int $limit = 5) {
      
-        return $this->invoice::paginate(5);
+        return $this->invoice::paginate($limit);
      
     }
 

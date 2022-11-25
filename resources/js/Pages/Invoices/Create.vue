@@ -1,7 +1,7 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import CreateInvoiceForm from '@/Pages/Invoices/Partials/CreateInvoiceForm.vue';
-import ListInvoice from './Partials/ListInvoice.vue';
+import InvoiceList from './Partials/InvoiceList.vue';
 
 const props = defineProps({
     invoices: Object
@@ -24,7 +24,7 @@ const props = defineProps({
 
         <div>
             <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-                <ListInvoice :invoices="props.invoices" />
+                <InvoiceList :invoices="props.invoices" />
             </div>
         </div>
     </AppLayout>

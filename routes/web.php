@@ -1,12 +1,18 @@
 <?php
 
+use App\Http\Controllers\CouponController;
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\NDController;
 use App\Http\Controllers\QuoteController;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
-
+// DB::listen(function($query){
+//     //Imprimimos la consulta ejecutada
+//     echo "<pre> {$query->sql } </pre> <br>";
+//   });
+  
 /* Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -54,6 +60,12 @@ Route::middleware([
 
     Route::get('invoices/', [InvoiceController::class, 'index'])->name('invoices');
     Route::post('invoices/', [InvoiceController::class, 'store'])->name('invoices.store');
+
+    Route::get('invoice-coupons/{invoice}', [InvoiceController::class, 'invoiceCoupons'])->name('invoices.coupons');
+
+    //Coupon 
+
+    Route::get('coupons/code/{code}', [CouponController::class, 'searchByCode'])->name('coupon.search.code');
 
     // Nucleo ed diagnostico
     Route::get('ND', [NDController::class, 'index'])->name('ND');
