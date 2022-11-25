@@ -16,9 +16,7 @@ import SectionBorder from '@/Components/SectionBorder.vue';
 import TextInput from '@/Components/TextInput.vue';
 
 const props = defineProps({
-    team: Object,
-    availableRoles: Array,
-    userPermissions: Object,
+    invoice: Object
 });
 
 const addTeamMemberForm = useForm({

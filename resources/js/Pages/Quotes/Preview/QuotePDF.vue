@@ -94,12 +94,13 @@ console.log(props.quote);
                     </tr>
                     <tr style="height: 59px;">
                         <td style="height: 59px; border: 1px solid; text-align: center;">PAQUETE/ PACKAGE</td>
-                        <td style="height: 59px; " colspan="3">
+                        <td style="height: 59px; padding-top: 1rem;" colspan="3">
                             <p style="margin-left: 1rem; text-transform: lowercase;" v-if="quote.type == 'paquete'" v-for="a in quote.listed_activities">{{a.activity.name}}, Pickup {{a.hotel.name}} a las {{a.pickup_time.slice(0,5)}} el {{a.date}}</p>
                         </td>
                     </tr>
                     <tr style="height: 59px;">
-                        <td style="height: 59px;" colspan="4">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        <td v-if="quote.type == 'paquete'"><p style="text-align:center;">PAQ#{{ quote.listed_activities.length }}</p></td>
+                        <td style="height: 59px;" colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;</td>
                     </tr>
                 </tbody>
             </table>
