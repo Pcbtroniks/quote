@@ -86,8 +86,11 @@ export const getPickup = async ( activity, hotel ) => {
 }
 
 export const getActivityPickup = async ( key, activity, hotel ) => {
-    if(!activity || !hotel ) return console.warn(`acticity( ${activity} )  or hotel( ${hotel} ) invalid:`);
-    QuoteProgress.nTours[key].pickup = await getPickup(activity, hotel).then(data => data.pickup_time);
+    if(!activity || !hotel ){
+        console.warn(`acticity( ${activity} )  or hotel( ${hotel} ) invalid:`);
+        return '00:00:00'
+    } 
+    QuoteProgress.nTours[key].pickup = await getPickup(activity, hotel).then(data => data.pickup_time) ?? '00:00:00';
 
 }
 

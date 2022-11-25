@@ -1,7 +1,7 @@
 // Quotes
 
 export const zoneToString = (ZoneID) => {
-    
+
     const zones = {
         1:'cancun',
         2:'rm',
@@ -22,6 +22,11 @@ export const parseQuoteType = (ReservationTypeId) => {
 
 
 // Numbers
+
 export const fixedAdd = ( n1, n2 ) => {
     return Number(Number(n1) + Number(n2)).toFixed(2);
+}
+
+export const hasAmount = (n) => {
+    return n > 0 ? '$' + n  : ''
 }

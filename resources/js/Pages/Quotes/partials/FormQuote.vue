@@ -5,7 +5,7 @@ import { useForm } from '@inertiajs/inertia-vue3';
 import { watchEffect } from 'vue';
 
 import { QuoteProgress, getSeason, getTours, getHotels, getPrice, loadHotels, getActivityPickup, getPickup } from './Providers/Services.js';
-import { Today, parseQuoteType, fixedAdd, zoneToString } from './Providers/Helpers.js';
+import { Today, parseQuoteType, fixedAdd, hasAmount, zoneToString } from './Providers/Helpers.js';
 
 import InputNumber from './InputNumber.vue';
 import InputLabel from './InputLabel.vue';
@@ -78,10 +78,6 @@ const getTourCost = async (activity, zona , season ) => {
     getCost();
 }
 
-const hasAmount = (n) => {
-    return n > 0 ? '$' + n  : ''
-}
-
 watchEffect(() => {
     form.nacionales = form.tipoReservacion != 1 ? false : form.nacionales;
 });
@@ -138,7 +134,7 @@ preSubmit();
 
 form.post(route('quote.store'));
 
-location.reload();
+// location.reload();
 
 }
 
