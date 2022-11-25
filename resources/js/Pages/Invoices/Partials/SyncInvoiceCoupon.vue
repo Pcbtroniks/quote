@@ -7,8 +7,12 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { reactive } from 'vue';
 
+const props = defineProps({
+    invoice: Object
+});
+
 const form = useForm({
-    coupon: '',
+    invoice: '',
 });
 
 const Search = reactive({
@@ -73,7 +77,7 @@ const HttpGet = async (URL, Options) => {
 
         <template #form>
             <div class="col-span-6">
-                <div>Folio</div>
+                <div>{{ `Invoice folio: ${props.invoice.folio} - status: ${props.invoice.status}` }}</div>
             </div>
             <!-- Invoice Folio -->
             <div class="col-span-6 sm:col-span-4">
@@ -94,10 +98,10 @@ const HttpGet = async (URL, Options) => {
                   <!-- Card 1 -->
                 <div v-if="Search.coupon">
 
-                    <a href="#" class="w-[30rem] border-2 border-b-4 border-gray-200 rounded-xl hover:bg-gray-50">
+                    <div class="mt-4 w-[30rem] border-2 border-b-4 border-gray-200 rounded-xl hover:bg-gray-50">
 
                         <!-- Badge -->
-                        <p class="bg-sky-500 w-fit px-4 py-1 text-sm font-bold text-white rounded-tl-lg rounded-br-xl"> Promomex </p>
+                        <p v-if="Search.coupon.quote.national != 0" class="bg-sky-500 w-fit px-4 py-1 text-sm font-bold text-white rounded-tl-lg rounded-br-xl"> Promomex </p>
 
                         <div class="grid grid-cols-6 p-5 gap-y-2">
 
@@ -126,7 +130,7 @@ const HttpGet = async (URL, Options) => {
 
                         </div>
 
-                    </a>
+                    </div>
 
                 </div>
             </div>

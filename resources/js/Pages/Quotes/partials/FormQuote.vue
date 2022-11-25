@@ -134,7 +134,7 @@ preSubmit();
 
 form.post(route('quote.store'));
 
-// location.reload();
+location.reload();
 
 }
 
