@@ -31,13 +31,13 @@ class InvoiceController extends Controller
         
     }
     
-    public function searchCoupon($code){
-        
+    public function searchByCode($code = 'TIM00001'){
         $coupon = Coupon::where('code', $code)->first();
-        $coupon->quote = Quote::with('listed_activity')->where('coupon_id', $coupon->id)->first();
+        $coupon->quote = Quote::with('listed_activity', 'listed_activities')->where('coupon_id', $coupon->id)->first();
         $coupon->quote->listed_activity->load('activity');
+        $coupon->quote->load('user');
         
-        return  response(['status'=> 404,'message'=>'Content Not Found']);
+        return $coupon ?? response(['status'=> 404,'message'=>'Content Not Found']);
 
     }
 

@@ -86,7 +86,8 @@ class Quote {
             'adults' => $request->adultos,
             'minors' => $request->menores,
             'infants' => $request->infantes,
-            'observations' => $request->notas ?? ''
+            'observations' => $request->notas ?? '',
+            'team_id' => auth()->user()->currentTeam->id,
         ];
     }
     

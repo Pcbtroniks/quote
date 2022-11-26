@@ -24,6 +24,7 @@ class Quote extends Model
         'adults',
         'minors',
         'infants',
+        'team_id',
         'observations'
     ];
 
