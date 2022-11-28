@@ -13,8 +13,13 @@ use Illuminate\Support\Facades\DB;
 
 class Quote {
 
-    public static function get(){
-        $quote =  ModelsQuote::with(['user','coupon', 'listed_activity'])->paginate(5);
+    public static function get(int $limit = 5){
+        $quote =  ModelsQuote::with(['user','coupon', 'listed_activity'])->paginate($limit);
+        return $quote;
+    }
+
+    public static function getWithActivities(int $limit = 5){
+        $quote =  ModelsQuote::with(['user','coupon', 'listed_activities','listed_activities.activity'])->paginate($limit);
         return $quote;
     }
 

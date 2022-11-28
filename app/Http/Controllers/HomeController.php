@@ -10,8 +10,7 @@ class HomeController extends Controller
     public function index(){
 
         
-        $quotes = Quote::get(2);
-
+        $quotes = Quote::getWithActivities(5);
         return inertia('Dashboard', compact('quotes'));
 
     }
