@@ -55,7 +55,7 @@ class Quote extends Model
     public function createdAt(): Attribute{
 
         return Attribute::make(
-            get: fn ($date) => Carbon::parse($date)->format('m/d/Y'),
+            get: fn ($date) => Carbon::parse($date)->format('d/m/Y'),
         );
     
     }
