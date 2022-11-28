@@ -16,6 +16,11 @@ return new class extends Migration
         Schema::create('coupons', function (Blueprint $table) {
             $table->id();
 
+            $table->foreignId('invoice_id')
+            ->constrained()
+            ->cascadeOnDelete()
+            ->cascadeOnUpdate();
+
             $table->string('code');
             $table->decimal('public_price');
             $table->decimal('sale_amount');

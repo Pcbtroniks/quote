@@ -25,6 +25,10 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
+            $table->foreignId('team_id')
+                ->constrained()
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
 
             $table->string('national')->default('no');
             $table->string('season');
