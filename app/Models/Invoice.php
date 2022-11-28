@@ -18,4 +18,11 @@ class Invoice extends Model
         'folio',
         'status'
     ];
+
+    public function coupons() {
+     
+        return $this->hasMany(Coupon::class);
+    
+    }
+     
 }

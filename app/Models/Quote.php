@@ -40,6 +40,18 @@ class Quote extends Model
 
     }
 
+    public function team(){
+
+        return $this->belongsTo(Team::class)->withDefault([
+            'id' => 1,
+            'user_id' => 1,
+            'name' => 'Public',
+            'personal_team' => false,
+            'sale_amount_percentage' => 5
+        ]);
+
+    }
+
     public function listed_activity(){
 
         return $this->hasOne(QuoteActivity::class);

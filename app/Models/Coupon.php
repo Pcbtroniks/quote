@@ -20,11 +20,18 @@ class Coupon extends Model
         'cost_amount_paid',
         'paid_status',
         'status',
+        'invoice_id',
     ];
 
     public function quote(){
 
         return $this->hasOne(Quote::class);
 
+    }
+
+    public function invoice() {
+     
+        return $this->belongsTo(Invoice::class);
+     
     }
 }

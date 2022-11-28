@@ -30,6 +30,21 @@ class InvoiceController extends Controller
         return inertia('Invoices/Show', compact('invoice'));
         
     }
+
+    public function syncCoupon(Invoice $invoice){
+
+        $invoice->syncCoupon(request()->invoice, request()->coupon);
+
+        return response(['msg' => 'Success!', 'status' => 200,  'content' => $invoice]);
+    
+    }
+    public function unSyncCoupon(Invoice $invoice){
+
+        $invoice->unSyncCoupon(request()->invoice, request()->coupon);
+
+        return response(['msg' => 'Success!', 'status' => 200,  'content' => $invoice]);
+    
+    }
     
     public function searchByCode($code = 'TIM00001'){
         $coupon = Coupon::where('code', $code)->first();

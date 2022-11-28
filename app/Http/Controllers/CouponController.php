@@ -3,19 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Coupon;
-use App\Models\Quote;
 use Illuminate\Http\Request;
 
 class CouponController extends Controller
 {
     
-    public function searchByCode(Request $request, $code)
+    public function searchByCode($code)
     {
-        $coupon = Coupon::where('code', $code)->first();
-        $coupon->quote = Quote::with('listed_activity', 'listed_activities')->where('coupon_id', $coupon->id)->first();
-        $coupon->quote->listed_activity->load('activity');
-        
-        return $coupon ?? response(['status'=> 404,'message'=>'Content Not Found']);
-    }
 
+        $coupon = Coupon::with('quote', 'quote.team', 'quote.listed_activity', 'quote.listed_activity.activity', 'quote.listed_activities', 'quote.listed_activities.activity')->where('code', $code)->first();
+        return $coupon ?? response(['status'=> 404,'message'=>'Content Not Found']);
+    
+    }
 }

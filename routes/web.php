@@ -62,7 +62,8 @@ Route::middleware([
     Route::post('invoices/', [InvoiceController::class, 'store'])->name('invoices.store');
 
     Route::get('invoice-coupons/{invoice}', [InvoiceController::class, 'invoiceCoupons'])->name('invoices.coupons');
-    Route::get('invoice-coupons/', [InvoiceController::class, 'searchByCode'])->name('invoices.coupons');
+    Route::post('invoice-coupons/sync/invoice', [InvoiceController::class, 'syncCoupon'])->name('invoices.sync.coupon');
+    Route::post('invoice-coupons/unsync/invoice', [InvoiceController::class, 'unSyncCoupon'])->name('invoices.unsync.coupon');
 
     //Coupon 
 

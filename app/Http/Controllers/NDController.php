@@ -22,7 +22,7 @@ use stdClass;
 class NDController extends Controller
 {
     public function index(){
-        return range('A', 'C');
+        return Coupon::first();
         return response()->json(['message' => Str::uuid()->toString()]);
     }
 
