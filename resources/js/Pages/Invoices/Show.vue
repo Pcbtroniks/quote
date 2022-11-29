@@ -5,9 +5,11 @@ import SectionBorder from '@/Components/SectionBorder.vue';
 import TeamMemberManager from '@/Pages/Teams/Partials/TeamMemberManager.vue';
 import SyncInvoiceCoupon from '@/Pages/Invoices/Partials/SyncInvoiceCoupon.vue';
 import CreateInvoiceForm from './Partials/CreateInvoiceForm.vue';
+import CouponList from './Partials/CouponList.vue';
 
 defineProps({
     invoice: Object,
+    coupons: Object
 });
 </script>
 
@@ -21,7 +23,19 @@ defineProps({
 
         <div>
             <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-                <SyncInvoiceCoupon :invoice="invoice"/>
+                <SyncInvoiceCoupon 
+                    :invoice="invoice"
+                    
+                    />
+
+                <SectionBorder />
+
+                <CouponList 
+                    class="mt-10 sm:mt-0"
+                    :coupons="coupons"
+                    :invoice="invoice" />
+
+                
 
                 <!-- <TeamMemberManager
                     class="mt-10 sm:mt-0"

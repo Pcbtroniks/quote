@@ -6,6 +6,7 @@ use App\Http\Requests\StoreInvoiceRequest;
 use App\Models\Coupon;
 use App\Models\Invoice as InvoiceModel;
 use App\Models\Quote;
+use App\Repositories\Coupons\Coupon as CouponsCoupon;
 use App\Repositories\Invoices\Invoice;
 use Illuminate\Http\Request;
 
@@ -25,9 +26,12 @@ class InvoiceController extends Controller
         return to_route('invoices')->banner('Invoice created successfully.');;
     }
 
-    public function invoiceCoupons(Request $request, InvoiceModel $invoice){
+    public function invoiceCoupons(Request $request, CouponsCoupon $coupons,InvoiceModel $invoice){
+
+        $coupons = $coupons->getPaginateWhere($invoice->id);
+        // return $coupons;
     
-        return inertia('Invoices/Show', compact('invoice'));
+        return inertia('Invoices/Show', compact('invoice', 'coupons'));
         
     }
 

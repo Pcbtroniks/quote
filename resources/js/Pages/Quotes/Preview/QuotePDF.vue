@@ -98,6 +98,7 @@ console.log(props.quote);
                             <p style="margin-left: 1rem; text-transform: lowercase;" v-if="quote.type == 'paquete'" v-for="a in quote.listed_activities">
                                 <span class="capitalize font-bold">"{{a.activity.name.toLowerCase()}}"</span>
                                 el {{a.date}}
+                                en <span class="capitalize"> "{{ a.hotel.name.toLowerCase() }}"a </span>
                                  a las {{a.pickup_time == '00:00:00' ? 'N/D' : a.pickup_time.slice(0,5)}} 
                             </p>
                         </td>
