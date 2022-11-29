@@ -2,17 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Coupon;
+use App\Repositories\Coupons\Coupon;
 use Illuminate\Http\Request;
 
 class CouponController extends Controller
 {
     
-    public function searchByCode($code)
+    public function searchByCode(Coupon $coupon, $code)
     {
 
-        $coupon = Coupon::with('quote', 'quote.team', 'quote.listed_activity', 'quote.listed_activity.activity', 'quote.listed_activities', 'quote.listed_activities.activity')->where('code', $code)->first();
-        return $coupon ?? response(['status'=> 404,'message'=>'Content Not Found']);
+        return $coupon->getCouponWith($code) ?? response(['status'=> 404,'message'=>'Content Not Found']);
     
+    }
+
+    public function keyConfirm(Coupon $coupon, $couponId) {
+        
+        $coupon->setConfirmationKey($couponId, request()->confirmation_key);
+        return back()->with(['msg' => 'Confirmed']);
     }
 }

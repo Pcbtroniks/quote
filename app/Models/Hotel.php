@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Zone;
 
 class Hotel extends Model
 {
@@ -13,5 +14,11 @@ class Hotel extends Model
 
         return $this->hasMany(QuoteActivity::class,'quote_activity');
     
+    }
+
+    public function zone(){
+
+        return $this->belongsTo(Zone::class);
+
     }
 }

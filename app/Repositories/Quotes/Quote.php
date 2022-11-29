@@ -23,6 +23,12 @@ class Quote {
         return $quote;
     }
 
+    public static function getOperations(int $limit = 5){
+
+        return ModelsQuote::with(['user', 'coupon', 'listed_activities', 'listed_activities.activity', 'team', 'listed_activities.hotel', 'listed_activities.hotel.zone'])->paginate($limit);
+
+    }
+
     public function getParks(){
 
         return Activity::where('type', 'park')->get();
@@ -47,6 +53,7 @@ class Quote {
 
         $quote->activity = Activity::findOrFail($quote->listed_activity->activity_id) ?? '';
         $quote->hotel = DB::table('hotels')->where( 'id', $quote->listed_activity->hotel_id)->first('name') ?? '';
+
         return $quote;
     }
 

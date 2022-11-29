@@ -68,6 +68,7 @@ Route::middleware([
     //Coupon 
 
     Route::get('coupons/code/{code}', [CouponController::class, 'searchByCode'])->name('coupon.search.code');
+    Route::post('coupons/{coupon}/confirm/', [CouponController::class, 'keyConfirm'])->name('coupon.key.confirm');
 
     // Nucleo ed diagnostico
     Route::get('ND', [NDController::class, 'index'])->name('ND');
