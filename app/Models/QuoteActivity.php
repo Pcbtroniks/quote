@@ -16,6 +16,7 @@ class QuoteActivity extends Model
     protected $casts = [
         'date' => 'datetime:d/m/Y'
     ];
+    
     protected $appends = ['date_string_formatted'];
 
     public $fillable = [

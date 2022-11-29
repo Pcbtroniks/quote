@@ -18,4 +18,17 @@ class Coupon {
      
     }
 
+    public function getCouponWith($code) {
+
+        return CouponModel::with('quote', 'quote.team', 'quote.listed_activity', 'quote.listed_activity.activity', 'quote.listed_activities', 'quote.listed_activities.activity')->where('code', $code)->first();
+    
+    }
+
+    public function setConfirmationKey($couponID, $key) {
+     
+        return CouponModel::where('id', $couponID)
+                ->update(['confirmation_key' => $key]);
+     
+    }
+
 }
