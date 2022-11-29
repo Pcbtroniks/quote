@@ -13,6 +13,11 @@ class QuoteActivity extends Model
 
     protected $table = 'quote_activity';
 
+    protected $casts = [
+        'date' => 'datetime:d/m/Y'
+    ];
+    protected $appends = ['date_string_formatted'];
+
     public $fillable = [
         'quote_id',
         'activity_id',
@@ -49,10 +54,11 @@ class QuoteActivity extends Model
      * Date Translation
      * @return string
     */
-    public function date(): Attribute{
+    public function dateStringFormatted(): Attribute{
 
         return Attribute::make(
-            get: fn ($value) => $this->toLocaleDateStringES($value),
+            // get: fn ($value, $attributes) => $this->toLocaleDateStringES($attributes->date),
+            get: fn ($value, $attributes) => $this->toLocaleDateStringES($attributes['date']) ,
         );
 
     }

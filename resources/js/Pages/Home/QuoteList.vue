@@ -30,10 +30,16 @@ defineProps({
                                     <div class="font-semibold text-left">No. Cupon</div>
                                 </th>
                                 <th class="p-2 whitespace-nowrap">
+                                    <div class="font-semibold text-left">Agencia</div>
+                                </th>
+                                <th class="p-2 whitespace-nowrap">
                                     <div class="font-semibold text-left">Titular</div>
                                 </th>
                                 <th class="p-2 whitespace-nowrap">
                                     <div class="font-semibold text-left">Pax</div>
+                                </th>
+                                <th class="p-2 whitespace-nowrap">
+                                    <div class="font-semibold text-left">Fecha Act.</div>
                                 </th>
                                 <th class="p-2 whitespace-nowrap">
                                     <div class="font-semibold text-left">Tipo Act.</div>
@@ -41,11 +47,17 @@ defineProps({
                                 <th class="p-2 whitespace-nowrap">
                                     <div class="font-semibold text-left">Actividad</div>
                                 </th>
-                                <th class="p-2 whitespace-nowrap">
+                                <!-- <th class="p-2 whitespace-nowrap">
                                     <div class="font-semibold text-left">Precio agencia</div>
                                 </th>
                                 <th class="p-2 whitespace-nowrap">
                                     <div class="font-semibold text-left">Precio Publico</div>
+                                </th> -->
+                                <th class="p-2 whitespace-nowrap">
+                                    <div class="font-semibold text-left">Hora del pickup</div>
+                                </th>
+                                <th class="p-2 whitespace-nowrap">
+                                    <div class="font-semibold text-left">Lugar del pickup</div>
                                 </th>
                                 <th class="p-2 whitespace-nowrap">
                                     <div class="font-semibold text-center">Zona</div>
@@ -75,6 +87,12 @@ defineProps({
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <!-- <div class="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"><img class="rounded-full" src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg" width="40" height="40" alt="Alex Shatov"></div> -->
+                                        <div class="font-medium text-gray-800">{{ quote.team.name }}</div>
+                                    </div>
+                                </td>
+                                <td class="p-2 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <!-- <div class="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"><img class="rounded-full" src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg" width="40" height="40" alt="Alex Shatov"></div> -->
                                         <div class="font-medium text-gray-800">{{ quote.holder_name }}</div>
                                     </div>
                                 </td>
@@ -82,6 +100,9 @@ defineProps({
                                     <div class="text-left" :title="`Adultos ${ quote.adults }, Niños: ${ quote.minors }, Infantes: ${ quote.infants }`">
                                         {{ quote.adults }}.{{ quote.minors }}.{{ quote.infants }}
                                     </div>
+                                </td>
+                                <td class="p-2 whitespace-nowrap cursor-default">
+                                    {{ quote.listed_activities[0].date }}
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="text-left font-medium text-green-500 capitalize" :title="quote.type == 'entrada' && quote.national == '1' ? 'Promomex' : ''">
@@ -99,14 +120,20 @@ defineProps({
                                         {{ quote.listed_activities[0].activity.name.toLowerCase() }}
                                     </div>
                                 </td>
-                                <td class="p-2 whitespace-nowrap cursor-default">
+                                <!-- <td class="p-2 whitespace-nowrap cursor-default">
                                     <div class="text-left font-medium text-green-500" :title=" '$' + (quote.coupon.public_price - quote.coupon.sale_amount).toFixed(2)">${{ quote.coupon.sale_amount }}</div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap cursor-default">
                                     <div class="text-left font-medium text-green-500">${{ quote.coupon.public_price }}</div>
+                                </td> -->
+                                <td class="p-2 whitespace-nowrap cursor-default">
+                                    <div class="text-left font-medium text-green-500 truncate w-20" title="Hora del pickup">{{ quote.listed_activities[0].pickup_time == '00:00:00'? 'N/A' : quote.listed_activities[0].pickup_time.slice(0,5)}}</div>
+                                </td>
+                                <td class="p-2 whitespace-nowrap cursor-default">
+                                    <div class="text-left font-medium text-green-500 truncate w-20" :title="quote.listed_activities[0].hotel?.name ?? 'No Aplica'">{{ quote.listed_activities[0].hotel?.name ?? 'N/A' }}</div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
-                                    <div class="text-lg text-center">N/A</div>
+                                    <div class="text-center capitalize">{{ quote.listed_activities[0].hotel?.zone.name ?? 'N/A' }}</div>
                                 </td>
                             </tr>
                         </tbody>
