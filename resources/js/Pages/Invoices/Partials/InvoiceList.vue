@@ -52,7 +52,7 @@ invoices: Object
                 <tbody>
                 <tr v-for="invoice in invoices.data">
                     <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
-                        {{ invoice.folio }}
+                        <a :href="route('invoices.coupons', {invoice: invoice.id})">{{ invoice.folio }}</a>
                     </th>
                     <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">
                         {{ invoice.status }}
