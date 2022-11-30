@@ -7,10 +7,10 @@ defineProps(['parks','zones'])
     
 <template>
 
-    <AppLayout title="Home">
+    <AppLayout title="Freetravelers reservaciones">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Panel de Cotizaciones Freetravelers
+                Reservaciones Freetravelers
             </h2>
         </template>
 
