@@ -122,7 +122,7 @@ const HttpGet = async (URL, Options) => {
         <template #content>
             <div class="col-span-6">
                 <!-- Invoice Folio -->
-                <div>{{ `Invoice folio: ${props.invoice.folio} - status: ${props.invoice.status}` }}</div>
+                <div class="text-lg font-medium text-gray-900">{{ `Invoice: ${props.invoice.folio} - status: ${props.invoice.status}` }}</div>
             </div>
 
             <div class="col-span-6 sm:col-span-4">
@@ -222,10 +222,6 @@ const HttpGet = async (URL, Options) => {
             </div>
         </template>
 
-        <template #actions>
-            <!-- <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                Save
-            </PrimaryButton> -->
-        </template>
+
     </BodySection>
 </template>

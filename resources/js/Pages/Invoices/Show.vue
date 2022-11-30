@@ -14,10 +14,10 @@ defineProps({
 </script>
 
 <template>
-    <AppLayout title="Team Settings">
+    <AppLayout title="Invoice Coupons">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Agency Settings
+                Assign coupons to invoices
             </h2>
         </template>
 
