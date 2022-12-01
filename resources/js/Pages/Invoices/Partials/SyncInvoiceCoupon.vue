@@ -4,6 +4,8 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import Button from '@/Components/Button.vue';
 import TextInput from '@/Components/TextInput.vue';
+import { Link } from '@inertiajs/inertia-vue3';
+import { Inertia } from '@inertiajs/inertia';
 import axios from 'axios';
 import { reactive } from 'vue';
 
@@ -18,17 +20,6 @@ const Search = reactive({
     processing: false,
     syncing: false
 });
-
-const createTeam = () => {
-    return null;
-    // form.post(route('invoices.search.coupon', {coupon: form.coupon}), {
-    //     errorBag: 'createInvoice',
-    //     preserveScroll: true,
-    //     onSuccess: () => {
-    //         form.reset();
-    //     }
-    // });
-};
 
 const searchCoupon = async (couponCode) => {
     if( !couponCode ) return false;
@@ -61,6 +52,7 @@ const syncCoupon = async ( invoice, coupon ) => {
         });
 
         Search.coupon.invoice_id = invoice;
+        Inertia.reload();
         
     } catch (error) {
          
@@ -178,7 +170,7 @@ const HttpGet = async (URL, Options) => {
                         <div class="col-span-5 md:col-span-4 ml-4">
 
                             <a target="_blank" :href="Search.coupon.quote.url">
-                                <p class="text-sky-500 font-bold text-xs capitalize">{{ Search.coupon.quote.team.name }} {{ Search.coupon.quote.type }}{{ Search.coupon.quote.type =='paquete' ? '#' + Search.coupon.quote.listed_activities.length : '' }}</p>
+                                <p class="text-sky-500 font-bold text-xs capitalize">{{ Search.coupon.quote.team.name }} {{ Search.coupon.quote.type }}{{ Search.coupon.quote.type =='paquete' ? '#' + Search.coupon.quote.listed_activities.length : '' }} {{ Search.coupon.invoice.folio }}</p>
                             </a>
 
                             <p class="text-gray-600 font-bold"> {{ Search.coupon.quote.listed_activity.activity.name }} </p>
@@ -203,13 +195,17 @@ const HttpGet = async (URL, Options) => {
                                     :isLoading="Search.syncing"
                                     msg="Agregar" 
                                 />
-                                <Button
-                                    v-else
-                                    @click="unSyncCoupon( props.invoice.id,  Search.coupon.id)"
-                                    :isLoading="Search.syncing"
-                                    class="bg-red-500 hover:bg-red-700"
-                                    msg="Remover" 
-                                />
+                                <Link 
+                                v-else
+                                :href="route('invoices.coupons',{ invoice: Search.coupon.invoice_id })"
+                                >
+                                    <Button
+                                        type="button"
+                                        :isLoading="Search.syncing"
+                                        class="bg-amber-500 hover:bg-amber-700"
+                                        msg="Ver factura..." 
+                                    />
+                                </Link>
                             </div>
 
                         </div>

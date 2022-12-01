@@ -2,6 +2,7 @@
     import BodySection from '@/Components/BodySection.vue';
     import Button from '../../../Components/Button.vue';
     import Pagination from '../../../Shared/Pagination.vue';
+    import { Inertia } from '@inertiajs/inertia';
 
 const props = defineProps({
     coupons: Object,
@@ -19,7 +20,7 @@ try {
     });
 
     console.log(data);
-    
+    Inertia.reload();
 } catch (error) {
      
     alert('Ha ocurrido un error: ' + error.message)
