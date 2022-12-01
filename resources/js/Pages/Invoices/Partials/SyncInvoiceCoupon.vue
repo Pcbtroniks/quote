@@ -102,7 +102,7 @@ const HttpGet = async (URL, Options) => {
 </script>
 
 <template>
-    <BodySection @submitted="createTeam">
+    <BodySection>
         <template #title>
             Invoice Details
         </template>
@@ -170,7 +170,7 @@ const HttpGet = async (URL, Options) => {
                         <div class="col-span-5 md:col-span-4 ml-4">
 
                             <a target="_blank" :href="Search.coupon.quote.url">
-                                <p class="text-sky-500 font-bold text-xs capitalize">{{ Search.coupon.quote.team.name }} {{ Search.coupon.quote.type }}{{ Search.coupon.quote.type =='paquete' ? '#' + Search.coupon.quote.listed_activities.length : '' }} {{ Search.coupon.invoice.folio }}</p>
+                                <p class="text-sky-500 font-bold text-xs capitalize">{{ Search.coupon.quote.team.name }} {{ Search.coupon.quote.type }}{{ Search.coupon.quote.type =='paquete' ? '#' + Search.coupon.quote.listed_activities.length : '' }} {{ Search.coupon.invoice?.folio }}</p>
                             </a>
 
                             <p class="text-gray-600 font-bold"> {{ Search.coupon.quote.listed_activity.activity.name }} </p>
