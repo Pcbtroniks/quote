@@ -18,6 +18,19 @@ return new class extends Migration
 
             $table->string('folio');
             $table->string('status');
+            $table->decimal('amount');
+
+            $table->foreignId('provider_id')
+                ->nullable()
+                ->constrained()
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+
+            $table->foreignId('user_id')
+                ->nullable()
+                ->constrained()
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
 
             $table->timestamps();
         });
