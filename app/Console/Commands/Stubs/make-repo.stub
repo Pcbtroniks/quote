@@ -1,0 +1,16 @@
+<?php
+
+namespace App\Repositories\RepositorieName;
+
+class RepositorieName {
+
+
+    public function get(){}
+
+    public function store(){}
+
+    public  function update(){}
+
+    public function delete(){}
+
+}
