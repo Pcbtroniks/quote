@@ -108,10 +108,6 @@ const del = (ID) => {
                             @click="del(provider.id)"
                             class="bg-red-500 hover:bg-red-700"
                         />
-                        <Button 
-                            msg="Update"
-                            class="bg-amber-500 hover:bg-amber-700 mt-1"
-                        />
                     </td>
                 </tr>
                 </tbody>

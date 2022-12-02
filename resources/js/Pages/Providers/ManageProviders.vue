@@ -9,10 +9,10 @@ const props = defineProps({
 </script>
 
 <template>
-    <AppLayout title="Add New Provider">
+    <AppLayout title="Freetravelers - Providers">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Add New Provider
+                Providers
             </h2>
         </template>
 
