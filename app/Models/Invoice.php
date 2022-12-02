@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use App\Enums\InvoiceStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Enums\InvoiceStatus;
+use App\Models\Provider;
 
 class Invoice extends Model
 {
@@ -22,6 +23,12 @@ class Invoice extends Model
     public function coupons() {
      
         return $this->hasMany(Coupon::class);
+    
+    }
+
+    public function provider() {
+
+        return $this->belongsTo(Provider::class);
     
     }
      

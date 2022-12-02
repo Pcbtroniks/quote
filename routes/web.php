@@ -5,6 +5,7 @@ use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\NDController;
+use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\QuoteController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -64,6 +65,13 @@ Route::middleware([
     Route::get('invoice-coupons/{invoice}', [InvoiceController::class, 'invoiceCoupons'])->name('invoices.coupons');
     Route::post('invoice-coupons/sync/invoice', [InvoiceController::class, 'syncCoupon'])->name('invoices.sync.coupon');
     Route::post('invoice-coupons/unsync/invoice', [InvoiceController::class, 'unSyncCoupon'])->name('invoices.unsync.coupon');
+
+    // Providers
+
+    Route::get('providers/', [ProviderController::class, 'index'])->name('providers');
+    Route::post('providers/', [ProviderController::class, 'store'])->name('providers.store');
+    Route::post('providers/{providerID}/status/switch', [ProviderController::class, 'switch'])->name('providers.switch.status');
+    Route::delete('providers/{providerID}/delete/', [ProviderController::class, 'delete'])->name('providers.delete');
 
     //Coupon 
 
