@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Enums\InvoiceStatus;
 use App\Models\Provider;
+use App\Models\Coupon;
 
 class Invoice extends Model
 {
