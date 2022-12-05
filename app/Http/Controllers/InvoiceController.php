@@ -2,21 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreInvoiceRequest;
-use App\Models\Coupon;
-use App\Models\Invoice as InvoiceModel;
-use App\Models\Quote;
 use App\Repositories\Coupons\Coupon as CouponsCoupon;
+use App\Http\Requests\StoreInvoiceRequest;
+use App\Repositories\Providers\Provider;
+use App\Models\Invoice as InvoiceModel;
 use App\Repositories\Invoices\Invoice;
 use Illuminate\Http\Request;
+use App\Models\Coupon;
+use App\Models\Quote;
+
 
 class InvoiceController extends Controller
 {
 
-    public function index(Invoice $invoice){
+    public function index(Invoice $invoice, Provider $provider){
 
         $invoices = $invoice->getPaginated(10);
-        return inertia('Invoices/Create', compact('invoices'));
+        $providers = $provider->getAllProviders();
+        return inertia('Invoices/Create', compact('invoices', 'providers'));
     }
 
     public function store(StoreInvoiceRequest $request, Invoice $invoice){
@@ -29,7 +32,6 @@ class InvoiceController extends Controller
     public function invoiceCoupons(Request $request, CouponsCoupon $coupons,InvoiceModel $invoice){
 
         $coupons = $coupons->getPaginateWhere($invoice->id);
-        // return $coupons;
     
         return inertia('Invoices/Show', compact('invoice', 'coupons'));
         

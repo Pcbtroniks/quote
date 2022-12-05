@@ -90,6 +90,9 @@ const logout = () => {
                                                 <DropdownLink v-if="$page.props.jetstream.canCreateTeams" :href="route('invoices', $page.props.user.current_team)">
                                                     My Invoices
                                                 </DropdownLink>
+                                                <DropdownLink v-if="$page.props.jetstream.canCreateTeams" :href="route('providers')">
+                                                    Providers
+                                                </DropdownLink>
 <!-- 
                                                 <DropdownLink v-if="$page.props.jetstream.canCreateTeams" :href="route('teams.create')">
                                                     Create New Agency

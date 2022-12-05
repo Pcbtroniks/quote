@@ -14,6 +14,12 @@ class Provider {
 
     }
 
+    public function getAllProviders(array $columns = ['name', 'id']){
+
+        return ProviderModel::select($columns)->get();
+
+    }
+
     public function store(StoreProviderRequest $request){
 
         return ProviderModel::create( $request->validated() );

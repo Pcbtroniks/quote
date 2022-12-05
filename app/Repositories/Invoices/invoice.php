@@ -55,6 +55,8 @@ class Invoice {
 
         return $this->invoice::create([
             'folio' => $request->folio,
+            'amount' => $request->amount,
+            'provider_id' => $request->provider_id,
             'status'=> InvoiceStatus::UNPAID
         ]);
 

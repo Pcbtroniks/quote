@@ -24,7 +24,9 @@ class StoreInvoiceRequest extends FormRequest
     public function rules()
     {
         return [
-            'folio' => ['required']
+            'folio' => ['required'],
+            'amount' => ['required'],
+            'provider_id' => ['required'],
         ];
     }
 
@@ -36,7 +38,9 @@ class StoreInvoiceRequest extends FormRequest
     public function messages()
     {
         return [
-            'folio.required' => 'Este campo es obligatorio'
+            'folio.required' => 'Este campo es obligatorio',
+            'amount.required' => 'Este campo es obligatorio',
+            'provider_id.required' => 'Este campo es obligatorio'
         ];
     }
 }

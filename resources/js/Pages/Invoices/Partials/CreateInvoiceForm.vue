@@ -6,8 +6,14 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 
+const props = defineProps({
+    providers: Array,
+});
+
 const form = useForm({
-    folio: '',
+    folio: null,
+    amount: null,
+    provider_id: null
 });
 
 const createTeam = () => {
@@ -55,6 +61,33 @@ const createTeam = () => {
                     autofocus
                 />
                 <InputError :message="form.errors.folio" class="mt-2" />
+            </div>
+            <br class="hidden sm:block">
+            <!-- Invoice Amount -->
+            <div class="col-span-6 sm:col-span-2">
+                <InputLabel for="amount" value="Invoice amount $" />
+                <TextInput
+                    id="amount"
+                    v-model="form.amount"
+                    type="text"
+                    class="block w-full mt-1"
+                    autofocus
+                />
+                <InputError :message="form.errors.amount" class="mt-2" />
+            </div>
+            <!-- Invoice Provider -->
+            <div class="col-span-6 sm:col-span-2">
+                <InputLabel for="provider_id" value="Provider" />
+                <select 
+                    v-model="form.provider_id"
+                    id="provider_id"
+                    name="provider_id"
+                    class="capitalize w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                    >
+                    <option value="null" disabled selected>-- Provedores --</option>
+                    <option class="capitalize" v-for="provider in props.providers" :value="provider.id">{{ provider.name }}</option>
+                </select>
+                <InputError :message="form.errors.provider_id" class="mt-2" />
             </div>
         </template>
 

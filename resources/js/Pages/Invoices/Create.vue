@@ -4,7 +4,8 @@ import CreateInvoiceForm from '@/Pages/Invoices/Partials/CreateInvoiceForm.vue';
 import InvoiceList from './Partials/InvoiceList.vue';
 
 const props = defineProps({
-    invoices: Object
+    invoices: Object,
+    providers: Array,
 });
 </script>
 
@@ -18,7 +19,7 @@ const props = defineProps({
 
         <div>
             <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-                <CreateInvoiceForm />
+                <CreateInvoiceForm :providers="props.providers"  />
             </div>
         </div>
 

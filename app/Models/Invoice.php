@@ -18,6 +18,8 @@ class Invoice extends Model
 
     protected $fillable = [
         'folio',
+        'amount',
+        'provider_id',
         'status'
     ];
 
