@@ -47,7 +47,7 @@ class Invoice {
     
     public function getPaginated(int $limit = 5) {
      
-        return $this->invoice::with('coupons')->paginate($limit);
+        return $this->invoice::with('coupons','provider')->paginate($limit);
      
     }
 
