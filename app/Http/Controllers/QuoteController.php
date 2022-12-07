@@ -51,7 +51,7 @@ class QuoteController extends Controller
         //dd($request); return;
         $quote = $quote->save($request);
 
-        Mail::to('jeanmacario048@gmail.com')->send(new QuoteCreated($quote));
+        // Mail::to('freetraveler@freevateler.com.mx')->send(new QuoteCreated($quote));
         
         return redirect()->route('quote');
 
