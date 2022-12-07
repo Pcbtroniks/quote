@@ -14,6 +14,7 @@ import InputText from './InputText.vue';
 import Summary from './Summary.vue';
 import Alert from '@/Components/Alert.vue';
 import InputDate from './InputDate.vue';
+import { Inertia } from '@inertiajs/inertia';
 
 const props = defineProps({
     parks: Array,
@@ -85,7 +86,6 @@ watchPostEffect(() => {
 });
 
 watchPostEffect(() => {
-    console.log(form.tipoReservacion);
     if(form.actividad && form.tipoReservacion == 1 )getParkCost();
     if(form.actividad && form.tipoReservacion == 2) getTourCost(QuoteProgress.tour.activity, form.zona, form.season);
     return [form.adultos, form.menores];
@@ -94,6 +94,11 @@ watchPostEffect(() => {
 watchPostEffect(() => {
     form.nacionales = form.tipoReservacion != 1 ? false : form.nacionales;
 });
+
+watchPostEffect(() => {
+    form.tipoReservacion;
+    resetPrices();
+})
 
 watchPostEffect(() => {
 
@@ -135,6 +140,7 @@ function preSubmit(){
         form.actividad = QuoteProgress.nTours;
     }    
     form.tipoReservacion = parseQuoteType(form.tipoReservacion);
+    resetPrices();
 }
 
 function submit(){
@@ -146,7 +152,25 @@ form.post(route('quote.store'));
 location.reload();
 
 }
+function resetPrices(){
+    QuoteProgress.prices = {
+        totalPublicPrice: 0,
+        totalAgencyPrice: 0,
+        reference: 0,
+        cost: {
+            adult: 0,
+            minor: 0,
+        },
+        profit: {
+            percentage: 5,
+            amount: 0
+        }
+    };
+}
 
+function resetForm() {
+    location.reload();
+}
 </script>
 
     
@@ -645,10 +669,17 @@ location.reload();
             </template>
 
             <template #actions>
+                <button
+                type="button"
+                @click="resetForm()"
+                class="hover:shadow-form rounded-md mr-16 bg-red-500 py-3 px-8 text-center text-base font-semibold text-white outline-none"
+              >
+                Reiniciar Cotización
+              </button>
               <button
                 class="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-center text-base font-semibold text-white outline-none"
               >
-                Enviar Cotización
+                Guardar Cotización
               </button>
             </template>
                 
