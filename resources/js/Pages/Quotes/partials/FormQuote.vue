@@ -2,7 +2,7 @@
 
 import FormSection from '@/Components/FormSection.vue';
 import { useForm } from '@inertiajs/inertia-vue3';
-import { watchEffect } from 'vue';
+import { ref, watch, watchPostEffect } from 'vue';
 
 import { QuoteProgress, getSeason, getTours, getHotels, getPrice, loadHotels, getActivityPickup, getPickup } from './Providers/Services.js';
 import { Today, parseQuoteType, fixedAdd, hasAmount, zoneToString } from './Providers/Helpers.js';
@@ -78,15 +78,24 @@ const getTourCost = async (activity, zona , season ) => {
     getCost();
 }
 
-watchEffect(() => {
+
+watchPostEffect(() => {
+    form.season = getSeason(form.fechaActividad);
+    if(form.actividad) getCost();
+});
+
+watchPostEffect(() => {
+    console.log(form.tipoReservacion);
+    if(form.actividad && form.tipoReservacion == 1 )getParkCost();
+    if(form.actividad && form.tipoReservacion == 2) getTourCost(QuoteProgress.tour.activity, form.zona, form.season);
+    return [form.adultos, form.menores];
+});
+
+watchPostEffect(() => {
     form.nacionales = form.tipoReservacion != 1 ? false : form.nacionales;
 });
 
-watchEffect(() => {
-    form.season = getSeason(form.fechaActividad);
-});
-
-watchEffect(() => {
+watchPostEffect(() => {
 
     var arr = [];
     var len = QuoteProgress.nPackTours;
@@ -304,7 +313,8 @@ location.reload();
 
                                 <InputDate
                                     required
-                                    v-model="form.fechaActividad" 
+                                    v-model="form.fechaActividad"
+                                    :min="new Date().toISOString().split('T')[0]"
                                     :id-name="'fechaActividad'"  />
                             </div>
                             </div>
@@ -547,7 +557,8 @@ location.reload();
 
                                     <InputDate
                                         required
-                                        v-model="act.activity_date" 
+                                        v-model="act.activity_date"
+                                        :min="new Date().toISOString().split('T')[0]"
                                         :id-name="'fechaActividad'+act.key"  />
                                 </div>
 
