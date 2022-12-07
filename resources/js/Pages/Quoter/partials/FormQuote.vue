@@ -2,19 +2,17 @@
 
 import FormSection from '@/Components/FormSection.vue';
 import { useForm } from '@inertiajs/inertia-vue3';
-import { ref, watch, watchPostEffect } from 'vue';
+import { watchEffect } from 'vue';
 
 import { QuoteProgress, getSeason, getTours, getHotels, getPrice, loadHotels, getActivityPickup, getPickup } from './Providers/Services.js';
 import { Today, parseQuoteType, fixedAdd, hasAmount, zoneToString } from './Providers/Helpers.js';
 
 import InputNumber from './InputNumber.vue';
 import InputLabel from './InputLabel.vue';
-import InputRange from './InputRange.vue';
 import InputText from './InputText.vue';
 import Summary from './Summary.vue';
 import Alert from '@/Components/Alert.vue';
 import InputDate from './InputDate.vue';
-import { Inertia } from '@inertiajs/inertia';
 
 const props = defineProps({
     parks: Array,
@@ -22,21 +20,20 @@ const props = defineProps({
 });
 
 const form = useForm({
-    fechaReservacion:  new Date().toISOString().split('T')[0],
     fechaActividad: null,
-    precioPublico: 0,
     tipoReservacion: 1,
-    nacionales: false,
     nombreTitular: '',
+    nacionales: false,
+    precioPublico: 0,
     importeVenta: 0,
+    actividad: null,
+    season: 'low',
     pickUp: null,
     infantes: 0,
     notas: null,
     adultos: 1,
     menores: 0,
     zona: null,
-    season: 'low',
-    actividad: null,
 })
 
 const getCost = () => {
@@ -79,28 +76,15 @@ const getTourCost = async (activity, zona , season ) => {
     getCost();
 }
 
-
-watchPostEffect(() => {
-    form.season = getSeason(form.fechaActividad);
-    if(form.actividad) getCost();
-});
-
-watchPostEffect(() => {
-    if(form.actividad && form.tipoReservacion == 1 )getParkCost();
-    if(form.actividad && form.tipoReservacion == 2) getTourCost(QuoteProgress.tour.activity, form.zona, form.season);
-    return [form.adultos, form.menores];
-});
-
-watchPostEffect(() => {
+watchEffect(() => {
     form.nacionales = form.tipoReservacion != 1 ? false : form.nacionales;
 });
 
-watchPostEffect(() => {
-    form.tipoReservacion;
-    resetPrices();
-})
+watchEffect(() => {
+    form.season = getSeason(form.fechaActividad);
+});
 
-watchPostEffect(() => {
+watchEffect(() => {
 
     var arr = [];
     var len = QuoteProgress.nPackTours;
@@ -140,37 +124,14 @@ function preSubmit(){
         form.actividad = QuoteProgress.nTours;
     }    
     form.tipoReservacion = parseQuoteType(form.tipoReservacion);
-    resetPrices();
 }
 
 function submit(){
 
 preSubmit();
 
-form.post(route('quote.store'));
-
-location.reload();
-
-}
-function resetPrices(){
-    QuoteProgress.prices = {
-        totalPublicPrice: 0,
-        totalAgencyPrice: 0,
-        reference: 0,
-        cost: {
-            adult: 0,
-            minor: 0,
-        },
-        profit: {
-            percentage: 5,
-            amount: 0
-        }
-    };
 }
 
-function resetForm() {
-    location.reload();
-}
 </script>
 
     
@@ -337,8 +298,7 @@ function resetForm() {
 
                                 <InputDate
                                     required
-                                    v-model="form.fechaActividad"
-                                    :min="new Date().toISOString().split('T')[0]"
+                                    v-model="form.fechaActividad" 
                                     :id-name="'fechaActividad'"  />
                             </div>
                             </div>
@@ -581,8 +541,7 @@ function resetForm() {
 
                                     <InputDate
                                         required
-                                        v-model="act.activity_date"
-                                        :min="new Date().toISOString().split('T')[0]"
+                                        v-model="act.activity_date" 
                                         :id-name="'fechaActividad'+act.key"  />
                                 </div>
 
@@ -669,17 +628,10 @@ function resetForm() {
             </template>
 
             <template #actions>
-                <button
-                type="button"
-                @click="resetForm()"
-                class="hover:shadow-form rounded-md mr-16 bg-red-500 py-3 px-8 text-center text-base font-semibold text-white outline-none"
-              >
-                Reiniciar Cotización
-              </button>
               <button
                 class="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-center text-base font-semibold text-white outline-none"
               >
-                Guardar Cotización
+                Enviar Cotización
               </button>
             </template>
                 
