@@ -7,6 +7,7 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\NDController;
 use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\QuoteController;
+use App\Http\Controllers\QuoterController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 // DB::listen(function($query){
@@ -46,6 +47,12 @@ Route::middleware([
     Route::post('/quote/create', [QuoteController::class, 'store'])->name('quote.store');
     
     Route::get('/quote/preview/{quoteId}', [QuoteController::class, 'preview'])->name('quote.preview');
+
+    /* Quoter */
+
+    Route::get('/quoter', [QuoterController::class, 'index'])->name('quoter');
+    
+    Route::post('/quoter/create', [QuoterController::class, 'store'])->name('quoter.store');
 
     // Activities
 
