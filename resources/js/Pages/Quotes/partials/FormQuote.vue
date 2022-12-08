@@ -86,8 +86,13 @@ watchPostEffect(() => {
 });
 
 watchPostEffect(() => {
-    if(form.actividad && form.tipoReservacion == 1 )getParkCost();
+    if(form.actividad && form.tipoReservacion == 1) getParkCost();
     if(form.actividad && form.tipoReservacion == 2) getTourCost(QuoteProgress.tour.activity, form.zona, form.season);
+    if(QuoteProgress.nTours.length > 0 && form.tipoReservacion == 3) {
+        QuoteProgress.nTours.forEach(( act ) => {
+            handlePackActivity(act);
+        });
+    };
     return [form.adultos, form.menores];
 });
 
@@ -96,8 +101,8 @@ watchPostEffect(() => {
 });
 
 watchPostEffect(() => {
-    form.tipoReservacion;
     resetPrices();
+    return [form.tipoReservacion, QuoteProgress.nTours];
 })
 
 watchPostEffect(() => {
@@ -112,21 +117,24 @@ watchPostEffect(() => {
                     "hotel": null,
                     "pickup": null,
                     "activity_date": null,
-                    "public_price": null,
-                    "agency_price": null
+                    "public_price": 0,
+                    "agency_price": 0
             });
     }
     QuoteProgress.nTours = arr;
 });
 
-const loadPrices = async(activity, zone, season, key) => {
+const loadPackPrice = async(activity, zone, season, key) => {
     const price = await getPrice(activity, zone, season);
-    
     QuoteProgress.nTours[key].public_price = fixedAdd((form.adultos * Number(price.adult.amount)), (form.menores * Number(price.minor.amount)));
-    form.precioPublico = fixedAdd(form.precioPublico, QuoteProgress.nTours[key].public_price);
-    form.importeVenta += form.precioPublico * ( ( 100 - QuoteProgress.prices.profit.percentage ) / 100 );
-    console.log(QuoteProgress.nTours);
-    console.log(form);
+    form.precioPublico = QuoteProgress.prices.totalPublicPrice = QuoteProgress.nTours.reduce((acc, { public_price }) => (acc + Number(public_price)) , 0);
+    form.importeVenta = applyAgencyDiscount(form.precioPublico);
+    console.group()
+        console.log('Quote');
+        console.info(QuoteProgress.nTours);
+        console.log('Form');
+        console.table(form);
+    console.groupEnd()
 }
 
 const setTour = async ( activity, hotel ) => {
@@ -170,6 +178,20 @@ function resetPrices(){
 
 function resetForm() {
     location.reload();
+}
+function applyAgencyDiscount( Price, discount =  5){
+    return Number(Price * ( ( 100 - discount ) / 100 )).toFixed(2);
+}
+function pickupNotAvailable(){
+    alert('Lo sentimos actualmente no tenemos pickups disponibles')
+    return 'Lo sentimos, por el momento no tenemos un pickup disponible, porfavor pongase en contacto con uno de nuestros agentes al: 998-168-9378.';
+}
+
+function handlePackActivity(act){
+    if(!act.activity || !act.zone) return null;
+    form.precioPublico = 0;
+    loadPackPrice(act.activity, act.zone, form.season, (act.key - 1));
+    getActivityPickup((act.key - 1), act.activity, act.hotel);
 }
 </script>
 
@@ -564,6 +586,7 @@ function resetForm() {
                                     </label>
                                     <select
                                         v-model="act.activity"
+                                        @change="handlePackActivity(act)"
                                         v-if="QuoteProgress.tours"
                                         name="Activity" 
                                         class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
@@ -610,29 +633,21 @@ function resetForm() {
                                     </InputLabel>
                                     
                                     <select
-                                            @input="loadPrices(act.activity, act.zone, form.season, (act.key - 1))"
-                                            @focusout="getActivityPickup((act.key - 1), act.activity, act.hotel)"
-                                            v-model="act.hotel"
-                                            v-if="QuoteProgress.hotels"
-                                            name="pickUpZone"
-                                            id="pickUpZone"
-                                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                            >
-                                            <option value="null" selected disabled>-- Seleccione un hotel --</option>
-                                            <option v-if="QuoteProgress.hotels[zoneToString(act.zone)]" class="capitalize" v-for="h in QuoteProgress.hotels[zoneToString(act.zone)]" :value="h.id">{{ h.name }}</option>
+                                        v-model="act.hotel"
+                                        @change="handlePackActivity(act)"
+                                        v-show="QuoteProgress.hotels"
+                                        name="pickUpZone"
+                                        id="pickUpZone"
+                                        class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                                        >
+                                        <option value="null" selected disabled>-- Seleccione un hotel --</option>
+                                        <option v-if="QuoteProgress.hotels[zoneToString(act.zone)]" class="capitalize" v-for="h in QuoteProgress.hotels[zoneToString(act.zone)]" :value="h.id">{{ h.name }}</option>
                                     </select>
 
                                 </div>
 
                                 <div class="mb-5" v-if="act.pickup">
-                                    <InputLabel>
-                                        Hora de su pickup
-                                    </InputLabel>
-                                    <InputText
-                                        disabled
-                                        aria-disabled="true"
-                                        :value="act.pickup.slice(0,5)"
-                                        />
+                                    <Alert :msg="act.pickup == '00:00:00' ? pickupNotAvailable() : `Su pickup sera a las: ${act.pickup.slice(0,5)}.\n Precio publico de la actividad ${act.key}: $${act.public_price}, su precio de agencia: ${applyAgencyDiscount(act.public_price)}`" />
                                 </div>
 
                                 <hr>

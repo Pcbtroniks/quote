@@ -11,10 +11,10 @@ use App\Http\Controllers\QuoterController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 // DB::listen(function($query){
-//     //Imprimimos la consulta ejecutada
+//     Imprimir la consulta ejecutada
 //     echo "<pre> {$query->sql } </pre> <br>";
 //   });
-  
+
 /* Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -31,27 +31,27 @@ Route::middleware([
 ])->group(function () {
 
     Route::get('/', [HomeController::class, 'index'])->name('home');
-    
+
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
 
-    
+
     Route::inertia('/inertia', 'Dashboard/Post/Index');
 
     Route::resource('/category', CategoryController::class);
 
     /* Quotes */
 
-    
+
     Route::get('/quote', [QuoteController::class, 'index'])->name('quote');
-    
+
     Route::post('/quote/create', [QuoteController::class, 'store'])->name('quote.store');
-    
+
     Route::get('/quote/preview/{quoteId}', [QuoteController::class, 'preview'])->name('quote.preview');
 
     /* Quoter */
 
     Route::get('/quoter', [QuoterController::class, 'index'])->name('quoter');
-    
+
     Route::post('/quoter/create', [QuoterController::class, 'store'])->name('quoter.store');
 
     // Activities
@@ -61,7 +61,7 @@ Route::middleware([
     Route::get('tours', [QuoteController::class, 'tours'])->name('tours');
 
     Route::get('hotels/{zone}', [QuoteController::class, 'hotels'])->name('hotels');
-    
+
     Route::get('prices/{activity}/{zone}/{season}', [QuoteController::class, 'price'])->name('prices');
 
     // Invoices
@@ -80,7 +80,7 @@ Route::middleware([
     Route::post('providers/{providerID}/status/switch', [ProviderController::class, 'switch'])->name('providers.switch.status');
     Route::delete('providers/{providerID}/delete/', [ProviderController::class, 'delete'])->name('providers.delete');
 
-    //Coupon 
+    //Coupon
 
     Route::get('coupons/code/{code}', [CouponController::class, 'searchByCode'])->name('coupon.search.code');
     Route::post('coupons/{coupon}/confirm/', [CouponController::class, 'keyConfirm'])->name('coupon.key.confirm');
