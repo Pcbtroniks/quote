@@ -13,17 +13,17 @@ use Illuminate\Support\Facades\DB;
 
 class Quote {
 
-    public static function get(int $limit = 5){
+    public static function get(int $limit = 10){
         $quote =  ModelsQuote::with(['user','coupon', 'listed_activity'])->paginate($limit);
         return $quote;
     }
 
-    public static function getWithActivities(int $limit = 5){
+    public static function getWithActivities(int $limit = 10){
         $quote =  ModelsQuote::with(['user','coupon', 'listed_activities','listed_activities.activity'])->paginate($limit);
         return $quote;
     }
 
-    public static function getOperations(int $limit = 5){
+    public static function getOperationDashboard(int $limit = 10){
 
         return ModelsQuote::with(['user', 'coupon', 'listed_activities', 'listed_activities.activity', 'team', 'listed_activities.hotel', 'listed_activities.hotel.zone'])->paginate($limit);
 
