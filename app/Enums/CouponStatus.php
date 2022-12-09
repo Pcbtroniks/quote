@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum CouponceStatus: string {
+enum CouponStatus: string {
  
     case CREATED = 'Created';
     case CONFIRMED = 'Confirmed';
