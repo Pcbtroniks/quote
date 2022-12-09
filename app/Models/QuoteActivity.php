@@ -63,5 +63,15 @@ class QuoteActivity extends Model
         );
 
     }
+    /**
+     * Date Translation
+     * @return string
+    */
+    public function manifestDateString(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value, $attributes) => $this->toManifestDateString($attributes['date']) ,
+        );
+    }
 
 }

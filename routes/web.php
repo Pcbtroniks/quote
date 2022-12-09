@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\Dashboard\CategoryController;
+use App\Http\Controllers\ExportController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\NDController;
@@ -84,6 +85,11 @@ Route::middleware([
 
     Route::get('coupons/code/{code}', [CouponController::class, 'searchByCode'])->name('coupon.search.code');
     Route::post('coupons/{coupon}/confirm/', [CouponController::class, 'keyConfirm'])->name('coupon.key.confirm');
+
+    // Exports 
+
+    Route::get('exports/manifest', [ExportController::class, 'index'])->name('exports.manifest');
+    Route::get('exports/view/manifest', [ExportController::class, 'viewManifest'])->name('exports.view.manifest');
 
     // Nucleo ed diagnostico
     Route::get('ND', [NDController::class, 'index'])->name('ND');
