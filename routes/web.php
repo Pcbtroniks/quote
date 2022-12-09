@@ -88,8 +88,8 @@ Route::middleware([
 
     // Exports 
 
-    Route::get('exports/manifest', [ExportController::class, 'index'])->name('exports.manifest');
-    Route::get('exports/view/manifest', [ExportController::class, 'viewManifest'])->name('exports.view.manifest');
+    Route::get('exports/manifest/{invoiceID}', [ExportController::class, 'exportManifest'])->name('exports.manifest.byInvoiceId');
+    Route::get('exports/view/manifest/{invoiceID}', [ExportController::class, 'viewManifest'])->name('exports.view.manifest.byInvoiceId');
 
     // Nucleo ed diagnostico
     Route::get('ND', [NDController::class, 'index'])->name('ND');

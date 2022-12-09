@@ -53,8 +53,9 @@ try {
                 <div class="relative w-full px-4 max-w-full flex-grow flex-1">
                 <h3 class="font-semibold text-base text-blueGray-700">Coupons</h3>
                 </div>
-                <div class="relative w-full px-4 max-w-full flex-grow flex-1 text-right">
-                <!-- <button class="bg-indigo-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">See all</button> -->
+                <div v-if="props.coupons.data.length" class="relative w-full px-4 max-w-full flex-grow flex-1 text-right">
+                    <a class="bg-green-500 text-white active:bg-green-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" :href="route('exports.manifest.byInvoiceId', {invoiceID: invoice.id})">Download manifest</a>
+                    <a class="bg-indigo-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" :href="route('exports.view.manifest.byInvoiceId', {invoiceID: invoice.id})">See manifest</a>
                 </div>
             </div>
             </div>
