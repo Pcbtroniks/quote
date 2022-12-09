@@ -1,8 +1,8 @@
 <script setup>
 
 import FormSection from '@/Components/FormSection.vue';
-import { useForm } from '@inertiajs/inertia-vue3';
-import { ref, watch, watchPostEffect } from 'vue';
+import { useForm, usePage } from '@inertiajs/inertia-vue3';
+import { watchPostEffect } from 'vue';
 
 import { QuoteProgress, getSeason, getTours, getHotels, getPrice, loadHotels, getActivityPickup, getPickup } from './Providers/Services.js';
 import { Today, parseQuoteType, fixedAdd, hasAmount, zoneToString } from './Providers/Helpers.js';
@@ -14,12 +14,12 @@ import InputText from './InputText.vue';
 import Summary from './Summary.vue';
 import Alert from '@/Components/Alert.vue';
 import InputDate from './InputDate.vue';
-import { Inertia } from '@inertiajs/inertia';
 
 const props = defineProps({
     parks: Array,
     zones: Array
 });
+QuoteProgress.prices.profit.percentage = usePage().props.value.user.current_team.sale_amount_percentage;
 
 const form = useForm({
     fechaReservacion:  new Date().toISOString().split('T')[0],
@@ -170,7 +170,7 @@ function resetPrices(){
             minor: 0,
         },
         profit: {
-            percentage: 5,
+            percentage: usePage().props.value.user.current_team.sale_amount_percentage,
             amount: 0
         }
     };
