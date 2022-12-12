@@ -47,12 +47,12 @@ defineProps({
                                 <th class="p-2 whitespace-nowrap">
                                     <div class="font-semibold text-left">Actividad</div>
                                 </th>
-                                <!-- <th class="p-2 whitespace-nowrap">
+                                <th class="p-2 whitespace-nowrap">
                                     <div class="font-semibold text-left">Precio agencia</div>
                                 </th>
                                 <th class="p-2 whitespace-nowrap">
                                     <div class="font-semibold text-left">Precio Publico</div>
-                                </th> -->
+                                </th>
                                 <th class="p-2 whitespace-nowrap">
                                     <div class="font-semibold text-left">Hora del pickup</div>
                                 </th>
@@ -120,12 +120,12 @@ defineProps({
                                         {{ quote.listed_activities[0].activity.name.toLowerCase() }}
                                     </div>
                                 </td>
-                                <!-- <td class="p-2 whitespace-nowrap cursor-default">
+                                <td class="p-2 whitespace-nowrap cursor-default">
                                     <div class="text-left font-medium text-green-500" :title=" '$' + (quote.coupon.public_price - quote.coupon.sale_amount).toFixed(2)">${{ quote.coupon.sale_amount }}</div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap cursor-default">
                                     <div class="text-left font-medium text-green-500">${{ quote.coupon.public_price }}</div>
-                                </td> -->
+                                </td>
                                 <td class="p-2 whitespace-nowrap cursor-default">
                                     <div class="text-left font-medium text-green-500 truncate w-20" title="Hora del pickup">{{ quote.listed_activities[0].pickup_time == '00:00:00'? 'N/A' : quote.listed_activities[0].pickup_time.slice(0,5)}}</div>
                                 </td>
