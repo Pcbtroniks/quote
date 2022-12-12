@@ -82,21 +82,21 @@ const logout = () => {
                                             <!-- Team Management -->
                                             <template v-if="$page.props.jetstream.hasTeamFeatures">
 
-                                                <div class="block px-4 py-2 text-xs text-gray-400">
-                                                    Manage Invoices
-                                                </div>
+                                                <template v-if="$page.props.user.is_freetraveler_admin">
 
-                                                <!-- Invoice Settings -->
-                                                <DropdownLink v-if="$page.props.jetstream.canCreateTeams" :href="route('invoices', $page.props.user.current_team)">
-                                                    My Invoices
-                                                </DropdownLink>
-                                                <DropdownLink v-if="$page.props.jetstream.canCreateTeams" :href="route('providers')">
-                                                    Providers
-                                                </DropdownLink>
-<!-- 
-                                                <DropdownLink v-if="$page.props.jetstream.canCreateTeams" :href="route('teams.create')">
-                                                    Create New Agency
-                                                </DropdownLink> -->
+                                                    <div class="block px-4 py-2 text-xs text-gray-400">
+                                                        Manage Invoices
+                                                    </div>
+                                                    
+                                                    <!-- Invoice Settings -->
+                                                    <DropdownLink v-if="$page.props.jetstream.canCreateTeams" :href="route('invoices', $page.props.user.current_team)">
+                                                        My Invoices
+                                                    </DropdownLink>
+                                                    <DropdownLink v-if="$page.props.jetstream.canCreateTeams" :href="route('providers')">
+                                                        Providers
+                                                    </DropdownLink>
+                                                
+                                                </template>
 
                                                 <div class="border-t border-gray-100" />
 

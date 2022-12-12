@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Freetravelable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -19,6 +20,7 @@ class User extends Authenticatable
     use HasTeams;
     use Notifiable;
     use TwoFactorAuthenticatable;
+    use Freetravelable;
 
     /**
      * The attributes that are mass assignable.
@@ -57,10 +59,12 @@ class User extends Authenticatable
      */
     protected $appends = [
         'profile_photo_url',
+        'is_freetraveler_admin'
     ];
 
     public function quotes()
     {
         return $this->hasMany(Quote::class);
     }
+
 }

@@ -1,5 +1,6 @@
 <script setup>
 import Pagination from '../../Shared/Pagination.vue';
+import InputDate from '../Quotes/partials/InputDate.vue';
 
 
 defineProps({
@@ -9,7 +10,6 @@ defineProps({
 </script>
 
 <template>
-    <h1>{{ $page.props.flash.message }}</h1>
 <!-- component -->
 <section class="w-full antialiased bg-gray-100 text-gray-600">
     <div class="flex flex-col justify-center h-full">

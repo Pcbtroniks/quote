@@ -41,7 +41,7 @@ class TeamPolicy
      */
     public function create(User $user,Team $team)
     {
-        return true;
+        return $user->isFreetravelerAdmin();
     }
 
     /**

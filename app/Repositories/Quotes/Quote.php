@@ -157,4 +157,18 @@ class Quote {
 
     }
 
+    public function Operations()
+    {
+        return ModelsQuote::with(['user', 'coupon', 'listed_activities', 'listed_activities.activity', 'team', 'listed_activities.hotel', 'listed_activities.hotel.zone']);
+    }
+
+    public function getOperationsFilterByDate()
+    {
+        return $this->Operations()->where('listed_activities.date', '30/11/2022')->get();
+    }
+
+    public static function getOperationsByAgency(int $limit = 10){
+        return ModelsQuote::with(['user', 'coupon', 'listed_activities', 'listed_activities.activity', 'team', 'listed_activities.hotel', 'listed_activities.hotel.zone'])->where('team_id', auth()->user()->currentTeam->id)->paginate($limit);
+    }
+
 }
