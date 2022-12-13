@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActivitiesController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\ExportController;
@@ -58,6 +59,8 @@ Route::middleware([
     Route::post('/quoter/create', [QuoterController::class, 'store'])->name('quoter.store');
 
     // Activities
+
+    Route::get('/activities', [ActivitiesController::class, 'index'])->name('activities');
 
     Route::get('parks', [QuoteController::class, 'parks'])->name('parks');
 
