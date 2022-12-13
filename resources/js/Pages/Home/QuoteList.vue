@@ -1,7 +1,6 @@
 <script setup>
 import Pagination from '../../Shared/Pagination.vue';
-import InputDate from '../Quotes/partials/InputDate.vue';
-
+import FilterForm from '@/Pages/Home/FilterForm.vue';
 
 defineProps({
     quotes: Object
@@ -17,6 +16,9 @@ defineProps({
         <div class="w-full mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
             <header class="px-5 py-4 border-b border-gray-100">
                 <h2 class="font-semibold text-gray-800">Cotizaciones</h2>
+                <div>
+                    <FilterForm class="grid grid-cols-6 gap-4"/>
+                </div>
             </header>
             <div class="p-3">
                 <div class="overflow-x-auto">

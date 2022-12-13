@@ -20,4 +20,12 @@ class HomeController extends Controller
         return inertia('Dashboard', compact('quotes'));
 
     }
+
+    public function filter(Quote $quotes)
+    {
+        $quotes = $quotes->getFiltered(request());
+        // dd($quotes);
+        // return $quotes;
+        return inertia('Dashboard', compact('quotes'));
+    }
 }

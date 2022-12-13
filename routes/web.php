@@ -49,6 +49,8 @@ Route::middleware([
 
     Route::get('/quote/preview/{quoteId}', [QuoteController::class, 'preview'])->name('quote.preview');
 
+    Route::get('/quotes/filter', [HomeController::class, 'filter'])->name('quotes.filter');
+
     /* Quoter */
 
     Route::get('/quoter', [QuoterController::class, 'index'])->name('quoter');

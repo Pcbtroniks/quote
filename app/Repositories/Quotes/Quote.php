@@ -171,4 +171,51 @@ class Quote {
         return ModelsQuote::with(['user', 'coupon', 'listed_activities', 'listed_activities.activity', 'team', 'listed_activities.hotel', 'listed_activities.hotel.zone'])->where('team_id', auth()->user()->currentTeam->id)->paginate($limit);
     }
 
+    public function getFiltered(Request $request, int $limit = 10)
+    {
+        return ModelsQuote::when($request->date, function ($q) use ($request){
+                                        $q->whereHas('listed_activities', function ($q) use($request) {
+                                            $q->where('date', $request->date);
+                                        });
+                                    })->
+                                    when($request->zone, function ($q) use ($request){
+                                        $q->whereHas('listed_activities.hotel.zone', function ($q) use($request) {
+                                            $q->whereId($request->zone);
+                                        });
+                                    })->
+                                    // whereHas('listed_activities.hotel.zone', function ($q) use ($request){
+                                    //     $q->when($request->zone, function ($q) use($request) {
+                                    //         $q->whereId($request->zone);
+                                    //     });
+                                    // })->
+                                    with([
+                                    'user', 
+                                    'coupon', 
+                                    'listed_activities', 
+                                    'listed_activities.activity', 
+                                    'team', 
+                                    'listed_activities.hotel', 
+                                    'listed_activities.hotel.zone'])
+                                    ->paginate($limit);
+    }
+    // public function getFiltered(Request $request, int $limit = 10)
+    // {
+    //     return ModelsQuote::whereHas('listed_activities', function ($q) use ($request){
+    //                                     $q->when($request->date, function ($q) use($request) {
+    //                                         $q->where('date', $request->date);
+    //                                     });
+    //                                 })->
+    //                                 with(['user', 
+    //                                 'coupon', 
+    //                                 'listed_activities' => function ($q) use ($request){
+    //                                     $q->when($request->date, function ($q) use($request) {
+    //                                         $q->where('date', $request->date);
+    //                                     }); 
+    //                                 }, 
+    //                                 'listed_activities.activity', 
+    //                                 'team', 'listed_activities.hotel', 
+    //                                 'listed_activities.hotel.zone'])
+    //                                 ->paginate($limit);
+    // }
+
 }
