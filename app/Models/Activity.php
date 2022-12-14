@@ -26,13 +26,12 @@ class Activity extends Model
     
     }
 
-    public function price(){
+    public function prices(){
         return $this->hasMany(Price::class);
     }
 
-    public function getFilterPricesAttribute(){
-
-        return ['low' => [$this->price[0],$this->price[1]], 'high' => [$this->price[2], $this->price[3]]];
-
+    public function getFilterPricesAttribute()
+    {
+        return $this->prices->groupBy(['season', 'type']);
     }
 }

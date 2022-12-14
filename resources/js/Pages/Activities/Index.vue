@@ -5,7 +5,7 @@ import BreadCrumbArrow from '@/Shared/BreadCrumbArrow.vue';
 
 const props = defineProps({
     activities: Object,
-    ActivityType: String
+    filters: Object
 })
 
 </script>
@@ -21,7 +21,7 @@ const props = defineProps({
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                    <ActivityList :ActivityType="props.ActivityType" :activities="activities" />
+                    <ActivityList :filters="filters" :activities="activities" />
                 </div>
             </div>
         </div>

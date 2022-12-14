@@ -2,6 +2,8 @@
 
 namespace App\Repositories\Activities;
 
+use App\Enums\ActivityType;
+use App\Enums\Zone;
 use App\Models\Activity as ActivityModel;
 use Illuminate\Http\Request;
 
@@ -12,10 +14,23 @@ class Activity {
         return ActivityModel::when($request->type, function ($q) use ($request){
                     $q->where('type', $request->type ?? 'park');
                 })
-                ->with('price', function ($query) use($request) {
+                ->with('prices', function ($query) use($request) {
                     $query->where('zone_id', $request->zone ?? 4);
                 })
                 ->paginate($limit);
+    }
+
+    public function getDefaulFilters(string $filter = null)
+    {
+        $defaults = [
+            'type' => ActivityType::Park->getType(),
+            'zone' => Zone::Nacional->getID(),
+            'page' => 1
+        ];
+
+        return isset($filter) 
+                ? $defaults[$filter]
+                : $defaults;
     }
 
 }

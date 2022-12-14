@@ -4,13 +4,8 @@ import Filters from '@/Pages/Activities/Filters.vue';
 
 const props = defineProps({
     activities: Object,
-    ActivityType: String
+    filters: Object
 })
-
-
-const filterPrice = (price, season, type, zone) => {
-    return (price.season == season && price.type == type && price.zone_id == zone) ? true : false;
-}
 </script>
 
 <template>
@@ -22,7 +17,7 @@ const filterPrice = (price, season, type, zone) => {
             <header class="px-5 py-4 border-b border-gray-100 flex items-center">
                 <h2 class="font-semibold text-gray-800"></h2>
                 <div class="m-2">
-                    <Filters :ActivityType="ActivityType"/>
+                    <Filters :filters="filters"/>
                 </div>
             </header>
             <div class="p-3">
@@ -67,16 +62,20 @@ const filterPrice = (price, season, type, zone) => {
                                     </div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
-                                    ${{ activity.filter_prices.low[0].amount }}
+                                    ${{ activity.filter_prices.low?.adult[0].amount }}
+                                    <!-- $100 -->
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
-                                    ${{ activity.filter_prices.low[1].amount }}
+                                    ${{ activity.filter_prices.low?.kid[0].amount }}
+                                    <!-- $100 -->
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
-                                    ${{ activity.filter_prices.high[0].amount }}
+                                    ${{ activity.filter_prices.high?.adult[0].amount }}
+                                    <!-- $100 -->
                                 </td>
                                 <td class="p-2 whitespace-nowrap cursor-default">
-                                    ${{ activity.filter_prices.high[1].amount }}
+                                    ${{ activity.filter_prices.high?.kid[0].amount }}
+                                    <!-- $100 -->
                                 </td>
                                 <td class="p-2 whitespace-nowrap cursor-default">
                                     $100.00
@@ -97,7 +96,7 @@ const filterPrice = (price, season, type, zone) => {
                 </div>
 
                 <div class="flex justify-center">    
-                    <Pagination :links="activities" />
+                    <Pagination :data="props.filters"  :links="activities" />
                 </div>
             </div>
         </div>
