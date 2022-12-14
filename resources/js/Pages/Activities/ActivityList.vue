@@ -41,6 +41,9 @@ const props = defineProps({
                                     <div class="font-semibold text-left">Niño (Alta)</div>
                                 </th>
                                 <th class="p-2 whitespace-nowrap">
+                                    <div class="font-semibold text-left">Entrada</div>
+                                </th>
+                                <th class="p-2 whitespace-nowrap">
                                     <div class="font-semibold text-left">Tour (Solo)</div>
                                 </th>
                                 <th class="p-2 whitespace-nowrap">
@@ -78,16 +81,19 @@ const props = defineProps({
                                     <!-- $100 -->
                                 </td>
                                 <td class="p-2 whitespace-nowrap cursor-default">
-                                    $100.00
+                                    %10
+                                </td>
+                                <td class="p-2 whitespace-nowrap cursor-default">
+                                    %20
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
-                                    $100.00
+                                    %30
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
-                                    $100.00
+                                    %15
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
-                                    $100.00
+                                    %20
                                 </td>
                             </tr>
                         </tbody>

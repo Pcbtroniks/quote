@@ -233,7 +233,8 @@ function handlePackActivity(act){
                         <p>Tipo de reserva: {{ parseQuoteType(form.tipoReservacion) }}</p>
                         <br>
                         <p>Precio sugerido al publico: ${{ QuoteProgress.prices.totalPublicPrice }} </p>
-                        <p>Costo para la agencia: ${{ QuoteProgress.prices.totalAgencyPrice }}</p>
+                        <p>Precio Publico con el descuento: ${{ QuoteProgress.prices.totalAgencyPrice }}</p>
+                        <!-- <p>Costo para la agencia: ${{ QuoteProgress.prices.totalAgencyPrice }}</p> -->
                         <!-- <p>Ganancia de vendedor: {{ hasAmount( QuoteProgress.prices.reference ) }}</p> -->
                         <!-- <p>
                             <small>Calcular precio {{ `min: ${QuoteProgress.prices.totalAgencyPrice} - max: ${QuoteProgress.prices.totalPublicPrice}` }}</small>
