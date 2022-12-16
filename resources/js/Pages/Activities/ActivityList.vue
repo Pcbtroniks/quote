@@ -1,14 +1,32 @@
 <script setup>
 import Pagination from '../../Shared/Pagination.vue';
 import Filters from '@/Pages/Activities/Filters.vue';
+import  modal from './Modal.vue';
+import { ref, reactive } from 'vue';
 
 const props = defineProps({
     activities: Object,
     filters: Object
 })
+
+const act = ref({});
+const showModal = ref(false);
+
+const useEditActivity = (activity) => {
+    act.value = activity;
+    showModal.value = true;
+};
 </script>
 
 <template>
+  <Teleport to="body">
+    <!-- use the modal component, pass in the prop -->
+    <modal :fields="act" :show="showModal" @close="showModal = false">
+      <template #header>
+        <h3>custom header</h3>
+      </template>
+    </modal>
+  </Teleport>
 <!-- component -->
 <section class="w-full antialiased bg-gray-100 text-gray-600">
     <div class="flex flex-col justify-center h-full">
@@ -58,42 +76,38 @@ const props = defineProps({
                             </tr>
                         </thead>
                         <tbody class="text-sm divide-y divide-gray-100">
-                            <tr v-for="activity in props.activities.data">
+                            <tr v-for="activity in props.activities.data" class="hover:cursor-pointer hover:text-white hover:bg-sky-400">
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="flex items-center">
-                                        <div class="font-medium text-gray-800">{{ activity.name }}</div>
+                                        <div @click="useEditActivity(activity)" class="font-medium">{{ activity.name }}</div>
                                     </div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
                                     ${{ activity.filter_prices.low?.adult[0].amount }}
-                                    <!-- $100 -->
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
                                     ${{ activity.filter_prices.low?.kid[0].amount }}
-                                    <!-- $100 -->
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
                                     ${{ activity.filter_prices.high?.adult[0].amount }}
-                                    <!-- $100 -->
                                 </td>
                                 <td class="p-2 whitespace-nowrap cursor-default">
                                     ${{ activity.filter_prices.high?.kid[0].amount }}
-                                    <!-- $100 -->
                                 </td>
                                 <td class="p-2 whitespace-nowrap cursor-default">
-                                    %10
+                                    %{{ activity.agency_discounts.entrance }}
                                 </td>
                                 <td class="p-2 whitespace-nowrap cursor-default">
-                                    %20
+                                    %{{ activity.agency_discounts.tour }}
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
-                                    %30
+                                    %{{ activity.agency_discounts.pack }}
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
-                                    %15
+                                    %{{ activity.agency_discounts.pack_double }}
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
-                                    %20
+                                    %{{ activity.agency_discounts.pack_multiple }}
                                 </td>
                             </tr>
                         </tbody>

@@ -51,4 +51,9 @@ class Team extends JetstreamTeam
         return $this->hasMany(Quote::class);
      
     }
+
+    public function activity_discounts() 
+    { 
+        return $this->hasMany(ActivityAgencyDiscount::class);
+    }
 }

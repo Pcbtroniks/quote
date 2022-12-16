@@ -7,12 +7,25 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Price;
+use App\Models\ActivityAgencyDiscount;
 
 class Activity extends Model
 {
     use HasFactory;
 
     protected $appends = ['filter_prices'];
+
+    public function agency_discounts()
+    {
+        return $this->hasOne(ActivityAgencyDiscount::class)->withDefault([
+            'entrance' => 10,
+            'tour' => 20,
+            'pack' => 30,
+            'pack_double' => 15,
+            'pack_multiple' => 20,
+            'team_id' => 1
+        ]);
+    }
 
     public function QuoteActivity(){
         return $this->belongsToMany(QuoteActivity::class,'quote_activity');

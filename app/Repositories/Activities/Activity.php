@@ -16,7 +16,7 @@ class Activity {
                 })
                 ->with('prices', function ($query) use($request) {
                     $query->where('zone_id', $request->zone ?? 4);
-                })
+                })->with('agency_discounts')
                 ->paginate($limit);
     }
 
