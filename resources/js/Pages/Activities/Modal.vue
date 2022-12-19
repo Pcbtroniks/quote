@@ -1,5 +1,7 @@
 <script setup>
 import { useForm } from '@inertiajs/inertia-vue3';
+import { reactive } from 'vue';
+import FormError from './Partials/FormError.vue';
 
 const props = defineProps({
     fields: Object,
@@ -7,7 +9,7 @@ const props = defineProps({
 })
 
 const form = useForm({
-    name: props.fields.name,
+    name: null,
     adult_low: null,
     child_low: null,
     adult_high: null,
@@ -17,18 +19,22 @@ const form = useForm({
     pack: null,
     pack_double: null,
     pack_multiple: null,
-}); 
+});
+
+const unfold = reactive({
+    prices: false,
+    discounts: false
+});
 </script>
 <template>
-    <Transition name="modal">
-    <section @wheel.prevent  @touchmove.prevent @scroll.prevent v-if="show" class="overlay w-full h-screen fixed top-0 left-0 bg-black bg-opacity-50 overflow-hidden">
+    <section v-if="show" class="overlay w-full h-full absolute top-0 left-0 bg-black bg-opacity-50 overflow-hidden">
         <main id="content" role="main" class=" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-xl mx-auto p-6">
         <div class="mt-7 bg-white  rounded-xl shadow-lg dark:bg-gray-800 dark:border-gray-700">
         <div class="p-4 sm:p-7">
             <div class="text-center">
-            <h1 class="block text-2xl font-bold text-gray-800 dark:text-white">Editar Costos</h1>
+            <h1 class="block text-2xl font-bold text-gray-800 dark:text-white">Editando {{ props.fields.name ?? 'Actividad' }}</h1>
             <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                Editar {{ form.name ?? 'Actividad' }}
+                <!-- Editando {{ props.fields.name ?? 'Actividad' }} -->
                 <!-- <a class="text-blue-600 decoration-2 hover:underline font-medium" href="#">
                 Login here
                 </a> -->
@@ -40,18 +46,61 @@ const form = useForm({
                 <div class="grid gap-y-4">
                     
                     <div>
-                        <label for="name" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Nombre de la actividad</label>
+                        <label for="name" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Nombre de la actividad: {{ props.fields.name ?? 'Actividad' }}</label>
                         <div class="relative">
-                        <input v-model="form.name" type="text" id="name" name="name" class="py-3 px-4 block w-full border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm" required aria-describedby="email-error">
+                        <input v-model="form.name" type="text" id="name" name="name" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm" aria-describedby="email-error">
                         </div>
-                        <p class="hidden text-xs text-red-600 mt-2" id="email-error">Please include a valid email address so we can get back to you</p>
+                        <FormError :msg="form.errors.name"/>
                     </div>
-                    <div>
-                        <label for="adult_low" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Nombre de la actividad</label>
-                        <div class="relative">
-                        <input v-model="form.name" type="text" id="name" name="name" class="py-3 px-4 block w-full border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm" required aria-describedby="email-error">
+
+                    <!-- Prices by Season -->
+                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Precios por temporada</p>
+                    <button type="button" @click="unfold.prices = !unfold.prices" class="text-white font-bold bg-sky-400 py-4">{{ unfold.prices ? 'Ocultar precios -' : 'Mostrar precios +'}}</button>
+                    
+                    <div :class="unfold.prices == false ? 'h-0 overflow-y-hidden' : 'h-full overflow-y-auto'" class="">
+                        <!-- Low Season -->
+                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Temporada baja</p>
+                    <div class="flex justify-between flex-col items-center ">
+
+                        <div class="w-full mb-4">
+                            <label for="adult_low" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Adulto (Temporada Baja)</label>
+                            <div class="relative">
+                            <input type="number" name="adult_low" id="adult_low" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                            </div>
+                            <FormError :msg="form.errors.adult_low"/>
                         </div>
-                        <p class="hidden text-xs text-red-600 mt-2" id="email-error">Please include a valid email address so we can get back to you</p>
+
+                        <div class="w-full">
+                            <label for="minor_low" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Menor (Temporada Baja)</label>
+                            <div class="relative w-full">
+                            <input type="number" name="minor_low" id="minor_low" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                            </div>
+                            <FormError :msg="form.errors.minor_low"/>
+                        </div>
+
+                    </div>
+
+                    <!-- High Season -->
+                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Temporada Alta</p>
+                    <div class="flex justify-between flex-col">
+
+                        <div class="mb-4">
+                            <label for="adult_high" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Adulto (Temporada Baja)</label>
+                            <div class="relative">
+                            <input type="number" name="adult_high" id="adult_high" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                            </div>
+                            <FormError :msg="form.errors.adult_high"/>
+                        </div>
+
+                        <div>
+                            <label for="minor_high" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Menor (Temporada Baja)</label>
+                            <div class="relative">
+                            <input type="number" name="minor_high" id="minor_high" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                            </div>
+                            <FormError :msg="form.errors.minor_high"/>
+                        </div>
+
+                    </div>
                     </div>
 
                 <button type="submit" class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">Guardar Cambios</button>
@@ -63,5 +112,4 @@ const form = useForm({
         </div>
     </main>
     </section>
-</Transition>
 </template>

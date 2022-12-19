@@ -21,11 +21,7 @@ const useEditActivity = (activity) => {
 <template>
   <Teleport to="body">
     <!-- use the modal component, pass in the prop -->
-    <modal :fields="act" :show="showModal" @close="showModal = false">
-      <template #header>
-        <h3>custom header</h3>
-      </template>
-    </modal>
+    <modal :fields="act" :show="showModal" @close="showModal = false" />
   </Teleport>
 <!-- component -->
 <section class="w-full antialiased bg-gray-100 text-gray-600">
@@ -76,7 +72,7 @@ const useEditActivity = (activity) => {
                             </tr>
                         </thead>
                         <tbody class="text-sm divide-y divide-gray-100">
-                            <tr v-for="activity in props.activities.data" class="hover:cursor-pointer hover:text-white hover:bg-sky-400">
+                            <tr v-for="activity in props.activities.data" class="hover:cursor-pointer hover:text-white hover:bg-sky-400 h-10">
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <div @click="useEditActivity(activity)" class="font-medium">{{ activity.name }}</div>
