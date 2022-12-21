@@ -36,6 +36,10 @@ const switchAccordion = (accordion) => {
         unfold.discounts = !unfold.discounts;
     }
 };
+
+/**
+ * Add function to edit activity in modal 
+ */
 </script>
 <template>
     <section v-if="show" class="overlay w-full h-full absolute top-0 left-0 bg-black bg-opacity-50">
