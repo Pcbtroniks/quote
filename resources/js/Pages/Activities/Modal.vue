@@ -23,12 +23,23 @@ const form = useForm({
 
 const unfold = reactive({
     prices: false,
-    discounts: false
+    discounts: true
 });
+
+
+const switchAccordion = (accordion) => {
+    if (accordion === 'prices') {
+        unfold.prices = !unfold.prices;
+        unfold.discounts = !unfold.discounts;
+    } else if (accordion === 'discounts') {
+        unfold.prices = !unfold.prices;
+        unfold.discounts = !unfold.discounts;
+    }
+};
 </script>
 <template>
-    <section v-if="show" class="overlay w-full h-full absolute top-0 left-0 bg-black bg-opacity-50 overflow-hidden">
-        <main id="content" role="main" class=" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-xl mx-auto p-6">
+    <section v-if="show" class="overlay w-full h-full absolute top-0 left-0 bg-black bg-opacity-50">
+        <main id="content" role="main" class=" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-xl mx-auto p-6 my-10">
         <div class="mt-7 bg-white  rounded-xl shadow-lg dark:bg-gray-800 dark:border-gray-700">
         <div class="p-4 sm:p-7">
             <div class="text-center">
@@ -55,7 +66,7 @@ const unfold = reactive({
 
                     <!-- Prices by Season -->
                     <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Precios por temporada</p>
-                    <button type="button" @click="unfold.prices = !unfold.prices" class="text-white font-bold bg-sky-400 py-4">{{ unfold.prices ? 'Ocultar precios -' : 'Mostrar precios +'}}</button>
+                    <button type="button" @click="switchAccordion('prices')" class="text-white font-bold bg-sky-400 py-4">{{ unfold.prices ? 'Ocultar precios -' : 'Mostrar precios +'}}</button>
                     
                     <div :class="unfold.prices == false ? 'h-0 overflow-y-hidden' : 'h-full overflow-y-auto'" class="">
                         <!-- Low Season -->
@@ -98,6 +109,61 @@ const unfold = reactive({
                             <input type="number" name="minor_high" id="minor_high" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
                             </div>
                             <FormError :msg="form.errors.minor_high"/>
+                        </div>
+
+                    </div>
+                    </div>
+
+                    <!-- Dsicounts percentages -->
+                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Descuento por Porcentajes</p>
+                    <button type="button" @click="switchAccordion('discounts')" class="text-white font-bold bg-sky-400 py-4">{{ unfold.discounts ? 'Ocultar descuentos -' : 'Mostrar descuentos +'}}</button>
+                    
+                    <div :class="unfold.discounts == false ? 'h-0 overflow-y-hidden' : 'h-full overflow-y-auto'" class="">
+                        <!-- Low Season -->
+                    <div class="flex justify-between flex-col items-center ">
+
+                        <div class="w-full mb-4">
+                            <label for="entrance" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Entrada</label>
+                            <div class="relative">
+                            <input type="number" name="entrance" id="entrance" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                            </div>
+                            <FormError :msg="form.errors.entrance"/>
+                        </div>
+
+                        <div class="w-full">
+                            <label for="tour" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Tour (Solo)</label>
+                            <div class="relative w-full">
+                            <input type="number" name="tour" id="tour" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                            </div>
+                            <FormError :msg="form.errors.tour"/>
+                        </div>
+
+                    </div>
+
+                    <div class="flex justify-between flex-col">
+
+                        <div class="mb-4">
+                            <label for="pack" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Tour (Paquete)</label>
+                            <div class="relative">
+                            <input type="number" name="pack" id="pack" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                            </div>
+                            <FormError :msg="form.errors.pack"/>
+                        </div>
+
+                        <div>
+                            <label for="pack_double" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Paquete #2</label>
+                            <div class="relative">
+                            <input type="number" name="pack_double" id="pack_double" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                            </div>
+                            <FormError :msg="form.errors.pack_double"/>
+                        </div>
+
+                        <div>
+                            <label for="pack_multiple" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Paquete #3 o mas</label>
+                            <div class="relative">
+                            <input type="number" name="pack_multiple" id="pack_multiple" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                            </div>
+                            <FormError :msg="form.errors.pack_multiple"/>
                         </div>
 
                     </div>
