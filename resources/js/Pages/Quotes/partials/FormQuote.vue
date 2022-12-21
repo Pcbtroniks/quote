@@ -503,6 +503,7 @@ function handlePackActivity(act){
 
                                 <InputNumber
                                     v-model.number="QuoteProgress.nPackTours"
+                                    min="2"
                                     id-name="number_of_activitys"
                                 />
 

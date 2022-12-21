@@ -11,7 +11,7 @@ export const QuoteProgress = reactive({
     cancunHotels: null,
     rmHotels: null,
     tours: [],
-    nPackTours: 0,
+    nPackTours: 2,
     nTours:[],
     tour: {
         activity: 0,
