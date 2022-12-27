@@ -12,6 +12,10 @@ use App\Models\ActivityAgencyDiscount;
 class Activity extends Model
 {
     use HasFactory;
+    
+    public $fillable = [
+        'name'
+    ];
 
     protected $appends = ['filter_prices'];
 

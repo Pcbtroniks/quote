@@ -37,6 +37,25 @@ const switchAccordion = (accordion) => {
     }
 };
 
+const preSubmit = () => {
+    form.name = props.fields.name;
+    form.entrance = props.fields.agency_discounts.entrance;
+    form.tour = props.fields.agency_discounts.tour;
+    form.pack = props.fields.agency_discounts.pack;
+    form.pack_double = props.fields.agency_discounts.pack_double;
+    form.pack_multiple = props.fields.agency_discounts.pack_multiple;
+}
+
+const submit = () => {
+    preSubmit();
+    form.post(route('activities.update', props.fields.id), {
+        preserveScroll: true,
+        onSuccess: () => {
+            console.log('success');
+        }
+    });
+}
+
 /**
  * Add function to edit activity in modal 
  */
@@ -57,13 +76,13 @@ const switchAccordion = (accordion) => {
             </div>
 
             <div class="mt-5">
-            <form>
+            <form @submit.prevent="submit">
                 <div class="grid gap-y-4">
                     
                     <div>
                         <label for="name" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Nombre de la actividad: {{ props.fields.name ?? 'Actividad' }}</label>
                         <div class="relative">
-                        <input v-model="form.name" type="text" id="name" name="name" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm" aria-describedby="email-error">
+                        <input v-model="props.fields.name" type="text" id="name" name="name" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm" aria-describedby="email-error">
                         </div>
                         <FormError :msg="form.errors.name"/>
                     </div>
@@ -80,7 +99,7 @@ const switchAccordion = (accordion) => {
                         <div class="w-full mb-4">
                             <label for="adult_low" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Adulto (Temporada Baja)</label>
                             <div class="relative">
-                            <input type="number" name="adult_low" id="adult_low" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                            <input step="0.01" v-model="props.fields.filter_prices.low.adult[0].amount" type="number" name="adult_low" id="adult_low" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
                             </div>
                             <FormError :msg="form.errors.adult_low"/>
                         </div>
@@ -88,7 +107,7 @@ const switchAccordion = (accordion) => {
                         <div class="w-full">
                             <label for="minor_low" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Menor (Temporada Baja)</label>
                             <div class="relative w-full">
-                            <input type="number" name="minor_low" id="minor_low" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                            <input step="0.01" v-model="props.fields.filter_prices.low.kid[0].amount" type="number" name="minor_low" id="minor_low" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
                             </div>
                             <FormError :msg="form.errors.minor_low"/>
                         </div>
@@ -100,17 +119,17 @@ const switchAccordion = (accordion) => {
                     <div class="flex justify-between flex-col">
 
                         <div class="mb-4">
-                            <label for="adult_high" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Adulto (Temporada Baja)</label>
+                            <label for="adult_high" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Adulto (Temporada Alta)</label>
                             <div class="relative">
-                            <input type="number" name="adult_high" id="adult_high" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                            <input step="0.01" v-model="props.fields.filter_prices.high.adult[0].amount" type="number" name="adult_high" id="adult_high" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
                             </div>
                             <FormError :msg="form.errors.adult_high"/>
                         </div>
 
                         <div>
-                            <label for="minor_high" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Menor (Temporada Baja)</label>
+                            <label for="minor_high" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Menor (Temporada Alta)</label>
                             <div class="relative">
-                            <input type="number" name="minor_high" id="minor_high" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                            <input step="0.01" v-model="props.fields.filter_prices.high.kid[0].amount" type="number" name="minor_high" id="minor_high" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
                             </div>
                             <FormError :msg="form.errors.minor_high"/>
                         </div>
@@ -119,7 +138,7 @@ const switchAccordion = (accordion) => {
                     </div>
 
                     <!-- Dsicounts percentages -->
-                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Descuento por Porcentajes</p>
+                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Porcentajes de Descuento</p>
                     <button type="button" @click="switchAccordion('discounts')" class="text-white font-bold bg-sky-400 py-4">{{ unfold.discounts ? 'Ocultar descuentos -' : 'Mostrar descuentos +'}}</button>
                     
                     <div :class="unfold.discounts == false ? 'h-0 overflow-y-hidden' : 'h-full overflow-y-auto'" class="">
@@ -129,7 +148,7 @@ const switchAccordion = (accordion) => {
                         <div class="w-full mb-4">
                             <label for="entrance" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Entrada</label>
                             <div class="relative">
-                            <input type="number" name="entrance" id="entrance" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                            <input v-model="props.fields.agency_discounts.entrance" type="number" name="entrance" id="entrance" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
                             </div>
                             <FormError :msg="form.errors.entrance"/>
                         </div>
@@ -137,7 +156,7 @@ const switchAccordion = (accordion) => {
                         <div class="w-full">
                             <label for="tour" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Tour (Solo)</label>
                             <div class="relative w-full">
-                            <input type="number" name="tour" id="tour" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                            <input v-model="props.fields.agency_discounts.tour" type="number" name="tour" id="tour" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
                             </div>
                             <FormError :msg="form.errors.tour"/>
                         </div>
@@ -149,7 +168,7 @@ const switchAccordion = (accordion) => {
                         <div class="mb-4">
                             <label for="pack" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Tour (Paquete)</label>
                             <div class="relative">
-                            <input type="number" name="pack" id="pack" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                            <input v-model="props.fields.agency_discounts.pack" type="number" name="pack" id="pack" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
                             </div>
                             <FormError :msg="form.errors.pack"/>
                         </div>
@@ -157,7 +176,7 @@ const switchAccordion = (accordion) => {
                         <div>
                             <label for="pack_double" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Paquete #2</label>
                             <div class="relative">
-                            <input type="number" name="pack_double" id="pack_double" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                            <input v-model="props.fields.agency_discounts.pack_double" type="number" name="pack_double" id="pack_double" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
                             </div>
                             <FormError :msg="form.errors.pack_double"/>
                         </div>
@@ -165,7 +184,7 @@ const switchAccordion = (accordion) => {
                         <div>
                             <label for="pack_multiple" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Paquete #3 o mas</label>
                             <div class="relative">
-                            <input type="number" name="pack_multiple" id="pack_multiple" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                            <input v-model="props.fields.agency_discounts.pack_multiple" type="number" name="pack_multiple" id="pack_multiple" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
                             </div>
                             <FormError :msg="form.errors.pack_multiple"/>
                         </div>

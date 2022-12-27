@@ -2,10 +2,10 @@
 
 namespace App\Repositories\Activities;
 
-use App\Enums\ActivityType;
-use App\Enums\Zone;
 use App\Models\Activity as ActivityModel;
 use Illuminate\Http\Request;
+use App\Enums\ActivityType;
+use App\Enums\Zone;
 
 class Activity {
 
@@ -31,6 +31,25 @@ class Activity {
         return isset($filter) 
                 ? $defaults[$filter]
                 : $defaults;
+    }
+
+    public function updateActivity(Request $request, int $id)
+    {
+        $activity =  ActivityModel::find($id);
+
+        $activity->update(['name' => $request->name]);
+
+        $activity->agency_discounts()->updateOrCreate([
+            'team_id' => auth()->user()->currentTeam->id,
+            'activity_id' => $id,
+
+        ],[
+            'entrance' => $request->entrance,
+            'tour' => $request->tour,
+            'pack' => $request->pack,
+            'pack_double' => $request->pack_double,
+            'pack_multiple' => $request->pack_multiple,
+        ]);
     }
 
 }
