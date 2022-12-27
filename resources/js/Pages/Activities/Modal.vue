@@ -1,6 +1,6 @@
 <script setup>
 import { useForm } from '@inertiajs/inertia-vue3';
-import { reactive } from 'vue';
+import { reactive, defineEmits } from 'vue';
 import FormError from './Partials/FormError.vue';
 
 const props = defineProps({
@@ -25,6 +25,8 @@ const unfold = reactive({
     prices: false,
     discounts: true
 });
+
+const emit = defineEmits(['close']);
 
 
 const switchAccordion = (accordion) => {
@@ -52,6 +54,7 @@ const submit = () => {
         preserveScroll: true,
         onSuccess: () => {
             console.log('success');
+            emit('close');
         }
     });
 }
