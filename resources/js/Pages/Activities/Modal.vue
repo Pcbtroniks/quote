@@ -91,10 +91,10 @@ const submit = () => {
                     </div>
 
                     <!-- Prices by Season -->
-                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Precios por temporada</p>
-                    <button type="button" @click="switchAccordion('prices')" class="text-white font-bold bg-sky-400 py-4">{{ unfold.prices ? 'Ocultar precios -' : 'Mostrar precios +'}}</button>
+                    <p class="hidden mt-2 text-sm text-gray-600 dark:text-gray-400">Precios por temporada</p>
+                    <button type="button" @click="switchAccordion('prices')" class="hidden text-white font-bold bg-sky-400 py-4">{{ unfold.prices ? 'Ocultar precios -' : 'Mostrar precios +'}}</button>
                     
-                    <div :class="unfold.prices == false ? 'h-0 overflow-y-hidden' : 'h-full overflow-y-auto'" class="">
+                    <div :class="unfold.prices == false ? 'h-0 overflow-y-hidden' : 'h-full overflow-y-auto'" class="hidden">
                         <!-- Low Season -->
                     <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Temporada baja</p>
                     <div class="flex justify-between flex-col items-center ">
