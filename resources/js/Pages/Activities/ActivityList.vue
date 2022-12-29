@@ -3,6 +3,7 @@ import Pagination from '../../Shared/Pagination.vue';
 import Filters from '@/Pages/Activities/Filters.vue';
 import  modal from './Modal.vue';
 import { ref, reactive } from 'vue';
+import { usePage } from '@inertiajs/inertia-vue3';
 
 const props = defineProps({
     activities: Object,
@@ -13,6 +14,7 @@ const act = ref({});
 const showModal = ref(false);
 
 const useEditActivity = (activity) => {
+    if(!usePage().props.value.user.is_freetraveler_admin) return null;
     act.value = activity;
     showModal.value = true;
 };
