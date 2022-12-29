@@ -31,4 +31,14 @@ class Coupon {
      
     }
 
+    public static function generateCode($prefix = 'TIM', $id, $length = 5)
+    {
+        return $prefix . str_pad($id, $length, '0', STR_PAD_LEFT);
+    }
+
+    public function setCode($couponID, $code)
+    {
+        return CouponModel::where('id', $couponID)
+                ->update(['code' => $code]);
+    }
 }

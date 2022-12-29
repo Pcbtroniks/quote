@@ -141,7 +141,7 @@ class Quote {
     public function make_coupon(Request $request){
 
         $coupon = Coupon::create([
-            'code' => '',
+            'code' => null,
             'public_price' => $request->precioPublico,
             'sale_amount' => $request->importeVenta,
             'sale_percentage' => 5, 
