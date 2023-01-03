@@ -23,6 +23,6 @@ class ActivitiesController extends Controller
     {
         //return request()->all();
         $activity->updateActivity(request(), $id);
-        return redirect()->route('activities');
+        return redirect()->route('activities')->with('message','Activity updated successfully');
     }
 }

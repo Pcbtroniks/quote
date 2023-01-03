@@ -1,6 +1,8 @@
 <script setup>
 import { useForm } from '@inertiajs/inertia-vue3';
 import { reactive, defineEmits } from 'vue';
+import Swal from 'sweetalert2'
+
 import FormError from './Partials/FormError.vue';
 
 const props = defineProps({
@@ -53,15 +55,21 @@ const submit = () => {
     form.post(route('activities.update', props.fields.id), {
         preserveScroll: true,
         onSuccess: () => {
-            console.log('success');
-            emit('close');
+            Swal.fire({
+                title: '¡Actualizado!',
+                text: 'La actividad ha sido actualizada correctamente.',
+                icon: 'success',
+                confirmButtonText: 'Aceptar',
+                confirmButtonColor: '#3B82F6',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    emit('close');
+                }
+            })
         }
     });
 }
 
-/**
- * Add function to edit activity in modal 
- */
 </script>
 <template>
     <section v-if="show" class="overlay w-full h-full absolute top-0 left-0 bg-black bg-opacity-50">
