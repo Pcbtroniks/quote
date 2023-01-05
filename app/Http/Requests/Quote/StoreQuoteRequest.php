@@ -4,7 +4,7 @@ namespace App\Http\Requests\Quote;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class Save extends FormRequest
+class StoreQuoteRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

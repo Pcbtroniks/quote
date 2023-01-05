@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Mail;
 use App\Repositories\Prices\Price;
 use App\Repositories\Quotes\Quote;
-use App\Http\Requests\Quote\Save;
+use App\Http\Requests\Quote\StoreQuoteRequest;
 use App\Repositories\Zones\Hotel;
 use App\Repositories\Zones\Zone;
 use Illuminate\Http\Request;
@@ -47,7 +47,7 @@ class QuoteController extends Controller
     
     }
 
-    public function store(Save $request, Quote $quote){
+    public function store(StoreQuoteRequest $request, Quote $quote){
         //dd($request); return;
         $quote = $quote->save($request);
 
