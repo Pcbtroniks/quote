@@ -6,7 +6,6 @@ const props = defineProps({
     quotes: Object,
     agencies: Array
 })
-
 </script>
 
 <template>
