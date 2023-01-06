@@ -2,8 +2,9 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import QuoteList from './Home/QuoteList.vue';
 
-defineProps({
-    quotes: Object
+const props = defineProps({
+    quotes: Object,
+    agencies: Array
 })
 
 </script>
@@ -19,7 +20,7 @@ defineProps({
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                    <QuoteList :quotes="quotes" />
+                    <QuoteList :agencies="props.agencies" :quotes="props.quotes" />
                 </div>
             </div>
         </div>

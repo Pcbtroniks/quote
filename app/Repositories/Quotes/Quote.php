@@ -176,6 +176,9 @@ class Quote {
                                     when($request->type, function ($q) use ($request){
                                         $q->where('type', $request->type);
                                     })->
+                                    when($request->filter_agency, function ($q) use ($request){
+                                            $q->where('team_id', $request->filter_agency);
+                                    })->
                                     when($request->zone, function ($q) use ($request){
                                         $q->whereHas('listed_activities.hotel.zone', function ($q) use($request) {
                                             $q->whereId($request->zone);

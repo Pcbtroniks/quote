@@ -2,10 +2,12 @@
 import Pagination from '../../Shared/Pagination.vue';
 import FilterForm from '@/Pages/Home/FilterForm.vue';
 
-defineProps({
-    quotes: Object
+const props = defineProps({
+    quotes: Object,
+    agencies: Array
 })
 
+console.log(props.agencies);
 </script>
 
 <template>
@@ -17,7 +19,9 @@ defineProps({
             <header class="px-5 py-4 border-b border-gray-100">
                 <h2 class="font-semibold text-gray-800">Cotizaciones</h2>
                 <div>
-                    <FilterForm class="grid grid-cols-6 gap-4"/>
+                    <FilterForm
+                        :agencies="agencies"
+                        class="grid grid-cols-6 gap-4"/>
                 </div>
             </header>
             <div class="p-3">

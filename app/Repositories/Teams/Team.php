@@ -38,4 +38,10 @@ class Team {
 
     }
 
+    // get teams for select
+    public static function getTeams()
+    {
+        return TeamModel::select('id', 'name')->get();
+    }
+
 }

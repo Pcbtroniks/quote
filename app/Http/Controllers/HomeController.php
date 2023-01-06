@@ -2,30 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Team;
 use App\Repositories\Quotes\Quote;
+use App\Repositories\Teams\Team;
 use Illuminate\Http\Request;
 
 
 class HomeController extends Controller
 {
     public function index(){
-
         
         $quotes = auth()->user()->isFreetravelerAdmin()
                     ? Quote::getOperationDashboard()
                     : Quote::getOperationsByAgency();
 
-
-        return inertia('Dashboard', compact('quotes'));
+        return inertia('Dashboard', [
+            'quotes' => $quotes,
+            'agencies' => Team::getTeams()
+        ]);
 
     }
 
     public function filter(Quote $quotes)
     {
         $quotes = $quotes->getFiltered(request());
-        // dd($quotes);
-        // return $quotes;
-        return inertia('Dashboard', compact('quotes'));
+        return inertia('Dashboard', [
+            'quotes' => $quotes,
+            'agencies' => Team::getTeams()
+        ]);
     }
 }
