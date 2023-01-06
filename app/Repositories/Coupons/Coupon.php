@@ -31,14 +31,14 @@ class Coupon {
      
     }
 
-    public static function generateCode($prefix = 'TIM', $id, $length = 5)
+    public static function generateCode($id, $prefix = 'TIM', $length = 5)
     {
         return $prefix . str_pad($id, $length, '0', STR_PAD_LEFT);
     }
 
-    public function setCode($couponID, $code)
+    public static function setCode(int $couponID, $code = null)
     {
         return CouponModel::where('id', $couponID)
-                ->update(['code' => $code]);
+                ->update(['code' => $code ?? self::generateCode($couponID)]);
     }
 }
