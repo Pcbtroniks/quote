@@ -93,19 +93,19 @@ const useEditActivity = (activity) => {
                                     ${{ activity.filter_prices.high?.kid[0].amount }}
                                 </td>
                                 <td class="p-2 whitespace-nowrap cursor-default">
-                                    %{{ activity.agency_discounts.entrance }}
+                                    %{{ activity.agency_discount.entrance }}
                                 </td>
                                 <td class="p-2 whitespace-nowrap cursor-default">
-                                    %{{ activity.agency_discounts.tour }}
+                                    %{{ activity.agency_discount.tour }}
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
-                                    %{{ activity.agency_discounts.pack }}
+                                    %{{ activity.agency_discount.pack }}
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
-                                    %{{ activity.agency_discounts.pack_double }}
+                                    %{{ activity.agency_discount.pack_double }}
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
-                                    %{{ activity.agency_discounts.pack_multiple }}
+                                    %{{ activity.agency_discount.pack_multiple }}
                                 </td>
                             </tr>
                         </tbody>

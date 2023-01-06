@@ -19,16 +19,17 @@ class Activity extends Model
 
     protected $appends = ['filter_prices'];
 
-    public function agency_discounts()
+    public function agency_discount()
     {
-        return $this->hasOne(ActivityAgencyDiscount::class)->withDefault([
-            'entrance' => 10,
-            'tour' => 20,
-            'pack' => 30,
-            'pack_double' => 15,
-            'pack_multiple' => 20,
-            'team_id' => 1
-        ]);
+        return $this->hasOne(ActivityAgencyDiscount::class)
+                    ->withDefault([
+                        'entrance' => 0,
+                        'tour' => 0,
+                        'pack' => 0,
+                        'pack_double' => 0,
+                        'pack_multiple' => 0,
+                        'team_id' => auth()->user()->currentTeam->id,
+                    ]);
     }
 
     public function QuoteActivity(){
