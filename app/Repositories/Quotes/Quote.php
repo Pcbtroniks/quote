@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Quotes;
 
+use App\Enums\CouponPaidStatus;
 use App\Models\Activity;
 use App\Models\Coupon;
 use Illuminate\Http\Request;
@@ -147,7 +148,7 @@ class Quote {
             'sale_amount' => $request->importeVenta,
             'sale_percentage' => 5, 
             'sale_amount_paid' => 0.00, 
-            'paid_status' => 'none',
+            'paid_status' => CouponPaidStatus::None,
         ]);
 
         // CouponsCoupon::setCode($coupon->id);

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\Coupons\Coupon;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
+use App\Mail\QuoteCreated;
+use App\Models\Quote as QuoteModel;
 
 class CouponController extends Controller
 {
@@ -19,5 +22,12 @@ class CouponController extends Controller
         
         $coupon->setConfirmationKey($couponId, request()->confirmation_key);
         return back()->with(['msg' => 'Confirmed']);
+    }
+
+    public function getCode(QuoteModel $quote)
+    {
+        Mail::to('freetraveler@freevateler.com.mx')->send(new QuoteCreated($quote));
+        Coupon::setPendingStatus($quote->coupon);
+        return response()->json(['ok' => Coupon::setCode($quote->coupon_id)]);
     }
 }

@@ -317,8 +317,8 @@ ul.social li{
 			          <td style="text-align: center;">
 			          	<div class="text-author">
 				          	<img src="images/person_2.jpg" alt="" style="width: 100px; max-width: 600px; height: auto; margin: auto; display: block;">
-				          	<h3 class="name">{{ $quote->user->name }}</h3>
-				          	<span class="position">{{ $quote->user->teamRole($quote->user->currentTeam)->name }}, {{ $quote->user->currentTeam->name }}</span>
+				          	<h3 class="name">Por: {{ $quote->user->name }}</h3>
+				          	<span class="position">{{ $quote->user->teamRole($quote->user->currentTeam)->name }}, {{ $quote->user->currentTeam->name }}.</span>
 				           	<p><a target="_blanck" href="{{ $quote->url }}" class="btn btn-primary">Ver Cotización</a></p>
 				           	<p><a href="#" class="btn-custom">Ignorar Solicitud</a></p>
 			           	</div>
