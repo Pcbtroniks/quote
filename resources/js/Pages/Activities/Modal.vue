@@ -1,7 +1,6 @@
 <script setup>
 import { useForm } from '@inertiajs/inertia-vue3';
 import { reactive, defineEmits } from 'vue';
-import Swal from 'sweetalert2'
 
 import FormError from './Partials/FormError.vue';
 
