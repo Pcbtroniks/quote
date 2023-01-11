@@ -19,7 +19,7 @@ class Activity extends Model
 
     protected $appends = ['filter_prices'];
 
-    public function agency_discount()
+    public function discounts()
     {
         return $this->hasOne(ActivityAgencyDiscount::class)
                     ->withDefault([
@@ -28,7 +28,6 @@ class Activity extends Model
                         'pack' => 0,
                         'pack_double' => 0,
                         'pack_multiple' => 0,
-                        'team_id' => auth()->user()->currentTeam->id,
                     ]);
     }
 
