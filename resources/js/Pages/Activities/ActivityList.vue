@@ -2,7 +2,8 @@
 import Pagination from '../../Shared/Pagination.vue';
 import Filters from '@/Pages/Activities/Filters.vue';
 import  modal from './Modal.vue';
-import { ref, reactive } from 'vue';
+import  modalEntrance from '@/Pages/Activities/Partials/ModalEntrance.vue';
+import { ref } from 'vue';
 import { usePage } from '@inertiajs/inertia-vue3';
 
 const props = defineProps({
@@ -26,8 +27,13 @@ const isFilter = (origin, type) => {
 
 <template>
   <Teleport to="body">
-    <!-- use the modal component, pass in the prop -->
-    <modal :fields="act" :show="showModal" @close="showModal = false" />
+
+    <component 
+        :is="props.filters.type == 'park' ? modalEntrance : modal" 
+        :fields="act" 
+        :show="showModal" 
+        @close="showModal = false"/>
+
   </Teleport>
 <!-- component -->
 <section class="w-full antialiased bg-gray-100 text-gray-600">
@@ -102,21 +108,21 @@ const isFilter = (origin, type) => {
                                 </td>
                                 <template v-if="isFilter(props.filters.type, 'park')">
                                     <td class="p-2 whitespace-nowrap cursor-default">
-                                        %{{ activity.agency_discount.entrance }}
+                                        %{{ activity.discounts.entrance }}
                                     </td>
                                 </template>
                                 <template v-if="isFilter(props.filters.type, 'tour')">
                                     <td class="p-2 whitespace-nowrap cursor-default">
-                                        %{{ activity.agency_discount.tour }}
+                                        %{{ activity.discounts.tour }}
                                     </td>
                                     <td class="p-2 whitespace-nowrap">
-                                        %{{ activity.agency_discount.pack }}
+                                        %{{ activity.discounts.pack }}
                                     </td>
                                     <td class="p-2 whitespace-nowrap">
-                                        %{{ activity.agency_discount.pack_double }}
+                                        %{{ activity.discounts.pack_double }}
                                     </td>
                                     <td class="p-2 whitespace-nowrap">
-                                        %{{ activity.agency_discount.pack_multiple }}
+                                        %{{ activity.discounts.pack_multiple }}
                                     </td>
                                 </template>
                             </tr>

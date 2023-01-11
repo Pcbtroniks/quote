@@ -3,7 +3,7 @@ import { useForm } from '@inertiajs/inertia-vue3';
 import { reactive, defineEmits } from 'vue';
 import Swal from 'sweetalert2'
 
-import FormError from './Partials/FormError.vue';
+import FormError from '@/Pages/Activities/Partials/FormError.vue';
 
 const props = defineProps({
     fields: Object,
@@ -81,7 +81,7 @@ const submit = () => {
             <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
                 <!-- Editando {{ props.fields.name ?? 'Actividad' }} -->
                 <!-- <a class="text-blue-600 decoration-2 hover:underline font-medium" href="#">
-                    Login here
+                Login here
                 </a> -->
             </p>
             </div>
@@ -155,43 +155,17 @@ const submit = () => {
                         <!-- Low Season -->
                     <div class="flex justify-between flex-col items-center ">
 
-                        <div class="w-full">
-                            <label for="tour" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Tour (Solo)</label>
-                            <div class="relative w-full">
-                            <input v-model="props.fields.discounts.tour" type="number" name="tour" id="tour" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                        <div class="w-full mb-4">
+                            <label for="entrance" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Entrada</label>
+                            <div class="relative">
+                            <input v-model="props.fields.discounts.entrance" type="number" name="entrance" id="entrance" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
                             </div>
-                            <FormError :msg="form.errors.tour"/>
+                            <FormError :msg="form.errors.entrance"/>
                         </div>
 
                     </div>
 
-                    <div class="flex justify-between flex-col">
 
-                        <div class="mb-4">
-                            <label for="pack" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Tour (Paquete)</label>
-                            <div class="relative">
-                            <input v-model="props.fields.discounts.pack" type="number" name="pack" id="pack" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
-                            </div>
-                            <FormError :msg="form.errors.pack"/>
-                        </div>
-
-                        <div>
-                            <label for="pack_double" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Paquete #2</label>
-                            <div class="relative">
-                            <input v-model="props.fields.discounts.pack_double" type="number" name="pack_double" id="pack_double" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
-                            </div>
-                            <FormError :msg="form.errors.pack_double"/>
-                        </div>
-
-                        <div>
-                            <label for="pack_multiple" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Paquete #3 o mas</label>
-                            <div class="relative">
-                            <input v-model="props.fields.discounts.pack_multiple" type="number" name="pack_multiple" id="pack_multiple" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
-                            </div>
-                            <FormError :msg="form.errors.pack_multiple"/>
-                        </div>
-
-                    </div>
                     </div>
 
                 <button type="submit" class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">Guardar Cambios</button>
