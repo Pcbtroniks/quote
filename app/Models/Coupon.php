@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\CouponPaidStatus;
+use App\Enums\CouponStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,6 +25,11 @@ class Coupon extends Model
         'invoice_id',
     ];
 
+    protected $casts = [
+        'paid_status' => CouponPaidStatus::class,
+        'status' => CouponStatus::class,
+    ];
+
     public function quote(){
 
         return $this->hasOne(Quote::class);
@@ -33,5 +40,10 @@ class Coupon extends Model
      
         return $this->belongsTo(Invoice::class);
      
+    }
+
+    public function setStatus($status)
+    {
+            return $this->update(['status' => $status]);
     }
 }

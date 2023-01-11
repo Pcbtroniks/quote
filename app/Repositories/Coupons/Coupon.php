@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Coupons;
 
+use App\Enums\CouponStatus;
 use App\Models\Coupon as CouponModel;
 
 class Coupon {
@@ -31,14 +32,37 @@ class Coupon {
      
     }
 
-    public static function generateCode($prefix = 'TIM', $id, $length = 5)
+    public static function generateCode($id, $prefix = 'TIM', $length = 5)
     {
         return $prefix . str_pad($id, $length, '0', STR_PAD_LEFT);
     }
 
-    public function setCode($couponID, $code)
+    /**
+     * Generate and Set a new code for a coupon
+     * 
+     * 
+     * @param int $couponID
+     * @param string $code
+     * @return bool
+     */
+    public static function setCode(int $couponID, $code = null)
     {
         return CouponModel::where('id', $couponID)
-                ->update(['code' => $code]);
+                ->update(['code' => $code ?? self::generateCode($couponID)]);
+    }
+
+    public static function setPendingStatus(CouponModel $coupon)
+    {     
+            return $coupon->setStatus(CouponStatus::Pending);
+    }
+
+    public static function setConfirmedStatus(CouponModel $coupon)
+    {     
+            return $coupon->setStatus(CouponStatus::Confirmed);
+    }
+
+    public static function setCancelStatus(CouponModel $coupon)
+    {     
+            return $coupon->setStatus(CouponStatus::Cancelled);
     }
 }

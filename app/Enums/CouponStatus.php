@@ -4,8 +4,9 @@ namespace App\Enums;
 
 enum CouponStatus: string {
  
-    case CREATED = 'Created';
-    case CONFIRMED = 'Confirmed';
-    case CANCELLED = 'Cancelled';
+    case Created = 'created';
+    case Confirmed = 'confirmed';
+    case Pending = 'pending';
+    case Cancelled = 'cancelled';
     
 }

@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Quotes;
 
+use App\Enums\CouponPaidStatus;
 use App\Models\Activity;
 use App\Models\Coupon;
 use Illuminate\Http\Request;
@@ -9,6 +10,7 @@ use Illuminate\Support\Str;
 
 use App\Models\Quote as ModelsQuote;
 use App\Models\QuoteActivity;
+use App\Repositories\Coupons\Coupon as CouponsCoupon;
 use Illuminate\Support\Facades\DB;
 
 class Quote {
@@ -146,12 +148,10 @@ class Quote {
             'sale_amount' => $request->importeVenta,
             'sale_percentage' => 5, 
             'sale_amount_paid' => 0.00, 
-            'paid_status' => 'none',
+            'paid_status' => CouponPaidStatus::None,
         ]);
 
-        
-        Coupon::where('id', $coupon->id)
-                ->update(['code' => 'TIM' . str_pad( $coupon->id , 5, '0', STR_PAD_LEFT)]);
+        // CouponsCoupon::setCode($coupon->id);
 
         return $coupon;
 
@@ -175,6 +175,9 @@ class Quote {
                                     })->
                                     when($request->type, function ($q) use ($request){
                                         $q->where('type', $request->type);
+                                    })->
+                                    when($request->filter_agency, function ($q) use ($request){
+                                            $q->where('team_id', $request->filter_agency);
                                     })->
                                     when($request->zone, function ($q) use ($request){
                                         $q->whereHas('listed_activities.hotel.zone', function ($q) use($request) {

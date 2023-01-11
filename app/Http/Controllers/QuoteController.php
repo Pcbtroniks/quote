@@ -48,7 +48,6 @@ class QuoteController extends Controller
     }
 
     public function store(StoreQuoteRequest $request, Quote $quote){
-        //dd($request); return;
         $quote = $quote->save($request);
 
         // Mail::to('freetraveler@freevateler.com.mx')->send(new QuoteCreated($quote));

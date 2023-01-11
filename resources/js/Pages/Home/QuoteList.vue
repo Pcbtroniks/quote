@@ -1,11 +1,44 @@
 <script setup>
 import Pagination from '../../Shared/Pagination.vue';
 import FilterForm from '@/Pages/Home/FilterForm.vue';
+import axios from 'axios';
 
-defineProps({
-    quotes: Object
+const props = defineProps({
+    quotes: Object,
+    agencies: Array
 })
 
+const requestCouponConfirmation = (Quote) => {
+    Swal.fire({
+    title: 'Solicitar cupon?',
+    text: "Se generara tu cupon para poder usarlo posteriormente!",
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonColor: '#38bdf8',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Si, Solicitar!',
+    cancelButtonText: 'Cancelar'
+    }).then((result) => {
+    if (result.isConfirmed) {
+
+        axios.post(route('coupon.get.code', Quote))
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+        Swal.fire(
+        'Confirmado!',
+        'Estamos generando tu cupon.',
+        'success'
+        ).then(function() {
+            location.reload();
+        })
+    }
+    })
+}
 </script>
 
 <template>
@@ -17,7 +50,9 @@ defineProps({
             <header class="px-5 py-4 border-b border-gray-100">
                 <h2 class="font-semibold text-gray-800">Cotizaciones</h2>
                 <div>
-                    <FilterForm class="grid grid-cols-6 gap-4"/>
+                    <FilterForm
+                        :agencies="agencies"
+                        class="grid grid-cols-6 gap-4"/>
                 </div>
             </header>
             <div class="p-3">
@@ -76,20 +111,19 @@ defineProps({
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <div class="font-medium text-gray-800 hover:text-green-500">
-                                            <a :href="route('quote.preview' , quote.uuid)">
+                                            <a v-if="quote.coupon.code" :href="route('quote.preview' , quote.uuid)">
 
-                                                <div v-if="quote.coupon.code">
+                                                <div>
                                                     {{ quote.coupon.code }}
                                                     <svg class="inline" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                                                         <path d="M6.66669 9.33342C6.88394 9.55515 7.14325 9.73131 7.42944 9.85156C7.71562 9.97182 8.02293 10.0338 8.33335 10.0338C8.64378 10.0338 8.95108 9.97182 9.23727 9.85156C9.52345 9.73131 9.78277 9.55515 10 9.33342L12.6667 6.66676C13.1087 6.22473 13.357 5.62521 13.357 5.00009C13.357 4.37497 13.1087 3.77545 12.6667 3.33342C12.2247 2.89139 11.6251 2.64307 11 2.64307C10.3749 2.64307 9.77538 2.89139 9.33335 3.33342L9.00002 3.66676" stroke="#22C55E" stroke-linecap="round" stroke-linejoin="round"></path>
                                                         <path d="M9.33336 6.66665C9.11611 6.44492 8.8568 6.26876 8.57061 6.14851C8.28442 6.02825 7.97712 5.96631 7.66669 5.96631C7.35627 5.96631 7.04897 6.02825 6.76278 6.14851C6.47659 6.26876 6.21728 6.44492 6.00003 6.66665L3.33336 9.33332C2.89133 9.77534 2.64301 10.3749 2.64301 11C2.64301 11.6251 2.89133 12.2246 3.33336 12.6666C3.77539 13.1087 4.37491 13.357 5.00003 13.357C5.62515 13.357 6.22467 13.1087 6.66669 12.6666L7.00003 12.3333" stroke="#22C55E" stroke-linecap="round" stroke-linejoin="round"></path>
                                                     </svg>
                                                 </div>
-
-                                                <button v-else class="px-3 py-2 rounded-md text-sm font-medium border focus:outline-none focus:ring transition text-sky-600 border-sky-600 hover:text-white hover:bg-sky-600 active:bg-sky-700 focus:ring-sky-300" type="submit">
-                                                    Solicitar
-                                                </button>
                                             </a>
+                                            <button v-else @click="requestCouponConfirmation(quote)" class="px-3 py-2 rounded-md text-sm font-medium border focus:outline-none focus:ring transition text-sky-600 border-sky-600 hover:text-white hover:bg-sky-600 active:bg-sky-700 focus:ring-sky-300" type="button">
+                                                    Solicitar
+                                            </button>
                                         </div>
                                     </div>
                                 </td>
