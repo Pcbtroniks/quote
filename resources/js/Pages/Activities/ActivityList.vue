@@ -2,7 +2,8 @@
 import Pagination from '../../Shared/Pagination.vue';
 import Filters from '@/Pages/Activities/Filters.vue';
 import  modal from './Modal.vue';
-import { ref, reactive } from 'vue';
+import  modalEntrance from '@/Pages/Activities/Partials/ModalEntrance.vue';
+import { ref } from 'vue';
 import { usePage } from '@inertiajs/inertia-vue3';
 
 const props = defineProps({
@@ -18,12 +19,21 @@ const useEditActivity = (activity) => {
     act.value = activity;
     showModal.value = true;
 };
+
+const isFilter = (origin, type) => {
+    return origin == type;
+}
 </script>
 
 <template>
   <Teleport to="body">
-    <!-- use the modal component, pass in the prop -->
-    <modal :fields="act" :show="showModal" @close="showModal = false" />
+
+    <component 
+        :is="props.filters.type == 'park' ? modalEntrance : modal" 
+        :fields="act" 
+        :show="showModal" 
+        @close="showModal = false"/>
+
   </Teleport>
 <!-- component -->
 <section class="w-full antialiased bg-gray-100 text-gray-600">
@@ -56,21 +66,25 @@ const useEditActivity = (activity) => {
                                 <th class="p-2 whitespace-nowrap">
                                     <div class="font-semibold text-left">Niño (Alta)</div>
                                 </th>
-                                <th class="p-2 whitespace-nowrap">
-                                    <div class="font-semibold text-left">Entrada</div>
-                                </th>
-                                <th class="p-2 whitespace-nowrap">
-                                    <div class="font-semibold text-left">Tour (Solo)</div>
-                                </th>
-                                <th class="p-2 whitespace-nowrap">
-                                    <div class="font-semibold text-left">Tour (Paquete)</div>
-                                </th>
-                                <th class="p-2 whitespace-nowrap">
-                                    <div class="font-semibold text-left">2 Tours</div>
-                                </th>
-                                <th class="p-2 whitespace-nowrap">
-                                    <div class="font-semibold text-left">3 o mas Tours</div>
-                                </th>
+                                <template v-if="isFilter(props.filters.type, 'park')">
+                                    <th class="p-2 whitespace-nowrap">
+                                        <div class="font-semibold text-left">Entrada</div>
+                                    </th>
+                                </template>
+                                <template v-if="isFilter(props.filters.type, 'tour')">
+                                    <th class="p-2 whitespace-nowrap">
+                                        <div class="font-semibold text-left">Tour (Solo)</div>
+                                    </th>
+                                    <th class="p-2 whitespace-nowrap">
+                                        <div class="font-semibold text-left">Tour (Paquete)</div>
+                                    </th>
+                                    <th class="p-2 whitespace-nowrap">
+                                        <div class="font-semibold text-left">2 Tours</div>
+                                    </th>
+                                    <th class="p-2 whitespace-nowrap">
+                                        <div class="font-semibold text-left">3 o mas Tours</div>
+                                    </th>
+                                </template>
                             </tr>
                         </thead>
                         <tbody class="text-sm divide-y divide-gray-100">
@@ -92,21 +106,25 @@ const useEditActivity = (activity) => {
                                 <td class="p-2 whitespace-nowrap cursor-default">
                                     ${{ activity.filter_prices.high?.kid[0].amount }}
                                 </td>
-                                <td class="p-2 whitespace-nowrap cursor-default">
-                                    %{{ activity.agency_discount.entrance }}
-                                </td>
-                                <td class="p-2 whitespace-nowrap cursor-default">
-                                    %{{ activity.agency_discount.tour }}
-                                </td>
-                                <td class="p-2 whitespace-nowrap">
-                                    %{{ activity.agency_discount.pack }}
-                                </td>
-                                <td class="p-2 whitespace-nowrap">
-                                    %{{ activity.agency_discount.pack_double }}
-                                </td>
-                                <td class="p-2 whitespace-nowrap">
-                                    %{{ activity.agency_discount.pack_multiple }}
-                                </td>
+                                <template v-if="isFilter(props.filters.type, 'park')">
+                                    <td class="p-2 whitespace-nowrap cursor-default">
+                                        %{{ activity.discounts.entrance }}
+                                    </td>
+                                </template>
+                                <template v-if="isFilter(props.filters.type, 'tour')">
+                                    <td class="p-2 whitespace-nowrap cursor-default">
+                                        %{{ activity.discounts.tour }}
+                                    </td>
+                                    <td class="p-2 whitespace-nowrap">
+                                        %{{ activity.discounts.pack }}
+                                    </td>
+                                    <td class="p-2 whitespace-nowrap">
+                                        %{{ activity.discounts.pack_double }}
+                                    </td>
+                                    <td class="p-2 whitespace-nowrap">
+                                        %{{ activity.discounts.pack_multiple }}
+                                    </td>
+                                </template>
                             </tr>
                         </tbody>
                     </table>

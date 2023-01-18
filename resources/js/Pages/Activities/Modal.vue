@@ -1,7 +1,6 @@
 <script setup>
 import { useForm } from '@inertiajs/inertia-vue3';
 import { reactive, defineEmits } from 'vue';
-import Swal from 'sweetalert2'
 
 import FormError from './Partials/FormError.vue';
 
@@ -43,11 +42,11 @@ const switchAccordion = (accordion) => {
 
 const preSubmit = () => {
     form.name = props.fields.name;
-    form.entrance = props.fields.agency_discounts.entrance;
-    form.tour = props.fields.agency_discounts.tour;
-    form.pack = props.fields.agency_discounts.pack;
-    form.pack_double = props.fields.agency_discounts.pack_double;
-    form.pack_multiple = props.fields.agency_discounts.pack_multiple;
+    form.entrance = props.fields.discounts.entrance;
+    form.tour = props.fields.discounts.tour;
+    form.pack = props.fields.discounts.pack;
+    form.pack_double = props.fields.discounts.pack_double;
+    form.pack_multiple = props.fields.discounts.pack_multiple;
 }
 
 const submit = () => {
@@ -81,7 +80,7 @@ const submit = () => {
             <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
                 <!-- Editando {{ props.fields.name ?? 'Actividad' }} -->
                 <!-- <a class="text-blue-600 decoration-2 hover:underline font-medium" href="#">
-                Login here
+                    Login here
                 </a> -->
             </p>
             </div>
@@ -150,24 +149,15 @@ const submit = () => {
 
                     <!-- Dsicounts percentages -->
                     <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Porcentajes de Descuento</p>
-                    <button type="button" @click="switchAccordion('discounts')" class="text-white font-bold bg-sky-400 py-4">{{ unfold.discounts ? 'Ocultar descuentos -' : 'Mostrar descuentos +'}}</button>
                     
-                    <div :class="unfold.discounts == false ? 'h-0 overflow-y-hidden' : 'h-full overflow-y-auto'" class="">
+                    <div :class="unfold.discounts == false ? 'h-0 overflow-y-hidden' : 'h-full overflow-y-auto'">
                         <!-- Low Season -->
                     <div class="flex justify-between flex-col items-center ">
-
-                        <div class="w-full mb-4">
-                            <label for="entrance" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Entrada</label>
-                            <div class="relative">
-                            <input v-model="props.fields.agency_discounts.entrance" type="number" name="entrance" id="entrance" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
-                            </div>
-                            <FormError :msg="form.errors.entrance"/>
-                        </div>
 
                         <div class="w-full">
                             <label for="tour" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Tour (Solo)</label>
                             <div class="relative w-full">
-                            <input v-model="props.fields.agency_discounts.tour" type="number" name="tour" id="tour" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                            <input v-model="props.fields.discounts.tour" type="number" name="tour" id="tour" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
                             </div>
                             <FormError :msg="form.errors.tour"/>
                         </div>
@@ -179,7 +169,7 @@ const submit = () => {
                         <div class="mb-4">
                             <label for="pack" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Tour (Paquete)</label>
                             <div class="relative">
-                            <input v-model="props.fields.agency_discounts.pack" type="number" name="pack" id="pack" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                            <input v-model="props.fields.discounts.pack" type="number" name="pack" id="pack" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
                             </div>
                             <FormError :msg="form.errors.pack"/>
                         </div>
@@ -187,7 +177,7 @@ const submit = () => {
                         <div>
                             <label for="pack_double" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Paquete #2</label>
                             <div class="relative">
-                            <input v-model="props.fields.agency_discounts.pack_double" type="number" name="pack_double" id="pack_double" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                            <input v-model="props.fields.discounts.pack_double" type="number" name="pack_double" id="pack_double" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
                             </div>
                             <FormError :msg="form.errors.pack_double"/>
                         </div>
@@ -195,7 +185,7 @@ const submit = () => {
                         <div>
                             <label for="pack_multiple" class="block text-sm font-bold ml-1 mb-2 dark:text-white">Paquete #3 o mas</label>
                             <div class="relative">
-                            <input v-model="props.fields.agency_discounts.pack_multiple" type="number" name="pack_multiple" id="pack_multiple" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                            <input v-model="props.fields.discounts.pack_multiple" type="number" name="pack_multiple" id="pack_multiple" class="w-full py-3 px-4 block border-2 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm">
                             </div>
                             <FormError :msg="form.errors.pack_multiple"/>
                         </div>

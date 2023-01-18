@@ -9,6 +9,7 @@ class ActivitiesController extends Controller
 {
     public function index(Activity $activity)
     {
+        /* dd( $activity->getActivities(request())); */
         return inertia('Activities/Index', [
             'activities' => $activity->getActivities(request()),
             'filters'=> [

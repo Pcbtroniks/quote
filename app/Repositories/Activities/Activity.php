@@ -9,12 +9,12 @@ use App\Enums\Zone;
 
 class Activity {
 
-    public function getActivities(Request $request,int $limit = 10)
+    public function getActivities(Request $request, int $limit = 10)
     {
         return ActivityModel::where('type', $request->type ?? 'park')
                             ->with('prices', function ($query) use($request) {
                                 $query->where('zone_id', $request->zone ?? 4);
-                            })->with('agency_discount', function ($query) use($request) {
+                            })->with('discounts', function ($query) {
                                 $query->where('team_id', auth()->user()->currentTeam->id);
                             })
                             ->paginate($limit);
@@ -42,7 +42,7 @@ class Activity {
             $this->updateName($id, $request->name);
         }
 
-        $activity->agency_discounts()->updateOrCreate([
+        $activity->discounts()->updateOrCreate([
             'team_id' => auth()->user()->currentTeam->id,
             'activity_id' => $id,
 
