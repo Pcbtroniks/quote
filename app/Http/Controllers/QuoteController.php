@@ -50,7 +50,7 @@ class QuoteController extends Controller
     public function store(StoreQuoteRequest $request, Quote $quote){
         $quote = $quote->save($request);
 
-        // Mail::to('freetraveler@freevateler.com.mx')->send(new QuoteCreated($quote));
+        // Mail::to('freetraveler@freetraveler.com.mx')->send(new QuoteCreated($quote));
         
         return redirect()->route('quote');
 
