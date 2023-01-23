@@ -21,10 +21,14 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
-            $table->foreignId('coupon_id')
+            
+                $table->foreignId('coupon_id')
+                ->nullable()
                 ->constrained()
                 ->cascadeOnDelete()
-                ->cascadeOnUpdate();
+                ->cascadeOnUpdate()
+                ->nullOnDelete();
+
             $table->foreignId('team_id')
                 ->constrained()
                 ->cascadeOnDelete()
@@ -38,6 +42,15 @@ return new class extends Migration
             $table->integer('minors');
             $table->integer('infants');
             $table->text('observations');
+
+            $table->decimal('public_price');
+            $table->decimal('sale_amount')->nullable();
+            $table->decimal('sale_percentage');
+            $table->decimal('sale_amount_paid');
+            $table->decimal('cost_amount')->nullable();
+            $table->decimal('cost_percentage')->nullable();
+            $table->decimal('cost_amount_paid')->nullable();
+            $table->string('paid_status')->default('unpaid');
 
             $table->timestamps();
         });

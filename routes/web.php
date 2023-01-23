@@ -54,7 +54,9 @@ Route::middleware([
 
     /* Quoter */
 
-    Route::get('/quoter', [QuoterController::class, 'index'])->name('quoter');
+    Route::get('/quote/create', [QuoterController::class, 'create'])->name('quote.create');
+
+    Route::get('/quote/nd/{act_id}', [QuoterController::class, 'nd'])->name('quote.nd');
 
     Route::post('/quoter/create', [QuoterController::class, 'store'])->name('quoter.store');
 
@@ -99,7 +101,7 @@ Route::middleware([
     Route::get('exports/manifest/{invoiceID}', [ExportController::class, 'exportManifest'])->name('exports.manifest.byInvoiceId');
     Route::get('exports/view/manifest/{invoiceID}', [ExportController::class, 'viewManifest'])->name('exports.view.manifest.byInvoiceId');
 
-    // Nucleo ed diagnostico
+    // Nucleo de diagnostico
     Route::get('ND', [NDController::class, 'index'])->name('ND');
     // Miscelaneus
     Route::get('nd/users/{user}/{team?}', [NDController::class, 'users'])->name('nd.users');
