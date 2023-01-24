@@ -14,8 +14,6 @@ class Activity {
         return ActivityModel::where('type', $request->type ?? 'park')
                             ->with('prices', function ($query) use($request) {
                                 $query->where('zone_id', $request->zone ?? 4);
-                            })->with('discounts', function ($query) {
-                                $query->where('team_id', auth()->user()->currentTeam->id);
                             })
                             ->paginate($limit);
     }

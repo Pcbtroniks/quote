@@ -24,7 +24,6 @@ class StoreQuoteRequest extends FormRequest
     public function rules()
     {
         return [
-            'fechaReservacion' => ['required', 'date'],
             'fechaActividad' => ['required', 'date'],
             'precioPublico' => ['required'],
             'tipoReservacion' => ['required'],
@@ -36,6 +35,22 @@ class StoreQuoteRequest extends FormRequest
             'infantes' => ['required'],
             'actividad' => ['required'],
             'season' => ['required']
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array<string, mixed>
+     */
+    public function messages()
+    {
+        return [
+            'fechaActividad.required' => 'La fecha de actividad es requerida',
+            'tipoReservacion.required' => 'El tipo de reservación es requerido',
+            'nombreTitular.required' => 'El nombre del titular es requerido',
+            'adultos.required' => 'El campo de adultos es requerido',
+            'actividad.required' => 'La actividad es requerida',
         ];
     }
 

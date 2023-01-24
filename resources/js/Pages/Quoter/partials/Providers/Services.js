@@ -40,49 +40,40 @@ export const QuoteProgress = reactive({
     }
 });
 
-export const Activity = {
-    activity: null,
-    date: null,
-    hotel: null,
-    pickup: null,
+// Fetch Data
+
+const HttpGet = async (URL, Options = null, callback)  => {
+    try {        
+        
+        const response = await fetch(URL, Options);
+        return await response.json();
+
+    } catch (error) {
+        alert('Error al cargar los datos, por favor recargue la pagina');
+    } finally {
+        callback ? callback() : null;
+    }
 }
 
-
-// Fetch Data asd
-
-const HttpGet = async (URL, Options = null)  => {
-    const response = await fetch(URL, Options);
-    return await response.json();
+export const getTours = async () => 
+{
+    QuoteProgress.tours = await HttpGet(route('tours'));
 }
 
-export const getTours = async () => {
-    
-    const res = await fetch(route('tours'));
-    QuoteProgress.tours = await res.json();
-
+export const fetchHotels = async ( zone ) => 
+{
+    return await HttpGet(route('hotels', {'zone': zone}));   
 }
 
-export const fetchHotels = async ( zone ) => {
-
-    return await HttpGet(route('hotels', {'zone': zone} ));
-    
-}
-
-export const getHotels = async ( zone ) => {
-
+export const getHotels = async ( zone ) => 
+{
     const hotels = QuoteProgress.hotels = await fetchHotels( zone );
     return  hotels;
-
 }
 
-export const fetchPickup = async ( activity, hotel ) => {
-    const response = await fetch(route('nd.pickup.get', { activity, hotel }));
-    return await response.json();
-}
-
-export const getPickup = async ( activity, hotel ) => {
-
-    return await fetchPickup( activity, hotel );
+export const getPickup = async ( activity, hotel ) => 
+{
+    return await HttpGet(route('nd.pickup.get', { activity, hotel }));
 }
 
 export const getActivityPickup = async ( key, activity, hotel ) => {
@@ -99,11 +90,9 @@ export const getSeason = (Date) => {
     return isHigh.includes(Date) ? 'high' : 'low';
 }
 
-export const getPrice = async (activity, zone, season) => {
-
-    const res = await fetch(route('prices', { activity, zone, season }))
-    return await res.json();
-
+export const getPrice = async (activity, zone, season) => 
+{
+    return await HttpGet(route('prices', { activity, zone, season }));
 }
 
 export const loadHotels = async ( zone ) => {

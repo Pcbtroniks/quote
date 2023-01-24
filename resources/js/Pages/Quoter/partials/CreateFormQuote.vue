@@ -7,6 +7,7 @@ import { watchPostEffect } from 'vue';
 import { QuoteProgress, getSeason, getTours, getHotels, getPrice, loadHotels, getActivityPickup, getPickup } from './Providers/Services.js';
 import { Today, parseQuoteType, fixedAdd, hasAmount, zoneToString } from './Providers/Helpers.js';
 
+import TextError from '../../../Shared/TextError.vue';
 import InputNumber from './InputNumber.vue';
 import InputLabel from './InputLabel.vue';
 import InputRange from './InputRange.vue';
@@ -17,7 +18,8 @@ import InputDate from './InputDate.vue';
 
 const props = defineProps({
     parks: Array,
-    zones: Array
+    zones: Array,
+    errors: Object,
 });
 QuoteProgress.prices.profit.percentage = usePage().props.value.user.current_team.sale_amount_percentage;
 
@@ -151,14 +153,22 @@ function preSubmit(){
     resetPrices();
 }
 
-function submit(){
+function submit()
+{
+    preSubmit();
 
-preSubmit();
-
-form.post(route('quote.store'));
-
-location.reload();
-
+    form.post(route('quoter.store'), {
+        preserveScroll: true,
+        onSuccess: (response) => {
+            console.log(response);
+        },
+        onError: (response) => {
+            console.log(response);
+        }
+    });
+    if(props.errors){
+        console.log(props.errors);
+    }
 }
 function resetPrices(){
     QuoteProgress.prices = {
@@ -202,7 +212,7 @@ function handlePackActivity(act){
         <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
 
             <div class="mt-4 text-2xl text-center">
-                Nueva Cotización 
+                Nueva Cotización
                 <p class="text-lg">Fecha de hoy: {{ Today }}</p>
             </div>
         
@@ -346,7 +356,8 @@ function handlePackActivity(act){
                                 Paquete
                                 </label>
                             </div>
-                            </div>
+                        </div>
+                        <TextError :message="props.errors.tipoReservacion" />
                         </div>
 
                         <!-- Activity Date -->
@@ -381,10 +392,12 @@ function handlePackActivity(act){
                                     </InputLabel>
                                     
                                     <InputText 
+                                        required=""
                                         placeholder="Aa"
                                         id="QuoteTitular" 
                                         name="nombreTitular"  
                                         v-model="form.nombreTitular" />
+                                    <TextError :message="props.errors.nombreTitular" />
 
                                 </div>
 
@@ -406,6 +419,7 @@ function handlePackActivity(act){
                                     id-name="adultos"
                                     v-model="form.adultos"
                                 />
+                                <TextError :message="props.errors.adultos" />
 
                             </div>
 

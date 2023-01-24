@@ -17,7 +17,7 @@ class Activity extends Model
         'name'
     ];
 
-    protected $appends = ['filter_prices'];
+    protected $appends = ['filter_prices', 'discounts'];
 
     public function discounts(): Attribute
     {

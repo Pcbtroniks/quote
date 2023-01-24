@@ -4,7 +4,7 @@ namespace App\Services\Cost;
 
 use App\Interfaces\CostsInterface;
 
-class PublicPrice
+class PublicPrice implements CostsInterface
 {
 
     public $activity;
@@ -18,21 +18,9 @@ class PublicPrice
         $this->activity = $activity;
     }
 
-    public function getActivityCosts()
+    public function calculate()
     {
-        return $this->activity->costs;
-    }
-
-    public function setPax(int $adults, int $minors, int $infants = 0)
-    {
-        $this->pax['adults'] = $adults;
-        $this->pax['minors'] = $minors;
-        $this->pax['infants'] = $infants;
-    }
-
-    public function getCost()
-    {
-        return $this->amount;
+        $this->amount = $this->activity->price * $this->pax;
     }
 
 }

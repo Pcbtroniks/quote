@@ -54,7 +54,7 @@ Route::middleware([
 
     /* Quoter */
 
-    Route::get('/quote/create', [QuoterController::class, 'create'])->name('quote.create');
+    Route::get('/quoter/create', [QuoterController::class, 'create'])->name('quote.create');
 
     Route::get('/quote/nd/{act_id}', [QuoterController::class, 'nd'])->name('quote.nd');
 
