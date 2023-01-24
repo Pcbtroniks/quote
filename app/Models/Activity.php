@@ -19,16 +19,11 @@ class Activity extends Model
 
     protected $appends = ['filter_prices'];
 
-    public function discounts()
+    public function discounts(): Attribute
     {
-        return $this->hasOne(ActivityAgencyDiscount::class)
-                    ->withDefault([
-                        'entrance' => 0,
-                        'tour' => 0,
-                        'pack' => 0,
-                        'pack_double' => 0,
-                        'pack_multiple' => 0,
-                    ]);
+        return Attribute::make(
+            get: fn ($value) => ActivityAgencyDiscount::where('activity_id', $this->id)->where('team_id', auth()->user()->currentTeam->id)->first() ??  $this->getDefaultDiscountAttribute()
+        );
     }
 
     public function QuoteActivity(){
@@ -50,5 +45,10 @@ class Activity extends Model
     public function getFilterPricesAttribute()
     {
         return $this->prices->groupBy(['season', 'type']);
+    }
+
+    public function getDefaultDiscountAttribute()
+    {
+        return ActivityAgencyDiscount::first();
     }
 }
