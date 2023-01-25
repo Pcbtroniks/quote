@@ -25,11 +25,42 @@ class QuoterController extends Controller
      
     }
 
-    public function nd($act_id, $adults, $minors, $season)
+    public function nd()
     {
+        $act_id = request()->activity;
+        $adults = request()->adults;
+        $minors = request()->minors;
+        $season = request()->season;
+        $zone = request()->zone ?? 1;
         $activity = Activity::find($act_id);
-        $price = new PublicPrice($activity, $adults, $minors, $season, $zone = 1);
+        $price = new PublicPrice($activity, $adults, $minors, $season, $zone);
         dd((new MultipleDiscount($price))->getDescription());
+    }
+
+    public function calculateCost()
+    {
+        $act_id = request()->activity;
+        $adults = request()->adults;
+        $minors = request()->minors;
+        $season = request()->season;
+        $zone = request()->zone ?? 1;
+        $type = request()->type ?? 'entrance';
+        $activity = Activity::find($act_id);
+        $price = new PublicPrice($activity, $adults, $minors, $season, $zone);
+
+        $discuountOperations = [
+            'entrance' => new EntranceDiscount($price),
+            'tour' => new TourDiscount($price),
+            'double' => new DoubleDiscount($price),
+            'multiple' => new MultipleDiscount($price),
+        ];
+
+        $response = $discuountOperations[$type];
+
+        return response()->json([
+            'description' => $response->getDescription(),
+            'cost' => $response->getCost(),
+        ]);
     }
 
     public function store(StoreQuoteRequest $request)

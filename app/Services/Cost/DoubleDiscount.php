@@ -18,7 +18,7 @@ class DoubleDiscount implements CostsInterface
     public function getCost(): float
     {
         $packDiscount = $this->applyDiscount($this->costs->getCost(), $this->costs->getDiscounts()->pack);
-        $tourDiscount = $this->applyDiscount($packDiscount, $this->costs->getDiscounts()->tour_double);
+        $tourDiscount = $this->applyDiscount($packDiscount, $this->costs->getDiscounts()->pack_double);
         return $tourDiscount;
     }
 

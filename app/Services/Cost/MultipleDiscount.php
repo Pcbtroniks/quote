@@ -24,6 +24,6 @@ class MultipleDiscount implements CostsInterface
 
     public function getDescription(): mixed
     {
-        return $this->costs->getDescription() . ", Descuento \"Pack\" {$this->costs->getDiscounts()->pack}% + Descuento \"Tour Double\" {$this->costs->getDiscounts()->pack_multiple}%: {$this->getCost()}$";
+        return $this->costs->getDescription() . ", Descuento \"Pack\" {$this->costs->getDiscounts()->pack}%: {$this->applyDiscount($this->costs->getCost(), $this->costs->getDiscounts()->pack)} + Descuento \"Tour Multiple\" {$this->costs->getDiscounts()->pack_multiple}%: {$this->getCost()}$";
     }
 }

@@ -56,7 +56,9 @@ Route::middleware([
 
     Route::get('/quoter/create', [QuoterController::class, 'create'])->name('quote.create');
 
-    Route::get('/quoter/nd/{act_id}/{adults}/{minors}/{low}', [QuoterController::class, 'nd'])->name('quote.nd');
+    Route::get('/quoter/nd/', [QuoterController::class, 'nd'])->name('quote.nd');
+
+    Route::get('/quoter/calculate/', [QuoterController::class, 'calculateCost'])->name('quote.calculate');
 
     Route::post('/quoter/create', [QuoterController::class, 'store'])->name('quoter.store');
 
