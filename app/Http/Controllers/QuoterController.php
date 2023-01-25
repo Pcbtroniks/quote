@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\QuoteType;
 use App\Http\Requests\Quote\StoreQuoteRequest;
+use App\Services\Cost\EntranceDiscount;
+use App\Services\Cost\TourDiscount;
+use App\Repositories\Quotes\Quoter;
 use App\Repositories\Quotes\Quote;
+use App\Services\Cost\PublicPrice;
 use App\Repositories\Zones\Zone;
 use Illuminate\Http\Request;
 use App\Models\Activity;
-use App\Repositories\Quotes\Quoter;
+use App\Services\Cost\DoubleDiscount;
+use App\Services\Cost\MultipleDiscount;
 
 class QuoterController extends Controller
 {
-    
-
-    
     public function create(Quote $quote, Zone $zone){
 
         $parks = $quote->getParks();
@@ -24,11 +25,11 @@ class QuoterController extends Controller
      
     }
 
-    public function nd($act_id)
+    public function nd($act_id, $adults, $minors, $season)
     {
         $activity = Activity::find($act_id);
-
-        dd($activity->filter_prices);
+        $price = new PublicPrice($activity, $adults, $minors, $season, $zone = 1);
+        dd((new MultipleDiscount($price))->getDescription());
     }
 
     public function store(StoreQuoteRequest $request)

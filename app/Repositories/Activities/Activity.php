@@ -40,7 +40,7 @@ class Activity {
             $this->updateName($id, $request->name);
         }
 
-        $activity->discounts()->updateOrCreate([
+        $activity->discounts->updateOrCreate([
             'team_id' => auth()->user()->currentTeam->id,
             'activity_id' => $id,
 

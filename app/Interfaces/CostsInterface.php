@@ -4,5 +4,7 @@ namespace App\Interfaces;
 
 interface CostsInterface
 {
-    public function calculate();
+    public function getCost();
+
+    public function getDescription();
 }

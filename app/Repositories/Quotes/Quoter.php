@@ -3,14 +3,16 @@
 namespace App\Repositories\Quotes;
 
 use App\Enums\CouponPaidStatus;
+use App\Enums\QuoteType;
 use App\Models\Activity;
 use App\Models\Coupon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 use App\Models\Quote as ModelsQuote;
+use App\Models\Quote\Entrance;
+use App\Models\Quote\ParseQuote;
 use App\Models\QuoteActivity;
-use App\Repositories\Coupons\Coupon as CouponsCoupon;
 use Illuminate\Support\Facades\DB;
 
 class Quoter {
@@ -61,13 +63,13 @@ class Quoter {
 
     public function save(Request $request){
 
-        $data = $this->parse_quote($request, $coupon->id);
+        $data = ParseQuote::parse($request);
 
         $quote = ModelsQuote::create( $data );
 
-        if($request->tipoReservacion == 'entrada'){
+        if(QuoteType::is($request->tipoReservacion, QuoteType::Entrance)){
 
-            $activities = $this->add_park($quote->id, $data['activity_id'], $data['date']);
+            Entrance::addActivity($quote->id, $request->actividad, $request->fechaActividad);
             
         }else if($request->tipoReservacion == 'tour'){
             
@@ -132,9 +134,9 @@ class Quoter {
         return QuoteActivity::create([
             'quote_id' => $quote_id,
             'activity_id' => $activity_id,
-            'date' => $date,
             'hotel_id' => $hotel_id,
             'pickup_time' => $pickup_time ?? '00:00:00',
+            'date' => $date,
         ]);
 
     }
