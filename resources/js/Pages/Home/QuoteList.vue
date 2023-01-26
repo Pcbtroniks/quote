@@ -85,6 +85,9 @@ const requestCouponConfirmation = (Quote) => {
                                     <div class="font-semibold text-left">Actividad</div>
                                 </th>
                                 <th class="p-2 whitespace-nowrap">
+                                    <div class="font-semibold text-left">Costo</div>
+                                </th>
+                                <th class="p-2 whitespace-nowrap">
                                     <div class="font-semibold text-left">Precio agencia</div>
                                 </th>
                                 <th class="p-2 whitespace-nowrap">
@@ -162,6 +165,9 @@ const requestCouponConfirmation = (Quote) => {
                                     <div class="text-left font-medium capitalize" >
                                         {{ quote.listed_activities[0].activity.name.toLowerCase() }}
                                     </div>
+                                </td>
+                                <td class="p-2 whitespace-nowrap cursor-default">
+                                    <div class="text-left font-medium text-green-500" title="Precio de venta">${{ quote.cost_amount }}</div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap cursor-default">
                                     <div class="text-left font-medium text-green-500" title="Precio de venta">${{ quote.sale_amount }}</div>

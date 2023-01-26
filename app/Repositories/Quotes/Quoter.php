@@ -3,7 +3,7 @@
 namespace App\Repositories\Quotes;
 
 use App\Enums\CouponPaidStatus;
-use App\Enums\QuoteType;
+use App\Enums\Discount;
 use App\Models\Activity;
 use App\Models\Coupon;
 use Illuminate\Http\Request;
@@ -65,20 +65,30 @@ class Quoter {
 
         $data = QuoteAdapter::parse($request);
 
-        $data['cost_amount'] = new CalculateCost(QuoteAdapter::parseCosts($request));
-        $data['cost_amount'] = $data['cost_amount']->applyDiscount()->getCost();
+        if(Discount::is(Discount::Entrance, $request->tipoReservacion)){
 
-        $quote = ModelsQuote::create( $data );
-
-        if(QuoteType::is($request->tipoReservacion, QuoteType::Entrance)){
+            $cost_amount = new CalculateCost(QuoteAdapter::parseCosts($request));
+            $data['cost_amount'] = $cost_amount->applyDiscount()->getCost();
+    
+            $quote = ModelsQuote::create( $data );
 
             Entrance::addActivity($quote->id, $request->actividad, $request->fechaActividad);
             
-        }else if($request->tipoReservacion == 'tour'){
+        }else if(Discount::is(Discount::Tour, $request->tipoReservacion)){
+
+            $cost_amount = new CalculateCost(QuoteAdapter::parseCosts($request));
+            $data['cost_amount'] = $cost_amount->applyDiscount()->getCost();
+    
+            $quote = ModelsQuote::create( $data );
             
             $activities = $this->add_tour($quote->id, $request->actividad['activity'], $request->actividad['hotel'], $request->actividad['pickup'],  $request->fechaActividad );
             
         } else {
+
+            $cost_amount = new CalculateCost(QuoteAdapter::parseCosts($request));
+            $data['cost_amount'] = $cost_amount->applyDiscount()->getCost();
+    
+            $quote = ModelsQuote::create( $data );
             
             $activities = $this->add_package($quote->id, $request->actividad);
         
