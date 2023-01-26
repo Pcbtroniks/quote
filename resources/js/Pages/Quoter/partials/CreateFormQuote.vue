@@ -36,9 +36,10 @@ const form = useForm({
     notas: null,
     adultos: 1,
     menores: 0,
-    zona: null,
+    zona: 5,
     season: 'low',
     actividad: null,
+    activitities: [],
 })
 
 const getCost = () => {
@@ -202,6 +203,31 @@ function handlePackActivity(act){
     form.precioPublico = 0;
     loadPackPrice(act.activity, act.zone, form.season, (act.key - 1));
     getActivityPickup((act.key - 1), act.activity, act.hotel);
+}
+
+const handleActivities = (key) => {
+    const list = [];
+    const len = QuoteProgress.nPackTours;
+    const act = {
+        "key": (i + 1),
+        "activity": null,
+        "adults": form.adultos,
+        "minors": form.menores,
+        "zone": form.zona,
+        "season": form.season,
+        "type": QuoteProgress.nTours ,
+        "hotel": null,
+        "pickup": null,
+        "activity_date": null,
+        "public_price": 0,
+        "agency_price": 0
+    }
+}
+
+const QuoteType = (NumberOfTOurs) => {
+    if(NumberOfTOurs == 2) return 'pack_double';
+    else if(NumberOfTOurs >= 3) return 'pack_triple';
+    else return parseQuoteType(form.tipoReservacion);
 }
 </script>
 

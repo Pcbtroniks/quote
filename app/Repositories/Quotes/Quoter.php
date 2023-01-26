@@ -7,12 +7,12 @@ use App\Enums\QuoteType;
 use App\Models\Activity;
 use App\Models\Coupon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 use App\Models\Quote as ModelsQuote;
 use App\Models\Quote\Entrance;
-use App\Models\Quote\ParseQuote;
+use App\Models\Quote\QuoteAdapter;
 use App\Models\QuoteActivity;
+use App\Services\Cost\CalculateCost;
 use Illuminate\Support\Facades\DB;
 
 class Quoter {
@@ -63,7 +63,10 @@ class Quoter {
 
     public function save(Request $request){
 
-        $data = ParseQuote::parse($request);
+        $data = QuoteAdapter::parse($request);
+
+        $data['cost_amount'] = new CalculateCost(QuoteAdapter::parseCosts($request));
+        $data['cost_amount'] = $data['cost_amount']->applyDiscount()->getCost();
 
         $quote = ModelsQuote::create( $data );
 
@@ -85,25 +88,6 @@ class Quoter {
         $quote->url = route('quote.preview', ['quoteId' => $quote->uuid]);
 
         return $quote;
-    }
-
-    public function parse_quote(Request $request, $coupon){
-        return [
-            'coupon_id' => $coupon,
-            'user_id' => auth()->user()->id,
-            'activity_id' => $request->actividad,
-            'date' => $request->fechaActividad,
-            'uuid' => Str::uuid()->toString(),
-            'season' => $request->season,
-            'national' => $request->nacionales,
-            'type' => $request->tipoReservacion,
-            'holder_name' => $request->nombreTitular,
-            'adults' => $request->adultos,
-            'minors' => $request->menores,
-            'infants' => $request->infantes,
-            'observations' => $request->notas ?? '',
-            'team_id' => auth()->user()->currentTeam->id,
-        ];
     }
     
     public function add_package($quote, $activities) {

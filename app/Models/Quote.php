@@ -25,6 +25,9 @@ class Quote extends Model
         'minors',
         'infants',
         'team_id',
+        'public_price',
+        'cost_amount',
+        'sale_amount',
         'observations'
     ];
 

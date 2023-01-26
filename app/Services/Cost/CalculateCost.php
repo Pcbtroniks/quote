@@ -19,7 +19,7 @@ class CalculateCost implements CostsInterface
     protected $type;
     protected $zone;
 
-    public function __construct(Request $request)
+    public function __construct($request)
     {
         $this->activity = Activity::find($request->activity);
         

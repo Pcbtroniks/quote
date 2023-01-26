@@ -111,7 +111,7 @@ const requestCouponConfirmation = (Quote) => {
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <div class="font-medium text-gray-800 hover:text-green-500">
-                                            <a v-if="quote.coupon.code" :href="route('quote.preview' , quote.uuid)">
+                                            <a v-if="quote?.coupon?.code" :href="route('quote.preview' , quote.uuid)">
 
                                                 <div>
                                                     {{ quote.coupon.code }}
@@ -164,13 +164,13 @@ const requestCouponConfirmation = (Quote) => {
                                     </div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap cursor-default">
-                                    <div class="text-left font-medium text-green-500" :title=" '$' + (quote.coupon.public_price - quote.coupon.sale_amount).toFixed(2)">${{ quote.coupon.sale_amount }}</div>
+                                    <div class="text-left font-medium text-green-500" title="Precio de venta">${{ quote.sale_amount }}</div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap cursor-default">
-                                    <div class="text-left font-medium text-green-500">${{ quote.coupon.public_price }}</div>
+                                    <div class="text-left font-medium text-green-500">${{ quote.public_price }}</div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap cursor-default">
-                                    <div class="text-left font-medium text-green-500 truncate w-20" title="Hora del pickup">{{ quote.listed_activities[0].pickup_time == '00:00:00'? 'N/A' : quote.listed_activities[0].pickup_time.slice(0,5)}}</div>
+                                    <div class="text-left font-medium text-green-500 truncate w-20" title="Hora del pickup">{{ quote.listed_activities[0].pickup_time == null ? 'N/A' : quote.listed_activities[0].pickup_time.slice(0,5)}}</div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap cursor-default">
                                     <div class="text-left font-medium text-green-500 truncate w-20" :title="quote.listed_activities[0].hotel?.name ?? 'No Aplica'">{{ quote.listed_activities[0].hotel?.name ?? 'N/A' }}</div>
