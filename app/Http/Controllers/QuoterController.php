@@ -11,8 +11,11 @@ use App\Services\Cost\PublicPrice;
 use App\Repositories\Zones\Zone;
 use Illuminate\Http\Request;
 use App\Models\Activity;
+use App\Services\Cost\CalculateCost;
 use App\Services\Cost\DoubleDiscount;
 use App\Services\Cost\MultipleDiscount;
+use App\Http\Requests\Cost\CaculateCostRequest;
+use Illuminate\Support\Facades\App;
 
 class QuoterController extends Controller
 {
@@ -37,29 +40,15 @@ class QuoterController extends Controller
         dd((new MultipleDiscount($price))->getDescription());
     }
 
-    public function calculateCost()
+    public function calculateCost(CaculateCostRequest $request)
     {
-        $act_id = request()->activity;
-        $adults = request()->adults;
-        $minors = request()->minors;
-        $season = request()->season;
-        $zone = request()->zone ?? 1;
-        $type = request()->type ?? 'entrance';
-        $activity = Activity::find($act_id);
-        $price = new PublicPrice($activity, $adults, $minors, $season, $zone);
-
-        $discuountOperations = [
-            'entrance' => new EntranceDiscount($price),
-            'tour' => new TourDiscount($price),
-            'double' => new DoubleDiscount($price),
-            'multiple' => new MultipleDiscount($price),
-        ];
-
-        $response = $discuountOperations[$type];
-
+        $price = new CalculateCost($request);
+        $response = $price->applyDiscount();
+        
         return response()->json([
             'description' => $response->getDescription(),
             'cost' => $response->getCost(),
+            'request' => request()->all(),
         ]);
     }
 

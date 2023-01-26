@@ -9,7 +9,6 @@ class PublicPrice implements PriceInterface
 {
 
     public $activity;
-    public $amount;
     public $season;
     public $zone;
     public $pax;
