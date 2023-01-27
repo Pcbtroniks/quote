@@ -85,19 +85,19 @@ const requestCouponConfirmation = (Quote) => {
                                     <div class="font-semibold text-left">Actividad</div>
                                 </th>
                                 <th class="p-2 whitespace-nowrap">
-                                    <div class="font-semibold text-left">Costo</div>
+                                    <div class="font-semibold text-left">Costo A.</div>
                                 </th>
                                 <th class="p-2 whitespace-nowrap">
-                                    <div class="font-semibold text-left">Precio agencia</div>
+                                    <div class="font-semibold text-left"  title="Precio Minimo Agencia">P.M. Agencia</div>
                                 </th>
                                 <th class="p-2 whitespace-nowrap">
                                     <div class="font-semibold text-left">Precio Publico</div>
                                 </th>
                                 <th class="p-2 whitespace-nowrap">
-                                    <div class="font-semibold text-left">Hora del pickup</div>
+                                    <div class="font-semibold text-left"  title="Hora del pickup">Hr. pickup</div>
                                 </th>
                                 <th class="p-2 whitespace-nowrap">
-                                    <div class="font-semibold text-left">Lugar del pickup</div>
+                                    <div class="font-semibold text-left"  title="Hotel del pickup">Htl. pickup</div>
                                 </th>
                                 <th class="p-2 whitespace-nowrap">
                                     <div class="font-semibold text-center">Zona</div>

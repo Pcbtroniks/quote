@@ -51,12 +51,12 @@ class CaculateCostRequest extends FormRequest
         : $this->type == 'tour' && in_array($this->zone, [1,2,3]);
     }
 
-    public function withValidator($validator)
-    {
-        $validator->after(function ($validator) {
-            if (!$this->isValidZone()) {
-                $validator->errors()->add('zone', 'The selected zone is invalid for the Activity Type.');
-            }
-        });
-    }
+    // public function withValidator($validator)
+    // {
+    //     $validator->after(function ($validator) {
+    //         if (!$this->isValidZone()) {
+    //             $validator->errors()->add('zone', 'The selected zone is invalid for the Activity Type.');
+    //         }
+    //     });
+    // }
 }

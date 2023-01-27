@@ -70,16 +70,17 @@ const updateTeamName = () => {
 
             <!-- Agency Sale percentage -->
             <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="name" value="Agency Sale Percentage %" />
+                <InputLabel for="name" value="Minimun Quote Sale Percentage %" />
 
                 <TextInput
                     id="name"
-                    v-model="form.sale_amount_percentage   "
+                    v-model="form.sale_amount_percentage"
                     type="number"
                     class="mt-1 block w-full"
                     placeholder="%"
                     :disabled="! permissions.canUpdateTeam"
                 />
+                <span class="text-xs">Este porcentaje representa el precio minimo de venta a partir de su costo.</span>
 
                 <InputError :message="form.errors.sale_amount_percentage" class="mt-2" />
             </div>

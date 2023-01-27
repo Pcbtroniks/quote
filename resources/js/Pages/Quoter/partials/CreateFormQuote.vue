@@ -205,22 +205,47 @@ function handlePackActivity(act){
     getActivityPickup((act.key - 1), act.activity, act.hotel);
 }
 
-const handleActivities = (key) => {
-    const list = [];
-    const len = QuoteProgress.nPackTours;
-    const act = {
-        "key": (i + 1),
-        "activity": null,
-        "adults": form.adultos,
-        "minors": form.menores,
-        "zone": form.zona,
-        "season": form.season,
-        "type": QuoteProgress.nTours ,
-        "hotel": null,
-        "pickup": null,
-        "activity_date": null,
-        "public_price": 0,
-        "agency_price": 0
+class postActivities {
+    activityList;
+    NumberOfActivities;
+
+    constructor() {
+        this.activityList = [];
+        this.NumberOfActivities = QuoteProgress.nPackTours;
+    }
+
+    addTour(activitity){
+        this.addActivity(activitity, form.season, form.zona,);
+    }
+
+    addActivity(key = this.activityList.length + 1,activitity, season = null, zone = null, hotel = null, pickup = null, activity_date = null){
+        const act = {
+            'key': key,
+            'activity': activitity,
+            'season': null,
+            'zone': null,
+            'hotel': null,
+            'pickup': null,
+            'activity_date': null,
+
+            'adults': form.adultos,
+            'minors': form.menores,
+        };
+
+        this.activityList.push(act);
+    }
+
+    describe(){
+        return console.log({
+            'length': this.activityList.length,
+            'Number of tours': QuoteProgress.nPackTours,
+            'activities': this.activityList
+        });
+    }
+
+    warn(message){
+        alert(message);
+        return console.warn(message);
     }
 }
 
@@ -228,6 +253,19 @@ const QuoteType = (NumberOfTOurs) => {
     if(NumberOfTOurs == 2) return 'pack_double';
     else if(NumberOfTOurs >= 3) return 'pack_triple';
     else return parseQuoteType(form.tipoReservacion);
+}
+
+const Activities = new postActivities();
+
+
+const showActivities = () => {
+    return console.log(Activities);
+}
+const showQuote = () => {
+    return console.log(QuoteProgress);
+}
+const showForm = () => {
+    return console.log(form);
 }
 </script>
 
@@ -505,7 +543,7 @@ const QuoteType = (NumberOfTOurs) => {
 
                         </div>
 
-                        <!-- Tour -->
+                        <!-- Tour Section -->
                         <div v-if="form.tipoReservacion ==  2" class="-mx-3 flex flex-wrap">
 
                             <div class="w-full px-3">
@@ -518,7 +556,7 @@ const QuoteType = (NumberOfTOurs) => {
                                         Tour
                                     </label>
                                     <select
-                                        v-model="QuoteProgress.tour.activity"
+                                        @change="event => Activities.addActivity(event.target.value)"
                                         v-if="QuoteProgress.tours"
                                         name="parque" 
                                         class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
@@ -530,29 +568,7 @@ const QuoteType = (NumberOfTOurs) => {
                                 </div>
                             </div>
 
-                        </div>
-
-                        <!-- Paquete -->
-                        <div v-if="form.tipoReservacion ==  3" class="-mx-3 flex flex-wrap">
-
-                            <div class="mb-5 w-28">
-                                
-                                <InputLabel for="number_of_activitys">
-                                        Numero de actividades
-                                </InputLabel>
-
-                                <InputNumber
-                                    v-model.number="QuoteProgress.nPackTours"
-                                    min="2"
-                                    id-name="number_of_activitys"
-                                />
-
-                            </div>
-
-                        </div>
-
-                        <!-- Zona  -->
-                        <div v-if="form.tipoReservacion ==  2" class="-mx-3 flex flex-wrap">
+                            <!-- Tour Zone -->
 
                             <div class="w-full px-3">
                                 <div class="mb-5">
@@ -572,10 +588,7 @@ const QuoteType = (NumberOfTOurs) => {
                                 </div>
                             </div>
 
-                        </div>
-
-                        <!-- Pick Up Hotel -->
-                        <div v-if="form.zona !== null && form.tipoReservacion == 2" class="-mx-3 flex flex-wrap">
+                            <!-- Tour Hotel -->
 
                             <div class="w-full px-3">
 
@@ -603,14 +616,34 @@ const QuoteType = (NumberOfTOurs) => {
 
                             </div>
 
-                        </div>
-                        
-                        <!-- Pick Up Hotel Time -->
-                        <div v-if="form.tipoReservacion ==  2 && QuoteProgress.tour.pickup" class="-mx-3 flex flex-wrap">
+                            <!-- Tour Pick Up -->
+                            <div v-if="form.tipoReservacion ==  2 && QuoteProgress.tour.pickup" class="-mx-3 flex flex-wrap">
 
-                            <Alert :msg="QuoteProgress.tour.pickup == '00:00:00' ? 'Lo sentimos, por el momento no tenemos un pickup disponible, estamos trabajando en ello.' : `Su pickup sera a las: ${QuoteProgress.tour.pickup.slice(0,5)} hrs. en el hotel especificado, procure tener al menos 15 minutos de antelación.`" />
+                                <Alert :msg="QuoteProgress.tour.pickup == '00:00:00' ? 'Lo sentimos, por el momento no tenemos un pickup disponible, estamos trabajando en ello.' : `Su pickup sera a las: ${QuoteProgress.tour.pickup.slice(0,5)} hrs. en el hotel especificado, procure tener al menos 15 minutos de antelación.`" />
+
+                            </div>
 
                         </div>
+
+                        <!-- Pack Section -->
+                        <div v-if="form.tipoReservacion ==  3" class="-mx-3 flex flex-wrap">
+
+                            <div class="mb-5 w-28">
+                                
+                                <InputLabel for="number_of_activitys">
+                                        Numero de actividades
+                                </InputLabel>
+
+                                <InputNumber
+                                    v-model.number="QuoteProgress.nPackTours"
+                                    min="2"
+                                    id-name="number_of_activitys"
+                                />
+
+                            </div>
+
+                        </div>
+
                         
                         <!-- N Pack tours | ntoursdiv-->
                         <div v-if="form.tipoReservacion ==  3 && QuoteProgress.nTours != 0" class="-mx-3 flex flex-wrap">
@@ -726,6 +759,27 @@ const QuoteType = (NumberOfTOurs) => {
             </template>
 
             <template #actions>
+                <button
+                type="button"
+                @click="showQuote"
+                class="hover:shadow-form rounded-md mr-16 bg-amber-500 py-3 px-8 text-center text-base font-semibold text-white outline-none"
+              >
+                Mostrar Cotización
+              </button>
+                <button
+                type="button"
+                @click="showForm"
+                class="hover:shadow-form rounded-md mr-16 bg-amber-500 py-3 px-8 text-center text-base font-semibold text-white outline-none"
+              >
+                Mostrar Form
+              </button>
+                <button
+                type="button"
+                @click="showActivities"
+                class="hover:shadow-form rounded-md mr-16 bg-amber-500 py-3 px-8 text-center text-base font-semibold text-white outline-none"
+              >
+                Mostrar Actividades
+              </button>
                 <button
                 type="button"
                 @click="resetForm()"
