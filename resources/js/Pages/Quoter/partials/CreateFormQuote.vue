@@ -208,17 +208,32 @@ function handlePackActivity(act){
 class postActivities {
     activityList;
     NumberOfActivities;
+    hotelList;
 
     constructor() {
         this.activityList = [];
-        this.NumberOfActivities = QuoteProgress.nPackTours;
+        this.NumberOfActivities = 1;
+        this.hotelList = {};
     }
 
-    addTour(activitity){
-        this.addActivity(activitity, form.season, form.zona,);
+    setTour(activitity){
+        this.addActivity(1, activitity, form.season, form.zona);
+    }
+    async setTourZone(key = 1, zone){
+        this.activityAt(key - 1).zone = zone;
+        await this.loadHotels( zone );
+    }
+    setTourHotel(key = 1, hotel){
+        this.activityAt(key - 1).hotel = hotel;
+    }
+    setEntrance(activitity){
+        this.addActivity(1,activitity, form.season, form.zona);
+    }
+    setPack(activitity, key){
+        this.addActivity(key, activitity, form.season, form.zona);
     }
 
-    addActivity(key = this.activityList.length + 1,activitity, season = null, zone = null, hotel = null, pickup = null, activity_date = null){
+    addActivity(key = this.activityList.length + 1, activitity, season = null, zone = null, hotel = null, pickup = null, activity_date = form.fechaActividad){
         const act = {
             'key': key,
             'activity': activitity,
@@ -235,17 +250,34 @@ class postActivities {
         this.activityList.push(act);
     }
 
+    async loadHotels(zone){
+        this.hotelList = await loadHotels(zone, this.hotelList);
+    }
+
+    async isHotelAvailable(zoneID){
+        console.log(await this.hotelList[zoneToString(zoneID)]);
+        return await this.getHotels(zoneToString(zoneID)) ?? false;
+    }
+
+    async getHotels(zoneID){
+        console.log(await this.hotelList[zoneToString(zoneID)]);
+        return await this.hotelList[zoneToString(zoneID)];
+    }
+
     describe(){
         return console.log({
             'length': this.activityList.length,
             'Number of tours': QuoteProgress.nPackTours,
-            'activities': this.activityList
+            'activities': this.activityList,
+            'hotels': this.hotelList
         });
     }
 
-    warn(message){
-        alert(message);
-        return console.warn(message);
+    activityAt(n){
+        n = Math.trunc(n) || 0;
+        if (n < 0) n += this.length;
+        if (n < 0 || n >= this.length) return undefined;
+        return this.activityList[n];
     }
 }
 
@@ -295,7 +327,7 @@ const showForm = () => {
                         Precio al publico {{ hasAmount(QuoteProgress.prices.totalPublicPrice) }} 
                     </template>
 
-                    <template #content>
+                    <template #content class="overflow-hidden">
                         <p class="mb-4">( Temporada {{ form.season == 'low' ? 'Baja' : 'Alta'}}, Tarifa {{ form.nacionales ? 'Nacional' : 'Internacional' }})</p>
                         <p>A nombre de: {{ form.nombreTitular }}</p>
                         <br>
@@ -556,7 +588,7 @@ const showForm = () => {
                                         Tour
                                     </label>
                                     <select
-                                        @change="event => Activities.addActivity(event.target.value)"
+                                        @change="event => Activities.addActivity(1, event.target.value)"
                                         v-if="QuoteProgress.tours"
                                         name="parque" 
                                         class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
@@ -577,7 +609,7 @@ const showForm = () => {
                                     </InputLabel>
                                     <select
                                         v-model="form.zona"
-                                        @change="getHotels( $event.target.value )"
+                                        @change="Activities.setTourZone( 1, $event.target.value )"
                                         id="zone"
                                         name="zone" 
                                         class="capitalize w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
@@ -592,7 +624,7 @@ const showForm = () => {
 
                             <div class="w-full px-3">
 
-                                <div class="mb-5" v-if="QuoteProgress.tour.activity">
+                                <div class="mb-5" v-if="Activities.activityAt(1-1)">
 
                                     <InputLabel 
                                         for="pickUpZone">
@@ -600,16 +632,16 @@ const showForm = () => {
                                     </InputLabel>
                                     
                                     <select
-                                        @input="setTour(QuoteProgress.tour.activity, $event.target.value)"
-                                        @change="getTourCost(QuoteProgress.tour.activity, form.zona, form.season)"
+                                        @input="Activities.setTourHotel(1, $event.target.value)"
+                                        
                                         v-model="QuoteProgress.tour.hotel"
-                                        v-if="QuoteProgress.hotels"
+                                        v-if="Activities.isHotelAvailable(Activities.activityAt(0).zone)"
                                         name="pickUpZone"
                                         id="pickUpZone"
                                         class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                                     >
                                             <option value="null" selected disabled>-- Seleccione un hotel --</option>
-                                            <option v-if="Array.isArray(QuoteProgress.hotels)" class="capitalize" v-for="h in QuoteProgress.hotels" :value="h.id">{{ h.name }}</option>
+                                            <option v-if="Activities.isHotelAvailable(Activities.activityAt(0).zone)" class="capitalize" v-for="h in Activities.getHotels(Activities.activityAt(0).zone)" :value="h.id">{{ h.name }}</option>
                                     </select>
 
                                 </div>
