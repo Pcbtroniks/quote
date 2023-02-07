@@ -140,12 +140,6 @@ const loadPackPrice = async(activity, zone, season, key) => {
     console.groupEnd()
 }
 
-const setTour = async ( activity, hotel ) => {
-    QuoteProgress.tour.pickup = await getPickup(activity, hotel).then(data => data.pickup_time) ?? '00:00:00';
-    form.actividad = QuoteProgress.tour;
-    console.log('se ha añadido el pickup y seteado la actividad tour');
-}
-
 function preSubmit(){
     if(form.tipoReservacion != 1){
         form.actividad = Activities.activityList;
@@ -222,6 +216,10 @@ class postActivities {
 
     setTour(activitity){
         this.addActivity(1, activitity, form.season, 1);
+    }
+    async setTourHotel(hotel, index = 0){
+        this.activityList[index].hotel = hotel;
+        this.activityList[index].pickup = await getPickup(this.activityList[index].activity, hotel).then(data => data.pickup_time) ?? '00:00:00';
     }
 
     addActivity(key = this.activityList.length + 1, activitity, season = null, zone = null, hotel = null, pickup = null, activity_date = form.fechaActividad){
@@ -625,7 +623,7 @@ const showForm = () => {
                                     </InputLabel>
                                     
                                     <select
-                                        v-model="Activities.getFirstTour().hotel"
+                                        @change="Activities.setTourHotel($event.target.value)"
                                         name="pickUpZone"
                                         id="pickUpZone"
                                         class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
@@ -639,9 +637,9 @@ const showForm = () => {
                             </div>
 
                             <!-- Tour Pick Up -->
-                            <div v-if="form.tipoReservacion ==  2 && QuoteProgress.tour.pickup" class="-mx-3 flex flex-wrap">
+                            <div v-if="Activities.getFirstTour().pickup" class="-mx-3 flex flex-wrap">
 
-                                <Alert :msg="QuoteProgress.tour.pickup == '00:00:00' ? 'Lo sentimos, por el momento no tenemos un pickup disponible, estamos trabajando en ello.' : `Su pickup sera a las: ${QuoteProgress.tour.pickup.slice(0,5)} hrs. en el hotel especificado, procure tener al menos 15 minutos de antelación.`" />
+                                <Alert :msg="Activities.getFirstTour().pickup == '00:00:00' ? 'Lo sentimos, por el momento no tenemos un pickup disponible, estamos trabajando en ello.' : `Su pickup sera a las: ${Activities.getFirstTour().pickup.slice(0,5)} hrs. en el hotel especificado, procure tener al menos 15 minutos de antelación.`" />
 
                             </div>
 
