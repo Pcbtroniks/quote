@@ -63,6 +63,8 @@ class Quoter {
 
     public function save(Request $request){
 
+        return dd($request);
+
         $data = QuoteAdapter::parse($request);
 
         if(Discount::is(Discount::Entrance, $request->tipoReservacion)){

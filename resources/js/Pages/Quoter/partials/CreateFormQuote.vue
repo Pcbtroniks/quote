@@ -2,7 +2,7 @@
 
 import FormSection from '@/Components/FormSection.vue';
 import { useForm, usePage } from '@inertiajs/inertia-vue3';
-import { watchPostEffect } from 'vue';
+import { watchPostEffect, reactive } from 'vue';
 
 import { QuoteProgress, getSeason, getTours, getHotels, getPrice, loadHotels, getActivityPickup, getPickup } from './Providers/Services.js';
 import { Today, parseQuoteType, fixedAdd, hasAmount, zoneToString } from './Providers/Helpers.js';
@@ -147,8 +147,8 @@ const setTour = async ( activity, hotel ) => {
 }
 
 function preSubmit(){
-    if(form.tipoReservacion == 3){
-        form.actividad = QuoteProgress.nTours;
+    if(form.tipoReservacion != 1){
+        form.actividad = Activities.activityList;
     }    
     form.tipoReservacion = parseQuoteType(form.tipoReservacion);
     resetPrices();
@@ -216,32 +216,23 @@ class postActivities {
         this.hotelList = {};
     }
 
+    getFirstTour(index = 0){
+        return this.activityList[index] ?? false;
+    }
+
     setTour(activitity){
-        this.addActivity(1, activitity, form.season, form.zona);
-    }
-    async setTourZone(key = 1, zone){
-        this.activityAt(key - 1).zone = zone;
-        await this.loadHotels( zone );
-    }
-    setTourHotel(key = 1, hotel){
-        this.activityAt(key - 1).hotel = hotel;
-    }
-    setEntrance(activitity){
-        this.addActivity(1,activitity, form.season, form.zona);
-    }
-    setPack(activitity, key){
-        this.addActivity(key, activitity, form.season, form.zona);
+        this.addActivity(1, activitity, form.season, 1);
     }
 
     addActivity(key = this.activityList.length + 1, activitity, season = null, zone = null, hotel = null, pickup = null, activity_date = form.fechaActividad){
         const act = {
             'key': key,
             'activity': activitity,
-            'season': null,
-            'zone': null,
-            'hotel': null,
-            'pickup': null,
-            'activity_date': null,
+            'season': season,
+            'zone': zone,
+            'hotel': hotel,
+            'pickup': pickup,
+            'activity_date': activity_date,
 
             'adults': form.adultos,
             'minors': form.menores,
@@ -252,16 +243,7 @@ class postActivities {
 
     async loadHotels(zone){
         this.hotelList = await loadHotels(zone, this.hotelList);
-    }
-
-    async isHotelAvailable(zoneID){
-        console.log(await this.hotelList[zoneToString(zoneID)]);
-        return await this.getHotels(zoneToString(zoneID)) ?? false;
-    }
-
-    async getHotels(zoneID){
-        console.log(await this.hotelList[zoneToString(zoneID)]);
-        return await this.hotelList[zoneToString(zoneID)];
+        return this.hotelList;
     }
 
     describe(){
@@ -279,6 +261,18 @@ class postActivities {
         if (n < 0 || n >= this.length) return undefined;
         return this.activityList[n];
     }
+
+    async isHotelListByZoneLoaded(zoneID){
+        if(this.hotelList[zoneToString(zoneID)]?.length && this.hotelList[zoneToString(zoneID)].length > 0){
+            return true;
+        } else {
+            await this.loadHotels(zoneID);
+            return true;
+        }
+    }
+    async getHotelListByZone(zoneID){
+        return await this.hotelList[zoneToString(zoneID)];
+    }
 }
 
 const QuoteType = (NumberOfTOurs) => {
@@ -287,7 +281,7 @@ const QuoteType = (NumberOfTOurs) => {
     else return parseQuoteType(form.tipoReservacion);
 }
 
-const Activities = new postActivities();
+const Activities = reactive(new postActivities());
 
 
 const showActivities = () => {
@@ -582,13 +576,13 @@ const showForm = () => {
                                 <div class="mb-5">
 
                                     <label
-                                      for="fName"
+                                      for="parque"
                                       class="mb-3 block text-base font-medium text-[#07074D]"
                                     >
                                         Tour
                                     </label>
                                     <select
-                                        @change="event => Activities.addActivity(1, event.target.value)"
+                                        @change="Activities.setTour($event.target.value)"
                                         v-if="QuoteProgress.tours"
                                         name="parque" 
                                         class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
@@ -602,14 +596,13 @@ const showForm = () => {
 
                             <!-- Tour Zone -->
 
-                            <div class="w-full px-3">
+                            <div class="w-full px-3" v-if="Activities.getFirstTour()">
                                 <div class="mb-5">
                                     <InputLabel for="zone">
                                         Zona
                                     </InputLabel>
                                     <select
-                                        v-model="form.zona"
-                                        @change="Activities.setTourZone( 1, $event.target.value )"
+                                        v-model="Activities.getFirstTour().zone"
                                         id="zone"
                                         name="zone" 
                                         class="capitalize w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
@@ -624,7 +617,7 @@ const showForm = () => {
 
                             <div class="w-full px-3">
 
-                                <div class="mb-5" v-if="Activities.activityAt(1-1)">
+                                <div class="mb-5" v-if="Activities.getFirstTour()?.zone">
 
                                     <InputLabel 
                                         for="pickUpZone">
@@ -632,16 +625,13 @@ const showForm = () => {
                                     </InputLabel>
                                     
                                     <select
-                                        @input="Activities.setTourHotel(1, $event.target.value)"
-                                        
-                                        v-model="QuoteProgress.tour.hotel"
-                                        v-if="Activities.isHotelAvailable(Activities.activityAt(0).zone)"
+                                        v-model="Activities.getFirstTour().hotel"
                                         name="pickUpZone"
                                         id="pickUpZone"
                                         class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                                     >
-                                            <option value="null" selected disabled>-- Seleccione un hotel --</option>
-                                            <option v-if="Activities.isHotelAvailable(Activities.activityAt(0).zone)" class="capitalize" v-for="h in Activities.getHotels(Activities.activityAt(0).zone)" :value="h.id">{{ h.name }}</option>
+                                            <option value="null" selected disabled>-- Seleccione un hotel para su pickup --</option>
+                                            <option class="capitalize" v-if="Activities.isHotelListByZoneLoaded(Activities.getFirstTour().zone)" v-for="h in Activities.hotelList[zoneToString(Activities.getFirstTour().zone)]" :value="h.id">{{ h.name }}</option>
                                     </select>
 
                                 </div>

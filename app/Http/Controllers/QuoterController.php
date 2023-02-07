@@ -3,19 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Quote\StoreQuoteRequest;
-use App\Services\Cost\EntranceDiscount;
-use App\Services\Cost\TourDiscount;
+use App\Http\Requests\Cost\CaculateCostRequest;
+use App\Services\Cost\MultipleDiscount;
+use App\Services\Cost\CalculateCost;
 use App\Repositories\Quotes\Quoter;
 use App\Repositories\Quotes\Quote;
 use App\Services\Cost\PublicPrice;
 use App\Repositories\Zones\Zone;
 use Illuminate\Http\Request;
 use App\Models\Activity;
-use App\Services\Cost\CalculateCost;
-use App\Services\Cost\DoubleDiscount;
-use App\Services\Cost\MultipleDiscount;
-use App\Http\Requests\Cost\CaculateCostRequest;
-use Illuminate\Support\Facades\App;
 
 class QuoterController extends Controller
 {
@@ -28,7 +24,7 @@ class QuoterController extends Controller
      
     }
 
-    public function nd()
+    public function ndDeprecated()
     {
         $act_id = request()->activity;
         $adults = request()->adults;
