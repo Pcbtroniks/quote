@@ -63,7 +63,7 @@ class Quoter {
 
     public function save(Request $request){
 
-        return dd($request);
+        // return dd($request);
 
         $data = QuoteAdapter::parse($request);
 
@@ -77,13 +77,14 @@ class Quoter {
             Entrance::addActivity($quote->id, $request->actividad, $request->fechaActividad);
             
         }else if(Discount::is(Discount::Tour, $request->tipoReservacion)){
-
-            $cost_amount = new CalculateCost(QuoteAdapter::parseCosts($request));
+            $activity = (object) $request->actividad[0];
+            // dd($activity);
+            $cost_amount = new CalculateCost($activity);
             $data['cost_amount'] = $cost_amount->applyDiscount()->getCost();
     
             $quote = ModelsQuote::create( $data );
             
-            $activities = $this->add_tour($quote->id, $request->actividad['activity'], $request->actividad['hotel'], $request->actividad['pickup'],  $request->fechaActividad );
+            $activities = $this->add_tour($quote->id, $request->activity, $request->hotel, $request->pickup, $request->fechaActividad );
             
         } else {
 

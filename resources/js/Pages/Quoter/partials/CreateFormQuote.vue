@@ -1,11 +1,14 @@
 <script setup>
-
-import FormSection from '@/Components/FormSection.vue';
 import { useForm, usePage } from '@inertiajs/inertia-vue3';
 import { watchPostEffect, reactive } from 'vue';
+import FormSection from '@/Components/FormSection.vue';
 
-import { QuoteProgress, getSeason, getTours, getHotels, getPrice, loadHotels, getActivityPickup, getPickup } from './Providers/Services.js';
-import { Today, parseQuoteType, fixedAdd, hasAmount, zoneToString } from './Providers/Helpers.js';
+import {
+  QuoteProgress, getSeason, getTours, getPrice, loadHotels, getActivityPickup, getPickup,
+} from './Providers/Services.js';
+import {
+  Today, parseQuoteType, fixedAdd, hasAmount, zoneToString,
+} from './Providers/Helpers.js';
 
 import TextError from '../../../Shared/TextError.vue';
 import InputNumber from './InputNumber.vue';
@@ -17,283 +20,286 @@ import Alert from '@/Components/Alert.vue';
 import InputDate from './InputDate.vue';
 
 const props = defineProps({
-    parks: Array,
-    zones: Array,
-    errors: Object,
+  parks: Array,
+  zones: Array,
+  errors: Object,
 });
 QuoteProgress.prices.profit.percentage = usePage().props.value.user.current_team.sale_amount_percentage;
 
 const form = useForm({
-    fechaReservacion:  new Date().toISOString().split('T')[0],
-    fechaActividad: null,
-    precioPublico: 0,
-    tipoReservacion: 1,
-    nacionales: false,
-    nombreTitular: '',
-    importeVenta: 0,
-    pickUp: null,
-    infantes: 0,
-    notas: null,
-    adultos: 1,
-    menores: 0,
-    zona: 5,
-    season: 'low',
-    actividad: null,
-    activitities: [],
-})
+  fechaReservacion: new Date().toISOString().split('T')[0],
+  fechaActividad: null,
+  precioPublico: 0,
+  tipoReservacion: 1,
+  nacionales: false,
+  nombreTitular: '',
+  importeVenta: 0,
+  pickUp: null,
+  infantes: 0,
+  notas: null,
+  adultos: 1,
+  menores: 0,
+  zona: 5,
+  season: 'low',
+  actividad: null,
+});
 
 const getCost = () => {
+  QuoteProgress.resume.total.adults = form.adultos * QuoteProgress.prices.cost.adult;
+  QuoteProgress.resume.total.minors = form.menores * QuoteProgress.prices.cost.minor;
 
-QuoteProgress.resume.total.adults = form.adultos * QuoteProgress.prices.cost.adult;
-QuoteProgress.resume.total.minors = form.menores * QuoteProgress.prices.cost.minor;
+  QuoteProgress.prices.totalPublicPrice = fixedAdd(QuoteProgress.resume.total.adults, QuoteProgress.resume.total.minors);
+  form.precioPublico = QuoteProgress.prices.totalPublicPrice;
+  form.importeVenta = getComputedPrice().toFixed(2);
+  QuoteProgress.prices.totalAgencyPrice = form.importeVenta;
 
-QuoteProgress.prices.totalPublicPrice = fixedAdd(QuoteProgress.resume.total.adults, QuoteProgress.resume.total.minors);
-form.precioPublico = QuoteProgress.prices.totalPublicPrice;
-form.importeVenta = getComputedPrice().toFixed(2);
-QuoteProgress.prices.totalAgencyPrice = form.importeVenta;
+  QuoteProgress.prices.reference = (QuoteProgress.prices.totalPublicPrice - QuoteProgress.prices.totalAgencyPrice).toFixed(2);
 
-QuoteProgress.prices.reference = (QuoteProgress.prices.totalPublicPrice - QuoteProgress.prices.totalAgencyPrice).toFixed(2);
+  console.log(QuoteProgress);
+};
 
-console.log(QuoteProgress);
-
-}
-
-const getComputedPrice = () => {
-return QuoteProgress.prices.totalPublicPrice * ( ( 100 - QuoteProgress.prices.profit.percentage ) / 100 );
-}
+const getComputedPrice = () => QuoteProgress.prices.totalPublicPrice * ((100 - QuoteProgress.prices.profit.percentage) / 100);
 
 const getParkCost = async () => {
-    
-    const prices = await getPrice(form.actividad, form.nacionales ? 4 : 5 , form.season);
-    
-    QuoteProgress.prices.cost.adult = prices.adult.amount;
-    QuoteProgress.prices.cost.minor = prices.minor.amount;
-    
-    getCost();
-}
+  const prices = await getPrice(form.actividad, form.nacionales ? 4 : 5, form.season);
 
-const getTourCost = async (activity, zona , season ) => {
-    
-    const prices = await getPrice(activity, zona, season);
-    
-    QuoteProgress.prices.cost.adult = prices.adult.amount;
-    QuoteProgress.prices.cost.minor = prices.minor.amount;
-    
-    getCost();
-}
+  QuoteProgress.prices.cost.adult = prices.adult.amount;
+  QuoteProgress.prices.cost.minor = prices.minor.amount;
 
+  getCost();
+};
+
+const getTourCost = async (activity, zona, season) => {
+  const prices = await getPrice(activity, zona, season);
+
+  QuoteProgress.prices.cost.adult = prices.adult.amount;
+  QuoteProgress.prices.cost.minor = prices.minor.amount;
+
+  getCost();
+};
 
 watchPostEffect(() => {
-    form.season = getSeason(form.fechaActividad);
-    if(form.actividad) getCost();
+  form.season = getSeason(form.fechaActividad);
+  if (form.actividad) getCost();
 });
 
 watchPostEffect(() => {
-    if(form.actividad && form.tipoReservacion == 1) getParkCost();
-    if(form.actividad && form.tipoReservacion == 2) getTourCost(QuoteProgress.tour.activity, form.zona, form.season);
-    if(QuoteProgress.nTours.length > 0 && form.tipoReservacion == 3) {
-        QuoteProgress.nTours.forEach(( act ) => {
-            handlePackActivity(act);
-        });
-    };
-    return [form.adultos, form.menores];
-});
-
-watchPostEffect(() => {
-    form.nacionales = form.tipoReservacion != 1 ? false : form.nacionales;
-});
-
-watchPostEffect(() => {
-    resetPrices();
-    return [form.tipoReservacion, QuoteProgress.nTours];
-})
-
-watchPostEffect(() => {
-
-    var arr = [];
-    var len = QuoteProgress.nPackTours;
-    for (var i = 0; i < len; i++) {
-             arr.push({
-                    "key": (i + 1),
-                    "activity": null,
-                    "zone": null,
-                    "hotel": null,
-                    "pickup": null,
-                    "activity_date": null,
-                    "public_price": 0,
-                    "agency_price": 0
-            });
-    }
-    QuoteProgress.nTours = arr;
-});
-
-const loadPackPrice = async(activity, zone, season, key) => {
-    const price = await getPrice(activity, zone, season);
-    QuoteProgress.nTours[key].public_price = fixedAdd((form.adultos * Number(price.adult.amount)), (form.menores * Number(price.minor.amount)));
-    form.precioPublico = QuoteProgress.prices.totalPublicPrice = QuoteProgress.nTours.reduce((acc, { public_price }) => (acc + Number(public_price)) , 0);
-    form.importeVenta = applyAgencyDiscount(form.precioPublico);
-    console.group()
-        console.log('Quote');
-        console.info(QuoteProgress.nTours);
-        console.log('Form');
-        console.table(form);
-    console.groupEnd()
-}
-
-function preSubmit(){
-    if(form.tipoReservacion != 1){
-        form.actividad = Activities.activityList;
-    }    
-    form.tipoReservacion = parseQuoteType(form.tipoReservacion);
-    resetPrices();
-}
-
-function submit()
-{
-    preSubmit();
-
-    form.post(route('quoter.store'), {
-        preserveScroll: true,
-        onSuccess: (response) => {
-            console.log(response);
-        },
-        onError: (response) => {
-            console.log(response);
-        }
+  if (form.actividad && form.tipoReservacion == 1) getParkCost();
+  if (form.actividad && form.tipoReservacion == 2) getTourCost(QuoteProgress.tour.activity, form.zona, form.season);
+  if (QuoteProgress.nTours.length > 0 && form.tipoReservacion == 3) {
+    QuoteProgress.nTours.forEach((act) => {
+      handlePackActivity(act);
     });
-    if(props.errors){
-        console.log(props.errors);
-    }
+  }
+  return [form.adultos, form.menores];
+});
+
+watchPostEffect(() => {
+  form.nacionales = form.tipoReservacion != 1 ? false : form.nacionales;
+});
+
+watchPostEffect(() => {
+  resetPrices();
+  return [form.tipoReservacion, QuoteProgress.nTours];
+});
+
+watchPostEffect(() => {
+  const arr = [];
+  const len = QuoteProgress.nPackTours;
+  for (let i = 0; i < len; i++) {
+    arr.push({
+      key: (i + 1),
+      activity: null,
+      zone: null,
+      hotel: null,
+      pickup: null,
+      activity_date: null,
+      public_price: 0,
+      agency_price: 0,
+    });
+  }
+  QuoteProgress.nTours = arr;
+});
+
+const loadPackPrice = async (activity, zone, season, key) => {
+  const price = await getPrice(activity, zone, season);
+  QuoteProgress.nTours[key].public_price = fixedAdd((form.adultos * Number(price.adult.amount)), (form.menores * Number(price.minor.amount)));
+  form.precioPublico = QuoteProgress.prices.totalPublicPrice = QuoteProgress.nTours.reduce((acc, { public_price }) => (acc + Number(public_price)), 0);
+  form.importeVenta = applyAgencyDiscount(form.precioPublico);
+  console.group();
+  console.log('Quote');
+  console.info(QuoteProgress.nTours);
+  console.log('Form');
+  console.table(form);
+  console.groupEnd();
+};
+
+function preSubmit() {
+  if (form.tipoReservacion != 1) {
+    form.actividad = Activities.activityList;
+  }
+  form.tipoReservacion = parseQuoteType(form.tipoReservacion);
+  resetPrices();
 }
-function resetPrices(){
-    QuoteProgress.prices = {
-        totalPublicPrice: 0,
-        totalAgencyPrice: 0,
-        reference: 0,
-        cost: {
-            adult: 0,
-            minor: 0,
-        },
-        profit: {
-            percentage: usePage().props.value.user.current_team.sale_amount_percentage,
-            amount: 0
-        }
-    };
+
+function submit() {
+  preSubmit();
+
+  form.post(route('quoter.store'), {
+    preserveScroll: true,
+    onSuccess: (response) => {
+      console.log(response);
+    },
+    onError: (response) => {
+      console.log(response);
+    },
+  });
+  if (props.errors) {
+    console.log(props.errors);
+  }
+}
+function resetPrices() {
+  QuoteProgress.prices = {
+    totalPublicPrice: 0,
+    totalAgencyPrice: 0,
+    reference: 0,
+    cost: {
+      adult: 0,
+      minor: 0,
+    },
+    profit: {
+      percentage: usePage().props.value.user.current_team.sale_amount_percentage,
+      amount: 0,
+    },
+  };
 }
 
 function resetForm() {
-    location.reload();
+  location.reload();
 }
-function applyAgencyDiscount( Price, discount =  5){
-    return Number(Price * ( ( 100 - discount ) / 100 )).toFixed(2);
+function applyAgencyDiscount(Price, discount = 5) {
+  return Number(Price * ((100 - discount) / 100)).toFixed(2);
 }
-function pickupNotAvailable(){
-    alert('Lo sentimos actualmente no tenemos pickups disponibles')
-    return 'Lo sentimos, por el momento no tenemos un pickup disponible, porfavor pongase en contacto con uno de nuestros agentes al: 998-168-9378.';
+function pickupNotAvailable() {
+  alert('Lo sentimos actualmente no tenemos pickups disponibles');
+  return 'Lo sentimos, por el momento no tenemos un pickup disponible, porfavor pongase en contacto con uno de nuestros agentes al: 998-168-9378.';
 }
 
-function handlePackActivity(act){
-    if(!act.activity || !act.zone) return null;
-    form.precioPublico = 0;
-    loadPackPrice(act.activity, act.zone, form.season, (act.key - 1));
-    getActivityPickup((act.key - 1), act.activity, act.hotel);
+function handlePackActivity(act) {
+  if (!act.activity || !act.zone) return null;
+  form.precioPublico = 0;
+  loadPackPrice(act.activity, act.zone, form.season, (act.key - 1));
+  getActivityPickup((act.key - 1), act.activity, act.hotel);
 }
 
 class postActivities {
-    activityList;
-    NumberOfActivities;
-    hotelList;
+  activityList;
 
-    constructor() {
-        this.activityList = [];
-        this.NumberOfActivities = 1;
-        this.hotelList = {};
-    }
+  NumberOfActivities;
 
-    getFirstTour(index = 0){
-        return this.activityList[index] ?? false;
-    }
+  hotelList;
 
-    setTour(activitity){
-        this.addActivity(1, activitity, form.season, 1);
-    }
-    async setTourHotel(hotel, index = 0){
-        this.activityList[index].hotel = hotel;
-        this.activityList[index].pickup = await getPickup(this.activityList[index].activity, hotel).then(data => data.pickup_time) ?? '00:00:00';
-    }
+  publicPrice;
 
-    addActivity(key = this.activityList.length + 1, activitity, season = null, zone = null, hotel = null, pickup = null, activity_date = form.fechaActividad){
-        const act = {
-            'key': key,
-            'activity': activitity,
-            'season': season,
-            'zone': zone,
-            'hotel': hotel,
-            'pickup': pickup,
-            'activity_date': activity_date,
+  constructor() {
+    this.activityList = [];
+    this.NumberOfActivities = 1;
+    this.hotelList = {};
+    this.publicPrice = 0;
+  }
 
-            'adults': form.adultos,
-            'minors': form.menores,
-        };
+  getFirstTour(index = 0) {
+    return this.activityList[index] ?? false;
+  }
 
-        this.activityList.push(act);
+  setTour(activitity) {
+    if(this.getFirstTour()){
+      this.activityList.pop();
     }
+    this.addActivity(1, activitity, form.season, 1);
+  }
 
-    async loadHotels(zone){
-        this.hotelList = await loadHotels(zone, this.hotelList);
-        return this.hotelList;
-    }
+  async setTourHotel(hotel, index = 0) {
+    this.activityList[index].hotel = hotel;
+    this.activityList[index].pickup = await getPickup(this.activityList[index].activity, hotel).then((data) => data.pickup_time) ?? '00:00:00';
+    this.activityList[index].public_price = await getPrice(this.activityList[index].activity, this.activityList[index].zone, this.activityList[index].season).then((data) => data.adult.amount) ?? 0;
+    QuoteProgress.prices.totalPublicPrice = this.calculatePublicPrice();
+  }
 
-    describe(){
-        return console.log({
-            'length': this.activityList.length,
-            'Number of tours': QuoteProgress.nPackTours,
-            'activities': this.activityList,
-            'hotels': this.hotelList
-        });
-    }
+  addActivity(key = this.activityList.length + 1, activitity, season = null, zone = null, hotel = null, pickup = null, activity_date = form.fechaActividad) {
+    const act = {
+      key,
+      activity: activitity,
+      season,
+      zone,
+      hotel,
+      pickup,
+      activity_date,
+      type: parseQuoteType(form.tipoReservacion),
+      adults: form.adultos,
+      minors: form.menores,
+      infants: form.infantes,
+      public_price: 0,
+    };
 
-    activityAt(n){
-        n = Math.trunc(n) || 0;
-        if (n < 0) n += this.length;
-        if (n < 0 || n >= this.length) return undefined;
-        return this.activityList[n];
-    }
+    this.activityList.push(act);
+  }
 
-    async isHotelListByZoneLoaded(zoneID){
-        if(this.hotelList[zoneToString(zoneID)]?.length && this.hotelList[zoneToString(zoneID)].length > 0){
-            return true;
-        } else {
-            await this.loadHotels(zoneID);
-            return true;
-        }
+  async loadHotels(zone) {
+    this.hotelList = await loadHotels(zone, this.hotelList);
+    return this.hotelList;
+  }
+
+  describe() {
+    return console.log({
+      length: this.activityList.length,
+      'Number of tours': QuoteProgress.nPackTours,
+      activities: this.activityList,
+      hotels: this.hotelList,
+    });
+  }
+
+  calculatePublicPrice() {
+    return this.activityList.reduce((acc, { public_price }) => (acc + Number(public_price)), 0);
+  }
+
+  async getActivityPublicPrice(activity, zone = form.zona, season = form.season) {
+    return await HttpGet(route('prices', { activity, zone, season }));
+  }
+
+  activityAt(n) {
+    n = Math.trunc(n) || 0;
+    if (n < 0) n += this.length;
+    if (n < 0 || n >= this.length) return undefined;
+    return this.activityList[n];
+  }
+
+  async isHotelListByZoneLoaded(zoneID) {
+    if (this.hotelList[zoneToString(zoneID)]?.length && this.hotelList[zoneToString(zoneID)].length > 0) {
+      return true;
     }
-    async getHotelListByZone(zoneID){
-        return await this.hotelList[zoneToString(zoneID)];
-    }
+    await this.loadHotels(zoneID);
+    return true;
+  }
+
+  async getHotelListByZone(zoneID) {
+    return await this.hotelList[zoneToString(zoneID)];
+  }
 }
 
 const QuoteType = (NumberOfTOurs) => {
-    if(NumberOfTOurs == 2) return 'pack_double';
-    else if(NumberOfTOurs >= 3) return 'pack_triple';
-    else return parseQuoteType(form.tipoReservacion);
-}
+  if (NumberOfTOurs == 2) return 'pack_double';
+  if (NumberOfTOurs >= 3) return 'pack_triple';
+  return parseQuoteType(form.tipoReservacion);
+};
 
 const Activities = reactive(new postActivities());
 
-
-const showActivities = () => {
-    return console.log(Activities);
-}
-const showQuote = () => {
-    return console.log(QuoteProgress);
-}
-const showForm = () => {
-    return console.log(form);
-}
+const showActivities = () => console.log(Activities);
+const showQuote = () => console.log(QuoteProgress);
+const showForm = () => console.log(form);
 </script>
 
-    
 <template>
 
     <div>
@@ -303,7 +309,7 @@ const showForm = () => {
                 Nueva Cotización
                 <p class="text-lg">Fecha de hoy: {{ Today }}</p>
             </div>
-        
+
         </div>
 
         <FormSection @submitted="submit">
@@ -316,7 +322,7 @@ const showForm = () => {
                 <Summary>
 
                     <template #header>
-                        Precio al publico {{ hasAmount(QuoteProgress.prices.totalPublicPrice) }} 
+                        Precio al publico {{ hasAmount(QuoteProgress.prices.totalPublicPrice) }}
                     </template>
 
                     <template #content class="overflow-hidden">
@@ -363,7 +369,7 @@ const showForm = () => {
                             <small class="text-gray-400">Descuento para  mexicanos, presentar INE o pasaporte.</small>
 
                             <label for="nacionalesId" class="flex items-center cursor-pointer text-base font-medium text-[#07074D]">
-                                
+
                                 <span class="mr-2">Nacionales? {{ form.nacionales ? 'Si' : 'No' }}</span>
                                 <!-- toggle -->
                                 <div class="relative">
@@ -383,7 +389,7 @@ const showForm = () => {
                                 </div>
 
                             </label>
-                                
+
                         </div>
 
                         <!-- Reservation Type -->
@@ -469,21 +475,21 @@ const showForm = () => {
                         <!-- Holder name -->
 
                         <div class="-mx-3 flex flex-wrap">
-                          
+
                             <div class="w-full px-3">
 
                                 <div class="mb-5">
 
-                                    <InputLabel 
+                                    <InputLabel
                                         for="QuoteTitular">
                                             Nombre del titular
                                     </InputLabel>
-                                    
-                                    <InputText 
+
+                                    <InputText
                                         required=""
                                         placeholder="Aa"
-                                        id="QuoteTitular" 
-                                        name="nombreTitular"  
+                                        id="QuoteTitular"
+                                        name="nombreTitular"
                                         v-model="form.nombreTitular" />
                                     <TextError :message="props.errors.nombreTitular" />
 
@@ -498,7 +504,7 @@ const showForm = () => {
                         <div class="flex flex-wrap justify-between">
 
                             <div class="mb-5 w-28">
-                                
+
                                 <InputLabel for="adultos">
                                         Adultos
                                 </InputLabel>
@@ -512,7 +518,7 @@ const showForm = () => {
                             </div>
 
                             <div class="mb-5 w-28">
-                                
+
                                 <InputLabel for="menores">
                                     Menores
                                 </InputLabel>
@@ -532,7 +538,7 @@ const showForm = () => {
                                 <InputLabel for="infantes">
                                     Infantes
                                 </InputLabel>
-                                
+
                                 <InputNumber
                                     id-name="infantes"
                                     v-model="form.infantes"
@@ -550,7 +556,7 @@ const showForm = () => {
                                     <InputLabel for="park">
                                         Parque
                                     </InputLabel>
-                                    <select 
+                                    <select
                                         @change="getParkCost()"
                                         v-model="form.actividad"
                                         id="park"
@@ -582,7 +588,7 @@ const showForm = () => {
                                     <select
                                         @change="Activities.setTour($event.target.value)"
                                         v-if="QuoteProgress.tours"
-                                        name="parque" 
+                                        name="parque"
                                         class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                                         >
                                         <option value="null" selected disabled>-- Seleccione un tour --</option>
@@ -602,7 +608,7 @@ const showForm = () => {
                                     <select
                                         v-model="Activities.getFirstTour().zone"
                                         id="zone"
-                                        name="zone" 
+                                        name="zone"
                                         class="capitalize w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                                         >
                                         <option value="null" selected disabled>-- Seleccione su zona --</option>
@@ -617,11 +623,11 @@ const showForm = () => {
 
                                 <div class="mb-5" v-if="Activities.getFirstTour()?.zone">
 
-                                    <InputLabel 
+                                    <InputLabel
                                         for="pickUpZone">
                                             Hotel del pickup
                                     </InputLabel>
-                                    
+
                                     <select
                                         @change="Activities.setTourHotel($event.target.value)"
                                         name="pickUpZone"
@@ -649,7 +655,7 @@ const showForm = () => {
                         <div v-if="form.tipoReservacion ==  3" class="-mx-3 flex flex-wrap">
 
                             <div class="mb-5 w-28">
-                                
+
                                 <InputLabel for="number_of_activitys">
                                         Numero de actividades
                                 </InputLabel>
@@ -664,12 +670,11 @@ const showForm = () => {
 
                         </div>
 
-                        
                         <!-- N Pack tours | ntoursdiv-->
                         <div v-if="form.tipoReservacion ==  3 && QuoteProgress.nTours != 0" class="-mx-3 flex flex-wrap">
 
                             <div v-for="act in QuoteProgress.nTours" class="w-full px-3">
-                                
+
                                 <h2>Actividad {{ act.key }} </h2>
                                 <div class="mb-5">
 
@@ -683,7 +688,7 @@ const showForm = () => {
                                         v-model="act.activity"
                                         @change="handlePackActivity(act)"
                                         v-if="QuoteProgress.tours"
-                                        name="Activity" 
+                                        name="Activity"
                                         class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                                         >
                                         <option value="null" selected disabled> -- Seleccione un tour -- </option>
@@ -712,7 +717,7 @@ const showForm = () => {
                                         v-model="act.zone"
                                         @input="(event) => loadHotels(event.target.value)"
                                             id="zone"
-                                            name="zone" 
+                                            name="zone"
                                             class="capitalize w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                                         >
                                         <option value="null" selected disabled>-- Seleccione su zona --</option>
@@ -722,11 +727,11 @@ const showForm = () => {
 
                                 <div class="mb-5">
 
-                                    <InputLabel 
+                                    <InputLabel
                                         for="pickUpZone">
                                             Hotel del pickup
                                     </InputLabel>
-                                    
+
                                     <select
                                         v-model="act.hotel"
                                         @change="handlePackActivity(act)"
@@ -813,7 +818,7 @@ const showForm = () => {
                 Guardar Cotización
               </button>
             </template>
-                
+
         </FormSection>
     </div>
 
