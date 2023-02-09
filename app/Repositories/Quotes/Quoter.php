@@ -78,13 +78,12 @@ class Quoter {
             
         }else if(Discount::is(Discount::Tour, $request->tipoReservacion)){
             $activity = (object) $request->actividad[0];
-            // dd($activity);
             $cost_amount = new CalculateCost($activity);
             $data['cost_amount'] = $cost_amount->applyDiscount()->getCost();
     
             $quote = ModelsQuote::create( $data );
             
-            $activities = $this->add_tour($quote->id, $request->activity, $request->hotel, $request->pickup, $request->fechaActividad );
+            $activities = $this->add_tour($quote->id, $data['activity_id'][0]['activity'], $data['activity_id'][0]['hotel'], $data['activity_id'][0]['pickup'], $data['activity_id'][0]['activity_date'] );
             
         } else {
 

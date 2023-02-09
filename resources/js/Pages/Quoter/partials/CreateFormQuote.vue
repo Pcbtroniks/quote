@@ -137,6 +137,7 @@ const loadPackPrice = async (activity, zone, season, key) => {
 function preSubmit() {
   if (form.tipoReservacion != 1) {
     form.actividad = Activities.activityList;
+    form.precioPublico = Activities.calculatePublicPrice();
   }
   form.tipoReservacion = parseQuoteType(form.tipoReservacion);
   resetPrices();
