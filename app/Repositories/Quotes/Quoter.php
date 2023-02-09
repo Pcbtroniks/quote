@@ -63,8 +63,6 @@ class Quoter {
 
     public function save(Request $request){
 
-        // return dd($request);
-
         $data = QuoteAdapter::parse($request);
 
         if(Discount::is(Discount::Entrance, $request->tipoReservacion)){
@@ -83,16 +81,23 @@ class Quoter {
     
             $quote = ModelsQuote::create( $data );
             
-            $activities = $this->add_tour($quote->id, $data['activity_id'][0]['activity'], $data['activity_id'][0]['hotel'], $data['activity_id'][0]['pickup'], $data['activity_id'][0]['activity_date'] );
+            $this->add_tour($quote->id, $data['activity_id'][0]['activity'], $data['activity_id'][0]['hotel'], $data['activity_id'][0]['pickup'], $data['activity_id'][0]['activity_date'] );
             
         } else {
+            $discountType = count($request->actividad) <= 2 ? 'pack_double' : 'pack_multiple';
+            $data['cost_amount'] = 0;
+            foreach ($request->actividad as $activity) {
+                $activity = (object) $activity;
+                $activity->type = $discountType;
+                $cost_amount = new CalculateCost($activity);
+                $data['cost_amount'] += $cost_amount->applyDiscount()->getCost();
+            }
 
-            $cost_amount = new CalculateCost(QuoteAdapter::parseCosts($request));
-            $data['cost_amount'] = $cost_amount->applyDiscount()->getCost();
+            // dd($data);
     
             $quote = ModelsQuote::create( $data );
             
-            $activities = $this->add_package($quote->id, $request->actividad);
+            $this->add_package($quote->id, $request->actividad);
         
         }
 

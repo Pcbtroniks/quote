@@ -69,28 +69,18 @@ const getParkCost = async () => {
   getCost();
 };
 
-const getTourCost = async (activity, zona, season) => {
-  const prices = await getPrice(activity, zona, season);
-
-  QuoteProgress.prices.cost.adult = prices.adult.amount;
-  QuoteProgress.prices.cost.minor = prices.minor.amount;
-
-  getCost();
-};
-
 watchPostEffect(() => {
   form.season = getSeason(form.fechaActividad);
   if (form.actividad) getCost();
 });
 
 watchPostEffect(() => {
-  if (form.actividad && form.tipoReservacion == 1) getParkCost();
-  if (form.actividad && form.tipoReservacion == 2) getTourCost(QuoteProgress.tour.activity, form.zona, form.season);
-  if (QuoteProgress.nTours.length > 0 && form.tipoReservacion == 3) {
-    QuoteProgress.nTours.forEach((act) => {
-      handlePackActivity(act);
-    });
+  if(form.tipoReservacion == 3 && Activities.activityList.length == 0){
+    Activities.setMinTourPackage()
   }
+  if (form.actividad && form.tipoReservacion == 1) {
+    getParkCost()
+  };
   return [form.adultos, form.menores];
 });
 
@@ -100,7 +90,7 @@ watchPostEffect(() => {
 
 watchPostEffect(() => {
   resetPrices();
-  return [form.tipoReservacion, QuoteProgress.nTours];
+  return [form.tipoReservacion];
 });
 
 watchPostEffect(() => {
@@ -202,11 +192,14 @@ class postActivities {
 
   publicPrice;
 
+  minTourPackage;
+
   constructor() {
     this.activityList = [];
     this.NumberOfActivities = 1;
     this.hotelList = {};
     this.publicPrice = 0;
+    this.minTourPackage = 2;
   }
 
   getFirstTour(index = 0) {
@@ -216,6 +209,7 @@ class postActivities {
   setTour(activitity) {
     if(this.getFirstTour()){
       this.activityList.pop();
+      resetPrices();
     }
     this.addActivity(1, activitity, form.season, 1);
   }
@@ -223,11 +217,32 @@ class postActivities {
   async setTourHotel(hotel, index = 0) {
     this.activityList[index].hotel = hotel;
     this.activityList[index].pickup = await getPickup(this.activityList[index].activity, hotel).then((data) => data.pickup_time) ?? '00:00:00';
-    this.activityList[index].public_price = await getPrice(this.activityList[index].activity, this.activityList[index].zone, this.activityList[index].season).then((data) => data.adult.amount) ?? 0;
+    this.activityList[index].public_price = await this.getActivityPublicPrice(index);
     QuoteProgress.prices.totalPublicPrice = this.calculatePublicPrice();
+    console.info(await getPrice(this.activityList[index].activity, this.activityList[index].zone, form.season).then((data) => data));
+  }
+    
+  async getActivityPublicPrice(index) {
+    const price = await getPrice(this.activityList[index].activity, this.activityList[index].zone, form.season).then((data) => data) ?? 0;
+    return fixedAdd((form.adultos * Number(price.adult.amount)), (form.menores * Number(price.minor.amount)));
   }
 
-  addActivity(key = this.activityList.length + 1, activitity, season = null, zone = null, hotel = null, pickup = null, activity_date = form.fechaActividad) {
+  setMinTourPackage(n = 2) {
+    this.minTourPackage = n;
+    this.resetActivities();
+    for(let i = 0; i < this.minTourPackage; i++){
+      this.addActivity();
+    }
+  }
+
+  setActivity(index, activity){
+    this.activityList[index].activity = activity;
+  }
+  setActivityZone(index, zone){
+    this.activityList[index].zone = zone;
+  }
+
+  addActivity(key = this.activityList.length + 1, activitity, season = form.season, zone = null, hotel = null, pickup = null, activity_date = form.fechaActividad) {
     const act = {
       key,
       activity: activitity,
@@ -244,6 +259,11 @@ class postActivities {
     };
 
     this.activityList.push(act);
+  }
+
+  resetActivities() {
+    this.activityList = [];
+    resetPrices();
   }
 
   async loadHotels(zone) {
@@ -264,8 +284,11 @@ class postActivities {
     return this.activityList.reduce((acc, { public_price }) => (acc + Number(public_price)), 0);
   }
 
-  async getActivityPublicPrice(activity, zone = form.zona, season = form.season) {
-    return await HttpGet(route('prices', { activity, zone, season }));
+  async applyAgencyCost(index)
+  {
+    const costAdults = form.adultos * await this.getActivityPublicPrice(this.activityList[index].activity, form.zona, form.season).then((data) => data.adult.amount);
+    const costMinors = form.menores * await this.getActivityPublicPrice(this.activityList[index].activity, form.zona, form.season).then((data) => data.minor.amount);
+
   }
 
   activityAt(n) {
@@ -631,6 +654,7 @@ const showForm = () => console.log(form);
 
                                     <select
                                         @change="Activities.setTourHotel($event.target.value)"
+                                        v-model="Activities.getFirstTour().hotel"
                                         name="pickUpZone"
                                         id="pickUpZone"
                                         class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
@@ -662,7 +686,8 @@ const showForm = () => console.log(form);
                                 </InputLabel>
 
                                 <InputNumber
-                                    v-model.number="QuoteProgress.nPackTours"
+                                    @input.number="Activities.setMinTourPackage($event.target.value)"
+                                    :value="Activities.minTourPackage"
                                     min="2"
                                     id-name="number_of_activitys"
                                 />
@@ -672,9 +697,9 @@ const showForm = () => console.log(form);
                         </div>
 
                         <!-- N Pack tours | ntoursdiv-->
-                        <div v-if="form.tipoReservacion ==  3 && QuoteProgress.nTours != 0" class="-mx-3 flex flex-wrap">
+                        <div v-if="form.tipoReservacion == 3" class="-mx-3 flex flex-wrap">
 
-                            <div v-for="act in QuoteProgress.nTours" class="w-full px-3">
+                            <div v-for="act in Activities.activityList" class="w-full px-3">
 
                                 <h2>Actividad {{ act.key }} </h2>
                                 <div class="mb-5">
@@ -687,7 +712,7 @@ const showForm = () => console.log(form);
                                     </label>
                                     <select
                                         v-model="act.activity"
-                                        @change="handlePackActivity(act)"
+                                        @change="Activities.setActivity(act.key - 1, $event.target.value)"
                                         v-if="QuoteProgress.tours"
                                         name="Activity"
                                         class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
@@ -716,7 +741,7 @@ const showForm = () => console.log(form);
                                     </InputLabel>
                                     <select
                                         v-model="act.zone"
-                                        @input="(event) => loadHotels(event.target.value)"
+                                        @change="Activities.isHotelListByZoneLoaded($event.target.value)"
                                             id="zone"
                                             name="zone"
                                             class="capitalize w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
@@ -734,15 +759,15 @@ const showForm = () => console.log(form);
                                     </InputLabel>
 
                                     <select
+                                        v-if="Activities.isHotelListByZoneLoaded(act.zone)"
                                         v-model="act.hotel"
-                                        @change="handlePackActivity(act)"
-                                        v-show="QuoteProgress.hotels"
+                                        @change="Activities.setTourHotel($event.target.value, act.key - 1)"
                                         name="pickUpZone"
                                         id="pickUpZone"
                                         class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                                         >
                                         <option value="null" selected disabled>-- Seleccione un hotel --</option>
-                                        <option v-if="QuoteProgress.hotels[zoneToString(act.zone)]" class="capitalize" v-for="h in QuoteProgress.hotels[zoneToString(act.zone)]" :value="h.id">{{ h.name }}</option>
+                                        <option class="capitalize" v-for="h in Activities.hotelList[zoneToString(act.zone)]" :value="h.id">{{ h.name }}</option>
                                     </select>
 
                                 </div>
