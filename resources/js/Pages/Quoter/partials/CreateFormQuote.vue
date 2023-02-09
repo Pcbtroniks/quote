@@ -140,8 +140,22 @@ function submit() {
     preserveScroll: true,
     onSuccess: (response) => {
       console.log(response);
+      Swal.fire(
+        'Nueva cotizacion generada',
+        'Hemos guardado la cotizacion',
+        'success'
+        ).then(function() {
+            location.reload();
+        })
     },
     onError: (response) => {
+      Swal.fire(
+        'Ups! Algo salio mal',
+        'No hemos podido guardar la cotizacion, por favor intenta de nuevo.',
+        'error'
+        ).then(function() {
+            location.reload();
+        })
       console.log(response);
     },
   });
@@ -164,7 +178,6 @@ function resetPrices() {
     },
   };
 }
-
 function resetForm() {
   location.reload();
 }

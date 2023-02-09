@@ -30,4 +30,11 @@ class CouponController extends Controller
         Coupon::setPendingStatus($quote->coupon);
         return response()->json(['ok' => Coupon::setCode($quote->coupon_id)]);
     }
+
+    public function requestCode(QuoteModel $quote)
+    {
+        Mail::to('freetraveler@freetraveler.com.mx')->send(new QuoteCreated($quote));
+        Coupon::setPendingStatus($quote->coupon);
+        return response()->json(['ok' => 'yes', 'msg' => 'Se ha realizado la solicitud de su código de cupón.']);
+    }
 }

@@ -45,7 +45,7 @@ const saveConfirmation = (coupon) => {
 
                     <TextInput
                     id="folio"
-                    v-model="props.coupon.confirmation_key"
+                    v-model="form.confirmation_key"
                     type="text"
                     class="block w-full mt-1"
                     autofocus

@@ -97,6 +97,7 @@ Route::middleware([
     Route::get('coupons/code/{code}', [CouponController::class, 'searchByCode'])->name('coupon.search.code');
     Route::post('coupons/{coupon}/confirm/', [CouponController::class, 'keyConfirm'])->name('coupon.key.confirm');
     Route::post('coupons/{quote}/get-code', [CouponController::class, 'getCode'])->name('coupon.get.code');
+    Route::post('coupons/{quote}/request-code', [CouponController::class, 'requestCode'])->name('coupon.request.code');
 
     // Exports 
 

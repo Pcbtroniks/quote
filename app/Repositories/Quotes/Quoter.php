@@ -92,8 +92,6 @@ class Quoter {
                 $cost_amount = new CalculateCost($activity);
                 $data['cost_amount'] += $cost_amount->applyDiscount()->getCost();
             }
-
-            // dd($data);
     
             $quote = ModelsQuote::create( $data );
             

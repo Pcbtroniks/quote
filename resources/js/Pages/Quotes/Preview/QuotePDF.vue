@@ -24,7 +24,7 @@ console.log(props.quote);
                             <td style="height: 30px;" class="border">Cúpon de servicio / service coupon</td>
                         </tr>
                         <tr style="height: 40px;">
-                            <td style="height: 40px;" class="border">{{ quote.coupon.code }}</td>
+                            <td style="height: 40px;" class="border">{{ quote.coupon?.code }}</td>
                         </tr>
                         <tr style="height: 30px;">
                             <td style="height: 30px;" class="border">Lugar y fecha / Date and place</td>
@@ -113,7 +113,7 @@ console.log(props.quote);
         <!-- DivTable.com -->
             <div class="self-end flex">
                 <p class="font-bold">Clave de confirmacion / <br> Confirmation code</p>
-                <div class="w-[576px] h-[59px] border border-black border-t-0 p-4"> {{ quote.coupon.confirmation_key }}</div>
+                <div class="w-[576px] h-[59px] border border-black border-t-0 p-4"> {{ quote.coupon?.confirmation_key }}</div>
             </div>
         </div>
 

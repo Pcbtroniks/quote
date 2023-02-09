@@ -31,6 +31,6 @@ class QuoteCreated extends Mailable
      */
     public function build()
     {
-        return $this->view('Emails.Quotes.new-quote');
+        return $this->view('Emails.Quotes.request-coupon');
     }
 }

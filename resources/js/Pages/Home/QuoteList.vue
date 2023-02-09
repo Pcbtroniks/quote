@@ -21,7 +21,7 @@ const requestCouponConfirmation = (Quote) => {
     }).then((result) => {
     if (result.isConfirmed) {
 
-        axios.post(route('coupon.get.code', Quote))
+        axios.post(route('coupon.request.code', Quote))
             .then((response) => {
                 console.log(response);
             })
@@ -87,7 +87,7 @@ const requestCouponConfirmation = (Quote) => {
                                 <th class="p-2 whitespace-nowrap">
                                     <div class="font-semibold text-left">Costo A.</div>
                                 </th>
-                                <th class="p-2 whitespace-nowrap">
+                                <th class="p-2 whitespace-nowrap hidden">
                                     <div class="font-semibold text-left"  title="Precio Minimo Agencia">P.M. Agencia</div>
                                 </th>
                                 <th class="p-2 whitespace-nowrap">
@@ -132,13 +132,11 @@ const requestCouponConfirmation = (Quote) => {
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="flex items-center">
-                                        <!-- <div class="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"><img class="rounded-full" src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg" width="40" height="40" alt="Alex Shatov"></div> -->
                                         <div class="font-medium text-gray-800">{{ quote.team.name }}</div>
                                     </div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="flex items-center">
-                                        <!-- <div class="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"><img class="rounded-full" src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg" width="40" height="40" alt="Alex Shatov"></div> -->
                                         <div class="font-medium text-gray-800">{{ quote.holder_name }}</div>
                                     </div>
                                 </td>
@@ -169,7 +167,7 @@ const requestCouponConfirmation = (Quote) => {
                                 <td class="p-2 whitespace-nowrap cursor-default">
                                     <div class="text-left font-medium text-green-500" title="Precio de venta">${{ quote.cost_amount }}</div>
                                 </td>
-                                <td class="p-2 whitespace-nowrap cursor-default">
+                                <td class="p-2 whitespace-nowrap cursor-default hidden">
                                     <div class="text-left font-medium text-green-500" title="Precio de venta">${{ quote.sale_amount }}</div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap cursor-default">
