@@ -39,12 +39,12 @@ class CalculateCost implements CostsInterface
 
     public function applyDiscount()
     {
-        $Discount = $this->resolveDiscount($this->price);
+        $applyDiscount = $this->resolveDiscountType();
 
-        return new $Discount($this->price);
+        return new $applyDiscount($this->price);
     }
 
-    public function resolveDiscount()
+    public function resolveDiscountType()
     {
         $DiscountClass = [
             'pack_multiple' => \App\Services\Cost\MultipleDiscount::class,
@@ -69,5 +69,10 @@ class CalculateCost implements CostsInterface
     public function getDescription(): mixed
     {
         return "Precio Público: {$this->activity->price}$";
+    }
+
+    public function getDiscounts()
+    {
+        return $this->activity->discounts;
     }
 }

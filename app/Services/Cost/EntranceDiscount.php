@@ -17,7 +17,7 @@ class EntranceDiscount implements CostsInterface
 
     public function getCost(): float
     {
-        return $this->applyDiscount($this->costs->getCost(), $this->costs->getDiscounts()->tour);
+        return $this->applyDiscount($this->costs->getCost(), $this->costs->getDiscounts()->entrance);
     }
 
     public function getDescription(): mixed

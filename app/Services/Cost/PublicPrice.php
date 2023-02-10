@@ -8,6 +8,7 @@ use App\Models\Activity;
 class PublicPrice implements PriceInterface
 {
 
+    public $getDescription;
     public $activity;
     public $season;
     public $zone;
@@ -20,6 +21,7 @@ class PublicPrice implements PriceInterface
         $this->pax['kid'] = $minors;
         $this->zone = $zone;
         $this->season = $season;
+        $this->getDescription = $this->getDescription();
     }
 
     public function getActivity()
