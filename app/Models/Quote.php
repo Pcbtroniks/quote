@@ -28,7 +28,8 @@ class Quote extends Model
         'public_price',
         'cost_amount',
         'sale_amount',
-        'observations'
+        'observations',
+        'status'
     ];
 
     public function user(){

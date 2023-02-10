@@ -124,8 +124,8 @@ const requestCouponConfirmation = (Quote) => {
                                                     </svg>
                                                 </div>
                                             </a>
-                                            <button v-else @click="requestCouponConfirmation(quote)" class="px-3 py-2 rounded-md text-sm font-medium border focus:outline-none focus:ring transition text-sky-600 border-sky-600 hover:text-white hover:bg-sky-600 active:bg-sky-700 focus:ring-sky-300" type="button">
-                                                    Solicitar
+                                            <button v-else @click="requestCouponConfirmation(quote)" class="px-3 py-2 rounded-md text-sm font-medium border focus:outline-none focus:ring transition text-sky-600 border-sky-600 hover:text-white hover:bg-sky-600 active:bg-sky-700 focus:ring-sky-300" type="button" :class="quote.status == 'pending' ? 'text-yellow-600 border-yellow-600 hover:text-white hover:bg-yellow-600 active:bg-yellow-700 focus:ring-yellow-300' : null" :disabled="quote.status == 'pending'">
+                                                    {{ quote.status == 'created' ? 'Solicitar' : 'Pendiente' }}
                                             </button>
                                         </div>
                                     </div>

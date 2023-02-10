@@ -3,6 +3,7 @@
 namespace App\Repositories\Quotes;
 
 use App\Enums\CouponPaidStatus;
+use App\Enums\CouponStatus;
 use App\Models\Activity;
 use App\Models\Coupon;
 use Illuminate\Http\Request;
@@ -195,4 +196,9 @@ class Quote {
                                     ->paginate($limit);
     }
 
+    // V 2.0
+    public static function setPendingStatus(ModelsQuote $quote)
+    {     
+        return $quote->update(['status' => CouponStatus::Pending]);
+    }
 }

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use App\Mail\QuoteCreated;
 use App\Models\Quote as QuoteModel;
+use App\Repositories\Quotes\Quote;
 
 class CouponController extends Controller
 {
@@ -34,7 +35,7 @@ class CouponController extends Controller
     public function requestCode(QuoteModel $quote)
     {
         Mail::to('freetraveler@freetraveler.com.mx')->send(new QuoteCreated($quote));
-        Coupon::setPendingStatus($quote->coupon);
+        Quote::setPendingStatus($quote);
         return response()->json(['ok' => 'yes', 'msg' => 'Se ha realizado la solicitud de su código de cupón.']);
     }
 }

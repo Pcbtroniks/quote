@@ -36,7 +36,7 @@ return new class extends Migration
 
             $table->string('national')->default('no');
             $table->string('season');
-            $table->string('type');
+            $table->string('type', 50);
             $table->string('holder_name');
             $table->integer('adults');
             $table->integer('minors');
@@ -50,7 +50,8 @@ return new class extends Migration
             $table->decimal('cost_amount')->nullable();
             $table->decimal('cost_percentage')->nullable();
             $table->decimal('cost_amount_paid')->nullable();
-            $table->string('paid_status')->default('unpaid');
+            $table->string('paid_status', 50)->default('unpaid');
+            $table->string('status', 50)->default('created');
 
             $table->timestamps();
         });
