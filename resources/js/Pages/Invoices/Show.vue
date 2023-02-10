@@ -1,10 +1,7 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import DeleteTeamForm from '@/Pages/Teams/Partials/DeleteTeamForm.vue';
 import SectionBorder from '@/Components/SectionBorder.vue';
-import TeamMemberManager from '@/Pages/Teams/Partials/TeamMemberManager.vue';
 import SyncInvoiceCoupon from '@/Pages/Invoices/Partials/SyncInvoiceCoupon.vue';
-import CreateInvoiceForm from './Partials/CreateInvoiceForm.vue';
 import CouponList from './Partials/CouponList.vue';
 
 defineProps({
@@ -34,21 +31,6 @@ defineProps({
                     class="mt-10 sm:mt-0"
                     :coupons="coupons"
                     :invoice="invoice" />
-
-                
-
-                <!-- <TeamMemberManager
-                    class="mt-10 sm:mt-0"
-                    :team="team"
-                    :available-roles="availableRoles"
-                    :user-permissions="permissions"
-                /> -->
-<!-- 
-                <template v-if="permissions.canDeleteTeam && ! team.personal_team">
-                    <SectionBorder />
-
-                    <DeleteTeamForm class="mt-10 sm:mt-0" :team="team" />
-                </template> -->
             </div>
         </div>
     </AppLayout>
