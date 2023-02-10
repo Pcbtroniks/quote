@@ -201,4 +201,8 @@ class Quote {
     {     
         return $quote->update(['status' => CouponStatus::Pending]);
     }
+    public static function setConfirmedStatus(ModelsQuote $quote)
+    {     
+        return $quote->update(['status' => CouponStatus::Confirmed]);
+    }
 }

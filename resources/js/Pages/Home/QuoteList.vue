@@ -114,7 +114,7 @@ const requestCouponConfirmation = (Quote) => {
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <div class="font-medium text-gray-800 hover:text-green-500">
-                                            <a v-if="quote?.coupon?.code" :href="route('quote.preview' , quote.uuid)">
+                                            <a v-if="quote?.coupon?.code && quote?.coupon?.status == 'confirmed'" :href="route('quote.preview' , quote.uuid)">
 
                                                 <div>
                                                     {{ quote.coupon.code }}

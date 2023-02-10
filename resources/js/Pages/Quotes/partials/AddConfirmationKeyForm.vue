@@ -18,9 +18,9 @@ const saveConfirmation = (coupon) => {
     form.confirmation_key = props.coupon.confirmation_key;
     form.post(route('coupon.key.confirm', { coupon }), {
         preserveScroll: true,
-        onSuccess: ($response) => {
+        onSuccess: (response) => {
+            console.log(response)
             alert('Success');
-            console.log($response)
         }
     });
     form.reset();
@@ -45,7 +45,7 @@ const saveConfirmation = (coupon) => {
 
                     <TextInput
                     id="folio"
-                    v-model="form.confirmation_key"
+                    v-model="props.coupon.confirmation_key"
                     type="text"
                     class="block w-full mt-1"
                     autofocus

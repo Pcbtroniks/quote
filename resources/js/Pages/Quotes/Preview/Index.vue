@@ -1,8 +1,9 @@
 <script setup>
     import AppLayout from '@/Layouts/AppLayout.vue';
+    import SectionBorder from '@/Components/SectionBorder.vue';
     import QuotePDF from '@/Pages/Quotes/Preview/QuotePDF.vue';
     import AddConfirmationKeyForm from '@/Pages/Quotes/partials/AddConfirmationKeyForm.vue';
-
+    import CouponQuoteActions from '../partials/CouponQuoteActions.vue';
 
     defineProps({
         quote: Object
@@ -25,7 +26,11 @@
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-                <AddConfirmationKeyForm :coupon="quote.coupon" class="mb-4"/>
+                <CouponQuoteActions :quote="quote" />
+
+                <SectionBorder />
+
+                <AddConfirmationKeyForm v-if="quote.coupon?.status == 'created'" :coupon="quote.coupon" class="mb-4"/>
 
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                     <QuotePDF :quote="quote" />

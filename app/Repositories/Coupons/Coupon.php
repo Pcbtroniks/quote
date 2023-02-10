@@ -4,6 +4,7 @@ namespace App\Repositories\Coupons;
 
 use App\Enums\CouponStatus;
 use App\Models\Coupon as CouponModel;
+use App\Models\Quote;
 
 class Coupon {
 
@@ -49,6 +50,29 @@ class Coupon {
     {
         return CouponModel::where('id', $couponID)
                 ->update(['code' => $code ?? self::generateCode($couponID)]);
+    }
+
+    public static function storeCouponWithCode(Quote $quote)
+    {     
+            $coupon = CouponModel::create([
+                'status' => CouponStatus::Created,
+            ]);
+
+            $coupon->update([
+                'code' => self::generateCode($coupon->id),
+            ]);
+
+            $quote->update([
+                'coupon_id' => $coupon->id,
+            ]);
+
+            return $coupon;
+    }
+
+    public static function hasConfirmationKey($coupon)
+    {     
+        $coupon = CouponModel::where('id', $coupon)->first();
+        return $coupon->confirmation_key != null;
     }
 
     public static function setPendingStatus(CouponModel $coupon)

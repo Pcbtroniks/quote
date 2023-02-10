@@ -84,7 +84,7 @@ console.log(props.quote);
                     </tr>
                     <tr style="height: 59px;text-align: center;">
                         <td style="height: 59px; border: 1px solid">Entrada/ Entrance</td>
-                        <td style="height: 59px; border: 1px solid; width: 474.98px; max-width: 1px;" colspan="2">{{ quote.type == 'entrada' ? quote.activity.name : '' }}</td>
+                        <td style="height: 59px; border: 1px solid; width: 474.98px; max-width: 1px;" colspan="2">{{ quote.type == 'entrance' ? quote.activity.name : '' }}</td>
                         <td style="height: 59px; border: 1px solid">{{ quote.national == 1 ? 'PROMOMEX' : '' }}</td>
                     </tr>
                     <tr style="height: 59px; text-align: center;">
@@ -104,7 +104,7 @@ console.log(props.quote);
                         </td>
                     </tr>
                     <tr style="height: 59px;">
-                        <td v-if="quote.type == 'paquete'"><p style="text-align:center;">PAQ#{{ quote.listed_activities.length }}</p></td>
+                        <td v-if="quote.type == 'pack'"><p style="text-align:center;">PAQ#{{ quote.listed_activities.length }}</p></td>
                         <td style="height: 59px;" colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;</td>
                     </tr>
                 </tbody>
