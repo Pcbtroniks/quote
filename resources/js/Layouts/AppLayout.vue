@@ -54,7 +54,7 @@ const logout = () => {
                                     Mis cotizaciones
                                 </NavLink>
 
-                                <NavLink :href="route('quote')" :active="route().current('quote')">
+                                <NavLink :href="route('quote.create')" :active="route().current('quote')">
                                     Cotizador
                                 </NavLink>
 
@@ -239,7 +239,7 @@ const logout = () => {
                         <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                             Mis cotizaciones
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('quote')" :active="route().current('quote')">
+                        <ResponsiveNavLink :href="route('quote.create')" :active="route().current('quote')">
                             Cotizador
                         </ResponsiveNavLink>
                         <ResponsiveNavLink :href="route('activities')" :active="route().current('activities')">
