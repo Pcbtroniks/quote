@@ -53,7 +53,6 @@ class QuoterController extends Controller
         (new Quoter)->save($request);
 
         return redirect()->back()->withSuccess('msg', 'Cotización creada con éxito');
-        // return response()->json($request->actividad);
     }
 
     public function handleActivity(Request $request)

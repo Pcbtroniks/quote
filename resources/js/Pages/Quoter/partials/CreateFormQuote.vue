@@ -18,7 +18,7 @@ import InputText from './InputText.vue';
 import Summary from './Summary.vue';
 import Alert from '@/Components/Alert.vue';
 import InputDate from './InputDate.vue';
-
+import ShowCosts from './ShowCosts.vue';
 const props = defineProps({
   parks: Array,
   zones: Array,
@@ -232,7 +232,6 @@ class postActivities {
     this.activityList[index].pickup = await getPickup(this.activityList[index].activity, hotel).then((data) => data.pickup_time) ?? '00:00:00';
     this.activityList[index].public_price = await this.getActivityPublicPrice(index);
     QuoteProgress.prices.totalPublicPrice = this.calculatePublicPrice();
-    console.info(await getPrice(this.activityList[index].activity, this.activityList[index].zone, form.season).then((data) => data));
   }
     
   async getActivityPublicPrice(index) {
@@ -324,12 +323,6 @@ class postActivities {
   }
 }
 
-const QuoteType = (NumberOfTOurs) => {
-  if (NumberOfTOurs == 2) return 'pack_double';
-  if (NumberOfTOurs >= 3) return 'pack_triple';
-  return parseQuoteType(form.tipoReservacion);
-};
-
 const Activities = reactive(new postActivities());
 
 const showActivities = () => console.log(Activities);
@@ -383,6 +376,7 @@ const showForm = () => console.log(form);
                         <InputRange v-model.number="QuoteProgress.prices.reference" :min.number="form.importeVenta" :max.number="QuoteProgress.prices.totalPublicPrice" /> -->
                     </template>
                 </Summary>
+                <ShowCosts :activities="Activities.activityList" class="p-4" />
 
             </template>
 
