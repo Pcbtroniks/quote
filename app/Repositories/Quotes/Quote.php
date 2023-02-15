@@ -47,7 +47,7 @@ class Quote {
     public function preview($uuid){
 
         $quote =  ModelsQuote::where('uuid', $uuid)
-                            ->with(['user','coupon', 'listed_activity'])
+                            ->with(['user','coupon', 'listed_activity', 'team'])
                             ->firstOrFail();
 
         $quote->load('listed_activities');

@@ -110,30 +110,6 @@ const syncCoupon = async ( invoice, coupon ) => {
     };
 }
 
-const unSyncCoupon = async ( invoice, coupon ) => {
-
-if( !coupon ) return false;
-Search.syncing = true;
-try {
-
-    const data = await axios.post(route('invoices.unsync.coupon', { invoice }), {
-        coupon
-    });
-
-    Search.coupon.invoice_id = null;
-    console.log(data);
-    
-} catch (error) {
-     
-    alert('Ha ocurrido un error: ' + error.message)
-
-} finally {
-
-    Search.syncing = false;
-
-};
-}
-
 const HttpGet = async (URL, Options) => {
     try {        
         const response = await fetch(URL, Options);
@@ -172,6 +148,13 @@ const getStatusColor = (status) => {
             <div class="col-span-6">
                 <!-- Invoice Folio -->
                 <div class="text-lg font-medium text-gray-900">Cotización <span :class="getStatusColor(props.quote.status)" class="p-2 rounded">status {{ props.quote.status }}</span></div>
+                <div v-if="props.quote.coupon?.status != 'confirmed' && $page.props.user.is_freetraveler_admin">
+                    <span class="text-sm text-gray-500">Realizada por: {{ props.quote.user.name }} en ({{ props.quote.team.name }}) el dia {{ props.quote.created_at }}</span>
+                    <br>
+                    <span class="text-sm text-gray-500">Precio publico: ${{ props.quote.public_price }}</span>
+                    <br>
+                    <span class="text-sm text-gray-500">Costo: ${{ props.quote.cost_amount }}</span>
+                </div>
             </div>
 
             <div class="col-span-6 sm:col-span-4">
