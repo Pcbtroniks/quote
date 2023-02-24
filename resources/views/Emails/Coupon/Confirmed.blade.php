@@ -315,7 +315,7 @@ ul.social li{
 			          	<div class="text-author">
 							<h2>Escane este codigo QR</h2>
 							{{-- <img src="{!!$message->embedData(QrCode::format('png')->generate($quote->url), 'Coupon.png', 'image/png')!!}"> --}}
-							<img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(208)->generate('www.google.com'))!!}">
+							<img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(208)->generate(route('coupon.preview', ['quoteID' => $quote->uuid])))!!}">
 			           	</div>
 			        </td>
 			    </tr>
