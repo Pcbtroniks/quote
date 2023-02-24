@@ -100,6 +100,7 @@ Route::middleware([
     Route::post('coupons/{quote}/get-coupon', [CouponController::class, 'getCoupon'])->name('coupon.get.coupon');
     Route::post('coupons/{coupon}/confirm-coupon', [CouponController::class, 'confirmCoupon'])->name('coupon.confirm');
     Route::post('coupons/{quote}/request-code', [CouponController::class, 'requestCode'])->name('coupon.request.code');
+    Route::post('coupons/{coupon}/send-by-email', [CouponController::class, 'sendByEmail'])->name('coupon.send.by.email');
 
     // Exports 
 

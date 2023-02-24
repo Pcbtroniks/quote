@@ -145,10 +145,10 @@ const getStatusColor = (status) => {
         </template>
 
         <template #content>
+            <!-- Overview -->
             <div class="col-span-6">
-                <!-- Invoice Folio -->
                 <div class="text-lg font-medium text-gray-900">Cotización <span :class="getStatusColor(props.quote.status)" class="p-2 rounded">status {{ props.quote.status }}</span></div>
-                <div v-if="props.quote.coupon?.status != 'confirmed' && $page.props.user.is_freetraveler_admin">
+                <div v-if="$page.props.user.is_freetraveler_admin">
                     <span class="text-sm text-gray-500">Realizada por: {{ props.quote.user.name }} en ({{ props.quote.team.name }}) el dia {{ props.quote.created_at }}</span>
                     <br>
                     <span class="text-sm text-gray-500">Precio publico: ${{ props.quote.public_price }}</span>
@@ -159,7 +159,7 @@ const getStatusColor = (status) => {
 
             <div class="col-span-6 sm:col-span-4">
 
-                <!-- Coupon search -->
+                <!-- Coupon Flow -->
                 <div class="relative flex items-center gap-1">
 
                     <Button
@@ -181,64 +181,6 @@ const getStatusColor = (status) => {
                 </div>
                 <small v-if="quote.coupon?.confirmation_key == null" class="mt-2" > Nota: debe agregar la clave de confirmación para poder aceptar el cupon. </small>
                   <!-- Card 1 -->
-                <div v-if="Search.coupon">
-
-                    <div class="mt-4 xl:w-[31rem] border-2 border-b-4 border-gray-200 rounded-xl hover:bg-gray-50">
-
-                        <!-- Badge -->
-                        <p v-if="Search.coupon.quote.national != 0" class="bg-sky-500 w-fit px-4 py-1 text-sm font-bold text-white rounded-tl-lg rounded-br-xl"> Promomex </p>
-
-                        <div class="grid grid-cols-6 p-5 gap-y-2">
-
-                        <!-- Description -->
-                        <div class="col-span-5 md:col-span-4 ml-4">
-
-                            <a target="_blank" :href="Search.coupon.quote.url">
-                                <p class="text-sky-500 font-bold text-xs capitalize">{{ Search.coupon.quote.team.name }} {{ Search.coupon.quote.type }}{{ Search.coupon.quote.type =='paquete' ? '#' + Search.coupon.quote.listed_activities.length : '' }} {{ Search.coupon.invoice?.folio }}</p>
-                            </a>
-
-                            <p class="text-gray-600 font-bold"> {{ Search.coupon.quote.listed_activity.activity.name }} </p>
-
-                            <p class="text-gray-400"> {{ Search.coupon.quote.listed_activity.date }} </p>
-
-                            <p class="text-gray-400"> {{ Search.coupon.quote.holder_name }} </p>
-
-                        </div>
-
-                        <!-- Price -->
-                        <div class="col-span-6 xl:col-auto flex xl:flex-col justify-between">
-
-                            <div class="flex col-start-2 ml-4 md:col-start-auto md:ml-0 md:justify-end">
-                                <p class="rounded-lg text-sky-500 font-bold bg-sky-100  py-1 px-3 text-sm w-fit h-fit">${{Search.coupon.sale_amount}}</p>
-                            </div>
-
-                            <div>
-                                <Button
-                                    v-if="!Search.coupon.invoice_id"
-                                    @click="syncCoupon( props.invoice.id,  Search.coupon.id)"
-                                    :isLoading="Search.syncing"
-                                    msg="Agregar" 
-                                />
-                                <Link 
-                                v-else
-                                :href="route('invoices.coupons',{ invoice: Search.coupon.invoice_id })"
-                                >
-                                    <Button
-                                        type="button"
-                                        :isLoading="Search.syncing"
-                                        class="bg-amber-500 hover:bg-amber-700"
-                                        msg="Ver factura..." 
-                                    />
-                                </Link>
-                            </div>
-
-                        </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
             </div>
         </template>
 

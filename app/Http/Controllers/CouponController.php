@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\FinalCouponMail;
 use App\Repositories\Coupons\Coupon;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
@@ -53,5 +54,12 @@ class CouponController extends Controller
         Coupon::setConfirmedStatus($coupon);
         Quote::setConfirmedStatus($coupon->quote);
         return back()->with(['msg' => 'Confirmed']);
+    }
+
+    public function sendByEmail(ModelsCoupon $coupon)
+    {
+        Mail::to($coupon->quote->user->email)->send(new FinalCouponMail($coupon->quote));
+        // return response()->json(['status' => 'ok', 'msg' => 'Se ha enviado el cupón a su correo electrónico.', 'mail_to'=>$coupon->quote->user->email, 'copy_mail_to' => request()->copy_mail_to]);
+        return back()->with(['msg' => 'Sent']);
     }
 }

@@ -11,7 +11,7 @@ class QuoteCreated extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $subject = 'Hay una nueva cotización';
+    public $subject = 'Nueva cotización';
 
     public $quote;
     /**
@@ -22,6 +22,7 @@ class QuoteCreated extends Mailable
     public function __construct($quote)
     {
         $this->quote = $quote;
+        $this->subject .= ' - ' . $this->makeFolio();
     }
 
     /**
@@ -33,4 +34,11 @@ class QuoteCreated extends Mailable
     {
         return $this->view('Emails.Quotes.request-coupon');
     }
+
+    private function makeFolio()
+    {
+        $agency = substr($this->quote->team->name, 0, 3);
+        $id = $this->quote->id;
+        return $agency . '-' . $id . '-' . date('d') . date('m') . date('Y');
+    } 
 }

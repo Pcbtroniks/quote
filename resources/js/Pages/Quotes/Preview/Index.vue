@@ -4,6 +4,7 @@
     import QuotePDF from '@/Pages/Quotes/Preview/QuotePDF.vue';
     import AddConfirmationKeyForm from '@/Pages/Quotes/partials/AddConfirmationKeyForm.vue';
     import CouponQuoteActions from '../partials/CouponQuoteActions.vue';
+    import SendCouponEmailForm from '@/Pages/Quotes/partials/SendCouponEmailForm.vue';
 
     defineProps({
         quote: Object
@@ -31,6 +32,8 @@
                 <SectionBorder />
 
                 <AddConfirmationKeyForm v-if="quote.coupon?.status == 'created'" :coupon="quote.coupon" class="mb-4"/>
+
+                <SendCouponEmailForm v-if="quote.coupon?.status == 'confirmed'" :coupon="quote.coupon" class="mb-4"/>
 
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                     <QuotePDF :quote="quote" />
