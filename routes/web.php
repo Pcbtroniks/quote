@@ -8,6 +8,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\NDController;
 use App\Http\Controllers\ProviderController;
+use App\Http\Controllers\Qr\QRController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\QuoterController;
 use Illuminate\Support\Facades\DB;
@@ -106,6 +107,9 @@ Route::middleware([
 
     Route::get('exports/manifest/{invoiceID}', [ExportController::class, 'exportManifest'])->name('exports.manifest.byInvoiceId');
     Route::get('exports/view/manifest/{invoiceID}', [ExportController::class, 'viewManifest'])->name('exports.view.manifest.byInvoiceId');
+
+    // QR
+    Route::get('qr/example/{text?}', [QRController::class, 'example'])->name('qr.example');
 
     // Nucleo de diagnostico
     Route::get('ND', [NDController::class, 'index'])->name('ND');
