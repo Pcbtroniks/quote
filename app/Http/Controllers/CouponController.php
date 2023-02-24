@@ -62,4 +62,11 @@ class CouponController extends Controller
         // return response()->json(['status' => 'ok', 'msg' => 'Se ha enviado el cupón a su correo electrónico.', 'mail_to'=>$coupon->quote->user->email, 'copy_mail_to' => request()->copy_mail_to]);
         return back()->with(['msg' => 'Sent']);
     }
+
+    public function preview(Quote $quoteData, $uuid)
+    {
+        $quote = $quoteData->preview($uuid);
+
+        return inertia('Coupon/Index', compact('quote'));
+    }
 }
