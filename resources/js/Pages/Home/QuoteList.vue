@@ -29,6 +29,7 @@ const requestCouponConfirmation = (Quote) => {
                 console.log(error);
             });
 
+
         Swal.fire(
         'Confirmado!',
         'Estamos generando tu cupon.',
@@ -38,6 +39,15 @@ const requestCouponConfirmation = (Quote) => {
         })
     }
     })
+}
+
+const printTempFolio = (quote) => {
+    const agency = quote.team.name;
+    const date = new Date();
+
+    const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+    
+    return `${agency.substring(0, 3)}-${quote.id}-${date.getDate()}${months[date.getMonth()]}${date.getFullYear().toString().substr(-2)}`;
 }
 </script>
 
@@ -125,7 +135,7 @@ const requestCouponConfirmation = (Quote) => {
                                                 </div>
                                             </a>
                                             <button v-else @click="requestCouponConfirmation(quote)" class="px-3 py-2 rounded-md text-sm font-medium border focus:outline-none focus:ring transition text-sky-600 border-sky-600 hover:text-white hover:bg-sky-600 active:bg-sky-700 focus:ring-sky-300" type="button" :class="quote.status == 'pending' ? 'text-yellow-600 border-yellow-600 hover:text-white hover:bg-yellow-600 active:bg-yellow-700 focus:ring-yellow-300' : null" :disabled="quote.status == 'pending'">
-                                                    {{ quote.status == 'created' ? 'Solicitar' : 'Pendiente' }}
+                                                    {{ quote.status == 'created' ? 'Solicitar' : printTempFolio(quote) }}
                                             </button>
                                         </div>
                                     </div>

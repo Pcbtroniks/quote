@@ -5,6 +5,7 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
+        "simplesoftwareio/simple-qrcode": "~4",
         "php": "^8.0.2",
         "awobaz/compoships": "^2.1",
         "guzzlehttp/guzzle": "^7.2",

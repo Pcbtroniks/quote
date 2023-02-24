@@ -235,10 +235,6 @@ table{
 	margin: 0 auto;
 	padding: 2em;
 }
-.text-author img{
-	border-radius: 50%;
-	padding-bottom: 20px;
-}
 .text-author h3{
 	margin-bottom: 0;
 }
@@ -315,12 +311,21 @@ ul.social li{
             		</td>
             	</tr>
             	<tr>
-			          <td style="text-align: center;">
-			          	<div class="text-author"> 
+			        <td style="text-align: center;">
+			          	<div class="text-author">
+							<h2>Escane este codigo QR</h2>
+							{{-- <img src="{!!$message->embedData(QrCode::format('png')->generate($quote->url), 'Coupon.png', 'image/png')!!}"> --}}
+							<img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(208)->generate('www.google.com'))!!}">
+			           	</div>
+			        </td>
+			    </tr>
+            	<tr>
+			        <td style="text-align: center;">
+			          	<div class="text-author">
 				           	<p><a target="_blanck" href="{{ $quote->url }}" class="btn btn-primary">Ver Cupon</a></p>
 			           	</div>
-			          </td>
-			        </tr>
+			        </td>
+			    </tr>
             </table>
           </td>
 	      </tr><!-- end tr -->
