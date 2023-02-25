@@ -1,16 +1,17 @@
-<script setup>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cupon Freetravelers</title>
 
-const props = defineProps({
-    quote: Object
-})
+    @vite('resources/js/app.js')
+</head>
+<body>
 
-console.log(props.quote);
-</script>
-
-<template>
-    <div  class="QuotePDF px-[69px] py-[48px]" spellcheck="false">
+    <div class="QuotePDF px-[69px] py-[48px] max-w-[10in] w-[10in]" spellcheck="false" style="width: 10in; margin: 0 auto">
         <!-- top -->
-        <div class="" spellcheck="false">
+        <div class="flex justify-between" spellcheck="false">
             <div>
                 <img class="w-[350px]" src="/assets/freetravelers-logo.jpg" alt="Logo Freetravelers">
             </div>
@@ -23,13 +24,13 @@ console.log(props.quote);
                             <td style="height: 30px;" class="border">Cúpon de servicio / service coupon</td>
                         </tr>
                         <tr style="height: 40px;">
-                            <td style="height: 40px;" class="border">{{ quote.coupon?.code }}</td>
+                            <td style="height: 40px;" class="border">{{ $quote->coupon->code }}</td>
                         </tr>
                         <tr style="height: 30px;">
                             <td style="height: 30px;" class="border">Lugar y fecha / Date and place</td>
                         </tr>
                         <tr style="height: 40px;">
-                            <td style="height: 40px;" class="border">{{ quote.created_at }}</td>
+                            <td style="height: 40px;" class="border">{{ $quote->created_at }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -43,7 +44,7 @@ console.log(props.quote);
                 <tbody>
                     <tr style="height: 60px; text-align: center;">
                         <td style="height: 60px; border: 1px solid; width: 301px;" spellcheck="false">Nombre / Name</td>
-                        <td style="height: 60px; border: 1px solid;" colspan="3">{{ quote.holder_name }}</td>
+                        <td style="height: 60px; border: 1px solid;" colspan="3">{{ $quote->holder_name }}</td>
                     </tr>
                     <tr style="height: 26.5px; text-align: center;">
                         <td style="height: 58.5px; border: 1px solid;" rowspan="2">Pasajeros / Passengers</td>
@@ -52,9 +53,9 @@ console.log(props.quote);
                         <td style="height: 26.5px; border: 1px solid; width: 258.66px; font-size: x-small;">Infantes (0 a 4 años)/Infants (ages 0 to 4)</td>
                     </tr>
                     <tr style="height: 32px; text-align: center;">
-                        <td style="height: 32px; border: 1px solid;">{{ quote.adults }}</td>
-                        <td style="height: 32px; border: 1px solid;">{{ quote.minors }}</td>
-                        <td style="height: 32px; border: 1px solid;">{{ quote.infants }}</td>
+                        <td style="height: 32px; border: 1px solid;">{{ $quote->adults }}</td>
+                        <td style="height: 32px; border: 1px solid;">{{ $quote->minors }}</td>
+                        <td style="height: 32px; border: 1px solid;">{{ $quote->infants }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -73,37 +74,44 @@ console.log(props.quote);
                 <tbody>
                     <tr style="height: 59px; text-align: center;" spellcheck="false">
                         <td style="height: 59px; border: 1px solid; width: 301px;">Fecha Actividad/ Date of the activity:</td>
-                        <td style="height: 59px; border: 1px solid; width: 474.98px; max-width: 1px;" colspan="2">{{ quote.type == 'tour' ? quote.listed_activity.date : '' }}</td>
-                        <td style="height: 59px; border: 1px solid; width: 301.2px; text-align: left;">Horario /<br>Schedule <span style="padding-left: 24px">{{ quote.type == 'tour' && quote.listed_activity.pickup_time != '00:00:00' ? quote.listed_activity.pickup_time.slice(0,5) : 'N/D' }}</span></td>
+                        <td style="height: 59px; border: 1px solid; width: 474.98px; max-width: 1px;" colspan="2">{{ $quote->type == 'tour' ? $quote->listed_activity->date : '' }}</td>
+                        <td style="height: 59px; border: 1px solid; width: 301.2px; text-align: left;">Horario /<br>Schedule <span style="padding-left: 24px">{{ $quote->type == 'tour' && $quote->listed_activity->pickup_time != '00:00:00' ? $quote->listed_activity->pickup_time.slice(0,5) : 'N/D' }}</span></td>
                     </tr>
                     <tr style="height: 59px; text-align: center;">
                         <td style="height: 59px; border: 1px solid">Lugar de Pick up</td>
-                        <td style="height: 59px; border: 1px solid; width: 474.98px; max-width: 1px;" colspan="2" >{{quote.type == 'tour' ? quote.hotel.name : '' }}</td>
+                        <td style="height: 59px; border: 1px solid; width: 474.98px; max-width: 1px;" colspan="2" >{{$quote->type == 'tour' ? $quote->hotel->name : '' }}</td>
                         <td style="height: 59px; border: 1px solid; width: 301.2px; text-align: left; font-style: bold;">Cuarto /<br>Room <span style="padding-left: 24px"> </span></td>
                     </tr>
                     <tr style="height: 59px;text-align: center;">
                         <td style="height: 59px; border: 1px solid">Entrada/ Entrance</td>
-                        <td style="height: 59px; border: 1px solid; width: 474.98px; max-width: 1px;" colspan="2">{{ quote.type == 'entrance' ? quote.activity.name : '' }}</td>
-                        <td style="height: 59px; border: 1px solid">{{ quote.national == 1 ? 'PROMOMEX' : '' }}</td>
+                        <td style="height: 59px; border: 1px solid; width: 474.98px; max-width: 1px;" colspan="2">{{ $quote->type == 'entrance' ? $quote->activity->name : '' }}</td>
+                        <td style="height: 59px; border: 1px solid">{{ $quote->national == 1 ? 'PROMOMEX' : '' }}</td>
                     </tr>
                     <tr style="height: 59px; text-align: center;">
                         <td style="height: 59px; border: 1px solid">Tour</td>
-                        <td style="height: 59px; border: 1px solid; max-width: 11.27px;" colspan="2">{{ quote.type == 'tour' ? quote.activity.name : '' }}</td>
+                        <td style="height: 59px; border: 1px solid; max-width: 11.27px;" colspan="2">{{ $quote->type == 'tour' ? $quote->activity->name : '' }}</td>
                         <td style="height: 59px; border: 1px solid">&nbsp;</td>
                     </tr>
                     <tr style="height: 59px;">
                         <td style="height: 59px; border: 1px solid; text-align: center;">PAQUETE/ PACKAGE</td>
                         <td style="height: 59px; padding-top: 1rem;" colspan="3">
-                            <p style="margin-left: 1rem; text-transform: lowercase;" v-if="quote.type == 'paquete'" v-for="a in quote.listed_activities">
-                                <span class="capitalize font-bold">"{{a.activity.name.toLowerCase()}}"</span>
-                                el {{a.date_string_formatted}}
-                                en <span class="capitalize"> "{{ a.hotel.name.toLowerCase() }}"a </span>
-                                 a las {{a.pickup_time == '00:00:00' ? 'N/D' : a.pickup_time.slice(0,5)}} 
-                            </p>
+                            @if ($quote->type == 'paquete' || $quote->type == 'pack')                                
+                            @foreach ($quote->listed_activities as $a)    
+                                <p style="margin-left: 1rem; text-transform: lowercase;" v-if="quote.type == 'paquete'" v-for="a in quote.listed_activities">
+                                    <span class="capitalize font-bold">"{{$a->activity->name}}"</span>
+                                    el {{$a->date_string_formatted}}
+                                    en <span class="capitalize"> "{{ $a->hotel->name ?? 'N/D' }}" </span>
+                                    a las {{$a->pickup_time == '00:00:00' ? 'N/D' : $a->pickup_time}} 
+                                </p>
+                            @endforeach
+                            @endif
+
                         </td>
                     </tr>
                     <tr style="height: 59px;">
-                        <td v-if="quote.type == 'pack'"><p style="text-align:center;">PAQ#{{ quote.listed_activities.length }}</p></td>
+                        @if ($quote->type == 'paquete' || $quote->type == 'pack') 
+                        <td v-if="quote.type == 'pack'"><p style="text-align:center;">PAQ#{{ count($quote->listed_activities) }}</p></td>
+                        @endif
                         <td style="height: 59px;" colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;</td>
                     </tr>
                 </tbody>
@@ -112,7 +120,7 @@ console.log(props.quote);
         <!-- DivTable.com -->
             <div class="self-end flex">
                 <p class="font-bold">Clave de confirmacion / <br> Confirmation code</p>
-                <div class="w-[576px] h-[59px] border border-black border-t-0 p-4"> {{ quote.coupon?.confirmation_key }}</div>
+                <div class="w-[576px] h-[59px] border border-black border-t-0 p-4"> {{ $quote->coupon->confirmation_key }}</div>
             </div>
         </div>
 
@@ -185,4 +193,6 @@ console.log(props.quote);
             </div>
         </div>
     </div>
-</template>
+    
+</body>
+</html>

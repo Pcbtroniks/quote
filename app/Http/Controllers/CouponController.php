@@ -66,7 +66,8 @@ class CouponController extends Controller
     public function preview(Quote $quoteData, $uuid)
     {
         $quote = $quoteData->preview($uuid);
-
+        // return response()->json($quote);
+        return view('Coupon.CouponPDF', compact('quote'));
         return inertia('Coupon/Index', compact('quote'));
     }
 }
