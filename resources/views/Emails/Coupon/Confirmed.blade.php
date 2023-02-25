@@ -322,7 +322,7 @@ ul.social li{
             	<tr>
 			        <td style="text-align: center;">
 			          	<div class="text-author">
-				           	<p><a target="_blanck" href="{{ $quote->url }}" class="btn btn-primary">Ver Cupon</a></p>
+				           	<p><a target="_blanck" href="{{ route('coupon.preview', ['quoteID' => $quote->uuid]) }}" class="btn btn-primary">Ver Cupon</a></p>
 			           	</div>
 			        </td>
 			    </tr>
