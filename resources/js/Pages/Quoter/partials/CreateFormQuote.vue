@@ -817,27 +817,7 @@ const showForm = () => console.log(form);
             </template>
 
             <template #actions>
-                <button
-                type="button"
-                @click="showQuote"
-                class="hover:shadow-form rounded-md mr-16 bg-amber-500 py-3 px-8 text-center text-base font-semibold text-white outline-none"
-              >
-                Mostrar Cotización
-              </button>
-                <button
-                type="button"
-                @click="showForm"
-                class="hover:shadow-form rounded-md mr-16 bg-amber-500 py-3 px-8 text-center text-base font-semibold text-white outline-none"
-              >
-                Mostrar Form
-              </button>
-                <button
-                type="button"
-                @click="showActivities"
-                class="hover:shadow-form rounded-md mr-16 bg-amber-500 py-3 px-8 text-center text-base font-semibold text-white outline-none"
-              >
-                Mostrar Actividades
-              </button>
+
                 <button
                 type="button"
                 @click="resetForm()"

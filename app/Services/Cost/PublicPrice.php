@@ -19,7 +19,7 @@ class PublicPrice implements PriceInterface
         $this->activity = $activity;
         $this->pax['adult'] = $adults;
         $this->pax['kid'] = $minors;
-        $this->zone = $zone;
+        $this->zone = $this->normalizeZone($zone);
         $this->season = $season;
         $this->getDescription = $this->getDescription();
     }
@@ -32,7 +32,6 @@ class PublicPrice implements PriceInterface
     public function getCost(): float
     {
         $costs = $this->getCosts();
-        dd($costs);
         $costPerAdult = $costs['adult'][0]->amount * $this->pax['adult'];
         $costPerMinor = $costs['kid'][0]->amount * $this->pax['kid'];
 
