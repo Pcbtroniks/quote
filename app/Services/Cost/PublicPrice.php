@@ -32,7 +32,7 @@ class PublicPrice implements PriceInterface
     public function getCost(): float
     {
         $costs = $this->getCosts();
-
+        dd($costs);
         $costPerAdult = $costs['adult'][0]->amount * $this->pax['adult'];
         $costPerMinor = $costs['kid'][0]->amount * $this->pax['kid'];
 
@@ -54,4 +54,11 @@ class PublicPrice implements PriceInterface
         return "{$this->getActivity()->name} \"Costo Publico\": {$this->getCost()}$";
     }
 
+    /**
+     * Zone 1 (Cancun) and Zone 2 (Riviera Maya) are the same for public prices
+     * */ 
+    public function normalizeZone($zone)
+    {
+        return $zone == 2 ? 1 : $zone;
+    }
 }
