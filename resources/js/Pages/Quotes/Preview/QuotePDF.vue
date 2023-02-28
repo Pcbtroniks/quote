@@ -95,7 +95,7 @@ console.log(props.quote);
                     <tr style="height: 59px;">
                         <td style="height: 59px; border: 1px solid; text-align: center;">PAQUETE/ PACKAGE</td>
                         <td style="height: 59px; padding-top: 1rem;" colspan="3">
-                            <p style="margin-left: 1rem; text-transform: lowercase;" v-if="quote.type == 'paquete'" v-for="a in quote.listed_activities">
+                            <p style="margin-left: 1rem; text-transform: lowercase;" v-if="quote.type == 'pack'" v-for="a in quote.listed_activities">
                                 <span class="capitalize font-bold">"{{a.activity.name.toLowerCase()}}"</span>
                                 el {{a.date_string_formatted}}
                                 en <span class="capitalize"> "{{ a.hotel.name.toLowerCase() }}"a </span>
