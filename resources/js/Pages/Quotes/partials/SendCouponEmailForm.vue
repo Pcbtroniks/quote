@@ -47,9 +47,10 @@ const sendEmailTo = (coupon) => {
                     <TextInput
                     id="folio"
                     v-model="form.copy_mail_to"
-                    placeholder="opcional"
+                    placeholder="Se enviara correo al usuario que realizo la cotización."
                     type="email"
                     class="block w-full mt-1"
+                    disabled
                     />
                     
                     <Button

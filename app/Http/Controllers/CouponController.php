@@ -59,7 +59,6 @@ class CouponController extends Controller
     public function sendByEmail(ModelsCoupon $coupon)
     {
         Mail::to($coupon->quote->user->email)->send(new FinalCouponMail($coupon->quote));
-        // return response()->json(['status' => 'ok', 'msg' => 'Se ha enviado el cupón a su correo electrónico.', 'mail_to'=>$coupon->quote->user->email, 'copy_mail_to' => request()->copy_mail_to]);
         return back()->with(['msg' => 'Sent']);
     }
 
