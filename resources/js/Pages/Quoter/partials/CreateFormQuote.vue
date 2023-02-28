@@ -4,7 +4,7 @@ import { watchPostEffect, reactive } from 'vue';
 import FormSection from '@/Components/FormSection.vue';
 
 import {
-  QuoteProgress, getSeason, getTours, getPrice, loadHotels, getActivityPickup, getPickup,
+  QuoteProgress, getSeason, getTours, getPrice, loadHotels, getPickup,
 } from './Providers/Services.js';
 import {
   Today, parseQuoteType, fixedAdd, hasAmount, zoneToString,
@@ -111,23 +111,13 @@ watchPostEffect(() => {
   QuoteProgress.nTours = arr;
 });
 
-const loadPackPrice = async (activity, zone, season, key) => {
-  const price = await getPrice(activity, zone, season);
-  QuoteProgress.nTours[key].public_price = fixedAdd((form.adultos * Number(price.adult.amount)), (form.menores * Number(price.minor.amount)));
-  form.precioPublico = QuoteProgress.prices.totalPublicPrice = QuoteProgress.nTours.reduce((acc, { public_price }) => (acc + Number(public_price)), 0);
-  form.importeVenta = applyAgencyDiscount(form.precioPublico);
-  console.group();
-  console.log('Quote');
-  console.info(QuoteProgress.nTours);
-  console.log('Form');
-  console.table(form);
-  console.groupEnd();
-};
-
 function preSubmit() {
   if (form.tipoReservacion != 1) {
     form.actividad = Activities.activityList;
     form.precioPublico = Activities.calculatePublicPrice();
+  }
+  if(form.tipoReservacion == 1 && form.nacionales){
+    form.zona = 4;
   }
   form.tipoReservacion = parseQuoteType(form.tipoReservacion);
   resetPrices();
@@ -187,13 +177,6 @@ function applyAgencyDiscount(Price, discount = 5) {
 function pickupNotAvailable() {
   alert('Lo sentimos actualmente no tenemos pickups disponibles');
   return 'Lo sentimos, por el momento no tenemos un pickup disponible, porfavor pongase en contacto con uno de nuestros agentes al: 998-168-9378.';
-}
-
-function handlePackActivity(act) {
-  if (!act.activity || !act.zone) return null;
-  form.precioPublico = 0;
-  loadPackPrice(act.activity, act.zone, form.season, (act.key - 1));
-  getActivityPickup((act.key - 1), act.activity, act.hotel);
 }
 
 class postActivities {
@@ -325,9 +308,6 @@ class postActivities {
 
 const Activities = reactive(new postActivities());
 
-const showActivities = () => console.log(Activities);
-const showQuote = () => console.log(QuoteProgress);
-const showForm = () => console.log(form);
 </script>
 
 <template>
