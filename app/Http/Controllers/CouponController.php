@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\FinalCouponMail;
+use App\Models\Coupon as ModelsCoupon;
 use App\Repositories\Coupons\Coupon;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Http\Request;
-use App\Mail\QuoteCreated;
-use App\Models\Coupon as ModelsCoupon;
 use App\Models\Quote as QuoteModel;
 use App\Repositories\Quotes\Quote;
+use App\Mail\FinalCouponMail;
+use Illuminate\Http\Request;
+use App\Mail\QuoteCreated;
 
 class CouponController extends Controller
 {
@@ -66,8 +66,6 @@ class CouponController extends Controller
     public function preview(Quote $quoteData, $uuid)
     {
         $quote = $quoteData->preview($uuid);
-        // return response()->json($quote);
         return view('Coupon.CouponPDF', compact('quote'));
-        return inertia('Coupon/Index', compact('quote'));
     }
 }

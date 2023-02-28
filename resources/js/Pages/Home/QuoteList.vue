@@ -43,11 +43,9 @@ const requestCouponConfirmation = (Quote) => {
 
 const printTempFolio = (quote) => {
     const agency = quote.team.name;
-    const date = new Date();
-
     const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
-    
-    return `${agency.substring(0, 3)}-${quote.id}-${date.getDate()}${months[date.getMonth()]}${date.getFullYear().toString().substr(-2)}`;
+    const [day, month, year] = quote.created_at.split('/');
+    return `${agency.substring(0, 3)}-${quote.id}-${day}${months[month - 1]}${year.substring(2, 4)}`;
 }
 </script>
 

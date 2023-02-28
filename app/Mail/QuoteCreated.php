@@ -39,6 +39,7 @@ class QuoteCreated extends Mailable
     {
         $agency = substr($this->quote->team->name, 0, 3);
         $id = $this->quote->id;
-        return $agency . '-' . $id . '-' . date('d') . date('m') . date('Y');
+        [$day, $month, $year] = explode('/', $this->quote->created_at);
+        return $agency . '-' . $id . '-' . $day . $month . substr($year, 2, 2);
     } 
 }
