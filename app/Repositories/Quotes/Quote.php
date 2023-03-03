@@ -196,6 +196,36 @@ class Quote {
                                     ->paginate($limit);
     }
 
+    public function getFilteredForAgency(Request $request, int $limit = 15)
+    {
+        return ModelsQuote::where('team_id', auth()->user()->currentTeam->id)->
+            when($request->date, function ($q) use ($request){
+            $q->whereHas('listed_activities', function ($q) use($request) {
+                $q->where('date', $request->date);
+            });
+        })->
+        when($request->type, function ($q) use ($request){
+            $q->where('type', $request->type);
+        })->
+        when($request->filter_agency, function ($q) use ($request){
+                $q->where('team_id', $request->filter_agency);
+        })->
+        when($request->zone, function ($q) use ($request){
+            $q->whereHas('listed_activities.hotel.zone', function ($q) use($request) {
+                $q->whereId($request->zone);
+            });
+        })->
+        with([
+        'user', 
+        'coupon', 
+        'listed_activities', 
+        'listed_activities.activity', 
+        'team', 
+        'listed_activities.hotel', 
+        'listed_activities.hotel.zone'])
+        ->paginate($limit);
+    }
+
     // V 2.0
     public static function setPendingStatus(ModelsQuote $quote)
     {     

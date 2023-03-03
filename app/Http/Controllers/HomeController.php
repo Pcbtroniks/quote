@@ -24,7 +24,9 @@ class HomeController extends Controller
 
     public function filter(Quote $quotes)
     {
-        $quotes = $quotes->getFiltered(request());
+        $quotes = request()->user()->isFreetravelerAdmin()
+                    ? $quotes->getFiltered(request())
+                    : $quotes->getFilteredForAgency(request());
         return inertia('Dashboard', [
             'quotes' => $quotes,
             'agencies' => Team::getTeams()
