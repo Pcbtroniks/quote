@@ -11,6 +11,7 @@ use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\Qr\QRController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\QuoterController;
+use App\Http\Controllers\Team\CurrentTeamController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 // DB::listen(function($query){
@@ -102,7 +103,10 @@ Route::middleware([
     Route::post('coupons/{coupon}/confirm-coupon', [CouponController::class, 'confirmCoupon'])->name('coupon.confirm');
     Route::post('coupons/{quote}/request-code', [CouponController::class, 'requestCode'])->name('coupon.request.code');
     Route::post('coupons/{coupon}/send-by-email', [CouponController::class, 'sendByEmail'])->name('coupon.send.by.email');
-    Route::get('/coupon/preview/{quoteID}', [CouponController::class, 'preview'])->name('coupon.preview')->withoutMiddleware(['auth','auth:sanctum','verified']);
+    /**
+     * Preview coupon without restrictions
+     */
+    Route::get('/coupon/preview/{quoteID}', [CouponController::class, 'preview'])->name('coupon.preview')->withoutMiddleware(['auth','auth:sanctum','verified', \App\Http\Middleware\CheckCurrentTeam::class]);
 
     // Exports 
 
@@ -125,3 +129,5 @@ Route::middleware([
     Route::get('nd/pickups/{activity?}/{hotel?}', [NDController::class, 'pickups'])->name('nd.pickup.get');
     Route::get('nd/email', [NDController::class, 'newQuoteMail'])->name('nd.email');
 });
+
+Route::put('team/switch', [CurrentTeamController::class, 'update'])->name('team.current.switch')->withoutMiddleware([\App\Http\Middleware\CheckCurrentTeam::class]);
