@@ -59,7 +59,7 @@ const printTempFolio = (quote) => {
                 <h2 class="font-semibold text-gray-800">Cotizaciones</h2>
                 <div>
                     <FilterForm
-                        v-if="$page.props.user.is_freetraveler_admin"
+                        
                         :agencies="agencies"
                         class="grid grid-cols-6 gap-4"/>
                 </div>

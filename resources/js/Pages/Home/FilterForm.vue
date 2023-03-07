@@ -76,7 +76,7 @@ const types = [
         </select>
         <Button class="mt-4" type="submit" msg="buscar"/>
     </div>
-    <div class="col-span-6 md:col-span-3 xl:col-span-2">
+    <div v-if="$page.props.user.is_freetraveler_admin" class="col-span-6 md:col-span-3 xl:col-span-2">
         <InputLabel for="filter_agency">
             Filtrar por agencia
         </InputLabel>
