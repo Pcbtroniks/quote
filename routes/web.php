@@ -32,6 +32,7 @@ Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
+    'check.current.team',
 ])->group(function () {
 
     Route::get('/', [HomeController::class, 'index'])->name('home');
