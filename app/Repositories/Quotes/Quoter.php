@@ -86,9 +86,13 @@ class Quoter {
         } else {
             $discountType = count($request->actividad) <= 2 ? 'pack_double' : 'pack_multiple';
             $data['cost_amount'] = 0;
+            // need set discount type for each activity
+            // and set Adults and minors
             foreach ($request->actividad as $activity) {
                 $activity = (object) $activity;
                 $activity->type = $discountType;
+                $activity->adults = $request->adultos;
+                $activity->minors = $request->menores;
                 $cost_amount = new CalculateCost($activity);
                 $data['cost_amount'] += $cost_amount->applyDiscount()->getCost();
             }
