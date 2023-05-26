@@ -162,7 +162,7 @@ console.log(props.quote);
                 <img src="/assets/Logo.png" alt="Logo Freetraveler">
             </div>
             <div style="width: 7rem;">
-                <img style="width: 100%;" src="/assets/sello_vero_45.jpeg" alt="Sello Vero 44">
+                <img style="width: 100%;" src="/assets/sello_vero_45.jpeg" alt="Sello Vero 45">
             </div>
 
         </div>
