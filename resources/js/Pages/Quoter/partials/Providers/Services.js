@@ -86,8 +86,15 @@ export const getActivityPickup = async ( key, activity, hotel ) => {
 }
 
 export const getSeason = (Date) => {
-    const isHigh = ['2022-12-26','2022-12-27','2022-12-28', '2022-12-29', '2022-12-30', '2022-12-31'];
-    return isHigh.includes(Date) ? 'high' : 'low';
+    return isDateInRange('2023-07-01', '2023-08-15', Date) ? 'high' : 'low';
+}
+
+function isDateInRange(startDate, endDate, currentDate) {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const current = new Date(currentDate);
+
+    return current >= start && current <= end;
 }
 
 export const getPrice = async (activity, zone, season) => 
