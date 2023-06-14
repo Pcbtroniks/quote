@@ -6,7 +6,8 @@ import FormError from './Partials/FormError.vue';
 
 const props = defineProps({
     fields: Object,
-    show: Boolean
+    show: Boolean,
+    filters: Object
 })
 
 const form = useForm({
@@ -57,9 +58,7 @@ const preSubmit = () => {
     form.adult_high = props.fields.filter_prices.high.adult[0].amount;
     form.kid_high = props.fields.filter_prices.high.kid[0].amount;
     // Zone fields
-    let uri = window.location.search.substring(1); 
-    let params = new URLSearchParams(uri);
-    form.zone_id = params.get("zone");
+    form.zone_id = props.filters.zone;
 }
 
 const submit = () => {
