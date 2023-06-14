@@ -10,11 +10,13 @@ const props = defineProps({
 })
 
 const form = useForm({
+    activity_id: null,
+    zone_id: null,
     name: null,
     adult_low: null,
-    child_low: null,
+    kid_low: null,
     adult_high: null,
-    child_high: null,
+    kid_high: null,
     entrance: null,
     tour: null,
     pack: null,
@@ -41,12 +43,23 @@ const switchAccordion = (accordion) => {
 };
 
 const preSubmit = () => {
+    form.activity_id = props.fields.id;
+    // Discount fields
     form.name = props.fields.name;
     form.entrance = props.fields.discounts.entrance;
     form.tour = props.fields.discounts.tour;
     form.pack = props.fields.discounts.pack;
     form.pack_double = props.fields.discounts.pack_double;
     form.pack_multiple = props.fields.discounts.pack_multiple;
+    // Prices fields
+    form.adult_low = props.fields.filter_prices.low.adult[0].amount;
+    form.kid_low = props.fields.filter_prices.low.kid[0].amount;
+    form.adult_high = props.fields.filter_prices.high.adult[0].amount;
+    form.kid_high = props.fields.filter_prices.high.kid[0].amount;
+    // Zone fields
+    let uri = window.location.search.substring(1); 
+    let params = new URLSearchParams(uri);
+    form.zone_id = params.get("zone");
 }
 
 const submit = () => {
@@ -77,12 +90,6 @@ const submit = () => {
         <div class="p-4 sm:p-7">
             <div class="text-center">
             <h1 class="block text-2xl font-bold text-gray-800 dark:text-white">Editando {{ props.fields.name ?? 'Actividad' }}</h1>
-            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                <!-- Editando {{ props.fields.name ?? 'Actividad' }} -->
-                <!-- <a class="text-blue-600 decoration-2 hover:underline font-medium" href="#">
-                    Login here
-                </a> -->
-            </p>
             </div>
 
             <div class="mt-5">
@@ -98,10 +105,10 @@ const submit = () => {
                     </div>
 
                     <!-- Prices by Season -->
-                    <p class="hidden mt-2 text-sm text-gray-600 dark:text-gray-400">Precios por temporada</p>
-                    <button type="button" @click="switchAccordion('prices')" class="hidden text-white font-bold bg-sky-400 py-4">{{ unfold.prices ? 'Ocultar precios -' : 'Mostrar precios +'}}</button>
+                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Modo edición</p>
+                    <button type="button" @click="switchAccordion('prices')" class="text-white font-bold bg-sky-400 py-4">{{ unfold.prices ? 'Cambiar a modificar % descuentos' : 'Cambiar a modificar $ Precios'}}</button>
                     
-                    <div :class="unfold.prices == false ? 'h-0 overflow-y-hidden' : 'h-full overflow-y-auto'" class="hidden">
+                    <div :class="unfold.prices == false ? 'h-0 overflow-y-hidden' : 'h-full overflow-y-auto'">
                         <!-- Low Season -->
                     <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Temporada baja</p>
                     <div class="flex justify-between flex-col items-center ">
@@ -146,9 +153,6 @@ const submit = () => {
 
                     </div>
                     </div>
-
-                    <!-- Dsicounts percentages -->
-                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Porcentajes de Descuento</p>
                     
                     <div :class="unfold.discounts == false ? 'h-0 overflow-y-hidden' : 'h-full overflow-y-auto'">
                         <!-- Low Season -->
@@ -192,7 +196,9 @@ const submit = () => {
 
                     </div>
                     </div>
-
+                
+                                    <!-- Current active edition mode -->
+                <p class="text-sm text-gray-600 dark:text-gray-400">Actualizando: {{ unfold.prices ? 'Precios ($)'  : 'Descuentos (%)' }}</p>
                 <button type="submit" class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">Guardar Cambios</button>
                 <button @click="$emit('close')" type="button" class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">Cerrar Modal</button>
                 </div>

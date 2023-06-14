@@ -20,9 +20,9 @@ class ActivitiesController extends Controller
         ]); 
     }
 
-    public function update(Request $request, Activity $activity, $id)
+    public function update(Activity $activity, $id)
     {
         $activity->updateActivity(request(), $id);
-        return redirect()->route('activities')->with('message','Activity updated successfully');
+        return redirect()->back()->with('message','Activity updated successfully');
     }
 }

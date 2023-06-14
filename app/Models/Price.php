@@ -10,6 +10,14 @@ class Price extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'amount',
+        'activity_id',
+        'zone_id',
+        'season',
+        'type',
+    ];
+
     public function activity()
     {
         $this->belongsTo(Activity::class);
