@@ -155,7 +155,7 @@ const printTempFolio = (quote) => {
                                     </div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap cursor-default">
-                                    {{ quote.listed_activities[0].date }}
+                                    {{ quote.listed_activities[0]?.date ?? 'N/A' }}
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="text-left font-medium text-green-500 capitalize" :title="quote.type == 'entrance' && quote.national == '1' ? 'Promomex' : ''">
@@ -170,7 +170,7 @@ const printTempFolio = (quote) => {
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="text-left font-medium capitalize" >
-                                        {{ quote.listed_activities[0].activity.name.toLowerCase() }}
+                                        {{ quote.listed_activities[0]?.activity.name.toLowerCase() }}
                                     </div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap cursor-default">
@@ -183,13 +183,13 @@ const printTempFolio = (quote) => {
                                     <div class="text-left font-medium text-green-500">${{ quote.public_price }}</div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap cursor-default">
-                                    <div class="text-left font-medium text-green-500 truncate w-20" title="Hora del pickup">{{ quote.listed_activities[0].pickup_time == null ? 'N/A' : quote.listed_activities[0].pickup_time.slice(0,5)}}</div>
+                                    <div class="text-left font-medium text-green-500 truncate w-20" title="Hora del pickup">{{ quote.listed_activities[0]?.pickup_time == null ? 'N/A' : quote.listed_activities[0].pickup_time.slice(0,5)}}</div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap cursor-default">
-                                    <div class="text-left font-medium text-green-500 truncate w-20" :title="quote.listed_activities[0].hotel?.name ?? 'No Aplica'">{{ quote.listed_activities[0].hotel?.name ?? 'N/A' }}</div>
+                                    <div class="text-left font-medium text-green-500 truncate w-20" :title="quote.listed_activities[0]?.hotel?.name ?? 'No Aplica'">{{ quote.listed_activities[0]?.hotel?.name ?? 'N/A' }}</div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
-                                    <div class="text-center capitalize">{{ quote.listed_activities[0].hotel?.zone.name ?? 'N/A' }}</div>
+                                    <div class="text-center capitalize">{{ quote.listed_activities[0]?.hotel?.zone.name ?? 'N/A' }}</div>
                                 </td>
                             </tr>
                         </tbody>
