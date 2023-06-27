@@ -28,7 +28,7 @@ class Quote {
 
     public static function getOperationDashboard(int $limit = 10){
 
-        return ModelsQuote::with(['user', 'coupon', 'listed_activities', 'listed_activities.activity', 'team', 'listed_activities.hotel', 'listed_activities.hotel.zone'])->paginate($limit);
+        return ModelsQuote::with(['user', 'coupon', 'listed_activities', 'listed_activities.activity', 'team', 'listed_activities.hotel', 'listed_activities.hotel.zone'])->paginate($limit)->onEachSide(0);
 
     }
 
@@ -164,7 +164,7 @@ class Quote {
     }
 
     public static function getOperationsByAgency(int $limit = 10){
-        return ModelsQuote::with(['user', 'coupon', 'listed_activities', 'listed_activities.activity', 'team', 'listed_activities.hotel', 'listed_activities.hotel.zone'])->where('team_id', auth()->user()->currentTeam->id)->paginate($limit);
+        return ModelsQuote::with(['user', 'coupon', 'listed_activities', 'listed_activities.activity', 'team', 'listed_activities.hotel', 'listed_activities.hotel.zone'])->where('team_id', auth()->user()->currentTeam->id)->paginate($limit)->onEachSide(0);
     }
 
     public function getFiltered(Request $request, int $limit = 15)
