@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\DB;
 
 class Activity {
 
+    public static function getTours()
+    {
+        return ActivityModel::where('type', ActivityType::Tour->getType())->orderBy('name', 'asc')->get();
+    }
+
     public function getActivities(Request $request, int $limit = 10)
     {
         return ActivityModel::where('type', $request->type ?? 'park')

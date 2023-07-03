@@ -7,6 +7,7 @@ use App\Http\Controllers\ExportController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\NDController;
+use App\Http\Controllers\Pickups\PickupController;
 use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\Qr\QRController;
 use App\Http\Controllers\QuoteController;
@@ -78,6 +79,11 @@ Route::middleware([
     Route::get('hotels/{zone}', [QuoteController::class, 'hotels'])->name('hotels');
 
     Route::get('prices/{activity}/{zone}/{season}', [QuoteController::class, 'price'])->name('prices');
+
+    // Pickups
+
+    Route::get('pickups/{zone}/{activity}', [PickupController::class, 'index'])->name('pickups');
+    Route::post('pickups/{pickup}', [PickupController::class, 'update'])->name('pickups.update');
 
     // Invoices
 
