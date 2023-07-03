@@ -13,4 +13,10 @@ class Hotel {
 
     }
 
+    public function getByZoneSorted($zone){
+
+        return HotelModel::where('zone_id', $zone)->orderBy('name')->get(['id','name','zone_id']);
+
+    }
+
 }
