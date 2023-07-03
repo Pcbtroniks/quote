@@ -5,6 +5,7 @@ import PickupList from '@/Pages/Pickups/Partials/PickupList.vue';
 const props = defineProps({
     pickups: Object,
     tours: Object,
+    params: Object,
 })
 
 console.log(props.pickups);
@@ -33,6 +34,7 @@ const zoneIdToZoneName = (zoneId) => {
                     <PickupList 
                         :pickups="props.pickups" 
                         :tours="props.tours"
+                        :params="props.params"
                     />
                 </div>
             </div>

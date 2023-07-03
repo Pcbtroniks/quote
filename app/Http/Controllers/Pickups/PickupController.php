@@ -15,6 +15,10 @@ class PickupController extends Controller
         return inertia('Pickups/Index', [
             'pickups' => $getPickups->getPickupsByZoneAndActivity($zone, $activity),
             'tours' => Activity::getTours(),
+            'params' => [
+                'zone' => $zone,
+                'activity' => $activity
+            ]
         ]);
     }
     

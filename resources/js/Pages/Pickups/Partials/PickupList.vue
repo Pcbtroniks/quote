@@ -1,56 +1,53 @@
 <script setup>
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import { Inertia } from '@inertiajs/inertia';
 
 import InputText from '@/Shared/InputText.vue';
-import { Inertia } from '@inertiajs/inertia';
+import { getZones, ParsePlayaDelCarmenToCancun } from '@/Services/Utils.js';
 
 const props = defineProps({
     pickups: Object,
     tours: Object,
+    params: Object,
 })
 
-const requestCouponConfirmation = (Quote) => {
-    Swal.fire({
-    title: 'Solicitar cupon?',
-    text: "Se generara tu cupon para poder usarlo posteriormente!",
-    icon: 'question',
-    showCancelButton: true,
-    confirmButtonColor: '#38bdf8',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Si, Solicitar!',
-    cancelButtonText: 'Cancelar'
-    }).then((result) => {
-    if (result.isConfirmed) {
+const toast = () => {
 
-        axios.post(route('coupon.request.code', Quote))
-            .then((response) => {
-                console.log(response);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-
-
-        Swal.fire(
-        'Confirmado!',
-        'Estamos generando tu cupon.',
-        'success'
-        ).then(function() {
-            location.reload();
-        })
-    }
+    return Swal.mixin({
+        toast: true,
+        position: 'top-right',
+        iconColor: 'white',
+        customClass: {
+            popup: 'colored-toast'
+        },
+        showConfirmButton: false,
+        timer: 1500,
+        timerProgressBar: true
     })
+
 }
 
-const requestPickupTimeUpdate = async(pickupID,PickupTime, index) => {
+const requestPickupTimeUpdate = async(pickupID, PickupTime, index) => {
+
+    if(PickupTime == props.pickups[index].pickup_time || PickupTime === undefined || PickupTime === ''){
+
+        props.pickups[index].pickup_time = props.pickups[index].pickup_time;
+        return;
+    
+    }
     try {
-        
+
         const pickup_time = formatPickupTime(PickupTime);
         const response = await axios.post(route('pickups.update', pickupID), {
             pickup_time: pickup_time
         })
         props.pickups[index].pickup_time = pickup_time;
-        console.log(response);
+        
+        await toast().fire({
+            icon: 'success',
+            title: 'Hora de pickup actualizada'
+        });
 
     } catch (error) {
 
@@ -60,11 +57,13 @@ const requestPickupTimeUpdate = async(pickupID,PickupTime, index) => {
     }
 }
 
-const visitActivity = (activity) => {
+const visitActivity = (activity, zone) => {
+
     const activityID = activity ?? 11;
-    const zoneID = props.pickups[0]?.zone_id ?? 1;
+    const zoneID = zone ?? 1;
 
     Inertia.visit(route('pickups', { activity: activityID, zone: zoneID}));
+
 } 
 
 /**
@@ -93,30 +92,54 @@ function formatPickupTime(pickup_time){
 <section class="w-full antialiased bg-gray-100 text-gray-600">
     <div class="flex flex-col justify-center h-full">
         <!-- Table -->
-        <div class="w-full mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
-            <header class="px-5 py-4 border-b border-gray-100">
-                <h1 class="font-semibold text-gray-800 text-2xl">{{ props.pickups[0]?.activity ?? 'N/D' }}</h1>
+        <div class="w-full mx-auto bg-white shadow-lg rounded-sm">
+            <header class="px-5 pt-4 py-4 pb-8 border-b border-gray-100">
+                <h1 class="font-bold text-gray-800 text-2xl">{{ props.pickups[0]?.activity ?? 'N/D' }}</h1>
                 <!-- Filters -->
-                <div class="mt-8">
+                <div class="mt-8 flex gap-3 items-center">
 
-                    <label
-                            for="parque"
-                            class="mb-3 block text-base font-medium text-[#07074D]"
-                        >
-                            Cambiar Tour
+                    <div class="w-2/6">
+                        <label
+                                for="tour"
+                                class="mb-3 block text-base font-medium text-[#07074D]"
+                            >
+                                Cambiar Tour
                         </label>
                         <select
-                            @change="visitActivity($event.target.value)"
+                            id="tour"
+                            @change="visitActivity($event.target.value, props.params.zone)"
                             name="tour"
                             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                             >
-                            <option value="null" selected disabled>-- Seleccionar tour --</option>
+                            <option value="null" selected disabled>-- Tour --</option>
                             <option class="capitalize" v-if="props.tours" v-for="tour in props.tours" :value="tour.id">{{ tour.name }}</option>
                             <option v-else>Tours no disponibles</option>
                         </select>
+                    </div>
+
+                    <div class="w-1/6">
+                        <label
+                            for="zone"
+                            class="mb-3 block text-base font-medium text-[#07074D]"
+                        >
+                                Cambiar Zona
+                        </label>
+                        <select
+                            id="zone"
+                            @change="visitActivity(props.params.activity, ParsePlayaDelCarmenToCancun($event.target.value))"
+                            name="zone"
+                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                            >
+                            <option value="null" selected disabled>-- Zona --</option>
+                            <option class="capitalize" v-if="props.tours" v-for="zone in getZones()" :value="zone.id">{{ zone.name }}</option>
+                            <option v-else>Tours no disponibles</option>
+                        </select>
+                    </div>
+
 
                 </div>
             </header>
+            
             <div class="p-3">
                 <div class="overflow-x-auto">
                     <table class="table-auto w-full">
@@ -161,6 +184,7 @@ function formatPickupTime(pickup_time){
                                                     id="PickupTime"
                                                     name="PickupTime"
                                                     @blur="requestPickupTimeUpdate(pickup.id, $event.target.value, index)"
+                                                    @keydown.enter="requestPickupTimeUpdate(pickup.id, $event.target.value, index)"
                                                     />
                                             </div>
                                         </div>
@@ -185,11 +209,17 @@ function formatPickupTime(pickup_time){
 
                 </div>
 
-                <div class="flex justify-center">    
-                    <!-- <Pagination :links="quotes" /> -->
-                </div>
             </div>
         </div>
     </div>
 </section>
 </template>
+
+<style>
+.colored-toast.swal2-icon-success {
+    background-color: #a5dc86 !important;
+}
+.colored-toast .swal2-title {
+    color: white;
+}
+</style>
