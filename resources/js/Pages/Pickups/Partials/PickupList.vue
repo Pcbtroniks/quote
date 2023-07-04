@@ -4,7 +4,8 @@ import Swal from 'sweetalert2';
 import { Inertia } from '@inertiajs/inertia';
 
 import InputText from '@/Shared/InputText.vue';
-import { getZones, ParsePlayaDelCarmenToCancun } from '@/Services/Utils.js';
+import {    getZones, ParsePlayaDelCarmenToCancun, zoneIdToZoneName,
+            formatPickupTime, getActivityNameById } from '@/Services/Utils.js';
 
 const props = defineProps({
     pickups: Object,
@@ -63,28 +64,9 @@ const visitActivity = (activity, zone) => {
     const zoneID = zone ?? 1;
 
     Inertia.visit(route('pickups', { activity: activityID, zone: zoneID}));
-
 } 
 
-/**
- * Format pickup_time to HH:MM  i.e. 5:10 to 05:10
- * 
- * @param {string} pickup_time
- * @returns {string} formatted pickup_time 
- */
-function formatPickupTime(pickup_time){
-    if(pickup_time === undefined || pickup_time === ''){
-        return '';
-    }
-
-    pickup_time = pickup_time.trim();
-
-    const [hours, minutes] = pickup_time.split(':');
-    const formattedHours = hours.length === 1 ? `0${hours}` : hours;
-    const formattedMinutes = minutes.length === 1 ? `0${minutes}` : minutes;
-
-    return `${formattedHours}:${formattedMinutes}`;
-}
+console.log(props.pickups);
 </script>
 
 <template>
@@ -94,11 +76,11 @@ function formatPickupTime(pickup_time){
         <!-- Table -->
         <div class="w-full mx-auto bg-white shadow-lg rounded-sm">
             <header class="px-5 pt-4 py-4 pb-8 border-b border-gray-100">
-                <h1 class="font-bold text-gray-800 text-2xl">{{ props.pickups[0]?.activity ?? 'N/D' }}</h1>
+                <h1 class="font-bold text-sky-400 text-2xl">{{ getActivityNameById(props.params.activity, props.tours) }} en {{ zoneIdToZoneName(props.params.zone) }}</h1>
                 <!-- Filters -->
-                <div class="mt-8 flex gap-3 items-center">
+                <div class="md:mt-8 md:flex md:gap-3 md:items-center">
 
-                    <div class="w-2/6">
+                    <div class="md:w-2/6">
                         <label
                                 for="tour"
                                 class="mb-3 block text-base font-medium text-[#07074D]"
@@ -112,12 +94,12 @@ function formatPickupTime(pickup_time){
                             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                             >
                             <option value="null" selected disabled>-- Tour --</option>
-                            <option class="capitalize" v-if="props.tours" v-for="tour in props.tours" :value="tour.id">{{ tour.name }}</option>
+                            <option v-if="props.tours" class="capitalize" v-for="tour in props.tours" :value="tour.id">{{ tour.name }}</option>
                             <option v-else>Tours no disponibles</option>
                         </select>
                     </div>
 
-                    <div class="w-1/6">
+                    <div class="md:w-1/6">
                         <label
                             for="zone"
                             class="mb-3 block text-base font-medium text-[#07074D]"
@@ -168,7 +150,7 @@ function formatPickupTime(pickup_time){
                             </tr>
                         </thead>
                         <tbody class="text-sm divide-y divide-gray-100">
-                            <tr v-if="!props.pickup" v-for="(pickup, index) in props.pickups" class="h-12 hover:bg-sky-300">
+                            <tr v-if="props.pickups && props.pickups.lenght > 0" v-for="(pickup, index) in props.pickups" class="h-12 hover:bg-sky-300">
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <div class="font-medium text-gray-800">{{ pickup.hotel }}</div>
@@ -200,7 +182,7 @@ function formatPickupTime(pickup_time){
                             <tr v-else class="h-12 hover:bg-sky-300 text-center">
                                 <td colspan="3" class="p-2 whitespace-nowrap text-center">
                                     <div class="flex items-center justify-center text-center">
-                                        <div class="text-center font-bold text-indigo-500"> No hay información dispobible</div>
+                                        <div class="text-center font-bold text-sky-400"> No hay información dispobible</div>
                                     </div>
                                 </td>
                             </tr>

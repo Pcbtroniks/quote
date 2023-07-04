@@ -8,23 +8,13 @@ const props = defineProps({
     params: Object,
 })
 
-console.log(props.pickups);
-
-const zoneIdToZoneName = (zoneId) => {
-    const zones = {
-        1: 'Cancun',
-        2: 'Riviera Maya',
-        3: 'Playa del Carmen',
-    }
-    return zones[zoneId] ?? 'N/A';
-}
 </script>
 
 <template>
     <AppLayout title="Pickups">
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Pickups - {{ zoneIdToZoneName(props.pickups[0]?.zone_id) }}
+            <h2 class="uppercase font-semibold text-xl text-gray-800 leading-tight">
+                Pickups
             </h2>
         </template>
 
