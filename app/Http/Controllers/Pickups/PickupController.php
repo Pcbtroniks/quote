@@ -21,6 +21,32 @@ class PickupController extends Controller
             ]
         ]);
     }
+
+    public function byHotels(GetPickups $getPickups, $zone, $activity)
+    {
+        dd($getPickups->getPickupsByZoneAndActivityWithHotels($zone, $activity));
+        return inertia('Pickups/Index', [
+            'pickups' => $getPickups->getPickupsByZoneAndActivity($zone, $activity),
+            'tours' => Activity::getTours(),
+            'params' => [
+                'zone' => $zone,
+                'activity' => $activity
+            ]
+        ]);
+    }
+
+    public function byParks(GetPickups $getPickups, $zone, $activity)
+    {
+        // dd($getPickups->getPickupsByZoneAndActivity($zone, $activity));
+        return inertia('Pickups/Index', [
+            'pickups' => $getPickups->getPickupsByZoneAndActivity($zone, $activity),
+            'tours' => Activity::getTours(),
+            'params' => [
+                'zone' => $zone,
+                'activity' => $activity
+            ]
+        ]);
+    }
     
     public function update(PostPickup $PostPickup, $pickup)
     {

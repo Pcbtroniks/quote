@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import { Inertia } from '@inertiajs/inertia';
 
 import InputText from '@/Shared/InputText.vue';
+import ModernSwitch from '@/Shared/ModernSwitch.vue';
 import {    getZones, ParsePlayaDelCarmenToCancun, zoneIdToZoneName,
             formatPickupTime, getActivityNameById } from '@/Services/Utils.js';
 
@@ -73,7 +74,13 @@ const visitActivity = (activity, zone) => {
         <!-- Table -->
         <div class="w-full mx-auto bg-white shadow-lg rounded-sm">
             <header class="px-5 pt-4 py-4 pb-8 border-b border-gray-100">
-                <h1 class="font-bold text-sky-500 text-2xl border-b border-gray-100 pb-4">{{ getActivityNameById(props.params.activity, props.tours) }} en {{ zoneIdToZoneName(props.params.zone) }}</h1>
+
+                <h1 class="font-bold text-sky-500 text-2xl border-b border-gray-100 pb-4">{{ getActivityNameById(props.params.activity, props.tours) }} <br class="md:hidden"> en {{ zoneIdToZoneName(props.params.zone) }}</h1>
+
+
+                <div class="my-4">
+                    <ModernSwitch />
+                </div>
                 <!-- Filters -->
                 <div class="md:mt-8 md:flex md:gap-3 md:items-center">
 
@@ -95,6 +102,8 @@ const visitActivity = (activity, zone) => {
                             <option v-else>Tours no disponibles</option>
                         </select>
                     </div>
+
+                    <div class="h-4 md:hidden"></div>
 
                     <div class="md:w-1/6">
                         <label
