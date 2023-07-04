@@ -31,10 +31,9 @@ const toast = () => {
 
 const requestPickupTimeUpdate = async(pickupID, PickupTime, index) => {
 
-    if(PickupTime == props.pickups[index].pickup_time || PickupTime === undefined || PickupTime === ''){
+    if(PickupTime == props.pickups[index].pickup_time.slice(0,5) || PickupTime == undefined || PickupTime == ''){
 
-        props.pickups[index].pickup_time = props.pickups[index].pickup_time;
-        return;
+        return null;
     
     }
     try {
@@ -44,7 +43,6 @@ const requestPickupTimeUpdate = async(pickupID, PickupTime, index) => {
             pickup_time: pickup_time
         })
         props.pickups[index].pickup_time = pickup_time;
-        
         await toast().fire({
             icon: 'success',
             title: 'Hora de pickup actualizada'
@@ -66,7 +64,6 @@ const visitActivity = (activity, zone) => {
     Inertia.visit(route('pickups', { activity: activityID, zone: zoneID}));
 } 
 
-console.log(props.pickups);
 </script>
 
 <template>
@@ -76,14 +73,14 @@ console.log(props.pickups);
         <!-- Table -->
         <div class="w-full mx-auto bg-white shadow-lg rounded-sm">
             <header class="px-5 pt-4 py-4 pb-8 border-b border-gray-100">
-                <h1 class="font-bold text-sky-400 text-2xl">{{ getActivityNameById(props.params.activity, props.tours) }} en {{ zoneIdToZoneName(props.params.zone) }}</h1>
+                <h1 class="font-bold text-sky-500 text-2xl border-b border-gray-100 pb-4">{{ getActivityNameById(props.params.activity, props.tours) }} en {{ zoneIdToZoneName(props.params.zone) }}</h1>
                 <!-- Filters -->
                 <div class="md:mt-8 md:flex md:gap-3 md:items-center">
 
                     <div class="md:w-2/6">
                         <label
                                 for="tour"
-                                class="mb-3 block text-base font-medium text-[#07074D]"
+                                class="mb-3 block text-base font-medium text-gray-700"
                             >
                                 Cambiar Tour
                         </label>
@@ -102,7 +99,7 @@ console.log(props.pickups);
                     <div class="md:w-1/6">
                         <label
                             for="zone"
-                            class="mb-3 block text-base font-medium text-[#07074D]"
+                            class="mb-3 block text-base font-medium text-gray-700"
                         >
                                 Cambiar Zona
                         </label>
@@ -150,7 +147,7 @@ console.log(props.pickups);
                             </tr>
                         </thead>
                         <tbody class="text-sm divide-y divide-gray-100">
-                            <tr v-if="props.pickups && props.pickups.lenght > 0" v-for="(pickup, index) in props.pickups" class="h-12 hover:bg-sky-300">
+                            <tr v-if="props.pickups && props.pickups.length > 0" v-for="(pickup, index) in props.pickups" class="h-12 hover:bg-sky-300">
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <div class="font-medium text-gray-800">{{ pickup.hotel }}</div>
