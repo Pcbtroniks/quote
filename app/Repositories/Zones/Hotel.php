@@ -19,4 +19,9 @@ class Hotel {
 
     }
 
+    public static function getHotels()
+    {
+        return HotelModel::orderBy('name')->get(['id','name','zone_id']);
+    }
+
 }

@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    /* Toast sucess */
+    .colored-toast.swal2-icon-success {
+        background-color: #a5dc86 !important;
+    }
+    .colored-toast .swal2-title {
+        color: white;
+    }
+}

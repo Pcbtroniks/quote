@@ -82,9 +82,9 @@ Route::middleware([
 
     // Pickups
 
+    Route::get('pickups/byhotel/{hotel?}', [PickupController::class, 'byHotel'])->name('pickups.by.hotel');
+    Route::get('pickups/byzone/{zone?}/{activity?}', [PickupController::class, 'byZone'])->name('pickups.by.zone');
     Route::get('pickups/{zone}/{activity}', [PickupController::class, 'index'])->name('pickups');
-    Route::get('pickups/byparks/{zone}/{activity}', [PickupController::class, 'byParks'])->name('pickups.by.parks');
-    Route::get('pickups/byhotels/{zone}/{activity}', [PickupController::class, 'byHotels'])->name('pickups.by.hotels');
     Route::post('pickups/{pickup}', [PickupController::class, 'update'])->name('pickups.update');
 
     // Invoices

@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Pickups;
 
 use App\Http\Controllers\Controller;
+use App\Models\Activity as ActivityModel;
+use App\Models\Hotel as HotelModel;
+use App\Models\Zone;
 use App\Repositories\Activities\Activity;
 use App\Repositories\Pickups\GetPickups;
 use App\Repositories\Pickups\PostPickup;
+use App\Repositories\Zones\Hotel;
 
 class PickupController extends Controller
 {
@@ -22,23 +26,23 @@ class PickupController extends Controller
         ]);
     }
 
-    public function byHotels(GetPickups $getPickups, $zone, $activity)
+    public function byHotel(GetPickups $getPickups, $hotel = null)
     {
-        dd($getPickups->getPickupsByZoneAndActivityWithHotels($zone, $activity));
-        return inertia('Pickups/Index', [
-            'pickups' => $getPickups->getPickupsByZoneAndActivity($zone, $activity),
-            'tours' => Activity::getTours(),
+        $hotel = $hotel ?? HotelModel::first()->id;
+        return inertia('Pickups/ByHotel', [
+            'pickups' => $getPickups->getPickupsByHotel($hotel),
+            'hotels' => Hotel::getHotels(),
             'params' => [
-                'zone' => $zone,
-                'activity' => $activity
+                'hotel' => $hotel,
             ]
         ]);
     }
 
-    public function byParks(GetPickups $getPickups, $zone, $activity)
+    public function byZone(GetPickups $getPickups, $zone = null, $activity = null)
     {
-        // dd($getPickups->getPickupsByZoneAndActivity($zone, $activity));
-        return inertia('Pickups/Index', [
+        $activity = $activity ?? ActivityModel::where('type', 'tour')->first()->id;
+        $zone = $zone ?? Zone::first()->id;
+        return inertia('Pickups/ByZone', [
             'pickups' => $getPickups->getPickupsByZoneAndActivity($zone, $activity),
             'tours' => Activity::getTours(),
             'params' => [

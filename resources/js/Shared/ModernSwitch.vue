@@ -1,17 +1,27 @@
 <script setup>
+import { Inertia } from '@inertiajs/inertia';
 import { ref } from 'vue';
 
-const toggleActive = ref('opt-1');
+const props = defineProps({
+    option: {
+        type: String,
+        default: 'opt-1'
+    },
+});
+
+const toggleActive = ref(props.option);
 
 const toggleIndicator = (opt) => {
     
     if(opt == 1){
 
         toggleActive.value = 'opt-1';
+        Inertia.visit(route('pickups.by.zone'));
 
     }else if(opt == 2){
 
         toggleActive.value = 'opt-2';
+        Inertia.visit(route('pickups.by.hotel'));
 
     }
     
@@ -71,13 +81,6 @@ const toggleIndicator = (opt) => {
     font-weight: 500;
 }
 
-/* .tab--1:hover ~ .indicator {
-    left: 2px;
-}
-
-.tab--2:hover ~ .indicator {
-    left: calc(50% - 2px);
-} */
 .opt-1 {
     left: 2px;
 }
