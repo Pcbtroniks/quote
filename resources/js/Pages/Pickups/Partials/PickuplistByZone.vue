@@ -5,9 +5,12 @@ import { Inertia } from '@inertiajs/inertia';
 import InputText from '@/Shared/InputText.vue';
 import ModernSwitch from '@/Shared/ModernSwitch.vue';
 import {    getZones, ParsePlayaDelCarmenToCancun, zoneIdToZoneName,
-            formatPickupTime, getActivityNameById } from '@/Services/Utils.js';
+            formatPickupTime, getActivityNameById, validatePickupTime } from '@/Services/Utils.js';
 
-import { successToast } from '@/Services/Alerts.js';
+import { ref } from 'vue';
+
+import { successToast, BadFormatPickupTimeError } from '@/Services/Alerts.js';
+import Swal from 'sweetalert2';
 
 const props = defineProps({
     pickups: Object,
@@ -37,7 +40,7 @@ const requestPickupTimeUpdate = async(pickupID, PickupTime, index) => {
     } catch (error) {
 
         console.log(error);
-        alert('Lo sentimos, ocurrio un error al actualizar la hora del pickup. actualiza la pagina y vuelve a intentarlo.');
+        BadFormatPickupTimeError();
     
     }
 }
@@ -48,8 +51,103 @@ const visitActivity = (activity, zone) => {
     const zoneID = zone ?? 1;
 
     Inertia.visit(route('pickups', { activity: activityID, zone: zoneID}));
-} 
+}
 
+
+// Multiple select
+
+const selectedActivies = ref([]);
+
+const selectActivity = (tour) => {
+
+    if(selectedActivies.value.includes(tour)){
+
+        selectedActivies.value = selectedActivies.value.filter(item => item != tour);
+
+    }else{
+
+        selectedActivies.value.push(tour);
+
+    }
+
+    console.log(selectedActivies.value);
+
+}
+
+const selectAllActivities = () => {
+
+    selectedActivies.value = {...props.tours};
+
+    console.log(selectedActivies.value);
+
+}
+
+
+// Update multiple pickups
+
+// Update Multiple
+
+const UpdateMultiplePickupsRequestByZone = (data) => {
+    console.log(data);
+    const pickupIDs = data.map(pickup => pickup.id);
+    Swal.fire({
+    title: '¡Se actualizaran ' + pickupIDs.length + ' pickups!',
+    input: 'text',
+    inputAttributes: {
+        autocapitalize: 'off',
+        placeholder: 'hh:mm',
+    },
+    showCancelButton: true,
+    confirmButtonText: 'Confirmar',
+    showLoaderOnConfirm: true,
+    inputValidator: (value) => {
+        if (!value) {
+        return 'Necesita agregar una referencia interna'
+        }
+        if (validatePickupTime(value)){
+            return 'Formato de hora correcto'
+            // return 'Formato de hora incorrecto'
+        }
+    },
+    preConfirm: async (reference) => {
+        return Swal.fire({
+        title: '¿Está seguro?',
+        text: "¡Se actualizaran " + pickupIDs.length + " pickups!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Confirmar'
+        })
+        return fetch(route('bookings.reference',{ booking: data.id , reference: reference}))
+        .then(response => {
+            if (!response.ok) {
+            throw new Error(response.statusText)
+            }
+            
+            return response.json();
+        })
+        .catch(error => {
+            console.log(error);
+            Swal.showValidationMessage(
+            `La solicitud ha fallado: ${error}`
+            )
+        })
+    },
+    allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+    if (result.isConfirmed) {
+        console.log(result.value);
+        router.visit(route('bookings.index', props.queryFilters));
+        Swal.fire({
+        title: `La referencia ha sido agregada correctamente`,
+        icon: 'success',
+        confirmButtonColor: '#3085d6',
+        })
+    }
+    })
+}
 </script>
 
 <template>
@@ -118,6 +216,12 @@ const visitActivity = (activity, zone) => {
                     <table class="table-auto w-full">
                         <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
                             <tr>
+                                <th scope="col" class="p-4">
+                                    <div class="flex items-center">
+                                        <input @click="selectAllActivities()" id="checkbox-all" type="checkbox" class="w-4 h-4 text-sky-600 bg-gray-100 rounded border-gray-300 focus:ring-sky-500 focus:ring-2">
+                                        <label for="checkbox-all" class="sr-only">checkbox</label>
+                                    </div>
+                                </th>
                                 <th class="p-2 whitespace-nowrap">
                                     <div class="font-semibold text-left">Hotel</div>
                                 </th>
@@ -142,6 +246,12 @@ const visitActivity = (activity, zone) => {
                         </thead>
                         <tbody class="text-sm divide-y divide-gray-100">
                             <tr v-if="props.pickups && props.pickups.length > 0" v-for="(pickup, index) in props.pickups" class="h-12 hover:bg-sky-300">
+                                <td class="p-4 w-4">
+                                    <div class="flex items-center">
+                                        <input @click="selectActivity(pickup)" id="checkbox-table-1" type="checkbox" class="w-4 h-4 text-sky-600 bg-gray-100 rounded border-gray-300 focus:ring-sky-500 focus:ring-2">
+                                        <label for="checkbox-table-1" class="sr-only">checkbox</label>
+                                    </div>
+                                </td>
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <div class="font-medium text-gray-800">{{ pickup.hotel }}</div>

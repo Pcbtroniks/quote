@@ -60,5 +60,13 @@ class PickupController extends Controller
         ]);
     }
 
+    public function updateMultiple(PostPickup $PostPickup, $pickup)
+    {
+        return response()->json([
+            'message' => 'success',
+            'result' => $PostPickup->updateMultiplePickups($pickup, request()->pickup_time)
+        ]);
+    }
+
 
 }

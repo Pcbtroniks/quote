@@ -14,3 +14,11 @@ export const successToast = () => {
         timerProgressBar: true
     })
 }
+
+export const BadFormatPickupTimeError = () => {
+    Swal.fire({
+        icon: 'error',
+        title: 'Error al actualizar la hora de pickup',
+        text: 'Solo ingrese valores en formato de hora (HH:MM) ej: 12:00 o 6:30',
+    })
+}

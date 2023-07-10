@@ -5,9 +5,9 @@ import { Inertia } from '@inertiajs/inertia';
 import InputText from '@/Shared/InputText.vue';
 import ModernSwitch from '@/Shared/ModernSwitch.vue';
 import {    getZones, ParsePlayaDelCarmenToCancun, zoneIdToZoneName,
-            formatPickupTime, getActivityNameById } from '@/Services/Utils.js';
+            formatPickupTime, validatePickupTime } from '@/Services/Utils.js';
 
-import { successToast } from '@/Services/Alerts.js';
+import { successToast, BadFormatPickupTimeError } from '@/Services/Alerts.js';
 
 const props = defineProps({
     pickups: Object,
@@ -22,12 +22,20 @@ const requestPickupTimeUpdate = async(pickupID, PickupTime, index) => {
         return null;
     
     }
+
+    if(!validatePickupTime(PickupTime)){
+
+        return BadFormatPickupTimeError();
+    
+    }
+
     try {
 
         const pickup_time = formatPickupTime(PickupTime);
         const response = await axios.post(route('pickups.update', pickupID), {
             pickup_time: pickup_time
         })
+
         props.pickups[index].pickup_time = pickup_time;
         await successToast().fire({
             icon: 'success',
@@ -37,7 +45,7 @@ const requestPickupTimeUpdate = async(pickupID, PickupTime, index) => {
     } catch (error) {
 
         console.log(error);
-        alert('Lo sentimos, ocurrio un error al actualizar la hora del pickup. actualiza la pagina y vuelve a intentarlo.');
+        BadFormatPickupTimeError();
     
     }
 }
@@ -51,7 +59,7 @@ const visit = (hotel) => {
         preserveScroll: true,
     });
 } 
-console.log(props.hotels);
+
 </script>
 
 <template>

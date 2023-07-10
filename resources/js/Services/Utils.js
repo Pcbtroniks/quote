@@ -67,3 +67,13 @@ export const formatPickupTime = (pickup_time) => {
 
     return `${formattedHours}:${formattedMinutes}`;
 }
+
+/**
+ * Validate if pickup_time is in format HH:MM or H:MM
+ * @param {string} pickup_time
+ * @returns {boolean} true if pickup_time is in format HH:MM or H:MM
+*/
+export const validatePickupTime = (pickup_time) => {
+    const regex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
+    return regex.test(pickup_time);
+}
