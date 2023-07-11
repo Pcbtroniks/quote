@@ -1,1 +1,0 @@
-import{S as o}from"./sweetalert2.all.41bec1e8.js";const s=()=>o.mixin({toast:!0,position:"top-right",iconColor:"white",customClass:{popup:"colored-toast"},showConfirmButton:!1,timer:1500,timerProgressBar:!0});export{s};

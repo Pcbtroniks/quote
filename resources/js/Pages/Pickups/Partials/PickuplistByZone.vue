@@ -1,16 +1,13 @@
 <script setup>
 import axios from 'axios';
 import { Inertia } from '@inertiajs/inertia';
-
 import InputText from '@/Shared/InputText.vue';
 import ModernSwitch from '@/Shared/ModernSwitch.vue';
 import {    getZones, ParsePlayaDelCarmenToCancun, zoneIdToZoneName,
             formatPickupTime, getActivityNameById, validatePickupTime } from '@/Services/Utils.js';
 import CreateHotelForm from '@/Pages/Pickups/Partials/CreateHotelForm.vue';
-
 import { ref } from 'vue';
-
-import { successToast, BadFormatPickupTimeError, FeatureNotAvailable } from '@/Services/Alerts.js';
+import { successToast, BadFormatPickupTimeError } from '@/Services/Alerts.js';
 import Swal from 'sweetalert2';
 
 const props = defineProps({
@@ -79,10 +76,7 @@ const selectAllActivities = () => {
     return null;
 }
 
-
 // Update multiple pickups
-
-// Update Multiple
 
 const UpdateMultiplePickupsRequestByZone = (data) => {
     console.log(data);
@@ -198,7 +192,7 @@ const UpdateMultiplePickupsRequestByZone = (data) => {
                         </label>
                         <select
                             id="zone"
-                            @change="visitActivity(props.params.activity, ParsePlayaDelCarmenToCancun($event.target.value))"
+                            @change="visitActivity(props.params.activity, $event.target.value)"
                             name="zone"
                             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                             >
@@ -217,12 +211,12 @@ const UpdateMultiplePickupsRequestByZone = (data) => {
                     <table class="table-auto w-full">
                         <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
                             <tr>
-                                <th scope="col" class="p-4">
+                                <!-- <th scope="col" class="p-4 hidden">
                                     <div class="flex items-center">
                                         <input @click="selectAllActivities()" id="checkbox-all" type="checkbox" class="w-4 h-4 text-sky-600 bg-gray-100 rounded border-gray-300 focus:ring-sky-500 focus:ring-2">
                                         <label for="checkbox-all" class="sr-only">checkbox</label>
                                     </div>
-                                </th>
+                                </th> -->
                                 <th class="p-2 whitespace-nowrap">
                                     <div class="font-semibold text-left">Hotel</div>
                                 </th>
@@ -247,12 +241,12 @@ const UpdateMultiplePickupsRequestByZone = (data) => {
                         </thead>
                         <tbody class="text-sm divide-y divide-gray-100">
                             <tr v-if="props.pickups && props.pickups.length > 0" v-for="(pickup, index) in props.pickups" class="h-12 hover:bg-sky-300">
-                                <td class="p-4 w-4">
+                                <!-- <td class="p-4 w-4 hidden">
                                     <div class="flex items-center">
                                         <input @click="selectActivity(pickup)" id="checkbox-table-1" type="checkbox" class="w-4 h-4 text-sky-600 bg-gray-100 rounded border-gray-300 focus:ring-sky-500 focus:ring-2">
                                         <label for="checkbox-table-1" class="sr-only">checkbox</label>
                                     </div>
-                                </td>
+                                </td> -->
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <div class="font-medium text-gray-800">{{ pickup.hotel }}</div>

@@ -11,7 +11,7 @@ class GetPickups
     {
         return DB::table('pickups as p')
                 ->orderBy('h.name', 'asc')
-                ->where('p.zone_id', ZoneDecorator::ParsePlayaDelCarmenToCancun($zone))
+                ->where('p.zone_id', $zone)
                 ->where('p.activity_id', $activity)
                 ->join('hotels as h', 'p.hotel_id', '=', 'h.id')
                 ->join('activities as a', 'p.activity_id', '=', 'a.id')

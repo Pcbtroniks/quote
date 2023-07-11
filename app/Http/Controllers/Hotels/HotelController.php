@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class HotelController extends Controller
 {
+    public function index()
+    {
+        // List all Hotels
+    }
+
     public function jsonStore(Request $request, HotelPost $hotelPost)
     {
         $data = $request->validate([

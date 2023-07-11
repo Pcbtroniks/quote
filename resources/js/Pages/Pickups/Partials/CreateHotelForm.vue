@@ -12,7 +12,7 @@ const CreateHotelRequest = () => {
 
     Swal.fire({
         title: 'Registrar un nuevo hotel',
-        text: 'Se agregara un hotel en la zona: '+ zoneIdToZoneName(props.zone),
+        text: 'Se agregara un hotel para la zona: '+ zoneIdToZoneName(props.zone),
         input: 'text',
         inputAttributes: {
             autocapitalize: 'off',
