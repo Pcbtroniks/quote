@@ -1,6 +1,7 @@
 <script setup>
 import axios from 'axios';
 import { Inertia } from '@inertiajs/inertia';
+import { ref } from 'vue';
 
 import InputText from '@/Shared/InputText.vue';
 import ModernSwitch from '@/Shared/ModernSwitch.vue';
@@ -60,6 +61,26 @@ const visit = (hotel) => {
     });
 } 
 
+// Search
+
+const filterPickupsByTourName = ref([]);
+
+const filterPickupsByTour = (value) => {
+
+    if(value == undefined || value == ''){
+
+        return null;
+
+    }
+    if(value.length < 3){
+
+        filterPickupsByTourName.value = props.pickups;
+
+    }
+
+    filterPickupsByTourName.value = props.pickups.filter(pickup => pickup.activity.toLowerCase().includes(value.toLowerCase()));
+}
+
 </script>
 
 <template>
@@ -98,6 +119,23 @@ const visit = (hotel) => {
                         </select>
                     </div>
 
+                <div class="h-4 md:hidden"></div>
+
+                    <div class="md:w-2/6">
+                        <label
+                            for="valueFilter"
+                            class="mb-3 block text-base font-medium text-gray-700"
+                        >
+                                Tour
+                        </label>
+                        <InputText
+                            id="valueFilter"
+                            @input="filterPickupsByTour($event.target.value)"
+                            placeholder="buscar tour..."
+                            class="w-full"
+                        />
+                    </div>
+
                 </div>
             </header>
             
@@ -129,7 +167,7 @@ const visit = (hotel) => {
                             </tr>
                         </thead>
                         <tbody class="text-sm divide-y divide-gray-100">
-                            <tr v-if="props.pickups && props.pickups.length > 0" v-for="(pickup, index) in props.pickups" class="h-12 hover:bg-sky-300">
+                            <tr v-if="props.pickups?.length > 0" v-for="(pickup, index) in (filterPickupsByTourName.length > 0 ? filterPickupsByTourName : props.pickups)" class="h-12 hover:bg-sky-300">
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <div class="font-medium text-gray-800">{{ pickup.activity }}</div>
