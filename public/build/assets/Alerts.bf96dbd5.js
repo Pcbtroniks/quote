@@ -1,0 +1,1 @@
+import{S as o}from"./sweetalert2.all.44083dbc.js";const t=()=>o.mixin({toast:!0,position:"top-right",iconColor:"white",customClass:{popup:"colored-toast"},showConfirmButton:!1,timer:1500,timerProgressBar:!0}),e=()=>{o.fire({icon:"error",title:"Error al actualizar la hora de pickup",text:"Solo ingrese valores en formato de hora (HH:MM) ej: 12:00 o 6:30"})};export{e as B,t as s};

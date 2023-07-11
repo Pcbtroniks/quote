@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Inertia } from '@inertiajs/inertia';
 import InputText from '@/Shared/InputText.vue';
 import ModernSwitch from '@/Shared/ModernSwitch.vue';
-import {    getZones, ParsePlayaDelCarmenToCancun, zoneIdToZoneName,
+import {    getZones, zoneIdToZoneName,
             formatPickupTime, getActivityNameById, validatePickupTime } from '@/Services/Utils.js';
 import CreateHotelForm from '@/Pages/Pickups/Partials/CreateHotelForm.vue';
 import CreatePickupByZoneForm from './CreatePickupByZoneForm.vue';
