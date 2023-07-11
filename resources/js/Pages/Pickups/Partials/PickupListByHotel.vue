@@ -5,8 +5,7 @@ import { ref } from 'vue';
 
 import InputText from '@/Shared/InputText.vue';
 import ModernSwitch from '@/Shared/ModernSwitch.vue';
-import {    getZones, ParsePlayaDelCarmenToCancun, zoneIdToZoneName,
-            formatPickupTime, validatePickupTime } from '@/Services/Utils.js';
+import { formatPickupTime, validatePickupTime } from '@/Services/Utils.js';
 
 import { successToast, BadFormatPickupTimeError } from '@/Services/Alerts.js';
 
@@ -209,7 +208,9 @@ const filterPickupsByTour = (value) => {
 
                     <div class="text-xs">
                         <p>
-                            pickups: {{ props.pickups?.length ?? 0 }}
+                            pickups: {{ filterPickupsByTourName.length > 0 
+                                        ? filterPickupsByTourName.length
+                                        : props.pickups.length}}
                         </p>
                     </div>
 

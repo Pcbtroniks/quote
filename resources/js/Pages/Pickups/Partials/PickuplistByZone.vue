@@ -6,6 +6,7 @@ import ModernSwitch from '@/Shared/ModernSwitch.vue';
 import {    getZones, ParsePlayaDelCarmenToCancun, zoneIdToZoneName,
             formatPickupTime, getActivityNameById, validatePickupTime } from '@/Services/Utils.js';
 import CreateHotelForm from '@/Pages/Pickups/Partials/CreateHotelForm.vue';
+import CreatePickupByZoneForm from './CreatePickupByZoneForm.vue';
 import { ref } from 'vue';
 import { successToast, BadFormatPickupTimeError } from '@/Services/Alerts.js';
 import Swal from 'sweetalert2';
@@ -145,11 +146,6 @@ const filterPickupsByHotelName = ref([]);
 
 const filterPickupsByHotel = (hotelName) => {
 
-    if(hotelName == undefined || hotelName == ''){
-
-        return null;
-
-    }
     if(hotelName.length < 3){
 
         filterPickupsByHotelName.value = props.pickups;
@@ -277,42 +273,7 @@ const filterPickupsByHotel = (hotelName) => {
                             </tr>
                         </thead>
                         <tbody class="text-sm divide-y divide-gray-100">
-                            <tr v-if="props.pickups?.length > 0 && filterPickupsByHotelName.length == 0" v-for="(pickup, index) in props.pickups" class="h-12 hover:bg-sky-300">
-                                <!-- <td class="p-4 w-4 hidden">
-                                    <div class="flex items-center">
-                                        <input @click="selectActivity(pickup)" id="checkbox-table-1" type="checkbox" class="w-4 h-4 text-sky-600 bg-gray-100 rounded border-gray-300 focus:ring-sky-500 focus:ring-2">
-                                        <label for="checkbox-table-1" class="sr-only">checkbox</label>
-                                    </div>
-                                </td> -->
-                                <td class="p-2 whitespace-nowrap">
-                                    <div class="flex items-center">
-                                        <div class="font-medium text-gray-800">{{ pickup.hotel }}</div>
-                                    </div>
-                                </td>
-                                <td class="p-2 whitespace-nowrap">
-                                    <div class="flex items-center">
-                                        <div class="font-medium text-gray-800 hover:text-green-500">
-                                            <div class="font-medium text-gray-800">
-                                                <InputText
-                                                    placeholder="00:00"
-                                                    :value="pickup.pickup_time.slice(0,5)"
-                                                    id="PickupTime"
-                                                    name="PickupTime"
-                                                    @blur="requestPickupTimeUpdate(pickup.id, $event.target.value, index)"
-                                                    @keydown.enter="requestPickupTimeUpdate(pickup.id, $event.target.value, index)"
-                                                    />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-
-                                <td class="p-2 whitespace-nowrap">
-                                    <div class="flex items-center">
-                                        <div class="font-medium text-gray-400">...</div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr v-else-if="filterPickupsByHotelName.length > 0" v-for="(pickup, index) in filterPickupsByHotelName" class="h-12 hover:bg-sky-300">
+                            <tr v-if="props.pickups?.length > 0" v-for="(pickup, index) in (filterPickupsByHotelName.length > 0 ? filterPickupsByHotelName : props.pickups)" class="h-12 hover:bg-sky-300">
                                 <!-- <td class="p-4 w-4 hidden">
                                     <div class="flex items-center">
                                         <input @click="selectActivity(pickup)" id="checkbox-table-1" type="checkbox" class="w-4 h-4 text-sky-600 bg-gray-100 rounded border-gray-300 focus:ring-sky-500 focus:ring-2">
@@ -356,7 +317,14 @@ const filterPickupsByHotel = (hotelName) => {
                             </tr>
                         </tbody>
                     </table>
+                </div>
 
+                <div class="text-xs">
+                    <p>
+                        pickups: {{ filterPickupsByHotelName.length > 0 
+                                    ? filterPickupsByHotelName.length
+                                    : props.pickups.length}}
+                    </p>
                 </div>
 
             </div>
