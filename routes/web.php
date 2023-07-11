@@ -5,6 +5,7 @@ use App\Http\Controllers\CouponController;
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Hotels\HotelController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\NDController;
 use App\Http\Controllers\Pickups\PickupController;
@@ -79,6 +80,10 @@ Route::middleware([
     Route::get('hotels/{zone}', [QuoteController::class, 'hotels'])->name('hotels');
 
     Route::get('prices/{activity}/{zone}/{season}', [QuoteController::class, 'price'])->name('prices');
+
+    // Hotels
+
+    Route::post('hotels/json/', [HotelController::class, 'jsonStore'])->name('hotels.json.store');
 
     // Pickups
 

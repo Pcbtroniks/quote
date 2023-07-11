@@ -22,3 +22,13 @@ export const BadFormatPickupTimeError = () => {
         text: 'Solo ingrese valores en formato de hora (HH:MM) ej: 12:00 o 6:30',
     })
 }
+
+export const FeatureNotAvailable = (Message = null) => {
+    Swal.fire({
+        icon: 'warning',
+        title: 'Funcionalidad no disponible aun',
+        text: Message,
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Entiendo'
+    })
+}

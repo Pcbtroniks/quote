@@ -6,10 +6,11 @@ import InputText from '@/Shared/InputText.vue';
 import ModernSwitch from '@/Shared/ModernSwitch.vue';
 import {    getZones, ParsePlayaDelCarmenToCancun, zoneIdToZoneName,
             formatPickupTime, getActivityNameById, validatePickupTime } from '@/Services/Utils.js';
+import CreateHotelForm from '@/Pages/Pickups/Partials/CreateHotelForm.vue';
 
 import { ref } from 'vue';
 
-import { successToast, BadFormatPickupTimeError } from '@/Services/Alerts.js';
+import { successToast, BadFormatPickupTimeError, FeatureNotAvailable } from '@/Services/Alerts.js';
 import Swal from 'sweetalert2';
 
 const props = defineProps({
@@ -50,7 +51,7 @@ const visitActivity = (activity, zone) => {
     const activityID = activity ?? 11;
     const zoneID = zone ?? 1;
 
-    Inertia.visit(route('pickups', { activity: activityID, zone: zoneID}));
+    Inertia.visit(route('pickups.by.zone', { activity: activityID, zone: zoneID}));
 }
 
 
@@ -75,11 +76,7 @@ const selectActivity = (tour) => {
 }
 
 const selectAllActivities = () => {
-
-    selectedActivies.value = {...props.tours};
-
-    console.log(selectedActivies.value);
-
+    return null;
 }
 
 
@@ -159,6 +156,10 @@ const UpdateMultiplePickupsRequestByZone = (data) => {
             <header class="px-5 pt-4 py-4 pb-8 border-b border-gray-100">
 
                 <h1 class="font-bold text-sky-500 text-2xl border-b border-gray-100 pb-4">{{ getActivityNameById(props.params.activity, props.tours) }} <br class="md:hidden"> en {{ zoneIdToZoneName(props.params.zone) }}</h1>
+
+                <div>
+                    <CreateHotelForm :zone="props.params.zone" />
+                </div>
 
 
                 <div class="my-4">

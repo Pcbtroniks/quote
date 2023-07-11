@@ -10,6 +10,11 @@ class Hotel extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'zone_id',
+    ];
+
     public function QuoteActivity(){
 
         return $this->hasMany(QuoteActivity::class,'quote_activity');
