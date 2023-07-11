@@ -51,7 +51,6 @@ const visitActivity = (activity, zone) => {
     Inertia.visit(route('pickups.by.zone', { activity: activityID, zone: zoneID}));
 }
 
-
 // Multiple select
 
 const selectedActivies = ref([]);
@@ -139,6 +138,26 @@ const UpdateMultiplePickupsRequestByZone = (data) => {
     }
     })
 }
+
+// Search
+
+const filterPickupsByHotelName = ref([]);
+
+const filterPickupsByHotel = (hotelName) => {
+
+    if(hotelName == undefined || hotelName == ''){
+
+        return null;
+
+    }
+    if(hotelName.length < 3){
+
+        filterPickupsByHotelName.value = props.pickups;
+
+    }
+
+    filterPickupsByHotelName.value = props.pickups.filter(pickup => pickup.hotel.toLowerCase().includes(hotelName.toLowerCase()));
+}
 </script>
 
 <template>
@@ -167,7 +186,7 @@ const UpdateMultiplePickupsRequestByZone = (data) => {
                                 for="tour"
                                 class="mb-3 block text-base font-medium text-gray-700"
                             >
-                                Cambiar Tour
+                                Tour
                         </label>
                         <select
                             id="tour"
@@ -176,7 +195,7 @@ const UpdateMultiplePickupsRequestByZone = (data) => {
                             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                             >
                             <option value="null" selected disabled>-- Tour --</option>
-                            <option v-if="props.tours" class="capitalize" v-for="tour in props.tours" :value="tour.id">{{ tour.name }}</option>
+                            <option v-if="props.tours" class="capitalize" v-for="tour in props.tours" :value="tour.id" :selected="props.params.activity == tour.id">{{ tour.name }}</option>
                             <option v-else>Tours no disponibles</option>
                         </select>
                     </div>
@@ -188,7 +207,7 @@ const UpdateMultiplePickupsRequestByZone = (data) => {
                             for="zone"
                             class="mb-3 block text-base font-medium text-gray-700"
                         >
-                                Cambiar Zona
+                                Zona
                         </label>
                         <select
                             id="zone"
@@ -197,13 +216,31 @@ const UpdateMultiplePickupsRequestByZone = (data) => {
                             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                             >
                             <option value="null" selected disabled>-- Zona --</option>
-                            <option class="capitalize" v-if="props.tours" v-for="zone in getZones()" :value="zone.id">{{ zone.name }}</option>
+                            <option class="capitalize" v-if="props.tours" v-for="zone in getZones()" :value="zone.id" :selected="props.params.zone == zone.id">{{ zone.name }}</option>
                             <option v-else>Tours no disponibles</option>
                         </select>
                     </div>
 
+                    <div class="h-4 md:hidden"></div>
+
+                    <div class="md:w-2/6">
+                        <label
+                            for="hotelNameFilter"
+                            class="mb-3 block text-base font-medium text-gray-700"
+                        >
+                                Hotel
+                        </label>
+                        <InputText
+                            id="hotelNameFilter"
+                            @input="filterPickupsByHotel($event.target.value)"
+                            placeholder="buscar hotel..."
+                            class="w-full"
+                        />
+                    </div>
+
 
                 </div>
+
             </header>
             
             <div class="p-3">
@@ -240,7 +277,42 @@ const UpdateMultiplePickupsRequestByZone = (data) => {
                             </tr>
                         </thead>
                         <tbody class="text-sm divide-y divide-gray-100">
-                            <tr v-if="props.pickups && props.pickups.length > 0" v-for="(pickup, index) in props.pickups" class="h-12 hover:bg-sky-300">
+                            <tr v-if="props.pickups?.length > 0 && filterPickupsByHotelName.length == 0" v-for="(pickup, index) in props.pickups" class="h-12 hover:bg-sky-300">
+                                <!-- <td class="p-4 w-4 hidden">
+                                    <div class="flex items-center">
+                                        <input @click="selectActivity(pickup)" id="checkbox-table-1" type="checkbox" class="w-4 h-4 text-sky-600 bg-gray-100 rounded border-gray-300 focus:ring-sky-500 focus:ring-2">
+                                        <label for="checkbox-table-1" class="sr-only">checkbox</label>
+                                    </div>
+                                </td> -->
+                                <td class="p-2 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="font-medium text-gray-800">{{ pickup.hotel }}</div>
+                                    </div>
+                                </td>
+                                <td class="p-2 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="font-medium text-gray-800 hover:text-green-500">
+                                            <div class="font-medium text-gray-800">
+                                                <InputText
+                                                    placeholder="00:00"
+                                                    :value="pickup.pickup_time.slice(0,5)"
+                                                    id="PickupTime"
+                                                    name="PickupTime"
+                                                    @blur="requestPickupTimeUpdate(pickup.id, $event.target.value, index)"
+                                                    @keydown.enter="requestPickupTimeUpdate(pickup.id, $event.target.value, index)"
+                                                    />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td class="p-2 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="font-medium text-gray-400">...</div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr v-else-if="filterPickupsByHotelName.length > 0" v-for="(pickup, index) in filterPickupsByHotelName" class="h-12 hover:bg-sky-300">
                                 <!-- <td class="p-4 w-4 hidden">
                                     <div class="flex items-center">
                                         <input @click="selectActivity(pickup)" id="checkbox-table-1" type="checkbox" class="w-4 h-4 text-sky-600 bg-gray-100 rounded border-gray-300 focus:ring-sky-500 focus:ring-2">
