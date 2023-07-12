@@ -6,6 +6,11 @@ use Illuminate\Support\Facades\DB;
 
 class PostPickup
 {
+    public function storePickup($pickup)
+    {
+        return DB::table('pickups')->insertGetId($pickup);
+    }
+
     public function updatePickup($pickup, $pickup_time)
     {
         return DB::table('pickups')

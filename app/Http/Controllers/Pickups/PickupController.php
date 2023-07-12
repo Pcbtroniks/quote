@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Pickups;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Pickcups\StorePickupRequest;
 use App\Models\Activity as ActivityModel;
 use App\Models\Hotel as HotelModel;
 use App\Models\Zone;
@@ -10,6 +11,7 @@ use App\Repositories\Activities\Activity;
 use App\Repositories\Pickups\GetPickups;
 use App\Repositories\Pickups\PostPickup;
 use App\Repositories\Zones\Hotel;
+use Illuminate\Support\Facades\Request;
 
 class PickupController extends Controller
 {
@@ -34,6 +36,13 @@ class PickupController extends Controller
             'params' => [
                 'hotel' => $hotel,
             ]
+        ]);
+    }
+
+    public function create(Request $pickupRequest, PostPickup $PostPickup)
+    {
+        return inertia('Pickups/Create', [
+            'params' => request()->all(),
         ]);
     }
 

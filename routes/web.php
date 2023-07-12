@@ -87,6 +87,7 @@ Route::middleware([
 
     // Pickups
 
+    Route::get('pickups/create', [PickupController::class, 'create'])->name('pickups.create');
     Route::get('pickups/byhotel/{hotel?}', [PickupController::class, 'byHotel'])->name('pickups.by.hotel');
     Route::get('pickups/byzone/{zone?}/{activity?}', [PickupController::class, 'byZone'])->name('pickups.by.zone');
     Route::get('pickups/{zone}/{activity}', [PickupController::class, 'index'])->name('pickups');
