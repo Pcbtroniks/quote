@@ -91,6 +91,7 @@ Route::middleware([
     Route::get('pickups/byhotel/{hotel?}', [PickupController::class, 'byHotel'])->name('pickups.by.hotel');
     Route::get('pickups/byzone/{zone?}/{activity?}', [PickupController::class, 'byZone'])->name('pickups.by.zone');
     Route::get('pickups/{zone}/{activity}', [PickupController::class, 'index'])->name('pickups');
+    Route::post('pickups/store', [PickupController::class, 'store'])->name('pickups.store');
     Route::post('pickups/{pickup}', [PickupController::class, 'update'])->name('pickups.update');
     Route::post('pickups/update-multiple/{pickup}', [PickupController::class, 'updateMultiple'])->name('pickups.update.multiple');
 

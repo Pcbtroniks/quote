@@ -6,7 +6,7 @@ import ModernSwitch from '@/Shared/ModernSwitch.vue';
 import {    getZones, zoneIdToZoneName,
             formatPickupTime, getActivityNameById, validatePickupTime } from '@/Services/Utils.js';
 import CreateHotelForm from '@/Pages/Pickups/Partials/CreateHotelForm.vue';
-import CreatePickupByZoneForm from './CreatePickupByZoneForm.vue';
+// import CreatePickupByZoneForm from './CreatePickupByZoneForm.vue';
 import { ref } from 'vue';
 import { successToast, BadFormatPickupTimeError } from '@/Services/Alerts.js';
 import Swal from 'sweetalert2';

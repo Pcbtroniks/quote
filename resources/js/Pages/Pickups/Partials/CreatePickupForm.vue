@@ -1,6 +1,7 @@
 <script setup>
 import axios from 'axios';
 import InputText from '@/Shared/InputText.vue';
+import Button from '@/Components/Button.vue';
 import {    getZones, zoneIdToZoneName, zoneToALias,
             formatPickupTime, getActivityNameById, validatePickupTime } from '@/Services/Utils.js';
 import { ref } from 'vue';
@@ -10,11 +11,14 @@ import { loadHotels } from '@/Services/Providers.js';
 
 const props = defineProps({
     params: Object,
+    tours: Array,
 })
 
-const HotelList = ref([]);
+const HotelList = ref({});
 const LoadedHotelList = ref([]);
+const LoadedHotelListFiltered = ref([]);
 const showHotelList = ref(false);
+
 
 const storePickupForm = useForm({
     zone: null,
@@ -23,44 +27,75 @@ const storePickupForm = useForm({
     pickup_time: null,
 })
 
+const submitPickupForm = async () => {
+    try {
+        storePickupForm.pickup_time = formatPickupTime(storePickupForm.pickup_time);
+        validatePickupTime(storePickupForm.pickup_time);
+        
+        form.submit(route('pickups.store'), {
+            preserveScroll: true,
+            onSuccess: (result) => {
+                console.log(result);
+                successToast('Pickup creado exitosamente');
+            },
+            onerror: (error) => {
+                console.log(error); 
+                alert(error);
+            },
+        });
+        successToast('Pickup creado exitosamente');
+        storePickupForm.reset();
+    } catch (error) {
+        if(error) {
+            console.log(error);
+            return ;
+        }
+        BadFormatPickupTimeError();
+    }
+}
+
 const hotelDisplay = ref({
     name: null,
 })
 
 const setHotel = (hotel) => {
+    if(hotel == null && hotel.id == storePickupForm.hotel) {
+        showHotelList.value = false;
+        return;
+    }
     storePickupForm.hotel = hotel.id;
     hotelDisplay.value.name = hotel.name;
     showHotelList.value = false;
-    console.log(storePickupForm.hotel);
 }
 
-const requestPickupTimeUpdate = async(pickupID, PickupTime, index) => {
+const filterHotelList = (search = '') => {
+    const emptyHotel = [{id: null, name: 'No se encontraron hoteles'}];
 
-    try {
+    if(search.length == 0) {
+        LoadedHotelListFiltered.value = LoadedHotelList.value;
+        return;
+    }
 
-        const pickup_time = formatPickupTime(PickupTime);
-        const response = await axios.post(route('pickups.update', pickupID), {
-            pickup_time: pickup_time
-        })
-        props.pickups[index].pickup_time = pickup_time;
-        await successToast().fire({
-            icon: 'success',
-            title: 'Hora de pickup actualizada'
-        });
-
-    } catch (error) {
-
-        console.log(error);
-        BadFormatPickupTimeError();
-    
+    if(search.length < 3) {
+        return;
+    }
+    const hotelList = LoadedHotelList.value.filter(hotel => hotel.name.toLowerCase().includes(search.toLowerCase()));
+    if(hotelList.length == 0) {
+        LoadedHotelListFiltered.value = emptyHotel;
+    } else{
+        LoadedHotelListFiltered.value = hotelList;
     }
 }
+
+const hideHotelListWithDelay = () => {setTimeout(() => { showHotelList.value = false; }, 100);}
 
 const getHotelsByZone = async (HotelZoneID) => {
     HotelList.value = await loadHotels(HotelZoneID, HotelList.value);
     LoadedHotelList.value.pop();
-    LoadedHotelList.value = HotelList.value[(zoneToALias(HotelZoneID))];
+    LoadedHotelList.value = HotelList.value[zoneToALias(HotelZoneID)];
+    LoadedHotelListFiltered.value = [...LoadedHotelList.value];
     showHotelList.value = true;
+    hotelDisplay.value.name = '';
 
 }
 </script>
@@ -76,8 +111,8 @@ const getHotelsByZone = async (HotelZoneID) => {
                 <h1 class="font-bold text-sky-500 text-2xl border-b border-gray-100 pb-4"> <br class="md:hidden">Creando un pickup</h1>
 
                 <!-- Inputs -->
+            <form @submit.prevent="submitPickupForm">
                 <div class="md:mt-8 md:flex md:gap-3 md:items-center">
-
                     <div class="md:w-1/6">
                         <label
                             for="zone"
@@ -114,12 +149,13 @@ const getHotelsByZone = async (HotelZoneID) => {
                             class="w-full"
                             :value="hotelDisplay.name"
                             @focus="showHotelList = true"
-                            @blur="showHotelList = false"
+                            @blur="hideHotelListWithDelay()"
+                            @input="filterHotelList($event.target.value)"
                         />
                         <input type="hidden" name="hotel" v-model="storePickupForm.hotel">
                         <div v-show="showHotelList && LoadedHotelList.length > 0" class="relative">
-                            <ul class="w-full flex flex-col gap-2 absolute bg-white border shadow-md h-80 overflow-auto">
-                                <li v-for="hotel in LoadedHotelList[0]" class="hover:bg-sky-500 hover:text-white p-4 cursor-pointer" @click="setHotel(hotel)">{{ hotel.name }}</li>
+                            <ul class="w-full flex flex-col gap-2 absolute bg-white border shadow-md max-h-80 overflow-auto">
+                                <li v-for="hotel in LoadedHotelListFiltered" class="hover:bg-sky-500 hover:text-white p-4 cursor-pointer" @click="setHotel(hotel)">{{ hotel.name }}</li>
                             </ul>
                         </div>
 
@@ -159,12 +195,18 @@ const getHotelsByZone = async (HotelZoneID) => {
                             id="tourPickupTime"
                             placeholder="hh:mm..."
                             class="w-full"
+                            v-model="storePickupForm.pickup_time"
                         />
                     </div>
 
 
                 </div>
-
+                <div class="mt-4">
+                    <button type="submit">
+                        <Button msg="Guardar" :isLoading="storePickupForm.processing"/>
+                    </button>
+                </div>
+            </form>
             </header>
             
         </div>

@@ -39,10 +39,23 @@ class PickupController extends Controller
         ]);
     }
 
-    public function create(Request $pickupRequest, PostPickup $PostPickup)
+    public function create(PostPickup $PostPickup)
     {
         return inertia('Pickups/Create', [
             'params' => request()->all(),
+            'tours' => Activity::getTours(),
+        ]);
+    }
+
+    public function store(StorePickupRequest $pickupRequest, PostPickup $PostPickup)
+    {
+        return response()->json([
+            'message' => 'success',
+            'data' => $pickupRequest->validated()
+        ]);
+        $PostPickup->storePickup($pickupRequest->validated());
+        return response()->json([
+            'message' => 'success'
         ]);
     }
 

@@ -4,8 +4,8 @@ import CreatePickupByZoneForm from './Partials/CreatePickupForm.vue';
 
 const props = defineProps({
     params: Object,
+    tours: Array,
 })
-
 </script>
 
 <template>
@@ -21,6 +21,7 @@ const props = defineProps({
                 <div class="bg-white shadow-xl sm:rounded-lg">
                     <CreatePickupByZoneForm
                         :params="props.params"
+                        :tours="props.tours"
                     />
                 </div>
             </div>
