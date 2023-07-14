@@ -1,7 +1,7 @@
 <script setup>
 
 import Button from "@/Components/Button.vue";
-import { zoneIdToZoneName } from "@/Services/Utils.js";
+import { zoneIdToZoneName, ReloadPage } from "@/Services/Utils.js";
 import axios from "axios";
 
 const props = defineProps({
@@ -52,6 +52,7 @@ const CreateHotelRequest = () => {
                 title: `El hotel "${result.value.data.name}" se agrego exitosamente.`,
                 })
             }
+            ReloadPage(null);
             return console.log(result);
         })
 }

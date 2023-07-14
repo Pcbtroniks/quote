@@ -5,11 +5,11 @@ import InputText from '@/Shared/InputText.vue';
 import ModernSwitch from '@/Shared/ModernSwitch.vue';
 import {    getZones, zoneIdToZoneName,
             formatPickupTime, getActivityNameById, validatePickupTime } from '@/Services/Utils.js';
-import CreateHotelForm from '@/Pages/Pickups/Partials/CreateHotelForm.vue';
 // import CreatePickupByZoneForm from './CreatePickupByZoneForm.vue';
 import { ref } from 'vue';
 import { successToast, BadFormatPickupTimeError } from '@/Services/Alerts.js';
 import Swal from 'sweetalert2';
+import { Link } from '@inertiajs/inertia-vue3';
 
 const props = defineProps({
     pickups: Object,
@@ -167,7 +167,11 @@ const filterPickupsByHotel = (hotelName) => {
                 <h1 class="font-bold text-sky-500 text-2xl border-b border-gray-100 pb-4">{{ getActivityNameById(props.params.activity, props.tours) }} <br class="md:hidden"> en {{ zoneIdToZoneName(props.params.zone) }}</h1>
 
                 <div>
-                    <CreateHotelForm :zone="props.params.zone" />
+                    <Link :href="route('pickups.create')">
+                        <button class="bg-sky-500 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded-sm mt-4">
+                            Crear pickup
+                        </button>
+                    </Link>
                 </div>
 
 

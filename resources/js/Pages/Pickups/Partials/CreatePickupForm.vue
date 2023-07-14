@@ -1,19 +1,19 @@
 <script setup>
-import axios from 'axios';
 import InputText from '@/Shared/InputText.vue';
 import Button from '@/Components/Button.vue';
-import {    getZones, zoneIdToZoneName, zoneToALias,
-            formatPickupTime, getActivityNameById, validatePickupTime } from '@/Services/Utils.js';
+import {    getZones, zoneToALias, formatPickupTime, validatePickupTime, ReloadPage } from '@/Services/Utils.js';
 import { ref } from 'vue';
 import { SuccessAlert, BadFormatPickupTimeError } from '@/Services/Alerts.js';
 import { useForm } from '@inertiajs/inertia-vue3';
 import { loadHotels } from '@/Services/Providers.js';
+import CreateHotelForm from '@/Pages/Pickups/Partials/CreateHotelForm.vue';
 
 const props = defineProps({
     params: Object,
     tours: Array,
 })
 
+// Hotel List autocomplete
 const HotelList = ref({});
 const LoadedHotelList = ref([]);
 const LoadedHotelListFiltered = ref([]);
@@ -26,32 +26,6 @@ const storePickupForm = useForm({
     activity: null,
     pickup_time: null,
 })
-
-const submitPickupForm = async () => {
-    
-    if(!validatePickupTime(storePickupForm.pickup_time)) return BadFormatPickupTimeError();
-    
-    return SuccessAlert('¡Pickup creado!');
-
-        storePickupForm.pickup_time = formatPickupTime(storePickupForm.pickup_time);
-
-        storePickupForm.post(route('pickups.store'), {
-            preserveScroll: true,
-            onSuccess: (result) => {
-                console.log(result);
-                successToast('Pickup creado exitosamente');
-            },
-            onerror: (error) => {
-                console.log(error); 
-                alert(error);
-            },
-            onFinish: () => {
-                storePickupForm.reset();
-                console.log('finish');
-            }
-        });
-
-}
 
 const hotelDisplay = ref({
     name: null,
@@ -97,6 +71,30 @@ const getHotelsByZone = async (HotelZoneID) => {
     hotelDisplay.value.name = '';
 
 }
+
+const submitPickupForm = async () => {
+    
+    if(!validatePickupTime(storePickupForm.pickup_time)) return BadFormatPickupTimeError();
+
+    storePickupForm.pickup_time = formatPickupTime(storePickupForm.pickup_time);
+
+    storePickupForm.post(route('pickups.store'), {
+        preserveScroll: true,
+        onSuccess: (result) => {
+            console.log(result);
+            SuccessAlert('Pickup creado exitosamente');
+            ReloadPage();
+        },
+        onerror: (error) => {
+            console.log(error); 
+            alert(error);
+        },
+        onFinish: () => {
+            storePickupForm.reset();
+        }
+    });
+
+}
 </script>
 
 <template>
@@ -108,6 +106,10 @@ const getHotelsByZone = async (HotelZoneID) => {
             <header class="px-5 pt-4 py-4 pb-8 border-b border-gray-100">
 
                 <h1 class="font-bold text-sky-500 text-2xl border-b border-gray-100 pb-4"> <br class="md:hidden">Creando un pickup</h1>
+
+                <div :class="{ 'hidden' :!storePickupForm.zone }">
+                    <CreateHotelForm :zone="storePickupForm.zone"/>
+                </div>
 
                 <!-- Inputs -->
             <form @submit.prevent="submitPickupForm" autocomplete="off">
