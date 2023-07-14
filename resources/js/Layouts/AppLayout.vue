@@ -61,6 +61,10 @@ const logout = () => {
                                 <NavLink :href="route('activities')" :active="route().current('activities')">
                                     Ver Costos
                                 </NavLink>
+
+                                <NavLink :href="route('pickups.by.zone')" :active="route().current('pickups.*')">
+                                    Pickups
+                                </NavLink>
                             </div>
                         </div>
 

@@ -18,8 +18,8 @@ trait Freetravelable {
  
      public function isFreetravelerAdmin()
      {
-         $freetravelerTeam = Team::where('name', 'Freetravelers')->first();
-         return $freetravelerTeam->hasUser($this);
+        $team = Team::where('name', 'Freetravelers')->first();
+        return $this->belongsToTeam($team) && $this->hasTeamRole($team, 'admin');
      }
 
 }
