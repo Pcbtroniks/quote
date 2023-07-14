@@ -15,6 +15,10 @@ use Illuminate\Support\Facades\Request;
 
 class PickupController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('check.freetraveler.admin');
+    }
     public function index(GetPickups $getPickups, $zone, $activity)
     {
         return inertia('Pickups/Index', [
