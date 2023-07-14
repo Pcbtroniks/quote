@@ -49,13 +49,9 @@ class PickupController extends Controller
 
     public function store(StorePickupRequest $pickupRequest, PostPickup $PostPickup)
     {
-        return response()->json([
-            'message' => 'success',
-            'data' => $pickupRequest->validated()
-        ]);
-        $PostPickup->storePickup($pickupRequest->validated());
-        return response()->json([
-            'message' => 'success'
+        return redirect()->back()->with([
+            'success' => true,
+            'data' => $PostPickup->storePickup($pickupRequest->validated())
         ]);
     }
 

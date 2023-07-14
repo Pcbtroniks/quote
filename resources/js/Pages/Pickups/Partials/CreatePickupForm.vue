@@ -5,7 +5,7 @@ import Button from '@/Components/Button.vue';
 import {    getZones, zoneIdToZoneName, zoneToALias,
             formatPickupTime, getActivityNameById, validatePickupTime } from '@/Services/Utils.js';
 import { ref } from 'vue';
-import { successToast, BadFormatPickupTimeError } from '@/Services/Alerts.js';
+import { SuccessAlert, BadFormatPickupTimeError } from '@/Services/Alerts.js';
 import { useForm } from '@inertiajs/inertia-vue3';
 import { loadHotels } from '@/Services/Providers.js';
 
@@ -28,11 +28,14 @@ const storePickupForm = useForm({
 })
 
 const submitPickupForm = async () => {
-    try {
+    
+    if(!validatePickupTime(storePickupForm.pickup_time)) return BadFormatPickupTimeError();
+    
+    return SuccessAlert('¡Pickup creado!');
+
         storePickupForm.pickup_time = formatPickupTime(storePickupForm.pickup_time);
-        validatePickupTime(storePickupForm.pickup_time);
-        
-        form.submit(route('pickups.store'), {
+
+        storePickupForm.post(route('pickups.store'), {
             preserveScroll: true,
             onSuccess: (result) => {
                 console.log(result);
@@ -42,16 +45,12 @@ const submitPickupForm = async () => {
                 console.log(error); 
                 alert(error);
             },
+            onFinish: () => {
+                storePickupForm.reset();
+                console.log('finish');
+            }
         });
-        successToast('Pickup creado exitosamente');
-        storePickupForm.reset();
-    } catch (error) {
-        if(error) {
-            console.log(error);
-            return ;
-        }
-        BadFormatPickupTimeError();
-    }
+
 }
 
 const hotelDisplay = ref({
@@ -111,7 +110,7 @@ const getHotelsByZone = async (HotelZoneID) => {
                 <h1 class="font-bold text-sky-500 text-2xl border-b border-gray-100 pb-4"> <br class="md:hidden">Creando un pickup</h1>
 
                 <!-- Inputs -->
-            <form @submit.prevent="submitPickupForm">
+            <form @submit.prevent="submitPickupForm" autocomplete="off">
                 <div class="md:mt-8 md:flex md:gap-3 md:items-center">
                     <div class="md:w-1/6">
                         <label
@@ -144,6 +143,7 @@ const getHotelsByZone = async (HotelZoneID) => {
                         </label>
 
                         <InputText
+                            autcomplete="off"
                             id="hotelName"
                             placeholder="Nombre del hotel..."
                             class="w-full"
@@ -172,7 +172,7 @@ const getHotelsByZone = async (HotelZoneID) => {
                         </label>
                         <select
                             id="tour"
-                            @change="() => {}"
+                            v-model="storePickupForm.activity"
                             name="tour"
                             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                             >

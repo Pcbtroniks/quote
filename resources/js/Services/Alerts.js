@@ -1,5 +1,24 @@
 import Swal from 'sweetalert2';
 
+export const SuccessAlert = (Title = null,Text = null) => {
+    Swal.fire({
+        icon: 'success',
+        title: Title ?? 'Operación exitosa',
+        text: Text,
+        confirmButtonColor: '#0EA5E9',
+        confirmButtonText: 'Entendido'
+    });
+}
+
+export const ErrorAlert = (Title = null,Text = null) => {
+    Swal.fire({
+        icon: 'error',
+        title: Title ?? 'Error',
+        text: Text,
+        confirmButtonColor: '#0EA5E9',
+        confirmButtonText: 'Entendido'
+    });
+}
 
 export const successToast = () => {
     return Swal.mixin({
@@ -17,7 +36,7 @@ export const successToast = () => {
 
 export const BadFormatPickupTimeError = () => {
     Swal.fire({
-        icon: 'error',
+        icon: 'warning',
         title: 'Error al actualizar la hora de pickup',
         text: 'Solo ingrese valores en formato de hora (HH:MM) ej: 12:00 o 6:30',
     })

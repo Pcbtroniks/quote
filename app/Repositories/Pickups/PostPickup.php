@@ -8,7 +8,14 @@ class PostPickup
 {
     public function storePickup($pickup)
     {
-        return DB::table('pickups')->insertGetId($pickup);
+        return DB::table('pickups')->insertGetId([
+            'activity_id' => $pickup['activity'],
+            'zone_id' => $pickup['zone'],
+            'hotel_id' => $pickup['hotel'],
+            'pickup_time' => $pickup['pickup_time'],
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 
     public function updatePickup($pickup, $pickup_time)
