@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Activity as ActivityModel;
 use App\Repositories\Activities\Activity;
+use App\Repositories\Activities\PostActivity;
 use Illuminate\Http\Request;
 
 class ActivitiesController extends Controller
@@ -18,6 +20,25 @@ class ActivitiesController extends Controller
                 'page' => request()->page ?? $activity->getDefaulFilters('page'),
             ]
         ]); 
+    }
+
+    public function create(ActivityModel $activity)
+    {
+        return inertia('Activities/Create',[
+            'activity' => $activity,
+        ]);
+    }
+
+    public function store(PostActivity $postActivity)
+    {
+        $activityData = request()->validate([
+            'activity_type' => 'required',
+            'activity_name' => 'required',
+        ]);
+
+        $postActivity->storeActiviy($activityData);
+
+        return redirect()->back()->with('message','Activity created successfully');
     }
 
     public function update(Activity $activity, $id)

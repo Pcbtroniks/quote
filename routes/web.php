@@ -71,6 +71,10 @@ Route::middleware([
 
     Route::get('/activities', [ActivitiesController::class, 'index'])->name('activities');
 
+    Route::get('/activities/create/{activity?}', [ActivitiesController::class, 'create'])->name('activities.create');
+
+    Route::post('/activities/create', [ActivitiesController::class, 'store'])->name('activities.store');
+
     Route::post('/activities/{id}', [ActivitiesController::class, 'update'])->name('activities.update');
 
     Route::get('parks', [QuoteController::class, 'parks'])->name('parks');

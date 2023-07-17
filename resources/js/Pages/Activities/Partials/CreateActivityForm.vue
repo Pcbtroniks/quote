@@ -1,0 +1,106 @@
+<script setup>
+import { useForm } from '@inertiajs/inertia-vue3';
+import ActionMessage from '@/Components/ActionMessage.vue';
+import FormSection from '@/Components/FormSection.vue';
+import InputError from '@/Components/InputError.vue';
+import InputLabel from '@/Components/InputLabel.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+import TextInput from '@/Components/TextInput.vue';
+import InputRadio from '@/Shared/InputRadio.vue';
+import { ErrorAlert } from '@/Services/Alerts.js';
+
+const props = defineProps({
+    activity: Object,
+});
+
+const form = useForm({
+    activity_type: props.activity.type ?? '',
+    activity_name: props.activity.name ?? '',
+});
+
+const updatePassword = () => {
+    return console.log(form);
+    form.post(route('activities.store'), {
+        preserveScroll: true,
+        onSuccess: () => form.reset(),
+        onError: () => {
+            ErrorAlert('Error al crear la actividad	', 'Verifique los datos ingresados');
+        },
+    });
+};
+
+</script>
+
+<template>
+    <FormSection @submitted="updatePassword">
+        <template #title>
+            Elegir el tipo de actividad
+        </template>
+
+        <template #description>
+            Comience elgiendo el tipo de actividad, uan Entrada al parque o Tour.
+        </template>
+
+        <template #form>
+            <div class="col-span-6 sm:col-span-4">
+
+                <InputLabel for="activity_type" value="Tipo de actividad" />
+                <div class="flex gap-4">
+                    <div class="flex items-center pl-4">
+                        <InputRadio 
+                        label="Entrada"
+                            name="activity_type"
+                            v-model="form.activity_type"
+                            value="park"
+                            id="activity_type_entry"
+                        />
+                    </div>
+                    <div class="flex items-center pl-4">
+                        <InputRadio 
+                        label="Tour"
+                            name="activity_type"
+                            v-model="form.activity_type"
+                            value="tour"
+                            id="activity_type_tour"
+                        />
+                    </div>
+                </div>
+                
+                <InputError :message="form.errors.activity_type" class="mt-2" />
+            </div>
+            <div class="col-span-6 sm:col-span-4">
+                <InputLabel for="activity_name" value="Nombre de la actividad" />
+                <TextInput
+                    id="activity_name"
+                    v-model="form.activity_name"
+                    type="text"
+                    class="mt-1 block w-full"
+                />
+                <InputError :message="form.errors.activity_name" class="mt-2" />
+            </div>
+
+            <div class="col-span-6 sm:col-span-4 hidden">
+                <InputLabel for="password" value="New Password" />
+                <TextInput
+                    id="password"
+                    ref="passwordInput"
+                    type="password"
+                    class="mt-1 block w-full"
+                    autocomplete="new-password"
+                />
+                <InputError :message="form.errors.password" class="mt-2" />
+            </div>
+
+        </template>
+
+        <template #actions>
+            <ActionMessage :on="form.recentlySuccessful" class="mr-3">
+                Actividad guardada.
+            </ActionMessage>
+
+            <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                Guardar
+            </PrimaryButton>
+        </template>
+    </FormSection>
+</template>
