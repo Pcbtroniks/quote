@@ -38,6 +38,9 @@ class Activity {
                 : $defaults;
     }
 
+    /**
+     * Used for update activity from costs page 
+     * */ 
     public function updateActivity(Request $request, int $id)
     {
         $activity =  ActivityModel::find($id);

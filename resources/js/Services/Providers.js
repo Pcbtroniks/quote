@@ -1,4 +1,4 @@
-// Fetch Data
+// Fetch Hotel Data
 
 const HttpGet = async (URL, Options = null, callback)  => {
     try {        

@@ -9,13 +9,14 @@ use App\Http\Controllers\Hotels\HotelController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\NDController;
 use App\Http\Controllers\Pickups\PickupController;
+use App\Http\Controllers\Prices\PricesController;
 use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\Qr\QRController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\QuoterController;
 use App\Http\Controllers\Team\CurrentTeamController;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 // DB::listen(function($query){
 //     Imprimir la consulta ejecutada
 //     echo "<pre> {$query->sql } </pre> <br>";
@@ -71,8 +72,6 @@ Route::middleware([
 
     Route::get('/activities', [ActivitiesController::class, 'index'])->name('activities');
 
-    Route::get('/activities/create/{activity?}', [ActivitiesController::class, 'create'])->name('activities.create');
-
     Route::post('/activities/create', [ActivitiesController::class, 'store'])->name('activities.store');
 
     Route::post('/activities/{id}', [ActivitiesController::class, 'update'])->name('activities.update');
@@ -84,6 +83,15 @@ Route::middleware([
     Route::get('hotels/{zone}', [QuoteController::class, 'hotels'])->name('hotels');
 
     Route::get('prices/{activity}/{zone}/{season}', [QuoteController::class, 'price'])->name('prices');
+
+    // From Create activity page Prices
+    Route::get('/activity/create/{activity?}', [ActivitiesController::class, 'create'])->name('activity.create');
+
+    Route::post('activity/store', [ActivitiesController::class, 'store'])->name('activity.store');
+
+    Route::post('activity/update', [ActivitiesController::class, 'onlyActivityUpdate'])->name('activity.update');
+
+    Route::post('activity/price/upsert', [PricesController::class, 'upsert'])->name('activity.price.upsert');
 
     // Hotels
 

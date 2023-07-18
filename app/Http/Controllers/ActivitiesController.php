@@ -36,9 +36,22 @@ class ActivitiesController extends Controller
             'activity_name' => 'required',
         ]);
 
-        $postActivity->storeActiviy($activityData);
+        $activityID = $postActivity->storeActiviy($activityData);
 
-        return redirect()->back()->with('message','Activity created successfully');
+        return redirect()->route('activity.create', ['activity' => $activityID])->with('message','Activity created successfully');
+    }
+
+    public function onlyActivityUpdate(PostActivity $postActivity)
+    {
+        $activityData = request()->validate([
+            'activity_id' => 'required',
+            'activity_type' => 'required',
+            'activity_name' => 'required',
+        ]);
+
+        $postActivity->updateOnlyActivity($activityData);
+
+        return redirect()->back()->with('success','Activity updated successfully');
     }
 
     public function update(Activity $activity, $id)

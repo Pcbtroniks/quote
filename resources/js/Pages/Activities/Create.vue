@@ -2,7 +2,6 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import DeleteUserForm from '@/Pages/Profile/Partials/DeleteUserForm.vue';
 import SectionBorder from '@/Components/SectionBorder.vue';
-import TwoFactorAuthenticationForm from '@/Pages/Profile/Partials/TwoFactorAuthenticationForm.vue';
 import CreateActivityForm from '@/Pages/Activities/Partials/CreateActivityForm.vue';
 import AddPricesForm from './Partials/AddPricesForm.vue';
 
@@ -16,7 +15,7 @@ console.log(props.activity);
     <AppLayout title="Profile">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Crear Actividad
+                Actividad
             </h2>
         </template>
 

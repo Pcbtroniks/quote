@@ -1,7 +1,5 @@
 //Zones
 
-import { Inertia } from "@inertiajs/inertia";
-
 export const zoneToALias = (ZoneID) => {
 
     const zones = {
@@ -11,6 +9,27 @@ export const zoneToALias = (ZoneID) => {
     }
 
     return zones[ZoneID] ?? zones[1];
+}
+export const zoneToAlias = (ZoneID) => {
+
+    const zones = {
+        1:'cancun',
+        2:'rm',
+        3:'pdc',
+    }
+
+    return zones[ZoneID] ?? zones[1];
+}
+
+export const aliasToZone = (alias) => {
+
+    const zones = {
+        cancun: 1,
+        rm: 2,
+        pdc: 3,
+    }
+
+    return zones[alias] ?? zones['cancun'];
 }
 
 export const getZones = (ZoneID) => {

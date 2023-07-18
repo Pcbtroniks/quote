@@ -20,6 +20,22 @@ export const ErrorAlert = (Title = null,Text = null) => {
     });
 }
 
+export const ConfirmAlert = (Title = null,Text = null, callback = null) => {
+    return Swal.fire({
+        icon: 'warning',
+        title: Title ?? '¿Estás seguro?',
+        text: Text,
+        showCancelButton: true,
+        confirmButtonColor: '#0EA5E9',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, estoy seguro',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        console.log(result);
+        if(callback) callback(result);
+    });
+}
+
 export const successToast = () => {
     return Swal.mixin({
         toast: true,

@@ -8,21 +8,27 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import InputRadio from '@/Shared/InputRadio.vue';
 import { ErrorAlert } from '@/Services/Alerts.js';
+import { SuccessAlert } from '@/Services/Alerts';
 
 const props = defineProps({
     activity: Object,
 });
 
 const form = useForm({
+    activity_id: props.activity.id ?? '',
     activity_type: props.activity.type ?? '',
     activity_name: props.activity.name ?? '',
 });
 
 const updatePassword = () => {
-    return console.log(form);
-    form.post(route('activities.store'), {
+    const useRoute = form.activity_id
+                    ? route('activity.update', {activity_id: form.activity_id})
+                    : route('activity.store');
+    form.post( useRoute, {
         preserveScroll: true,
-        onSuccess: () => form.reset(),
+        onSuccess: () => {
+            SuccessAlert('Operación exitosa', 'La actividad se ha guardado correctamente');
+        },
         onError: () => {
             ErrorAlert('Error al crear la actividad	', 'Verifique los datos ingresados');
         },
@@ -34,11 +40,11 @@ const updatePassword = () => {
 <template>
     <FormSection @submitted="updatePassword">
         <template #title>
-            Elegir el tipo de actividad
+            Información de la actividad	
         </template>
 
         <template #description>
-            Comience elgiendo el tipo de actividad, uan Entrada al parque o Tour.
+            Seleccione un nombre y el tipo de actividad, puede ser una Entrada al parque o Tour.
         </template>
 
         <template #form>
@@ -77,18 +83,6 @@ const updatePassword = () => {
                     class="mt-1 block w-full"
                 />
                 <InputError :message="form.errors.activity_name" class="mt-2" />
-            </div>
-
-            <div class="col-span-6 sm:col-span-4 hidden">
-                <InputLabel for="password" value="New Password" />
-                <TextInput
-                    id="password"
-                    ref="passwordInput"
-                    type="password"
-                    class="mt-1 block w-full"
-                    autocomplete="new-password"
-                />
-                <InputError :message="form.errors.password" class="mt-2" />
             </div>
 
         </template>
