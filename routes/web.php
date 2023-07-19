@@ -93,6 +93,8 @@ Route::middleware([
 
     Route::post('activity/price/upsert', [PricesController::class, 'upsert'])->name('activity.price.upsert');
 
+    Route::post('activity/costs/upsert', [PricesController::class, 'upsertCosts'])->name('activity.costs.upsert');
+
     // Hotels
 
     Route::post('hotels/json/', [HotelController::class, 'jsonStore'])->name('hotels.json.store');

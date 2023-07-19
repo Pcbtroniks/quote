@@ -4,6 +4,7 @@ import DeleteUserForm from '@/Pages/Profile/Partials/DeleteUserForm.vue';
 import SectionBorder from '@/Components/SectionBorder.vue';
 import CreateActivityForm from '@/Pages/Activities/Partials/CreateActivityForm.vue';
 import AddPricesForm from './Partials/AddPricesForm.vue';
+import AddCostsForm from './Partials/AddCostsForm.vue';
 
 const props = defineProps({
     activity: Object,
@@ -30,6 +31,15 @@ console.log(props.activity);
 
                 <div v-if="props.activity.id">
                     <AddPricesForm 
+                        :activity="props.activity" 
+                        class="mt-10 sm:mt-0"
+                    />
+
+                    <SectionBorder />
+                </div>
+
+                <div v-if="props.activity.id">
+                    <AddCostsForm 
                         :activity="props.activity" 
                         class="mt-10 sm:mt-0"
                     />
