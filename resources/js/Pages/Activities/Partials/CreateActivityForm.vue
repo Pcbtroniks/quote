@@ -44,7 +44,7 @@ const updatePassword = () => {
         </template>
 
         <template #description>
-            Seleccione un nombre y el tipo de actividad, puede ser una Entrada al parque o Tour.
+            Seleccione un nombre y el tipo de actividad, puede ser una Entrada al parque o Tour. o visite la sección de <a :href="route('activity.search')" class="text-blue-500">Busqueda</a>
         </template>
 
         <template #form>
@@ -77,6 +77,8 @@ const updatePassword = () => {
             <div class="col-span-6 sm:col-span-4">
                 <InputLabel for="activity_name" value="Nombre de la actividad" />
                 <TextInput
+                    aria-autocomplete="none"
+                    autocomplete="off"
                     id="activity_name"
                     v-model="form.activity_name"
                     type="text"

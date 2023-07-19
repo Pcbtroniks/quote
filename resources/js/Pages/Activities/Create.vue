@@ -1,6 +1,5 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import DeleteUserForm from '@/Pages/Profile/Partials/DeleteUserForm.vue';
 import SectionBorder from '@/Components/SectionBorder.vue';
 import CreateActivityForm from '@/Pages/Activities/Partials/CreateActivityForm.vue';
 import AddPricesForm from './Partials/AddPricesForm.vue';
@@ -13,10 +12,10 @@ console.log(props.activity);
 </script>
 
 <template>
-    <AppLayout title="Profile">
+    <AppLayout title="Actividades - Crear">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Actividad
+                Actividad - Crear
             </h2>
         </template>
 
@@ -47,11 +46,6 @@ console.log(props.activity);
                     <SectionBorder />
                 </div>
 
-                <template v-if="props.activity.id">
-                    <SectionBorder />
-
-                    <DeleteUserForm class="mt-10 sm:mt-0" />
-                </template>
             </div>
         </div>
     </AppLayout>

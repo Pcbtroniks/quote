@@ -87,6 +87,8 @@ Route::middleware([
     // From Create activity page Prices
     Route::get('/activity/create/{activity?}', [ActivitiesController::class, 'create'])->name('activity.create');
 
+    Route::get('/activity/search', [ActivitiesController::class, 'search'])->name('activity.search');
+
     Route::post('activity/store', [ActivitiesController::class, 'store'])->name('activity.store');
 
     Route::post('activity/update', [ActivitiesController::class, 'onlyActivityUpdate'])->name('activity.update');

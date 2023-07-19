@@ -13,7 +13,7 @@ const useData = function({ type, zone, page }) {
 
 <template>
 
-<div class="sm:flex sm:items-center flex-wrap justify-center xl:justify-start gap-4">
+<div class="w-full sm:flex sm:items-center flex-wrap justify-center xl:justify-start gap-4">
     <nav class="flex flex-col sm:flex-row">
         <button :class="props.filters.type == 'park' ? 'text-blue-500 border-b-2 ' : ''" class=" text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none font-medium border-blue-500">
             <Link :href="route('activities')" :only="['activities', 'filters']" :data="useData({ type: 'park', zone: 4})" preserve-state>Entradas</Link>
@@ -106,6 +106,14 @@ const useData = function({ type, zone, page }) {
             </div>
         </div>
         <!--  -->
+    </div>
+
+    <div class="justify-self-center">
+        <Link :href="route('activity.create')">
+            <button class="bg-blue-500 text-white p-3 rounded-xl">
+                Crear actividad
+            </button>
+        </Link>
     </div>
 
 </div>

@@ -11,7 +11,6 @@ class ActivitiesController extends Controller
 {
     public function index(Activity $activity)
     {
-        /* dd( $activity->getActivities(request())); */
         return inertia('Activities/Index', [
             'activities' => $activity->getActivities(request()),
             'filters'=> [
@@ -20,6 +19,13 @@ class ActivitiesController extends Controller
                 'page' => request()->page ?? $activity->getDefaulFilters('page'),
             ]
         ]); 
+    }
+
+    public function search()
+    {
+        return inertia('Activities/SearchActivity',[
+            'activities' => Activity::getTours(),
+        ]);
     }
 
     public function create(ActivityModel $activity)
