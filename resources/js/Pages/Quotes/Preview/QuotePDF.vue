@@ -4,7 +4,7 @@ const props = defineProps({
     quote: Object
 })
 
-console.log(props.quote);
+console.log('props.quote', props.quote);
 </script>
 
 <template>
@@ -121,7 +121,7 @@ console.log(props.quote);
         <div class="mt-4 flex flex-col">
             
             <div style="text-align:center; width: 100%;">
-                <p style="font-weight: bold; font-size:x-large">Descuento para  mexicanos, presentar INE o pasaporte</p>
+                <p style="font-weight: bold; font-size:x-large" v-show="quote.national == 1">Descuento para  mexicanos, presentar INE o pasaporte</p>
             
             </div>
 
