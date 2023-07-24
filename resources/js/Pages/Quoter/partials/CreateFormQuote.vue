@@ -3,8 +3,9 @@ import { useForm, usePage } from '@inertiajs/inertia-vue3';
 import { watchPostEffect, reactive } from 'vue';
 import FormSection from '@/Components/FormSection.vue';
 
+import { getSeason } from '@/Services/Providers.js'
 import {
-  QuoteProgress, getSeason, getTours, getPrice, loadHotels, getPickup,
+  QuoteProgress, getTours, getPrice, loadHotels, getPickup,
 } from './Providers/Services.js';
 import {
   Today, parseQuoteType, fixedAdd, hasAmount, zoneToString,
@@ -13,7 +14,6 @@ import {
 import TextError from '../../../Shared/TextError.vue';
 import InputNumber from './InputNumber.vue';
 import InputLabel from './InputLabel.vue';
-import InputRange from './InputRange.vue';
 import InputText from './InputText.vue';
 import Summary from './Summary.vue';
 import Alert from '@/Components/Alert.vue';
@@ -212,7 +212,7 @@ class postActivities {
 
   async setTourHotel(hotel, index = 0) {
     this.activityList[index].hotel = hotel;
-    this.activityList[index].pickup = await getPickup(this.activityList[index].activity, hotel).then((data) => data.pickup_time) ?? '00:00:00';
+    this.activityList[index].pickup = await getPickup(this.activityList[index].activity, hotel).then((data) => data?.pickup_time) ?? '00:00:00';
     this.activityList[index].public_price = await this.getActivityPublicPrice(index);
     QuoteProgress.prices.totalPublicPrice = this.calculatePublicPrice();
   }
@@ -233,6 +233,12 @@ class postActivities {
   setActivity(index, activity){
     this.activityList[index].activity = activity;
   }
+
+  setActivityDate(index, date){
+    this.activityList[index].season = getSeason(date);
+    this.activityList[index].activity_date = date;
+  }
+
   setActivityZone(index, zone){
     this.activityList[index].zone = zone;
   }
@@ -348,14 +354,9 @@ const Activities = reactive(new postActivities());
                         <br>
                         <p>Precio sugerido al publico: ${{ QuoteProgress.prices.totalPublicPrice }} </p>
                         <p>Precio Publico con el descuento: ${{ QuoteProgress.prices.totalAgencyPrice }}</p>
-                        <!-- <p>Costo para la agencia: ${{ QuoteProgress.prices.totalAgencyPrice }}</p> -->
-                        <!-- <p>Ganancia de vendedor: {{ hasAmount( QuoteProgress.prices.reference ) }}</p> -->
-                        <!-- <p>
-                            <small>Calcular precio {{ `min: ${QuoteProgress.prices.totalAgencyPrice} - max: ${QuoteProgress.prices.totalPublicPrice}` }}</small>
-                        </p>
-                        <InputRange v-model.number="QuoteProgress.prices.reference" :min.number="form.importeVenta" :max.number="QuoteProgress.prices.totalPublicPrice" /> -->
                     </template>
                 </Summary>
+
                 <ShowCosts :activities="Activities.activityList" class="p-4" />
 
             </template>
@@ -686,7 +687,7 @@ const Activities = reactive(new postActivities());
                         <!-- N Pack tours | ntoursdiv-->
                         <div v-if="form.tipoReservacion == 3" class="-mx-3 flex flex-wrap">
 
-                            <div v-for="act in Activities.activityList" class="w-full px-3">
+                            <div v-for="( act, index ) in Activities.activityList" class="w-full px-3">
 
                                 <h2>Actividad {{ act.key }} </h2>
                                 <div class="mb-5">
@@ -718,6 +719,7 @@ const Activities = reactive(new postActivities());
                                     <InputDate
                                         required
                                         v-model="act.activity_date"
+                                        @change="Activities.setActivityDate(index, $event.target.value)"
                                         :min="new Date().toISOString().split('T')[0]"
                                         :id-name="'fechaActividad'+act.key"  />
                                 </div>

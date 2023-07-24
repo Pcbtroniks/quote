@@ -1,3 +1,17 @@
+// Date and seasons
+
+export const getSeason = (Date) => {
+    return isDateInRange('2023-07-01', '2023-08-15', Date) ? 'high' : 'low';
+}
+
+function isDateInRange(startDate, endDate, currentDate) {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const current = new Date(currentDate);
+
+    return current >= start && current <= end;
+}
+
 // Fetch Hotel Data
 
 const HttpGet = async (URL, Options = null, callback)  => {
