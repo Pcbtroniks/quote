@@ -15,6 +15,7 @@ use App\Http\Controllers\Qr\QRController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\QuoterController;
 use App\Http\Controllers\Team\CurrentTeamController;
+use FontLib\Table\Type\name;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 // DB::listen(function($query){
@@ -145,6 +146,9 @@ Route::middleware([
 
     Route::get('exports/manifest/{invoiceID}', [ExportController::class, 'exportManifest'])->name('exports.manifest.byInvoiceId');
     Route::get('exports/view/manifest/{invoiceID}', [ExportController::class, 'viewManifest'])->name('exports.view.manifest.byInvoiceId');
+
+    // Quote
+    Route::get('export/pdf/proform/quote', [ExportController::class, 'exportPDFProformQuote'])->name('export.pdf.proform.quote');
 
     // QR
     Route::get('qr/example/{text?}', [QRController::class, 'example'])->name('qr.example');
