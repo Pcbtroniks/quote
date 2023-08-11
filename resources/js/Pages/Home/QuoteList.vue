@@ -116,9 +116,11 @@ const printTempFolio = (quote) => {
     </template>
 
     <template #footer>
-        <SecondaryButton @click.native="ShowProFormModal = false">
-            Imprimir PDF
-        </SecondaryButton>
+        <a :href="route('export.pdf.proform.quote', {'quote': CurrentProformQuote.id})">
+            <SecondaryButton @click.native="ShowProFormModal = false">
+                Imprimir PDF
+            </SecondaryButton>
+        </a>
 
         <PrimaryButton class="ml-2" @click.native="ShowProFormModal = false">
             Aceptar
