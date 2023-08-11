@@ -28,16 +28,16 @@
   </div>
   <div style="width: 580px; height: 95px; left: 53px; top: 317px; position: absolute">
     @foreach ($quote->listed_activities as $activity)
-      <div style="left: 0px; top: {{ (40 + (25 * $loop->index)) }}px; position: absolute; color: black; font-size: 18px; font-family: Nunito; font-weight: 400">{{ $activity->activity->name }} {{ $activity->hotel->name ?? '' }} {{ ($activity->pickup_time != null && $activity->pickup_time != '00:00:00') ? $activity->pickup_time : '' }}</div>  
+      <div style="left: 0px; top: {{ (40 + (25 * $loop->index)) }}px; position: absolute; color: black; font-size: 18px; font-family: Nunito; font-weight: 400">{{ $activity->activity->name }} {{ $activity->hotel->name ?? '' }} {{ ($activity->pickup_time != null && $activity->pickup_time != '00:00:00') ? substr($activity->pickup_time, 5) : '' }}</div>  
     @endforeach
     <div style="left: 0px; top: 0px; position: absolute; color: black; font-size: 20px; font-family: Nunito; font-weight: 700; word-wrap: break-word">Actividades</div>
   </div>
-  <div style="width: 351px; height: 25px; left: 53px; top: 263px; position: absolute">
+  <div style="width: 500px; height: 25px; left: 53px; top: 263px; position: absolute">
     <div style="width: 351px; height: 25px; left: 0px; top: 0px; position: absolute; justify-content: flex-start; align-items: flex-start; gap: 16px; display: flex; flex-direction: row">
       <div style="color: black; font-size: 18px; font-family: Nunito; font-weight: 400;">Adultos: <span>{{ $quote->adults ?? ' ' }}</span> - Menor:  <span>{{ $quote->minors ?? ' '}}</span> - Infante:  <span>{{ $quote->infants ?? ' '}}</span></div>
     </div>
   </div>
-  <div style="width: 295px; height: 25px; left: 53px; top: 179px; position: absolute">
+  <div style="width: 500px; height: 25px; left: 53px; top: 179px; position: absolute">
     <div style="left: 0px; top: 0px; position: absolute; color: black; font-size: 18px; font-family: Nunito; font-weight: 400; word-wrap: break-word">Fecha: </div>
     <div style="left: 73px; top: 0px; position: absolute; color: black; font-size: 18px; font-family: Nunito; font-weight: 400; word-wrap: break-word">{{ $quote->listed_activities[0]->date_string_formatted ?? 'invalid date' }}</div>
   </div>
