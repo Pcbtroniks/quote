@@ -148,7 +148,7 @@ Route::middleware([
     Route::get('exports/view/manifest/{invoiceID}', [ExportController::class, 'viewManifest'])->name('exports.view.manifest.byInvoiceId');
 
     // Quote
-    Route::get('export/pdf/proform/quote', [ExportController::class, 'exportPDFProformQuote'])->name('export.pdf.proform.quote');
+    Route::get('export/pdf/proform/quote/{quote?}', [ExportController::class, 'exportPDFProformQuote'])->name('export.pdf.proform.quote');
 
     // QR
     Route::get('qr/example/{text?}', [QRController::class, 'example'])->name('qr.example');
