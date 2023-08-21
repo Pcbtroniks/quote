@@ -574,7 +574,7 @@ const Activities = reactive(new postActivities());
                                         id="park"
                                         name="parque"
                                         ref="park"
-                                        class="capitalize w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                                        class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                                         >
                                         <option value="null" disabled selected>-- Seleccione un parque --</option>
                                         <option class="capitalize" v-for="park in props.parks" :value="park.id">{{ park.name }}</option>
@@ -777,15 +777,10 @@ const Activities = reactive(new postActivities());
 
                             <div class="w-full px-3">
                                 <div class="mb-5">
-                                    <InputLabel
-                                      for="notes"
-                                    >
-                                        Notas
-                                    </InputLabel>
                                     <textarea
                                     v-model="form.notas"
                                     class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                    name="note" id="notes" cols="30" rows="10"></textarea>
+                                    name="note" id="notes" cols="30" rows="1" placeholder="notas..."></textarea>
                                 </div>
                             </div>
 
