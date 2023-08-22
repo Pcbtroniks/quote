@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\Quotes\GetQuotes;
 use App\Repositories\Quotes\Quote;
 use App\Repositories\Teams\Team;
 use Illuminate\Http\Request;
@@ -9,14 +10,19 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
+    protected $QuoteRepository;
+
+    public function __construct()
+    {
+        $this->QuoteRepository = new GetQuotes();
+    }
+
     public function index(){
-        
-        $quotes = auth()->user()->isFreetravelerAdmin()
-                    ? Quote::getOperationDashboard()
-                    : Quote::getOperationsByAgency();
+
+        $getQuotes = $this->QuoteRepository->get(request(), request()->user()->isFreetravelerAdmin());
 
         return inertia('Dashboard', [
-            'quotes' => $quotes,
+            'quotes' => $getQuotes,
             'agencies' => Team::getTeams()
         ]);
 

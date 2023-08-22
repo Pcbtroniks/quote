@@ -26,12 +26,6 @@ class Quote {
         return $quote;
     }
 
-    public static function getOperationDashboard(int $limit = 10){
-
-        return ModelsQuote::with(['user', 'coupon', 'listed_activities', 'listed_activities.activity', 'team', 'listed_activities.hotel', 'listed_activities.hotel.zone'])->paginate($limit)->onEachSide(0);
-
-    }
-
     public function getParks(){
 
         return Activity::where('type', 'park')->get();
@@ -163,7 +157,13 @@ class Quote {
         return ModelsQuote::with(['user', 'coupon', 'listed_activities', 'listed_activities.activity', 'team', 'listed_activities.hotel', 'listed_activities.hotel.zone']);
     }
 
-    public static function getOperationsByAgency(int $limit = 10){
+    public static function getOperationDashboard(int $limit = 10)
+    {
+        return ModelsQuote::with(['user', 'coupon', 'listed_activities', 'listed_activities.activity', 'team', 'listed_activities.hotel', 'listed_activities.hotel.zone'])->paginate($limit)->onEachSide(0);
+    }
+
+    public static function getOperationsByAgency(int $limit = 10)
+    {
         return ModelsQuote::with(['user', 'coupon', 'listed_activities', 'listed_activities.activity', 'team', 'listed_activities.hotel', 'listed_activities.hotel.zone'])->where('team_id', auth()->user()->currentTeam->id)->paginate($limit)->onEachSide(0);
     }
 
