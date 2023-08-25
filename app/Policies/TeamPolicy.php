@@ -53,7 +53,7 @@ class TeamPolicy
      */
     public function update(User $user, Team $team)
     {
-        return $user->ownsTeam($team);
+        return $this->canManageAgency($user, $team);
     }
 
     /**
@@ -65,7 +65,7 @@ class TeamPolicy
      */
     public function addTeamMember(User $user, Team $team)
     {
-        return $user->ownsTeam($team);
+        return $this->canManageAgency($user, $team);
     }
 
     /**
@@ -77,7 +77,7 @@ class TeamPolicy
      */
     public function updateTeamMember(User $user, Team $team)
     {
-        return $user->ownsTeam($team);
+        return $this->canManageAgency($user, $team);
     }
 
     /**
@@ -89,7 +89,7 @@ class TeamPolicy
      */
     public function removeTeamMember(User $user, Team $team)
     {
-        return $user->ownsTeam($team);
+        return $this->canManageAgency($user, $team);
     }
 
     /**
@@ -101,6 +101,30 @@ class TeamPolicy
      */
     public function delete(User $user, Team $team)
     {
-        return $user->ownsTeam($team);
+        return $this->isFreetravelerAdmin($user);
     }
+
+    /**
+     * Determine whether the user belongs to freetravelers administration.
+     *
+     * @param  \App\Models\User  $user
+     * @return mixed
+     */
+    public function isFreetravelerAdmin(User $user)
+    {
+        return $user->isFreetravelerAdmin();
+    }
+
+    /**
+     * Determine whether the user can manage agency.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Team  $team
+     * @return mixed
+     */
+    public function canManageAgency(User $user, Team $team)
+    {
+        return $user->hasTeamPermission($team, 'agency.manage') || $this->isFreetravelerAdmin($user);
+    }
+
 }

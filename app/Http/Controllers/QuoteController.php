@@ -37,7 +37,7 @@ class QuoteController extends Controller
 
     public function hotels(Hotel $hotels, $zone){
 
-        return response()->json($hotels->getByZone($zone));
+        return response()->json($hotels->getByZoneSorted($zone));
     
     }
 

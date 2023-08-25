@@ -65,12 +65,14 @@ class JetstreamServiceProvider extends ServiceProvider
             'read',
             'update',
             'delete',
+            'agency.manage'
         ])->description('Administradores de Freetraveler.');
 
         Jetstream::role('agency', 'Director de Agencia', [
             'read',
             'create',
             'update',
+            'agency.manage'
         ])->description('Agencia, tienen los permisos de leer, crear y actualizar.');
 
         Jetstream::role('seller', 'Vendedor', [

@@ -5,15 +5,19 @@ use App\Http\Controllers\CouponController;
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Hotels\HotelController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\NDController;
+use App\Http\Controllers\Pickups\PickupController;
+use App\Http\Controllers\Prices\PricesController;
 use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\Qr\QRController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\QuoterController;
 use App\Http\Controllers\Team\CurrentTeamController;
-use Illuminate\Support\Facades\DB;
+use FontLib\Table\Type\name;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 // DB::listen(function($query){
 //     Imprimir la consulta ejecutada
 //     echo "<pre> {$query->sql } </pre> <br>";
@@ -69,6 +73,8 @@ Route::middleware([
 
     Route::get('/activities', [ActivitiesController::class, 'index'])->name('activities');
 
+    Route::post('/activities/create', [ActivitiesController::class, 'store'])->name('activities.store');
+
     Route::post('/activities/{id}', [ActivitiesController::class, 'update'])->name('activities.update');
 
     Route::get('parks', [QuoteController::class, 'parks'])->name('parks');
@@ -78,6 +84,33 @@ Route::middleware([
     Route::get('hotels/{zone}', [QuoteController::class, 'hotels'])->name('hotels');
 
     Route::get('prices/{activity}/{zone}/{season}', [QuoteController::class, 'price'])->name('prices');
+
+    // From Create activity page Prices
+    Route::get('/activity/create/{activity?}', [ActivitiesController::class, 'create'])->name('activity.create');
+
+    Route::get('/activity/search', [ActivitiesController::class, 'search'])->name('activity.search');
+
+    Route::post('activity/store', [ActivitiesController::class, 'store'])->name('activity.store');
+
+    Route::post('activity/update', [ActivitiesController::class, 'onlyActivityUpdate'])->name('activity.update');
+
+    Route::post('activity/price/upsert', [PricesController::class, 'upsert'])->name('activity.price.upsert');
+
+    Route::post('activity/costs/upsert', [PricesController::class, 'upsertCosts'])->name('activity.costs.upsert');
+
+    // Hotels
+
+    Route::post('hotels/json/', [HotelController::class, 'jsonStore'])->name('hotels.json.store');
+
+    // Pickups
+
+    Route::get('pickups/create', [PickupController::class, 'create'])->name('pickups.create');
+    Route::get('pickups/byhotel/{hotel?}', [PickupController::class, 'byHotel'])->name('pickups.by.hotel');
+    Route::get('pickups/byzone/{zone?}/{activity?}', [PickupController::class, 'byZone'])->name('pickups.by.zone');
+    Route::get('pickups/{zone}/{activity}', [PickupController::class, 'index'])->name('pickups');
+    Route::post('pickups/store', [PickupController::class, 'store'])->name('pickups.store');
+    Route::post('pickups/{pickup}', [PickupController::class, 'update'])->name('pickups.update');
+    Route::post('pickups/update-multiple/{pickup}', [PickupController::class, 'updateMultiple'])->name('pickups.update.multiple');
 
     // Invoices
 
@@ -113,6 +146,9 @@ Route::middleware([
 
     Route::get('exports/manifest/{invoiceID}', [ExportController::class, 'exportManifest'])->name('exports.manifest.byInvoiceId');
     Route::get('exports/view/manifest/{invoiceID}', [ExportController::class, 'viewManifest'])->name('exports.view.manifest.byInvoiceId');
+
+    // Quote
+    Route::get('export/pdf/proform/quote/{quote?}', [ExportController::class, 'exportPDFProformQuote'])->name('export.pdf.proform.quote');
 
     // QR
     Route::get('qr/example/{text?}', [QRController::class, 'example'])->name('qr.example');

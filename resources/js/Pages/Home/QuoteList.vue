@@ -1,7 +1,14 @@
 <script setup>
 import Pagination from '../../Shared/Pagination.vue';
 import FilterForm from '@/Pages/Home/FilterForm.vue';
+import DialogModal from '@/Components/DialogModal.vue';
+import SecondaryButton from '@/Components/SecondaryButton.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 import axios from 'axios';
+import { ref } from 'vue';
+
+const ShowProFormModal = ref(false);
+const CurrentProformQuote = ref(null);
 
 const props = defineProps({
     quotes: Object,
@@ -41,6 +48,12 @@ const requestCouponConfirmation = (Quote) => {
     })
 }
 
+const LoadProFormModal = (Quote) => {
+    CurrentProformQuote.value = {...Quote,tmpFolio: printTempFolio(Quote)};
+    ShowProFormModal.value = true;
+    console.log(Quote);
+}
+
 const printTempFolio = (quote) => {
     const agency = quote.team.name;
     const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
@@ -50,6 +63,71 @@ const printTempFolio = (quote) => {
 </script>
 
 <template>
+<!-- modal -->
+<DialogModal :show="ShowProFormModal" @close="ShowProFormModal = false">
+    <template #title>
+        <p class="font-bold text-gray-700">
+            Número de solicitud: <span class="text-yellow-600">{{ CurrentProformQuote?.tmpFolio }}</span>
+        </p>
+        <p class="text-gray-700">
+            Fecha: {{ CurrentProformQuote?.listed_activities[0]?.date_string_formatted ?? 'n/d'}}
+        </p>
+    </template>
+
+    <template #content v-if="CurrentProformQuote">
+        <div class="text-gray-700">
+            <div>
+                <p>
+                    Nombre: {{ CurrentProformQuote.holder_name }}
+                </p>
+                <p>
+                    Adultos: {{ CurrentProformQuote.adults }} - Menor: {{ CurrentProformQuote.minors }} - Infante: {{ CurrentProformQuote.infants }}
+                </p>
+            </div>
+
+            <div class="h-8"></div>
+            
+            <div>
+                <p class="font-bold text-xl text-gray-700">
+                    Actividades
+                </p>
+                <div class="h-4"></div>
+                <ul>
+                    <li v-for="activity in CurrentProformQuote.listed_activities">{{ `${activity.activity.name} ${(activity.pickup_time != null && activity.pickup_time?.slice(0,5) != '00:00') ? activity.pickup_time.slice(0,5) : ''} ${activity.hotel?.name ?? ''}` }} </li>
+                </ul>
+            </div>
+
+            <div class="h-8"></div>
+
+            <div>
+                <p class="font-bold text-xl text-gray-700">
+                    Importes totales
+                </p>
+                <div class="h-4"></div>
+                <p>Precio publico: ${{ CurrentProformQuote.public_price }}</p>
+                <p>Precio a pagar: ${{ CurrentProformQuote.cost_amount }}</p>
+                <div class="h-8"></div>
+                <p class="font-bold text-xl text-gray-700">
+                    Comision: ${{ (CurrentProformQuote.public_price - CurrentProformQuote.cost_amount).toFixed(2) ?? '0' }}
+                </p>
+            </div>
+
+        </div>
+    </template>
+
+    <template #footer>
+        <a :href="route('export.pdf.proform.quote', {'quote': CurrentProformQuote.id})">
+            <SecondaryButton @click.native="ShowProFormModal = false">
+                Imprimir PDF
+            </SecondaryButton>
+        </a>
+
+        <PrimaryButton class="ml-2" @click.native="ShowProFormModal = false">
+            Aceptar
+        </PrimaryButton>
+    </template>
+</DialogModal>
+<!-- /modal -->
 <!-- component -->
 <section class="w-full antialiased bg-gray-100 text-gray-600">
     <div class="flex flex-col justify-center h-full">
@@ -133,8 +211,11 @@ const printTempFolio = (quote) => {
                                                     </svg>
                                                 </div>
                                             </a>
-                                            <button v-else @click="requestCouponConfirmation(quote)" class="px-3 py-2 rounded-md text-sm font-medium border focus:outline-none focus:ring transition text-sky-600 border-sky-600 hover:text-white hover:bg-sky-600 active:bg-sky-700 focus:ring-sky-300" type="button" :class="quote.status == 'pending' ? 'text-yellow-600 border-yellow-600 hover:text-white hover:bg-yellow-600 active:bg-yellow-700 focus:ring-yellow-300' : null" :disabled="quote.status == 'pending'">
-                                                    {{ quote.status == 'created' ? 'Solicitar' : printTempFolio(quote) }}
+                                            <button v-else-if="quote.status == 'created'" @click="requestCouponConfirmation(quote)" class="px-3 py-2 rounded-md text-sm font-medium border focus:outline-none focus:ring transition text-sky-600 border-sky-600 hover:text-white hover:bg-sky-600 active:bg-sky-700 focus:ring-sky-300" type="button">
+                                                Solicitar
+                                            </button>
+                                            <button v-else-if="quote.status == 'pending'" @click="LoadProFormModal(quote)" class="px-3 py-2 rounded-md text-sm font-medium border focus:outline-none focus:ring transition text-yellow-600 border-yellow-600 hover:text-white hover:bg-yellow-600 active:bg-yellow-700 focus:ring-yellow-300" type="button">
+                                                    {{ printTempFolio(quote) }}
                                             </button>
                                         </div>
                                     </div>
@@ -155,7 +236,7 @@ const printTempFolio = (quote) => {
                                     </div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap cursor-default">
-                                    {{ quote.listed_activities[0].date }}
+                                    {{ quote.listed_activities[0]?.date ?? 'n/d' }}
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="text-left font-medium text-green-500 capitalize" :title="quote.type == 'entrance' && quote.national == '1' ? 'Promomex' : ''">
@@ -170,7 +251,7 @@ const printTempFolio = (quote) => {
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="text-left font-medium capitalize" >
-                                        {{ quote.listed_activities[0].activity.name.toLowerCase() }}
+                                        {{ quote.listed_activities[0]?.activity.name.toLowerCase() }}
                                     </div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap cursor-default">
@@ -183,13 +264,13 @@ const printTempFolio = (quote) => {
                                     <div class="text-left font-medium text-green-500">${{ quote.public_price }}</div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap cursor-default">
-                                    <div class="text-left font-medium text-green-500 truncate w-20" title="Hora del pickup">{{ quote.listed_activities[0].pickup_time == null ? 'N/A' : quote.listed_activities[0].pickup_time.slice(0,5)}}</div>
+                                    <div class="text-left font-medium text-green-500 truncate w-20" title="Hora del pickup">{{ quote.listed_activities[0]?.pickup_time == null ? 'N/A' : quote.listed_activities[0].pickup_time.slice(0,5)}}</div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap cursor-default">
-                                    <div class="text-left font-medium text-green-500 truncate w-20" :title="quote.listed_activities[0].hotel?.name ?? 'No Aplica'">{{ quote.listed_activities[0].hotel?.name ?? 'N/A' }}</div>
+                                    <div class="text-left font-medium text-green-500 truncate w-20" :title="quote.listed_activities[0]?.hotel?.name ?? 'No Aplica'">{{ quote.listed_activities[0]?.hotel?.name ?? 'N/A' }}</div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
-                                    <div class="text-center capitalize">{{ quote.listed_activities[0].hotel?.zone.name ?? 'N/A' }}</div>
+                                    <div class="text-center capitalize">{{ quote.listed_activities[0]?.hotel?.zone.name ?? 'N/A' }}</div>
                                 </td>
                             </tr>
                         </tbody>

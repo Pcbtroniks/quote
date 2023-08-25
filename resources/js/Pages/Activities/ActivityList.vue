@@ -31,7 +31,8 @@ const isFilter = (origin, type) => {
     <component 
         :is="props.filters.type == 'park' ? modalEntrance : modal" 
         :fields="act" 
-        :show="showModal" 
+        :show="showModal"
+        :filters="props.filters"
         @close="showModal = false"/>
 
   </Teleport>

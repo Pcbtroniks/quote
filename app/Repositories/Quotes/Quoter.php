@@ -163,7 +163,7 @@ class Quoter {
 
     public function Operations()
     {
-        return ModelsQuote::with(['user', 'coupon', 'listed_activities', 'listed_activities.activity', 'team', 'listed_activities.hotel', 'listed_activities.hotel.zone']);
+        return ModelsQuote::with(['user', 'coupon', 'listed_activities', 'listed_activities.activity', 'team', 'listed_activities.hotel', 'listed_activities.hotel.zone'])->where()->paginate(10);
     }
 
     public static function getOperationsByAgency(int $limit = 10){

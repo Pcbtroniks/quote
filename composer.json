@@ -5,9 +5,9 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
-        "simplesoftwareio/simple-qrcode": "~4",
         "php": "^8.0.2",
         "awobaz/compoships": "^2.1",
+        "barryvdh/laravel-dompdf": "^2.0",
         "guzzlehttp/guzzle": "^7.2",
         "inertiajs/inertia-laravel": "^0.6.3",
         "laravel/framework": "^9.19",
@@ -16,6 +16,7 @@
         "laravel/tinker": "^2.7",
         "maatwebsite/excel": "^3.1",
         "psr/simple-cache": "^2.0",
+        "simplesoftwareio/simple-qrcode": "~4",
         "tightenco/ziggy": "^1.0"
     },
     "require-dev": {
