@@ -132,3 +132,7 @@ Route::middleware([
 });
 
 Route::put('team/switch', [CurrentTeamController::class, 'update'])->name('team.current.switch')->withoutMiddleware([\App\Http\Middleware\CheckCurrentTeam::class]);
+
+Route::get('419', function(){
+    return view('errors.419');
+});
