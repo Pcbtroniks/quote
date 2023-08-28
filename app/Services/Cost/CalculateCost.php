@@ -7,9 +7,11 @@ use App\Interfaces\CostsInterface;
 use Illuminate\Http\Request;
 use App\Models\Activity;
 use App\Enums\Discount;
+use App\Traits\Computable;
 
 class CalculateCost implements CostsInterface
 {
+    use Computable;
 
     protected $activity;
     protected $adults;
@@ -18,6 +20,11 @@ class CalculateCost implements CostsInterface
     protected $price;
     protected $type;
     protected $zone;
+
+    protected $resolvedPrices;
+    protected $pricesCollection;
+    protected $totalPublicPrice;
+    protected $totalAgencyCost;
 
     public function __construct($request)
     {
@@ -30,6 +37,10 @@ class CalculateCost implements CostsInterface
         $this->type = $request->type;
 
         $this->price = new PublicPrice($this->activity, $this->adults, $this->minors, $this->season, $this->zone);
+
+        $this->pricesCollection = collect($this->activity->prices);
+        $this->setResolvedPrices();
+        $this->totalPublicPrice = $this->calculatePublicTotal();
     }
 
     public function getActivity(): Activity
@@ -75,4 +86,36 @@ class CalculateCost implements CostsInterface
     {
         return $this->activity->discounts;
     }
+
+    public function getSummary(): mixed
+    {
+        return [
+            'totalPublicPrice' => $this->calculatePublicTotal(),
+            'totalAgencyCost' => $this->useDiscount($this->calculatePublicTotal(), $this->getDiscounts()[$this->type]),
+            'resolvedPrices' => $this->resolvedPrices,
+            'costPerAdult' => $this->resolvedPrices['adult']['amount'],
+            'costPerMinor' => $this->resolvedPrices['minor']['amount'],
+            'discountPercentage' => $this->getDiscounts()[$this->type],
+            'string' => $this->activity,
+        ];
+    }
+
+    public function getTotalPublicPrice()
+    {
+        return $this->totalPublicPrice;
+    }
+    
+    public function calculatePublicTotal()
+    {
+        return $this->resolvedPrices['adult']['amount'] * $this->adults + $this->resolvedPrices['minor']['amount'] * $this->minors;
+    }
+
+    public function setResolvedPrices()
+    {
+        $this->resolvedPrices = [
+            'adult' => $this->pricesCollection->where('type', 'adult')->where('season', $this->season)->where('zone_id', $this->zone)->first(),
+            'minor' => $this->pricesCollection->where('type', 'kid')->where('season', $this->season)->where('zone_id', $this->zone)->first(),
+        ];
+    }
+
 }

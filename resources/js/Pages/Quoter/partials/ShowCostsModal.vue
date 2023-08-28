@@ -18,6 +18,12 @@ const props = defineProps({
 
 
 const getQuotes = ref([]);
+const useModal = ref({
+    show: false,
+    totalPublicPrice: 0,
+    totalAgencyCost: 0,
+    quotes: []
+})
 
 const parseProps = () => {
     if(parseQuoteType(props.activities.tipoReservacion) == 'entrance') {
@@ -26,29 +32,27 @@ const parseProps = () => {
             adults: props.activities.adultos,
             minors: props.activities.menores,
             season: props.activities.season,
-            zone: props.activities.zona,
-            type: props.activities.tipoReservacion,
+            zone: props.activities.nacionales ? 4 : 5,
+            type: 'entrance',
         };
 
         getQuotes.value = [entrance];
         return null;
     }
 
-    getQuotes.value = [...getQuotes.value, props.activityList];
+    getQuotes.value = [...props.activityList];
     return null;
 }
 
 const calculateActivityCost = () => {
+    
     parseProps();
-    console.clear();
-    console.log(props.activities);
-    console.log(props.activityList);
-    return console.log(getQuotes.value);
-    getQuotes.forEach(({activity, adults, minors, season, zone, type}) => {
-        console.log({activity, adults, minors, season, zone, type});
-        if(props.activities.length == 2) {
+
+    getQuotes.value.forEach(({activity, adults, minors, season, zone, type}) => {
+
+        if(getQuotes.value.length == 2) {
             type = 'pack_double';
-        }else if(props.activities.length >= 3) {
+        }else if(getQuotes.value.length >= 3) {
             type = 'pack_multiple';
         }
         axios.get(route('quoter.calculate'), {
@@ -61,64 +65,62 @@ const calculateActivityCost = () => {
                 type,
             },
         }).then((response) => {
-            console.clear();
-            return console.log(response);
-            GetDescription.value.push(response.data);
+            useModal.value.quotes = [...useModal.value.quotes, response.data]
+            useModal.value.totalPublicPrice += response.data.summary.totalPublicPrice;
+            useModal.value.totalAgencyCost += response.data.summary.totalAgencyCost;
+            return true;
         })
         .catch((error) => {
             console.log(error);
         });
     });
 
+    console.clear();
+    console.log(props.activities);
+    console.log(useModal.value);
+    useModal.value.show = true;
 }
 
 //Helpers
 
-//Modal 
-const ShowProFormModal = ref(false);
-const CurrentProformQuote = ref(null);
-
-function showProFormModal(quote) {
-  CurrentProformQuote.value = quote;
-  // ShowProFormModal.value = true;
+function showProFormModal() {
   calculateActivityCost();
 }
 
-console.log(props.activities);
 </script>
 
 <template>
 <div>
-    <DialogModal :show="ShowProFormModal" @close="ShowProFormModal = false">
+    <DialogModal :show="useModal.show" @close="useModal.show = false">
     <template #title>
         <p class="font-bold text-gray-700">
-            Número de solicitud: <span class="text-yellow-600">{{ CurrentProformQuote?.tmpFolio }}</span>
+            Resumen de la cotización actual
         </p>
         <p class="text-gray-700">
-            Fecha: {{ CurrentProformQuote?.listed_activities[0]?.date_string_formatted ?? 'n/d'}}
+            Fecha: {{ new Date().toLocaleDateString() }}
         </p>
     </template>
 
-    <template #content v-if="CurrentProformQuote">
+    <template #content v-if="useModal.quotes">
         <div class="text-gray-700">
             <div>
                 <p>
-                    Nombre: {{ CurrentProformQuote.holder_name }}
+                    Nombre: {{ props.activities.nombreTitular ?? 'Ingrese el nomber por favor.' }}
                 </p>
                 <p>
-                    Adultos: {{ CurrentProformQuote.adults }} - Menor: {{ CurrentProformQuote.minors }} - Infante: {{ CurrentProformQuote.infants }}
+                    Adultos: {{ props.activities.adultos }} - Menor: {{ props.activities.menores }} - Infante: {{ props.activities.infantes }}
                 </p>
             </div>
 
             <div class="h-8"></div>
             
-            <div>
+            <div v-if="useModal.quotes">
                 <p class="font-bold text-xl text-gray-700">
                     Actividades
                 </p>
                 <div class="h-4"></div>
                 <ul>
-                    <li v-for="activity in CurrentProformQuote.listed_activities">{{ `${activity.activity.name} ${(activity.pickup_time != null && activity.pickup_time?.slice(0,5) != '00:00') ? activity.pickup_time.slice(0,5) : ''} ${activity.hotel?.name ?? ''}` }} </li>
+                    <li v-for="activity in useModal.quotes">{{ activity.description }} </li>
                 </ul>
             </div>
 
@@ -129,11 +131,11 @@ console.log(props.activities);
                     Importes totales
                 </p>
                 <div class="h-4"></div>
-                <p>Precio publico: ${{ CurrentProformQuote.public_price }}</p>
-                <p>Precio a pagar: ${{ CurrentProformQuote.cost_amount }}</p>
+                <p>Precio publico: ${{ useModal.totalPublicPrice }}</p>
+                <p>Precio a pagar: ${{ useModal.totalAgencyCost }}</p>
                 <div class="h-8"></div>
                 <p class="font-bold text-xl text-gray-700">
-                    Comision: ${{ (CurrentProformQuote.public_price - CurrentProformQuote.cost_amount).toFixed(2) ?? '0' }}
+                    Comision: ${{ (useModal.totalPublicPrice - useModal.totalAgencyCost).toFixed(2) ?? '0' }}
                 </p>
             </div>
 
@@ -141,13 +143,13 @@ console.log(props.activities);
     </template>
 
     <template #footer>
-        <a :href="route('export.pdf.proform.quote', {'quote': CurrentProformQuote.id})">
+        <!-- <a :href="route('export.pdf.proform.quote', {'quote': CurrentProformQuote.id})">
             <SecondaryButton @click.native="ShowProFormModal = false">
                 Imprimir PDF
             </SecondaryButton>
-        </a>
+        </a> -->
 
-        <PrimaryButton class="ml-2" @click.native="ShowProFormModal = false">
+        <PrimaryButton class="ml-2" @click.native="useModal.show = false">
             Aceptar
         </PrimaryButton>
     </template>

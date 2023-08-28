@@ -9,4 +9,9 @@ trait Computable {
         return (float) number_format(($amount * ( ( 100 - $DiscountRate ) / 100 )), 2, '.', '');
     }
 
+    public function useDiscount($amount, $DiscountRate)
+    {
+        return (float) number_format(($amount * ( ( 100 - $DiscountRate ) / 100 )), 2, '.', '');
+    }
+
 }

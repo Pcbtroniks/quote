@@ -12,6 +12,7 @@ use App\Services\Cost\PublicPrice;
 use App\Repositories\Zones\Zone;
 use Illuminate\Http\Request;
 use App\Models\Activity;
+use SebastianBergmann\CodeCoverage\Report\Xml\Totals;
 
 class QuoterController extends Controller
 {
@@ -45,6 +46,7 @@ class QuoterController extends Controller
             'description' => $response->getDescription(),
             'cost' => $response->getCost(),
             'request' => request()->all(),
+            'summary' => $price->getSummary(),
         ]);
     }
 
