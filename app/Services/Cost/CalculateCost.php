@@ -90,13 +90,12 @@ class CalculateCost implements CostsInterface
     public function getSummary(): mixed
     {
         return [
-            'totalPublicPrice' => $this->calculatePublicTotal(),
-            'totalAgencyCost' => $this->useDiscount($this->calculatePublicTotal(), $this->getDiscounts()[$this->type]),
-            'resolvedPrices' => $this->resolvedPrices,
             'costPerAdult' => $this->resolvedPrices['adult']['amount'],
             'costPerMinor' => $this->resolvedPrices['minor']['amount'],
-            'discountPercentage' => $this->getDiscounts()[$this->type],
+            'resolvedPrices' => $this->resolvedPrices,
             'string' => $this->activity,
+            'totalPublicPrice' => $this->calculatePublicTotal(),
+            'totalAgencyCost' => $this->applyDiscount()->getCost(),
         ];
     }
 
@@ -104,7 +103,7 @@ class CalculateCost implements CostsInterface
     {
         return $this->totalPublicPrice;
     }
-    
+
     public function calculatePublicTotal()
     {
         return $this->resolvedPrices['adult']['amount'] * $this->adults + $this->resolvedPrices['minor']['amount'] * $this->minors;
