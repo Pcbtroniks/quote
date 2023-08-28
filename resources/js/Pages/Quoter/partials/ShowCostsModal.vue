@@ -45,6 +45,10 @@ const parseProps = () => {
 }
 
 const calculateActivityCost = () => {
+
+    useModal.value.totalPublicPrice = 0;
+    useModal.value.totalAgencyCost = 0;
+    useModal.value.quotes = [];
     
     parseProps();
 
@@ -65,7 +69,7 @@ const calculateActivityCost = () => {
                 type,
             },
         }).then((response) => {
-            useModal.value.quotes = [response.data]
+            useModal.value.quotes = [...useModal.value.quotes, response.data];
             useModal.value.totalPublicPrice += response.data.summary.totalPublicPrice;
             useModal.value.totalAgencyCost += response.data.summary.totalAgencyCost;
             return true;
