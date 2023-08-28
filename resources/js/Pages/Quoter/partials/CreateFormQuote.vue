@@ -1,6 +1,6 @@
 <script setup>
 import { useForm, usePage } from '@inertiajs/inertia-vue3';
-import { watchPostEffect, reactive } from 'vue';
+import { watchPostEffect, reactive, ref } from 'vue';
 import FormSection from '@/Components/FormSection.vue';
 
 import { getSeason } from '@/Services/Providers.js'
@@ -19,6 +19,7 @@ import Summary from './Summary.vue';
 import Alert from '@/Components/Alert.vue';
 import InputDate from './InputDate.vue';
 import ShowCosts from './ShowCosts.vue';
+import ShowCostsModal from './ShowCostsModal.vue';
 const props = defineProps({
   parks: Array,
   zones: Array,
@@ -357,7 +358,8 @@ const Activities = reactive(new postActivities());
                     </template>
                 </Summary>
 
-                <ShowCosts :activities="Activities.activityList" class="p-4" />
+                <!-- <ShowCosts :activities="Activities.activityList" class="p-4" /> -->
+                <ShowCostsModal :activities="form" :activityList="Activities.activityList" class="p-4"/>
 
             </template>
 
