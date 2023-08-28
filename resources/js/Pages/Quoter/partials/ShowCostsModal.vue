@@ -65,7 +65,7 @@ const calculateActivityCost = () => {
                 type,
             },
         }).then((response) => {
-            useModal.value.quotes = [...useModal.value.quotes, response.data]
+            useModal.value.quotes = [response.data]
             useModal.value.totalPublicPrice += response.data.summary.totalPublicPrice;
             useModal.value.totalAgencyCost += response.data.summary.totalAgencyCost;
             return true;
