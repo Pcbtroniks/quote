@@ -53,7 +53,8 @@ const calculateActivityCost = () => {
     parseProps();
 
     getQuotes.value.forEach(({activity, adults, minors, season, zone, type}) => {
-
+        adults = props.activities.adultos
+        minors = props.activities.menores
         if(getQuotes.value.length == 2) {
             type = 'pack_double';
         }else if(getQuotes.value.length >= 3) {
