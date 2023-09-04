@@ -37,7 +37,7 @@ const types = [
 
     <div class="col-span-6 md:col-span-3 xl:col-span-2">
         <InputLabel for="filter_date">
-            Filtrar por Fecha
+            Filtrar por fecha
         </InputLabel>
         <InputDate
             name="filter_date"
@@ -48,16 +48,16 @@ const types = [
     </div>
     <div class="col-span-6 md:col-span-3 xl:col-span-2">
         <InputLabel for="filter_zone">
-            Filtrar por Zona
+            Filtrar por zona
         </InputLabel>
         <select
             v-model="form.zone"
             id="filter_zone"
             name="filter_zone" 
-            class="capitalize w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+            class="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
             >
             <option value="null" selected disabled>-- Seleccione su zona --</option>
-            <option v-for="zone in zones"  :value="zone.id">{{ zone.name }}</option>
+            <option v-for="zone in zones" :value="zone.id" class="capitalize">{{ zone.name }}</option>
         </select>
         <Button class="mt-4" type="submit" msg="buscar"/>
     </div>
@@ -69,10 +69,10 @@ const types = [
             v-model="form.type"
             id="filter_type"
             name="filter_type" 
-            class="capitalize w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+            class="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
             >
             <option value="null" selected disabled>-- Tipo de actividad, entrada, tour.. --</option>
-            <option v-for="type in types"  :value="type.name">{{ type.name }}</option>
+            <option v-for="type in types"  :value="type.name" class="capitalize">{{ type.name }}</option>
         </select>
         <Button class="mt-4" type="submit" msg="buscar"/>
     </div>

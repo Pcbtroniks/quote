@@ -192,7 +192,7 @@ const printTempFolio = (quote) => {
                             </tr>
                         </thead>
                         <tbody class="text-sm divide-y divide-gray-100">
-                            <tr v-for="quote in quotes.data" class="h-12 hover:bg-sky-300">
+                            <tr v-for="quote in quotes.data" class="h-14 hover:bg-sky-300">
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <div class="font-medium text-gray-800">{{ quote.created_at }}</div>
