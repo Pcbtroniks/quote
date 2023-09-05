@@ -29,17 +29,17 @@ const updateTeamName = () => {
 <template>
     <FormSection @submitted="updateTeamName">
         <template #title>
-            Agency Name
+            Nombre de la agencia
         </template>
 
         <template #description>
-            The agency's name and owner information.
+            Nombre de la agencia y la información del propietario.
         </template>
 
         <template #form>
             <!-- Team Owner Information -->
             <div class="col-span-6">
-                <InputLabel value="Agency Owner" />
+                <InputLabel value="Administrador" />
 
                 <div class="flex items-center mt-2">
                     <img class="w-12 h-12 rounded-full object-cover" :src="team.owner.profile_photo_url" :alt="team.owner.name">
@@ -55,7 +55,7 @@ const updateTeamName = () => {
 
             <!-- Team Name -->
             <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="name" value="Agency Name" />
+                <InputLabel for="name" value="Nombre de la agencia" />
 
                 <TextInput
                     id="name"
@@ -70,7 +70,7 @@ const updateTeamName = () => {
 
             <!-- Agency Sale percentage -->
             <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="name" value="Minimun Quote Sale Percentage %" />
+                <InputLabel for="name" value="Porcentaje minimo de venta '%'" />
 
                 <TextInput
                     id="name"
@@ -88,11 +88,11 @@ const updateTeamName = () => {
 
         <template v-if="permissions.canUpdateTeam" #actions>
             <ActionMessage :on="form.recentlySuccessful" class="mr-3">
-                Saved.
+                Guardado.
             </ActionMessage>
 
             <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                Save
+                Guardar
             </PrimaryButton>
         </template>
     </FormSection>

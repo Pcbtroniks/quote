@@ -13,10 +13,10 @@ defineProps({
 </script>
 
 <template>
-    <AppLayout title="Team Settings">
+    <AppLayout title="Ajustes de la agencia">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Agency Settings
+                Ajustes de la agencia
             </h2>
         </template>
 
