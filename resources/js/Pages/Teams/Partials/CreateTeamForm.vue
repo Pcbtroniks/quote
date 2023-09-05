@@ -22,16 +22,16 @@ const createTeam = () => {
 <template>
     <FormSection @submitted="createTeam">
         <template #title>
-            Agency Details
+            Detalles de la agencia
         </template>
 
         <template #description>
-            Create a new agency to collaborate with others on projects.
+            Crear una nueva agencia para colaborar con otros en proyectos.
         </template>
 
         <template #form>
             <div class="col-span-6">
-                <InputLabel value="Freetraveler Administrator" />
+                <InputLabel value="Administrador" />
 
                 <div class="flex items-center mt-2">
                     <img class="object-cover w-12 h-12 rounded-full" :src="$page.props.user.profile_photo_url" :alt="$page.props.user.name">
@@ -46,7 +46,7 @@ const createTeam = () => {
             </div>
             <!-- Team Name -->
             <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="name" value="Agency Name" />
+                <InputLabel for="name" value="Nombre de la agencia" />
                 <TextInput
                     id="name"
                     v-model="form.name"
@@ -58,10 +58,10 @@ const createTeam = () => {
             </div>
             <!-- Agency Sale Percentage -->
             <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="sale_amount_percentage" value="Agency Sale Percentage %5" />
+                <InputLabel for="sale_amount_percentage" value="Porcentaje base de la gencia '%5'" />
                 <TextInput
                 disabled
-                placeholder="At the moment you can only change this in 'Agency settings\''"
+                placeholder="Lolo puedes cambiarlo en 'Ajustes de la agencia'"
                     id="sale_amount_percentage"
                     v-model="form.sale_amount_percentage"
                     type="text"
@@ -74,7 +74,7 @@ const createTeam = () => {
 
         <template #actions>
             <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                Create
+                Crear
             </PrimaryButton>
         </template>
     </FormSection>
