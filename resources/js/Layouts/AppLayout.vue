@@ -59,7 +59,7 @@ const logout = () => {
                                 </NavLink>
 
                                 <NavLink :href="route('activities')" :active="route().current('activities')">
-                                    Ver Costos
+                                    Costos
                                 </NavLink>
 
                                 <NavLink v-if="$page.props.user.is_freetraveler_admin" :href="route('pickups.by.zone')" :active="route().current('pickups.*')">
@@ -247,7 +247,7 @@ const logout = () => {
                             Cotizador
                         </ResponsiveNavLink>
                         <ResponsiveNavLink :href="route('activities')" :active="route().current('activities')">
-                            Ver Costos
+                            Costos
                         </ResponsiveNavLink>
                         <ResponsiveNavLink v-if="$page.props.user.is_freetraveler_admin" :href="route('pickups.by.zone')" :active="route().current('pickups.*')">
                             Pickups
