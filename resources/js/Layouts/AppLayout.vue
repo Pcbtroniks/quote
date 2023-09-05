@@ -97,15 +97,15 @@ const logout = () => {
                                                 <template v-if="$page.props.user.is_freetraveler_admin">
 
                                                     <div class="block px-4 py-2 text-xs text-gray-400">
-                                                        Manage Invoices
+                                                        Gestionar facturas
                                                     </div>
                                                     
                                                     <!-- Invoice Settings -->
                                                     <DropdownLink v-if="$page.props.jetstream.canCreateTeams" :href="route('invoices', $page.props.user.current_team)">
-                                                        My Invoices
+                                                        Mis facturas
                                                     </DropdownLink>
                                                     <DropdownLink v-if="$page.props.jetstream.canCreateTeams" :href="route('providers')">
-                                                        Providers
+                                                        Provedores
                                                     </DropdownLink>
                                                 
                                                 </template>
@@ -113,23 +113,23 @@ const logout = () => {
                                                 <div class="border-t border-gray-100" />
 
                                                 <div class="block px-4 py-2 text-xs text-gray-400">
-                                                    Manage Agency
+                                                    Gestionar agencia
                                                 </div>
 
                                                 <!-- Team Settings -->
                                                 <DropdownLink :href="route('teams.show', $page.props.user.current_team)">
-                                                    Agency Settings
+                                                    Ajustes de la agencia
                                                 </DropdownLink>
 
                                                 <DropdownLink v-if="$page.props.jetstream.canCreateTeams" :href="route('teams.create')">
-                                                    Create New Agency
+                                                    Crear nueva agencia
                                                 </DropdownLink>
 
                                                 <div class="border-t border-gray-100" />
 
                                                 <!-- Team Switcher -->
                                                 <div class="block px-4 py-2 text-xs text-gray-400">
-                                                    Switch Agency
+                                                    Cambiar agencia
                                                 </div>
 
                                                 <template v-for="team in $page.props.user.all_teams" :key="team.id">
@@ -292,23 +292,23 @@ const logout = () => {
                                 <div class="border-t border-gray-200" />
 
                                 <div class="block px-4 py-2 text-xs text-gray-400">
-                                    Manage Team
+                                    Gestionar agencia
                                 </div>
 
                                 <!-- Team Settings -->
                                 <ResponsiveNavLink :href="route('teams.show', $page.props.user.current_team)" :active="route().current('teams.show')">
-                                    Team Settings
+                                    Ajustes de la agencia
                                 </ResponsiveNavLink>
 
                                 <ResponsiveNavLink v-if="$page.props.jetstream.canCreateTeams" :href="route('teams.create')" :active="route().current('teams.create')">
-                                    Create New Team
+                                    Crear nueva agencia
                                 </ResponsiveNavLink>
 
                                 <div class="border-t border-gray-200" />
 
                                 <!-- Team Switcher -->
                                 <div class="block px-4 py-2 text-xs text-gray-400">
-                                    Switch Teams
+                                    Cambiar agencia
                                 </div>
 
                                 <template v-for="team in $page.props.user.all_teams" :key="team.id">
