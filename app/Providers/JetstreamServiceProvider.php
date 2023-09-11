@@ -65,15 +65,24 @@ class JetstreamServiceProvider extends ServiceProvider
             'read',
             'update',
             'delete',
-            'agency.manage'
+            'agency.manage',
+            'branch.manage',
         ])->description('Administradores de Freetraveler.');
 
-        Jetstream::role('agency', 'Director de Agencia', [
+        Jetstream::role('agency', 'Director', [
             'read',
             'create',
             'update',
-            'agency.manage'
+            'agency.manage',
+            'branch.manage'
         ])->description('Agencia, tienen los permisos de leer, crear y actualizar.');
+
+        Jetstream::role('manager', 'Gerente', [
+            'read',
+            'create',
+            'update',
+            'branch.manage'
+        ])->description('Gerente, tienen los permisos de leer, crear y actualizar');
 
         Jetstream::role('seller', 'Vendedor', [
             'read',
@@ -81,9 +90,5 @@ class JetstreamServiceProvider extends ServiceProvider
             'update',
         ])->description('Vendedor, tienen los permisos de leer, crear y actualizar.');
 
-        Jetstream::role('client', 'Cliente', [
-            'read',
-            'create',
-        ])->description('Cliente, solo puede leer y crear');
     }
 }
