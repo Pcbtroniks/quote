@@ -34,6 +34,13 @@ return new class extends Migration
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
 
+            $table->foreignId('branch_id')
+                ->nullable()
+                ->constrained('branch')
+                ->onDelete('cascade')
+                ->onUpdate('cascade')
+                ->nullable();
+
             $table->string('national')->default('no');
             $table->string('season');
             $table->string('type', 50);

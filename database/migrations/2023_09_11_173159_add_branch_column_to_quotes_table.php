@@ -13,21 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-            $table->foreignId('current_team_id')->nullable();
-            $table->string('profile_photo_path', 2048)->nullable();
+        Schema::table('quotes', function (Blueprint $table) {
+            
             $table->foreignId('branch_id')
+                    ->nullable()
                     ->constrained('branch')
                     ->onDelete('cascade')
                     ->onUpdate('cascade')
                     ->nullable();
-            $table->timestamps();
+            
         });
     }
 
@@ -38,6 +32,11 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::table('quotes', function (Blueprint $table) {
+                
+            $table->dropForeign(['branch_id']);
+            $table->dropColumn('branch_id');
+
+        });
     }
 };
