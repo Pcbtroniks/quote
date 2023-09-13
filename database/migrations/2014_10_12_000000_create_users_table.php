@@ -23,7 +23,7 @@ return new class extends Migration
             $table->foreignId('current_team_id')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
             $table->foreignId('branch_id')
-                    ->constrained('branch')
+                    ->constrained('branches')
                     ->onDelete('cascade')
                     ->onUpdate('cascade')
                     ->nullable();

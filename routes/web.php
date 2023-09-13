@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ActivitiesController;
+use App\Http\Controllers\Branches\BranchController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\ExportController;
@@ -127,6 +128,11 @@ Route::middleware([
     Route::post('providers/', [ProviderController::class, 'store'])->name('providers.store');
     Route::post('providers/{providerID}/status/switch', [ProviderController::class, 'switch'])->name('providers.switch.status');
     Route::delete('providers/{providerID}/delete/', [ProviderController::class, 'delete'])->name('providers.delete');
+
+    // Branches
+
+    Route::get('branches/', [BranchController::class, 'index'])->name('branches');
+    Route::post('branches/', [BranchController::class, 'store'])->name('branches.store');
 
     //Coupon
 

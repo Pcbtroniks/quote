@@ -54,6 +54,11 @@ class Team extends JetstreamTeam
      
     }
 
+    public function branches()
+    {
+        return $this->hasMany(Branch::class);
+    }
+
     public function activity_discounts() 
     { 
         return $this->hasMany(ActivityAgencyDiscount::class);

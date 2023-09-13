@@ -1,32 +1,38 @@
 <script setup>
-import { useForm } from '@inertiajs/inertia-vue3';
+import { useForm, usePage } from '@inertiajs/inertia-vue3';
 import FormSection from '@/Components/FormSection.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
+import { onMounted } from 'vue';
 
 const form = useForm({
     name: '',
-    sale_amount_percentage: null,
+    address: null,
+    team_id: null,
 });
 
 const createTeam = () => {
-    form.post(route('teams.store'), {
-        errorBag: 'createTeam',
+    form.post(route('branches.store'), {
         preserveScroll: true,
     });
 };
+
+onMounted(() => {
+    form.team_id = usePage().props.value.user.current_team_id;
+});
 </script>
 
 <template>
     <FormSection @submitted="createTeam">
         <template #title>
-            Detalles de la agencia
+            Detalles de la sucursal
         </template>
 
         <template #description>
-            Crear una nueva agencia para colaborar con otros en proyectos.
+            Las sucursales son una forma de agrupar a los integrantes,
+            agregue una nueva sucursal para los colaborades de su agencia.
         </template>
 
         <template #form>
@@ -44,9 +50,10 @@ const createTeam = () => {
                     </div>
                 </div>
             </div>
-            <!-- Team Name -->
+
+            <!-- Branch Name -->
             <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="name" value="Nombre de la agencia" />
+                <InputLabel for="name" value="Nombre de sucursal" />
                 <TextInput
                     id="name"
                     v-model="form.name"
@@ -56,20 +63,19 @@ const createTeam = () => {
                 />
                 <InputError :message="form.errors.name" class="mt-2" />
             </div>
-            <!-- Agency Sale Percentage -->
+
+            <!-- Branch Address -->
             <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="sale_amount_percentage" value="Porcentaje base de la gencia '%5'" />
+                <InputLabel for="address" value="Direccion" />
                 <TextInput
-                disabled
-                placeholder="Lo puedes cambiar en 'Ajustes de la agencia'"
-                    id="sale_amount_percentage"
-                    v-model="form.sale_amount_percentage"
+                    id="address"
+                    v-model="form.address"
                     type="text"
                     class="block w-full mt-1"
-                    autofocus
                 />
-                <InputError :message="form.errors.sale_amount_percentage" class="mt-2" />
+                <InputError :message="form.errors.address" class="mt-2" />
             </div>
+
         </template>
 
         <template #actions>
