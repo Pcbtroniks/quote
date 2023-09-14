@@ -133,6 +133,7 @@ Route::middleware([
 
     Route::get('branches/', [BranchController::class, 'index'])->name('branches');
     Route::post('branches/', [BranchController::class, 'store'])->name('branches.store');
+    Route::post('branches/users/update/{branch_id}', [BranchController::class, 'updateUsers'])->name('branches.users.update');
 
     //Coupon
 

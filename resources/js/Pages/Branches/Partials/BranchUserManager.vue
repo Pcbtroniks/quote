@@ -17,6 +17,8 @@ const props = defineProps({
 
 const updateBranchUsersForm = useForm({
     users: null,
+    updateUsers: [],
+    usersBeingUpdated: [],
 });
 
 const deleteBranchForm = useForm();
@@ -26,16 +28,36 @@ const branchBeingDeleted = ref(null);
 
 const manageBranchUsers = (branch) => {
     managingUsersFor.value = branch;
-    updateBranchUsersForm.users = props.users.filter((user) => user.branch_id == branch.id).map((user) => user.id);
+    updateBranchUsersForm.users = props.users
+                                    .filter((user) => user.branch_id == branch.id)
+                                    .map((user) => user.id);
 };
 
+const updateUsers = (user) => {
+    if(updateBranchUsersForm.updateUsers.includes(user)){
+        updateBranchUsersForm.updateUsers = updateBranchUsersForm.updateUsers.filter((u) => u != user)
+        updateBranchUsersForm.usersBeingUpdated = updateBranchUsersForm.usersBeingUpdated.filter((u) => u.user_id != user)
+    } else {
+        updateBranchUsersForm.updateUsers = [...updateBranchUsersForm.updateUsers, user]
+        const branch = !updateBranchUsersForm.users.includes(user) ? null : managingUsersFor.value.id;
+        updateBranchUsersForm.usersBeingUpdated = [...updateBranchUsersForm.usersBeingUpdated, {user_id: user, branch_id: branch}]
+    }
+};
 const updateBranchUsers = () => {
-    console.log(managingUsersFor.value);
-    return console.log(updateBranchUsersForm.users);
-    updateBranchUsersForm.put(route('branches.update', managingUsersFor.value), {
+    if(updateBranchUsersForm.updateUsers.length == 0){
+        managingUsersFor.value = null;
+        updateBranchUsersForm.updateUsers = [];
+        updateBranchUsersForm.usersBeingUpdated = [];
+        return;
+    }
+    updateBranchUsersForm.post(route('branches.users.update', managingUsersFor.value.id), {
         preserveScroll: true,
         preserveState: true,
-        onSuccess: () => (managingUsersFor.value = null),
+        onSuccess: () => {
+            managingUsersFor.value = null;
+            updateBranchUsersForm.updateUsers = [];
+            updateBranchUsersForm.usersBeingUpdated = [];
+        },
     });
 };
 
@@ -109,7 +131,7 @@ const deleteBranch = () => {
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div v-for="user in props.users" :key="user.id">
                         <label class="flex items-center">
-                            <Checkbox v-model:checked="updateBranchUsersForm.users" :value.string="user.id.toString()" />
+                            <Checkbox @change="updateUsers($event.target.value)" v-model:checked="updateBranchUsersForm.users" :value.string="user.id.toString()" />
                             <span class="ml-2 text-sm text-gray-600">{{ user.name }}</span>
                         </label>
                     </div>
