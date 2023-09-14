@@ -29,7 +29,8 @@ class Quote extends Model
         'cost_amount',
         'sale_amount',
         'observations',
-        'status'
+        'status',
+        'branch_id'
     ];
 
     public function user(){

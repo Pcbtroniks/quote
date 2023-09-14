@@ -22,6 +22,7 @@ class QuoteAdapter {
             'activity_id' => $request->actividad,
             'public_price' => $request->precioPublico,
             'sale_amount' => $request->importeVenta,
+            'branch_id' => auth()->user()->branch_id,
         ];
     }
 
