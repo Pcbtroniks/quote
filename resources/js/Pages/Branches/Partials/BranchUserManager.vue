@@ -9,6 +9,7 @@ import DialogModal from '@/Components/DialogModal.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import SectionBorder from '@/Components/SectionBorder.vue';
+import { successToast } from '@/utils/toast.js'
 
 const props = defineProps({
     branches: Array,
@@ -57,6 +58,7 @@ const updateBranchUsers = () => {
             managingUsersFor.value = null;
             updateBranchUsersForm.updateUsers = [];
             updateBranchUsersForm.usersBeingUpdated = [];
+            successToast('Hecho!')
         },
     });
 };

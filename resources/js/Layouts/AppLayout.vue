@@ -120,6 +120,10 @@ const logout = () => {
                                                 <DropdownLink :href="route('teams.show', $page.props.user.current_team)">
                                                     Ajustes de la agencia
                                                 </DropdownLink>
+                                                <!-- Team Branches -->
+                                                <DropdownLink v-if="$page.props.jetstream.canCreateTeams" :href="route('branches')">
+                                                    Sucursales
+                                                </DropdownLink>
 
                                                 <DropdownLink v-if="$page.props.jetstream.canCreateTeams" :href="route('teams.create')">
                                                     Crear nueva agencia
@@ -188,7 +192,7 @@ const logout = () => {
                                         </div>
 
                                         <DropdownLink :href="route('profile.show')">
-                                            Profile
+                                            Perfil
                                         </DropdownLink>
 
                                         <DropdownLink v-if="$page.props.jetstream.hasApiFeatures" :href="route('api-tokens.index')">
@@ -200,7 +204,7 @@ const logout = () => {
                                         <!-- Authentication -->
                                         <form @submit.prevent="logout">
                                             <DropdownLink as="button">
-                                                Log Out
+                                                Cerrar sesion
                                             </DropdownLink>
                                         </form>
                                     </template>
@@ -273,7 +277,7 @@ const logout = () => {
 
                         <div class="mt-3 space-y-1">
                             <ResponsiveNavLink :href="route('profile.show')" :active="route().current('profile.show')">
-                                Profile
+                                Perfil
                             </ResponsiveNavLink>
 
                             <ResponsiveNavLink v-if="$page.props.jetstream.hasApiFeatures" :href="route('api-tokens.index')" :active="route().current('api-tokens.index')">
@@ -283,7 +287,7 @@ const logout = () => {
                             <!-- Authentication -->
                             <form method="POST" @submit.prevent="logout">
                                 <ResponsiveNavLink as="button">
-                                    Log Out
+                                    Cerrar sesion
                                 </ResponsiveNavLink>
                             </form>
 
@@ -298,6 +302,10 @@ const logout = () => {
                                 <!-- Team Settings -->
                                 <ResponsiveNavLink :href="route('teams.show', $page.props.user.current_team)" :active="route().current('teams.show')">
                                     Ajustes de la agencia
+                                </ResponsiveNavLink>
+                                <!-- Team Branches -->
+                                <ResponsiveNavLink v-if="$page.props.jetstream.canCreateTeams" :href="route('branches')" :active="route().current('branches')">
+                                    Sucursales
                                 </ResponsiveNavLink>
 
                                 <ResponsiveNavLink v-if="$page.props.jetstream.canCreateTeams" :href="route('teams.create')" :active="route().current('teams.create')">
