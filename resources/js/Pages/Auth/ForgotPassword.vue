@@ -21,7 +21,7 @@ const submit = () => {
 </script>
 
 <template>
-    <Head title="Forgot Password" />
+    <Head title="Contraseña olvidada" />
 
     <AuthenticationCard>
         <template #logo>
@@ -29,7 +29,7 @@ const submit = () => {
         </template>
 
         <div class="mb-4 text-sm text-gray-600">
-            Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.
+            ¿Ha olvidado su contraseña? No hay problema. Solo háganos saber su dirección de correo electrónico y le enviaremos un enlace para que la restableza.
         </div>
 
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
@@ -38,7 +38,7 @@ const submit = () => {
 
         <form @submit.prevent="submit">
             <div>
-                <InputLabel for="email" value="Email" />
+                <InputLabel for="email" value="Correo electronico" />
                 <TextInput
                     id="email"
                     v-model="form.email"
@@ -52,7 +52,7 @@ const submit = () => {
 
             <div class="flex items-center justify-end mt-4">
                 <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Email Password Reset Link
+                    Obtener el enlace de restablecimiento
                 </PrimaryButton>
             </div>
         </form>
