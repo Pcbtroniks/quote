@@ -50,6 +50,20 @@ class ExportController extends Controller
         $months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
         [$day, $month, $year] = explode('/', $quote['created_at']);
         return substr($agency, 0, 3) . '-' . $quote['id'] . '-' . $day . $months[$month - 1] . substr($year, 2, 2);
-      }
+    }
+
+    public function exportPDFQuote(Quote $quote)
+    {
+        return view('Exports.Quote', [
+            'quote' => $quote,
+        ]);
+    }
+
+    public function exportPDFQuoteDownlaod(Quote $quote)
+    {
+        Pdf::setOption(['dpi' => 150, 'defaultFont' => 'sans-serif']);
+        $pdf = Pdf::loadView('Exports.Quote', ['quote' => $quote]);
+        return $pdf->download('freetravelers-quote.pdf');
+    }
 
 }

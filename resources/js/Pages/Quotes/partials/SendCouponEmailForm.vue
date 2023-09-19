@@ -5,6 +5,7 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
 import Button from '../../../Components/Button.vue';
+import ButtonPdf from '../../../Shared/ButtonPdf.vue';
 
 const props = defineProps({
     coupon: Object,
@@ -61,6 +62,8 @@ const sendEmailTo = (coupon) => {
                         />
                 </div>
                 <InputError :message="form.errors.folio" class="mt-2" />
+
+                <ButtonPdf />
             </div>
         </template>
     </FormSection>

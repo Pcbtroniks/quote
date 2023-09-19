@@ -154,6 +154,10 @@ Route::middleware([
     Route::get('exports/manifest/{invoiceID}', [ExportController::class, 'exportManifest'])->name('exports.manifest.byInvoiceId');
     Route::get('exports/view/manifest/{invoiceID}', [ExportController::class, 'viewManifest'])->name('exports.view.manifest.byInvoiceId');
 
+    // Export PDF Quote
+    Route::get('export/pdf/quote/{quote?}', [ExportController::class, 'exportPDFQuote'])->name('export.pdf.quote');
+    Route::get('export/pdf/quote/{quote?}/d', [ExportController::class, 'exportPDFQuoteDownlaod'])->name('export.pdf.quote.download');
+
     // Quote
     Route::get('export/pdf/proform/quote/{quote?}', [ExportController::class, 'exportPDFProformQuote'])->name('export.pdf.proform.quote');
 
