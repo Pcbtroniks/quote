@@ -9,6 +9,7 @@ import ButtonPdf from '../../../Shared/ButtonPdf.vue';
 
 const props = defineProps({
     coupon: Object,
+    quote: Object,
 });
 
 const form = useForm({
@@ -63,7 +64,7 @@ const sendEmailTo = (coupon) => {
                 </div>
                 <InputError :message="form.errors.folio" class="mt-2" />
 
-                <ButtonPdf />
+                <ButtonPdf :quote="quote" />
             </div>
         </template>
     </FormSection>

@@ -33,7 +33,7 @@
 
                 <AddConfirmationKeyForm v-if="quote.coupon?.status == 'created'" :coupon="quote.coupon" class="mb-4"/>
 
-                <SendCouponEmailForm v-if="quote.coupon?.status == 'confirmed'" :coupon="quote.coupon" class="mb-4"/>
+                <SendCouponEmailForm v-if="quote.coupon?.status == 'confirmed'" :coupon="quote.coupon" :quote="quote" class="mb-4"/>
 
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                     <QuotePDF :quote="quote" />
