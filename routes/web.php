@@ -157,6 +157,7 @@ Route::middleware([
     // Export PDF Quote
     Route::get('export/pdf/quote/{quote?}', [ExportController::class, 'exportPDFQuote'])->name('export.pdf.quote');
     Route::get('export/pdf/quote/{quote?}/d', [ExportController::class, 'exportPDFQuoteDownlaod'])->name('export.pdf.quote.download');
+    Route::get('export/pdf/quote/{quote?}/v', [ExportController::class, 'exportPDFQuoteView'])->name('export.pdf.quote.view');
 
     // Quote
     Route::get('export/pdf/proform/quote/{quote?}', [ExportController::class, 'exportPDFProformQuote'])->name('export.pdf.proform.quote');

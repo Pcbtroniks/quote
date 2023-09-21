@@ -66,4 +66,12 @@ class ExportController extends Controller
         return $pdf->download('freetravelers-quote.pdf');
     }
 
+    public function exportPDFQuoteView(Quote $quote)
+    {
+        Pdf::setOption(['dpi' => 150, 'defaultFont' => 'sans-serif']);
+        $pdf = Pdf::loadView('Exports.Quote', ['quote' => $quote]);
+        return $pdf->stream("dompdf_out.pdf", array("Attachment" => false));
+        exit(0);
+    }
+
 }

@@ -64,7 +64,9 @@ const sendEmailTo = (coupon) => {
                 </div>
                 <InputError :message="form.errors.folio" class="mt-2" />
 
-                <ButtonPdf :quote="quote" />
+                <template v-if="quote.status == 'confirmed'">
+                    <ButtonPdf :quote="quote" />
+                </template>
             </div>
         </template>
     </FormSection>
