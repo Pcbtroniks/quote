@@ -51,14 +51,13 @@ Route::middleware([
 
     /* Quotes */
 
-
     Route::get('/quote', [QuoteController::class, 'index'])->name('quote');
 
     Route::post('/quote/create', [QuoteController::class, 'store'])->name('quote.store');
 
     Route::get('/quote/preview/{quoteId}', [QuoteController::class, 'preview'])->name('quote.preview');
 
-    Route::get('/quotes/filter', [HomeController::class, 'filter'])->name('quotes.filter');
+    Route::get('/quotes/filter', [HomeController::class, 'index'])->name('quotes.filter');
 
     /* Quoter */
 

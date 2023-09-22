@@ -17,9 +17,9 @@ class HomeController extends Controller
         $this->QuoteRepository = new GetQuotes();
     }
 
-    public function index(){
-
-        $getQuotes = $this->QuoteRepository->get(request(), request()->user()->isFreetravelerAdmin());
+    public function index()
+    {
+        $getQuotes = $this->QuoteRepository->getScoped(request());
 
         return inertia('Dashboard', [
             'quotes' => $getQuotes,

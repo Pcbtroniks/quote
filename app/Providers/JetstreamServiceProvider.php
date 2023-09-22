@@ -65,6 +65,7 @@ class JetstreamServiceProvider extends ServiceProvider
             'read',
             'update',
             'delete',
+            'agencies.manage',
             'agency.manage',
             'branch.manage',
         ])->description('Administradores de Freetraveler.');

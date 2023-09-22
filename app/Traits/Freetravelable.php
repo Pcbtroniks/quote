@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Models\Team;
+use Attribute;
 
 trait Freetravelable {
 
@@ -11,15 +12,15 @@ trait Freetravelable {
      * @return Bool
      */
 
-     public function getIsFreetravelerAdminAttribute()
-     {
-         return $this->isFreetravelerAdmin();
-     }
- 
-     public function isFreetravelerAdmin()
-     {
-        $team = Team::where('name', 'Freetravelers')->first();
-        return $this->belongsToTeam($team) && $this->hasTeamRole($team, 'admin');
-     }
+    public function getIsFreetravelerAdminAttribute()
+    {
+        return $this->isFreetravelerAdmin();
+    }
+
+    public function isFreetravelerAdmin()
+    {
+    $team = Team::where('name', 'Freetravelers')->first();
+    return $this->belongsToTeam($team) && $this->hasTeamRole($team, 'admin');
+    }
 
 }

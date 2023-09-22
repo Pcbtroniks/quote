@@ -59,7 +59,7 @@ class User extends Authenticatable
      */
     protected $appends = [
         'profile_photo_url',
-        'is_freetraveler_admin'
+        'is_freetraveler_admin',
     ];
 
     public function quotes()
@@ -67,4 +67,8 @@ class User extends Authenticatable
         return $this->hasMany(Quote::class);
     }
 
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);
+    }
 }
