@@ -80,7 +80,7 @@
                             <td style="height: 20px; font-size: 12px;">Lugar y fecha / Date and place</td>
                         </tr>
                         <tr>
-                            <td style="height: 20px;">{{ $quote->created_at ?? '30/07/1999' }}</td>
+                            <td style="height: 20px;">{{ $quote->created_at ?? '' }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -130,16 +130,16 @@
                             </td>
                             <td style="width: 35%;">
                             @if ($quote->type == 'entrance')
-                                {{ $quote->listed_activities[0]->date_string_formatted }}
+                                {{ $quote->listed_activities[0]->date->format('d/m/Y') ?? '' }}
                             @elseif ($quote->type == 'tour')
-                                {{ $quote->listed_activities[0]->date_string_formatted }}
+                                {{ $quote->listed_activities[0]->date->format('d/m/Y') ?? '' }}
                             @endif
                             </td>
                             <td style="width: 35%; text-align:left; line-height: 12px; vertical-align: middle;">
                                 Horario /<br> Schedule
                                 @if ($quote->type == 'tour')
                                     &nbsp;&nbsp;
-                                    {{ $quote->listed_activities[0]->pickup_time }}
+                                    {{ substr($quote->listed_activities[0]->pickup_time, 0, 5) }}
                                 @endif
                             </td>
                         </tr>
@@ -158,7 +158,13 @@
                             <td>@if ($quote->type == 'entrance')
                                 {{ $quote->listed_activities[0]->activity->name }}
                             @endif</td>
-                            <td>&nbsp;</td>
+                            <td>
+                            @if ($quote->national)
+                                PROMOMEX
+                            @else
+                                &nbsp;
+                            @endif
+                            </td>
                         </tr>
                         <tr style="height: 36px;">
                             <td style="height: 36px;">Tour</td>
@@ -179,7 +185,7 @@
                             <td colspan="2" style="font-weight: bold; font-size:11px; padding: 0px; line-height: 12px">
                             @if ($quote->type == 'pack' && count($quote->listed_activities))                                 
                             @foreach ($quote->listed_activities as $activity)
-                               {{ $activity->activity->name }}, <span style="font-weight: normal;"> {{ $activity->date_string_formatted . ', ' .  $activity->hotel->name }}</span>
+                               {{ $activity->activity->name }}, <span style="font-weight: normal;"> {{ $activity->date_string_formatted . ', ' .  $activity->hotel->name . ' ' . (substr($activity->pickup_time, 0, 5) ?? 'n/d') . ' h' }}</span>
                                <br>
                             @endforeach
                             @endif
@@ -190,8 +196,8 @@
                             Clave de confirmacion / <br> Confirmation code
                             </td>
                             <td colspan="2" style="text-align: left; padding-left: 12px">
-                                @if ($quote->coupon->code)
-                                    {{ $quote->coupon->code ?? '' }}
+                                @if ($quote->coupon->confirmation_key)
+                                    {{ $quote->coupon->confirmation_key ?? '' }}
                                 @endif
                             </td>
                         </tr>

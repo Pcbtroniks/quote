@@ -72,6 +72,7 @@ class GetQuotes {
         'team', 
         'listed_activities.hotel', 
         'listed_activities.hotel.zone'])
+        ->orderBy('created_at', 'desc')
         ->paginate($limit)
         ->onEachSide(0);
     }
