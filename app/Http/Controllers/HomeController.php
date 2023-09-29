@@ -20,7 +20,6 @@ class HomeController extends Controller
     public function index()
     {
         $getQuotes = $this->QuoteRepository->getScoped(request());
-
         return inertia('Dashboard', [
             'quotes' => $getQuotes,
             'agencies' => Team::getTeams()

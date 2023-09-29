@@ -18,7 +18,7 @@ class UserRole {
 
     public static function isBranchAdmin(User $user)
     {
-        return $user->hasTeamRole($user->currentTeam, 'branch');
+        return $user->hasTeamRole($user->currentTeam, 'manager');
     }
 
     public static function isSeller(User $user)

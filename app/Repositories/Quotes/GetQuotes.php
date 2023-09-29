@@ -97,9 +97,12 @@ class GetQuotes {
         if(UserRole::isAgencyAdmin($request->user())) {
             return $scopedQuery;
         }
-        if(!is_null($request->user()->branch)){
+        if(!is_null($request->user()->branch->id)){
             $scopedQuery = $scopedQuery->where('branch_id', $request->user()->branch->id);
         }
+
+        $scopedQuery = $this->forceOnlyQuotesWithBranch($scopedQuery);
+
         if(UserRole::isBranchAdmin($request->user())) {
             return $scopedQuery;
         }
