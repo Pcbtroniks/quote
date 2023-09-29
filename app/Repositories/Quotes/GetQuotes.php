@@ -101,8 +101,6 @@ class GetQuotes {
             $scopedQuery = $scopedQuery->where('branch_id', $request->user()->branch->id);
         }
 
-        $scopedQuery = $this->forceOnlyQuotesWithBranch($scopedQuery);
-
         if(UserRole::isBranchAdmin($request->user())) {
             return $scopedQuery;
         }
