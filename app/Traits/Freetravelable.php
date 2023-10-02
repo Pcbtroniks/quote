@@ -3,7 +3,6 @@
 namespace App\Traits;
 
 use App\Models\Team;
-use Attribute;
 
 trait Freetravelable {
 
@@ -23,4 +22,12 @@ trait Freetravelable {
     return $this->belongsToTeam($team) && $this->hasTeamRole($team, 'admin');
     }
 
+    public function getPermissionsAttribute()
+    {
+        if(auth()->check()) {
+            return auth()->user()->teamPermissions(auth()->user()->currentTeam);
+        } else {
+            return [];
+        }
+    }
 }

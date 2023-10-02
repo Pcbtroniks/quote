@@ -8,6 +8,7 @@ import { Link } from '@inertiajs/inertia-vue3';
 import { Inertia } from '@inertiajs/inertia';
 import axios from 'axios';
 import { reactive } from 'vue';
+import { userHasPermission, PERMISSIONS } from '@/Helpers/Permissions.js';
 
 const props = defineProps({
     quote: Object
@@ -148,7 +149,7 @@ const getStatusColor = (status) => {
             <!-- Overview -->
             <div class="col-span-6">
                 <div class="text-lg font-medium text-gray-900">Cotización <span :class="getStatusColor(props.quote.status)" class="p-2 rounded">status {{ props.quote.status }}</span></div>
-                <div v-if="$page.props.user.is_freetraveler_admin">
+                <div v-if="userHasPermission($page.props.user, PERMISSIONS.MANAGE_BRANCH)">
                     <span class="text-sm text-gray-500">Realizada por: {{ props.quote.user.name }} en ({{ props.quote.team.name }}) el dia {{ props.quote.created_at }}</span>
                     <br>
                     <span class="text-sm text-gray-500">Precio publico: ${{ props.quote.public_price }}</span>

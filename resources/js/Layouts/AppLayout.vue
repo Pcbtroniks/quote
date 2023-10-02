@@ -8,6 +8,7 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
+import { userHasPermission, PERMISSIONS } from '@/Helpers/Permissions';
 
 defineProps({
     title: String,
@@ -58,7 +59,7 @@ const logout = () => {
                                     Cotizador
                                 </NavLink>
 
-                                <NavLink :href="route('activities')" :active="route().current('activities')">
+                                <NavLink v-if="userHasPermission($page.props.user, PERMISSIONS.MANAGE_BRANCH)" :href="route('activities')" :active="route().current('activities')">
                                     Costos
                                 </NavLink>
 
@@ -250,7 +251,7 @@ const logout = () => {
                         <ResponsiveNavLink :href="route('quote.create')" :active="route().current('quote')">
                             Cotizador
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('activities')" :active="route().current('activities')">
+                        <ResponsiveNavLink v-if="userHasPermission($page.props.user, PERMISSIONS.MANAGE_BRANCH)" :href="route('activities')" :active="route().current('activities')">
                             Costos
                         </ResponsiveNavLink>
                         <ResponsiveNavLink v-if="$page.props.user.is_freetraveler_admin" :href="route('pickups.by.zone')" :active="route().current('pickups.*')">

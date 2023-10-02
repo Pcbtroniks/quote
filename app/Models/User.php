@@ -60,6 +60,7 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
         'is_freetraveler_admin',
+        'permissions'
     ];
 
     public function quotes()
