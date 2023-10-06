@@ -15,8 +15,8 @@ function propsAsString(obj) {
   return Object.keys(obj).map(function(k) { return k + "=" + obj[k] }).join("&")
 }
 
-console.log(props.data);
-console.log(props.links);
+// console.log(props.data);
+// console.log(props.links);
 </script>
 <template>
     <component

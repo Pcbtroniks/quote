@@ -1,1 +1,0 @@
-import{o as e,c as a,w as s,g as o,L as r,a as t}from"./app.c3b3e73a.js";const c=t("img",{class:"h-20",src:"/assets/Logo.png",alt:"Logo FreeTraveler"},null,-1),u={__name:"LogoFreeTraveler",setup(n){return(_,l)=>(e(),a(o(r),null,{default:s(()=>[c]),_:1}))}};export{u as _};

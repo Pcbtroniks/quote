@@ -10,7 +10,7 @@ export const PERMISSIONS = {
 
 export const userHasPermission = (user, permission) => {
     if (user) {
-        return user.permissions.includes(permission);
+        return user.permissions.includes(permission) || user?.is_freetraveler_admin;
     }
     return false;
 }

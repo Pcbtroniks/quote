@@ -1,0 +1,1 @@
+const n={CREATE:"create",READ:"read",UPDATE:"update",DELETE:"delete",MANAGE_AGENCIES:"agencies.manage",MANAGE_AGENCY:"agency.manage",MANAGE_BRANCH:"branch.manage"},E=(e,a)=>e?e.permissions.includes(a)||(e==null?void 0:e.is_freetraveler_admin):!1;export{n as P,E as u};
