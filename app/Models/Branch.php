@@ -24,4 +24,9 @@ class Branch extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    public function quotes()
+    {
+        return $this->hasMany(Quote::class);
+    }
 }

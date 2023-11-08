@@ -49,6 +49,7 @@ const requestCouponConfirmation = (Quote) => {
 }
 
 const LoadProFormModal = (Quote) => {
+    // return console.log(Quote);
     CurrentProformQuote.value = {...Quote,tmpFolio: printTempFolio(Quote)};
     ShowProFormModal.value = true;
     console.log(Quote);
@@ -67,7 +68,7 @@ const printTempFolio = (quote) => {
 <DialogModal :show="ShowProFormModal" @close="ShowProFormModal = false">
     <template #title>
         <p class="font-bold text-gray-700">
-            Número de solicitud: <span class="text-yellow-600">{{ CurrentProformQuote?.tmpFolio }}</span>
+            Número de solicitud <span class="text-yellow-600">{{ CurrentProformQuote?.tmpFolio }}</span>
         </p>
         <p class="text-gray-700">
             Fecha: {{ CurrentProformQuote?.listed_activities[0]?.date_string_formatted ?? 'n/d'}}
@@ -116,11 +117,19 @@ const printTempFolio = (quote) => {
     </template>
 
     <template #footer>
+        <div class="self-center justify-start flex mr-4">
+            <p>Por: {{ CurrentProformQuote.user.name }} <span v-if="CurrentProformQuote.branch">{{ CurrentProformQuote.branch.name }}</span></p>
+        </div>
+
         <a :href="route('export.pdf.proform.quote', {'quote': CurrentProformQuote.id})">
             <SecondaryButton @click.native="ShowProFormModal = false">
                 Imprimir PDF
             </SecondaryButton>
         </a>
+
+        <PrimaryButton v-if="CurrentProformQuote.status == 'created'" class="ml-2" @click="requestCouponConfirmation(CurrentProformQuote)">
+            Solicitar
+        </PrimaryButton>
 
         <PrimaryButton class="ml-2" @click.native="ShowProFormModal = false">
             Aceptar
@@ -211,7 +220,8 @@ const printTempFolio = (quote) => {
                                                     </svg>
                                                 </div>
                                             </a>
-                                            <button v-else-if="quote.status == 'created'" @click="requestCouponConfirmation(quote)" class="px-3 py-2 rounded-md text-sm font-medium border focus:outline-none focus:ring transition text-sky-600 border-sky-600 hover:text-white hover:bg-sky-600 active:bg-sky-700 focus:ring-sky-300" type="button">
+                                            <!-- <button v-else-if="quote.status == 'created'" @click="requestCouponConfirmation(quote)" class="px-3 py-2 rounded-md text-sm font-medium border focus:outline-none focus:ring transition text-sky-600 border-sky-600 hover:text-white hover:bg-sky-600 active:bg-sky-700 focus:ring-sky-300" type="button"> -->
+                                            <button v-else-if="quote.status == 'created'" @click="LoadProFormModal(quote)" class="px-3 py-2 rounded-md text-sm font-medium border focus:outline-none focus:ring transition text-sky-600 border-sky-600 hover:text-white hover:bg-sky-600 active:bg-sky-700 focus:ring-sky-300" type="button">
                                                 Solicitar
                                             </button>
                                             <button v-else-if="quote.status == 'pending'" @click="LoadProFormModal(quote)" class="px-3 py-2 rounded-md text-sm font-medium border focus:outline-none focus:ring transition text-yellow-600 border-yellow-600 hover:text-white hover:bg-yellow-600 active:bg-yellow-700 focus:ring-yellow-300" type="button">

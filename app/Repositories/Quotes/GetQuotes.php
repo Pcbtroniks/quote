@@ -71,7 +71,9 @@ class GetQuotes {
         'listed_activities.activity', 
         'team', 
         'listed_activities.hotel', 
-        'listed_activities.hotel.zone'])
+        'listed_activities.hotel.zone',
+        'user.branch',
+        'branch'])
         ->orderBy('created_at', 'desc')
         ->paginate($limit)
         ->onEachSide(0);

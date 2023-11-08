@@ -62,6 +62,9 @@ class User extends Authenticatable
         'is_freetraveler_admin',
         'permissions'
     ];
+    protected $append = [
+        'branch'
+    ];
 
     public function quotes()
     {
