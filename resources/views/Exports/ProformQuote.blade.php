@@ -27,9 +27,13 @@
     <div style="left: 0px; top: 132px; position: absolute; color: black; font-size: 20px; font-family: Nunito; font-weight: 700; word-wrap: break-word">Comisiones: ${{ ($quote->public_price - $quote->cost_amount) ?? 'n/d'}}</div>
   </div>
   <div style="width: 580px; height: 95px; left: 53px; top: 317px; position: absolute">
-    @foreach ($quote->listed_activities as $activity)
-      <div style="left: 0px; top: {{ (40 + (25 * $loop->index)) }}px; position: absolute; color: black; font-size: 18px; font-family: Nunito; font-weight: 400">{{ $activity->activity->name }} {{ substr($activity->hotel->name, 0, 28) . '...' ?? '' }} {{ ($activity->pickup_time != null && $activity->pickup_time != '00:00:00') ? substr($activity->pickup_time, 0, 5) : '' }}</div>  
-    @endforeach
+    @if ($quote->type == 'entrance')
+      <div style="left: 0px; top: 65px; position: absolute; color: black; font-size: 18px; font-family: Nunito; font-weight: 400">{{ $quote->listed_activities[0]->activity->name }}</div>  
+    @else
+      @foreach ($quote->listed_activities as $activity)
+        <div style="left: 0px; top: {{ (40 + (25 * $loop->index)) }}px; position: absolute; color: black; font-size: 18px; font-family: Nunito; font-weight: 400">{{ $activity->activity->name }} {{ substr($activity->hotel->name, 0, 28) . '...' ?? '' }} {{ ($activity->pickup_time != null && $activity->pickup_time != '00:00:00') ? substr($activity->pickup_time, 0, 5) : '' }}</div>  
+      @endforeach
+    @endif
     <div style="left: 0px; top: 0px; position: absolute; color: black; font-size: 20px; font-family: Nunito; font-weight: 700; word-wrap: break-word">Actividades</div>
   </div>
   <div style="width: 500px; height: 25px; left: 53px; top: 263px; position: absolute">
