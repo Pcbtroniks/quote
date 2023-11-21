@@ -1704,10 +1704,6 @@
     "file": "assets/PickupList.4428e2b2.css",
     "src": "resources/js/Pages/Pickups/Partials/PickupList.css"
   },
-  "resources/js/Pages/Quoter/partials/CreateFormQuote.css": {
-    "file": "assets/CreateFormQuote.62b77c70.css",
-    "src": "resources/js/Pages/Quoter/partials/CreateFormQuote.css"
-  },
   "ModernSwitch.css": {
     "file": "assets/ModernSwitch.e981ad44.css",
     "src": "ModernSwitch.css"
@@ -1719,5 +1715,9 @@
   "resources/js/Pages/Quotes/partials/SendCouponEmailForm.css": {
     "file": "assets/SendCouponEmailForm.40b48ce1.css",
     "src": "resources/js/Pages/Quotes/partials/SendCouponEmailForm.css"
+  },
+  "resources/js/Pages/Quoter/partials/CreateFormQuote.css": {
+    "file": "assets/CreateFormQuote.62b77c70.css",
+    "src": "resources/js/Pages/Quoter/partials/CreateFormQuote.css"
   }
 }
