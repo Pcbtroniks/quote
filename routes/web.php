@@ -41,7 +41,6 @@ Route::middleware([
 ])->group(function () {
 
     Route::get('/', [HomeController::class, 'index'])->name('home');
-
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
 
 
@@ -50,60 +49,41 @@ Route::middleware([
     Route::resource('/category', CategoryController::class);
 
     /* Quotes */
-
     Route::get('/quote', [QuoteController::class, 'index'])->name('quote');
-
     Route::post('/quote/create', [QuoteController::class, 'store'])->name('quote.store');
-
     Route::get('/quote/preview/{quoteId}', [QuoteController::class, 'preview'])->name('quote.preview');
-
     Route::get('/quotes/filter', [HomeController::class, 'index'])->name('quotes.filter');
 
+    /* Quotes* */
+    
+
     /* Quoter */
-
     Route::get('/quoter/create', [QuoterController::class, 'create'])->name('quote.create');
-
     Route::get('/quoter/nd/', [QuoterController::class, 'nd'])->name('quote.nd');
-
     Route::get('/quoter/calculate/', [QuoterController::class, 'calculateCost'])->name('quoter.calculate');
-
     Route::post('/quoter/create', [QuoterController::class, 'store'])->name('quoter.store');
 
     // Activities
-
     Route::get('/activities', [ActivitiesController::class, 'index'])->name('activities');
-
     Route::post('/activities/create', [ActivitiesController::class, 'store'])->name('activities.store');
-
     Route::post('/activities/{id}', [ActivitiesController::class, 'update'])->name('activities.update');
-
     Route::get('parks', [QuoteController::class, 'parks'])->name('parks');
-
     Route::get('tours', [QuoteController::class, 'tours'])->name('tours');
-
     Route::get('hotels/{zone}', [QuoteController::class, 'hotels'])->name('hotels');
-
     Route::get('prices/{activity}/{zone}/{season}', [QuoteController::class, 'price'])->name('prices');
 
     // From Create activity page Prices
     Route::get('/activity/create/{activity?}', [ActivitiesController::class, 'create'])->name('activity.create');
-
     Route::get('/activity/search', [ActivitiesController::class, 'search'])->name('activity.search');
-
     Route::post('activity/store', [ActivitiesController::class, 'store'])->name('activity.store');
-
     Route::post('activity/update', [ActivitiesController::class, 'onlyActivityUpdate'])->name('activity.update');
-
     Route::post('activity/price/upsert', [PricesController::class, 'upsert'])->name('activity.price.upsert');
-
     Route::post('activity/costs/upsert', [PricesController::class, 'upsertCosts'])->name('activity.costs.upsert');
 
     // Hotels
-
     Route::post('hotels/json/', [HotelController::class, 'jsonStore'])->name('hotels.json.store');
 
     // Pickups
-
     Route::get('pickups/create', [PickupController::class, 'create'])->name('pickups.create');
     Route::get('pickups/byhotel/{hotel?}', [PickupController::class, 'byHotel'])->name('pickups.by.hotel');
     Route::get('pickups/byzone/{zone?}/{activity?}', [PickupController::class, 'byZone'])->name('pickups.by.zone');
@@ -113,7 +93,6 @@ Route::middleware([
     Route::post('pickups/update-multiple/{pickup}', [PickupController::class, 'updateMultiple'])->name('pickups.update.multiple');
 
     // Invoices
-
     Route::get('invoices/', [InvoiceController::class, 'index'])->name('invoices');
     Route::post('invoices/', [InvoiceController::class, 'store'])->name('invoices.store');
 
@@ -122,20 +101,17 @@ Route::middleware([
     Route::post('invoice-coupons/unsync/invoice', [InvoiceController::class, 'unSyncCoupon'])->name('invoices.unsync.coupon');
 
     // Providers
-
     Route::get('providers/', [ProviderController::class, 'index'])->name('providers');
     Route::post('providers/', [ProviderController::class, 'store'])->name('providers.store');
     Route::post('providers/{providerID}/status/switch', [ProviderController::class, 'switch'])->name('providers.switch.status');
     Route::delete('providers/{providerID}/delete/', [ProviderController::class, 'delete'])->name('providers.delete');
 
     // Branches
-
     Route::get('branches/', [BranchController::class, 'index'])->name('branches');
     Route::post('branches/', [BranchController::class, 'store'])->name('branches.store');
     Route::post('branches/users/update/{branch_id}', [BranchController::class, 'updateUsers'])->name('branches.users.update');
 
     //Coupon
-
     Route::get('coupons/code/{code}', [CouponController::class, 'searchByCode'])->name('coupon.search.code');
     Route::post('coupons/{coupon}/confirm/', [CouponController::class, 'keyConfirm'])->name('coupon.key.confirm');
     Route::post('coupons/{quote}/get-code', [CouponController::class, 'getCode'])->name('coupon.get.code');

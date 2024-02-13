@@ -2,7 +2,9 @@
 
 ## Descripción
 
-## Temporada Alta y Baja
+
+
+## Temporadas Alta y Baja
 Los precios de los precios varian segun la temporada del año.
 
 ### Ajuste de temporadas (08.02.2024)
@@ -19,3 +21,5 @@ export const getSeason = (Date) => {
         : 'low';
 }
 ```
+
+## Filtros
