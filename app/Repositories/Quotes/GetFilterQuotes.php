@@ -6,7 +6,7 @@ use App\Models\Quote as QuoteModel;
 use App\Repositories\Permissions\UserPermission;
 use App\Repositories\Permissions\UserRole;
 
-class GetQuotes {
+class GetFilterQuotes {
 
     /**
      * Get the quotes
@@ -17,42 +17,12 @@ class GetQuotes {
      * @param bool $isFreetravelerAdmin
      * @param int $limit
      */
-    public function get($request, $isFreetravelerAdmin = false, int $limit = 10)
+    public static function get($request, $isFreetravelerAdmin = false, int $limit = 10)
     {
-        return QuoteModel::when( !$isFreetravelerAdmin , function ($q)
-        {
-            $q->where('team_id', auth()->user()->currentTeam->id);
-        })
-        ->when($request->user()->branch, function ($q) use ($request){
-            $q->where('branch_id', $request->user()->branch->id);
-        })
-        ->when($request->date, function ($q) use ($request){
-            $q->whereHas('listed_activities', function ($q) use($request) {
-                $q->where('date', $request->date);
-            });
-        })
-        ->when($request->type, function ($q) use ($request){
-            $q->where('type', $request->type);
-        })
-        ->when($request->filter_agency, function ($q) use ($request){
-                $q->where('team_id', $request->filter_agency);
-        })
-        ->when($request->zone, function ($q) use ($request){
-            $q->whereHas('listed_activities.hotel.zone', function ($q) use($request) {
-                $q->whereId($request->zone);
-            });
-        })
-        ->where('created_at', '>', '2023-06-14')
-        ->with([
-        'user', 
-        'coupon', 
-        'listed_activities', 
-        'listed_activities.activity', 
-        'team', 
-        'listed_activities.hotel', 
-        'listed_activities.hotel.zone'])
-        ->paginate($limit)
-        ->onEachSide(0);
+        $quotes = QuoteModel::query();
+        $quotes = new FilterQuote($quotes);
+
+        return $quotes->ApplyRequestOptionalFilters($quotes, $request)->get();
     }
 
     public function getScoped($request, $limit = 15)

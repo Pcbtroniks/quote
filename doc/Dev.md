@@ -9,8 +9,10 @@ Creacion estandar de un modelo en el proyecto
 3. Definir las relaciones con otros modelos (Opcional)
 4. Crear los repositorios de acceso a datos
     1. Ejemplo: `App\Repositories\Reservations\GetReservation`
-    1. Ejemplo: `App\Repositories\Reservations\PostReservation`
+    2. Ejemplo: `App\Repositories\Reservations\PostReservation`
 5. Crear los controladores
+    1. Usar espacios de nombre adecuados, ejemplo: `App\Http\Controllers\Reservations\ReservationController`
+    3. Definir los métodos de acceso a datos, ejemplo: `index`, `show`, `store`, `update`, `destroy`
 6. Definir las rutas de acceso al controlador
 7. Crear las vistas tanto de interfaces como de presentador de información
     1. Ejemplo: `resources\views\reservations\index.blade.php`

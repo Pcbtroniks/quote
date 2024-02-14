@@ -15,6 +15,7 @@ use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\Qr\QRController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\QuoterController;
+use App\Http\Controllers\Quotes\QuoteController as QuotesQuoteController;
 use App\Http\Controllers\Team\CurrentTeamController;
 use FontLib\Table\Type\name;
 use Illuminate\Support\Facades\Route;
@@ -54,8 +55,8 @@ Route::middleware([
     Route::get('/quote/preview/{quoteId}', [QuoteController::class, 'preview'])->name('quote.preview');
     Route::get('/quotes/filter', [HomeController::class, 'index'])->name('quotes.filter');
 
-    /* Quotes* */
-    
+    /* Quotes** */
+    Route::get('/quotes', [QuotesQuoteController::class, 'index'])->name('quote.index');
 
     /* Quoter */
     Route::get('/quoter/create', [QuoterController::class, 'create'])->name('quote.create');
