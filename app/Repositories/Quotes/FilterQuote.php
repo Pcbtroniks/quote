@@ -1,19 +1,21 @@
 <?php
 
 namespace App\Repositories\Quotes;
+
+use App\Repositories\Permissions\UserPermission;
+use App\Repositories\Permissions\UserRole;
 use App\Repositories\Quotes\Filter;
 
 class FilterQuote {
 
     protected $QueryBuilder;
-    private $_QueryBuilderBackup;
 
     public function __construct($QueryBuilder)
     {
         $this->QueryBuilder = $QueryBuilder;
     }
 
-    public function ApplyRequestOptionalFilters($query, $request)
+    public function _ApplyRequestOptionalFilters($query, $request)
     {
         $this->PrepareDateFilters($request);
 
@@ -26,26 +28,6 @@ class FilterQuote {
         }
         return $query;
     }
-    public function get()
-    {
-        return $this->QueryBuilder->get();
-    }
-
-    // Query Builder
-    public function getQuery()
-    {
-        return $this->QueryBuilder;
-    }
-    public function SetQuery($query)
-    {
-        $this->_QueryBuilderBackup = $this->QueryBuilder;
-        $this->QueryBuilder = $query;
-    }
-    public function ResetQuery()
-    {
-        $this->QueryBuilder = $this->_QueryBuilderBackup;
-    }
-
     // Apply Filters
     public function ApplyFilter($filter, $value)
     {
@@ -93,5 +75,53 @@ class FilterQuote {
         {
             $this->QueryBuilder = $this->QueryBuilder->whereBetween('created_at', [$dates[Filter::FromDate], $dates[Filter::ToDate]]);
         }
+    }
+
+    // Scoped Filters
+    public static function ApplyRequestOptionalFilters($query, $request)
+    {
+        return $query->when((UserPermission::CanManageAgencies($request->user()) && $request->filter_agency), function ($q) use ($request){
+            $q->where('team_id', $request->filter_agency);
+        })
+        ->when( (UserPermission::CanManageBranches($request->user()) && $request->filter_branch), function ($q) use ($request){
+            $q->where('team_id', $request->user()->currentTeam->id);
+        });
+    }
+    public static function ApplyScopeBasedOnUserRole($query, $request)
+    {
+        if($request->user()->isFreetravelerAdmin()) {
+            return $query;
+        };
+
+        $scopedQuery = $query->where('team_id', $request->user()->currentTeam->id);
+
+        if(UserRole::isAgencyAdmin($request->user())) {
+            return $scopedQuery;
+        }
+        if(isset($request->user()->branch->id) && !is_null($request->user()->branch->id)){
+            $scopedQuery = $scopedQuery->where('branch_id', $request->user()->branch->id);
+        }
+
+        if(UserRole::isBranchAdmin($request->user())) {
+            return $scopedQuery;
+        }
+        if(UserRole::isSeller($request->user())){
+            return $scopedQuery->where('user_id', $request->user()->id);
+        }
+
+        return $scopedQuery;
+    }
+    public static function ForceOnlyQuotesWithBranch($query)
+    {
+        return $query->whereNotNull('branch_id');
+    }
+
+    public static function SortBy($query, $request)
+    {
+        if($request->has('sort_by'))
+        {
+            $query->orderBy($request->input('sort_by'), $request->input('sort_order', 'desc'));
+        }
+        return $query;
     }
 }

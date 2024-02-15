@@ -6,6 +6,7 @@ import SecondaryButton from '@/Components/SecondaryButton.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import axios from 'axios';
 import { ref } from 'vue';
+// import { truncate } from '@/utils/utils.js';
 
 const ShowProFormModal = ref(false);
 const CurrentProformQuote = ref(null);
@@ -60,6 +61,13 @@ const printTempFolio = (quote) => {
     const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
     const [day, month, year] = quote.created_at.split('/');
     return `${agency.substring(0, 3)}-${quote.id}-${day}${months[month - 1]}${year.substring(2, 4)}`;
+}
+
+// Utils
+const showFullText = ref(false);
+
+const toggleShowFullText = () => {
+    showFullText.value = !showFullText.value;
 }
 </script>
 
@@ -183,19 +191,10 @@ const printTempFolio = (quote) => {
                                 <th class="p-2 whitespace-nowrap">
                                     <div class="font-semibold text-left">Precio Publico</div>
                                 </th>
-                                <th class="p-2 whitespace-nowrap">
-                                    <div class="font-semibold text-left"  title="Hora del pickup">Hr. pickup</div>
-                                </th>
-                                <th class="p-2 whitespace-nowrap">
-                                    <div class="font-semibold text-left"  title="Hotel del pickup">Htl. pickup</div>
-                                </th>
-                                <th class="p-2 whitespace-nowrap">
-                                    <div class="font-semibold text-center">Zona</div>
-                                </th>
                             </tr>
                         </thead>
                         <tbody class="text-sm divide-y divide-gray-100">
-                            <tr v-for="quote in quotes.data" class="h-14 hover:bg-sky-300">
+                            <tr v-for="quote in quotes.data" :key="quote.id" class="h-14 hover:bg-sky-300">
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <div class="font-medium text-gray-800">{{ quote.listed_activities[0]?.date ?? 'n/d' }}</div>
@@ -231,7 +230,7 @@ const printTempFolio = (quote) => {
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="flex items-center">
-                                        <div class="font-medium text-gray-800">{{ quote.holder_name }}</div>
+                                        <div @click="toggleShowFullText()" :class="{ 'w-full text-clip' : showFullText }" class="font-medium text-gray-800 w-32 truncate cursor-pointer">{{ quote.holder_name }}</div>
                                     </div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap cursor-default">
@@ -266,15 +265,6 @@ const printTempFolio = (quote) => {
                                 </td>
                                 <td class="p-2 whitespace-nowrap cursor-default">
                                     <div class="text-left font-medium text-green-500">${{ quote.public_price }}</div>
-                                </td>
-                                <td class="p-2 whitespace-nowrap cursor-default">
-                                    <div class="text-left font-medium text-green-500 truncate w-20" title="Hora del pickup">{{ quote.listed_activities[0]?.pickup_time == null ? 'N/A' : quote.listed_activities[0].pickup_time.slice(0,5)}}</div>
-                                </td>
-                                <td class="p-2 whitespace-nowrap cursor-default">
-                                    <div class="text-left font-medium text-green-500 truncate w-20" :title="quote.listed_activities[0]?.hotel?.name ?? 'No Aplica'">{{ quote.listed_activities[0]?.hotel?.name ?? 'N/A' }}</div>
-                                </td>
-                                <td class="p-2 whitespace-nowrap">
-                                    <div class="text-center capitalize">{{ quote.listed_activities[0]?.hotel?.zone.name ?? 'N/A' }}</div>
                                 </td>
                             </tr>
                         </tbody>

@@ -3,6 +3,7 @@
 namespace App\Repositories\Quotes;
 
 use App\Models\Quote as QuoteModel;
+use App\Models\QuoteActivity;
 use App\Repositories\Permissions\UserPermission;
 use App\Repositories\Permissions\UserRole;
 
@@ -29,9 +30,10 @@ class GetFilterQuotes {
     {
         $query = QuoteModel::query();
 
-        $query = $this->ApplyRequestOptionalFilters($query, $request);
-        $query = $this->ApplyScopeBasedOnUserRole($query, $request);
-        // $query = $this->ForceOnlyQuotesWithBranch($query);
+        $query = FilterQuote::ApplyRequestOptionalFilters($query, $request);
+        $query = FilterQuote::ApplyScopeBasedOnUserRole($query, $request);
+        $query = FilterQuote::SortBy($query, $request);
+        // $query = FilterQuote::ForceOnlyQuotesWithBranch($query);
         
         return $query->where('created_at', '>', '2023-06-14')
         ->with([
@@ -44,57 +46,13 @@ class GetFilterQuotes {
         'listed_activities.hotel.zone',
         'user.branch',
         'branch'])
-        ->orderBy('created_at', 'desc')
+        // ->orderBy('listed_activities.date', 'desc')
+        ->orderBy(
+            QuoteActivity::select('date')
+            ->whereColumn('quote_id', 'quotes.id')
+            ->latest()
+            ->limit(1), 'desc')
         ->paginate($limit)
         ->onEachSide(0);
-    }
-
-
-    /**
-     * Apply scope based on user role like agency admin, branch admin, etc
-     * 
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param \Illuminate\Http\Request $request
-     * 
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function ApplyScopeBasedOnUserRole($query, $request)
-    {
-        if($request->user()->isFreetravelerAdmin()) {
-            return $query;
-        };
-
-        $scopedQuery = $query->where('team_id', $request->user()->currentTeam->id);
-
-        if(UserRole::isAgencyAdmin($request->user())) {
-            return $scopedQuery;
-        }
-        if(isset($request->user()->branch->id) && !is_null($request->user()->branch->id)){
-            $scopedQuery = $scopedQuery->where('branch_id', $request->user()->branch->id);
-        }
-
-        if(UserRole::isBranchAdmin($request->user())) {
-            return $scopedQuery;
-        }
-        if(UserRole::isSeller($request->user())){
-            return $scopedQuery->where('user_id', $request->user()->id);
-        }
-
-        return $scopedQuery;
-    }
-
-    public static function ApplyRequestOptionalFilters($query, $request)
-    {
-        return $query->when((UserPermission::CanManageAgencies($request->user()) && $request->filter_agency), function ($q) use ($request){
-            $q->where('team_id', $request->filter_agency);
-        })
-        ->when( (UserPermission::CanManageBranches($request->user()) && $request->filter_branch), function ($q) use ($request){
-            $q->where('team_id', $request->user()->currentTeam->id);
-        });
-    }
-
-    public function ForceOnlyQuotesWithBranch($query)
-    {
-        return $query->whereNotNull('branch_id');
     }
 }
