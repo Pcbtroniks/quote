@@ -24,6 +24,9 @@ export const getSeason = (Date) => {
 
 ## Filtros
 
+## Filtrar las cotizaciones
+Por defecto se debe enviar todos los parametros en la url para que se realice el filtro.
+
 ### Filtro por fecha
 El filtro por fecha permite seleccionar las cotizaciones que se encuentran en un rango de fechas.
 * Fecha de inicio `from_date`
@@ -38,3 +41,5 @@ Fecha de fin del rango de fechas.
 
 Si se usa solo `from_date` se obtendran todas las cotizaciones a *desde de esa fecha* a la fecha actual.
 Si se usa solo `to_date` se obtendran todas las cotizaciones *hasta esa fecha* a partir de la fecha actual.
+
+/quotes?page=1&from_date=16-02-2024&to_date=25-02-2024&branch_id=1&coupon_status=active&user_id=3

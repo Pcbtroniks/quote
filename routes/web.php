@@ -56,7 +56,7 @@ Route::middleware([
     Route::get('/quotes/filter', [HomeController::class, 'index'])->name('quotes.filter');
 
     /* Quotes** */
-    Route::get('/quotes', [QuotesQuoteController::class, 'index'])->name('quote.index');
+    Route::get('/quotes', [QuotesQuoteController::class, 'index'])->middleware('check.quote.params')->name('quote.index');
 
     /* Quoter */
     Route::get('/quoter/create', [QuoterController::class, 'create'])->name('quote.create');

@@ -66,5 +66,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'check.current.team' => \App\Http\Middleware\CheckCurrentTeam::class,
         'check.freetraveler.admin' => \App\Http\Middleware\CheckFreetravelerAdmin::class,
+        'check.quote.params' => \App\Http\Middleware\CheckQuoteParams::class,
     ];
 }
