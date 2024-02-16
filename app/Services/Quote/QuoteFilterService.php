@@ -24,7 +24,7 @@ class QuoteFilterService
     public static function GetDefaultFilterValues(): array
     {
         return [
-            'coupon_status' => 'null',
+            'coupon_status' => 'none',
             'from_date' => date('Y-m-d', strtotime('-1 month')),
             'to_date' => date('Y-m-d'),
             'branch_id' => 'none',
