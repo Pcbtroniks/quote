@@ -46,7 +46,6 @@ class GetFilterQuotes {
         'listed_activities.hotel.zone',
         'user.branch',
         'branch'])
-        // ->orderBy('listed_activities.date', 'desc')
         ->orderBy(
             QuoteActivity::select('date')
             ->whereColumn('quote_id', 'quotes.id')

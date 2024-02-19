@@ -13,6 +13,7 @@ class QuoteController extends Controller
     {
         $quotes = new GetFilterQuotes();
         // dd($quotes->getScoped(request()));
+        // dd(request()->coupon_status);
         return inertia('Quote/QuoteIndex', [
             'quotes' => $quotes->getScoped(request()),
             'params' => request()->all(),

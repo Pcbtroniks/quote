@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Quotes;
 
+use App\Models\QuoteActivity;
 use App\Repositories\Permissions\UserPermission;
 use App\Repositories\Permissions\UserRole;
 use App\Repositories\Quotes\Filter;
@@ -85,6 +86,10 @@ class FilterQuote {
         })
         ->when( (UserPermission::CanManageBranches($request->user()) && $request->filter_branch), function ($q) use ($request){
             $q->where('team_id', $request->user()->currentTeam->id);
+        })
+        ->when( $request->has('coupon_status') && $request->coupon_status != 'null', function($query) use($request) {
+            $query->where('status', $request->coupon_status)
+            ;
         });
     }
     public static function ApplyScopeBasedOnUserRole($query, $request)
