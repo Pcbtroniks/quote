@@ -14,7 +14,8 @@ class QuoteController extends Controller
         $quotes = new GetFilterQuotes();
         // dd($quotes->getScoped(request()));
         return inertia('Quote/QuoteIndex', [
-            'quotes' => $quotes->getScoped(request())
+            'quotes' => $quotes->getScoped(request()),
+            'params' => request()->all(),
         ]);
     }
 

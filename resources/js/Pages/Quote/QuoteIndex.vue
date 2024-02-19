@@ -1,25 +1,39 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import QuoteList from './Partials/QuoteList.vue';
+import FilterForm from './Partials/FilterForm.vue';
 
 const props = defineProps({
     quotes: Object,
-    agencies: Array
+    agencies: Array,
+    params: Object,
 })
+
 </script>
 
 <template>
-    <AppLayout title="Dashboard">
+    <AppLayout title="Cotizaciones">
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Cotizaciones
-            </h2>
+            <div class="flex justify-between items-baseline gap-4">
+
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                    Cotizaciones
+                </h2>
+                <div>
+                    <button class="border-2 border-sky-500 text-sky-500 hover:bg-sky-500 hover:text-white px-4 py-2 rounded-xl transition-all duration-200">Filtrar</button>
+                </div>
+            </div>
         </template>
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
+                <div class="mb-4">
+                    <FilterForm :params="props.params" />
+                </div>
+
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                    <QuoteList :agencies="props.agencies" :quotes="props.quotes" />
+                    <QuoteList :params="props.params" :agencies="props.agencies" :quotes="props.quotes" />
                 </div>
             </div>
         </div>

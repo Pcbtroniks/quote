@@ -11,7 +11,8 @@ const CurrentProformQuote = ref(null);
 
 const props = defineProps({
     quotes: Object,
-    agencies: Array
+    agencies: Array,
+    params: Object,
 })
 
 const requestCouponConfirmation = (Quote) => {
@@ -271,7 +272,7 @@ const toggleShowFullText = () => {
                 </div>
 
                 <div class="flex justify-center">    
-                    <Pagination :links="quotes" />
+                    <Pagination :params="props.params" :links="quotes" />
                 </div>
             </div>
         </div>

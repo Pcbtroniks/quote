@@ -2,7 +2,7 @@
 import { Link } from '@inertiajs/inertia-vue3';
 const props = defineProps({
     links: Object,
-    data: Object
+    params: Object
 });
 
 
@@ -15,8 +15,6 @@ function propsAsString(obj) {
   return Object.keys(obj).map(function(k) { return k + "=" + obj[k] }).join("&")
 }
 
-// console.log(props.data);
-// console.log(props.links);
 </script>
 <template>
     <component
@@ -24,6 +22,6 @@ function propsAsString(obj) {
     :key="l" 
     :is="!l.active ? Link : 'span'" 
     :class="'ml-2 px-3 py-1 rounded-lg hover:bg-gray-100 text-sm text-gray-500' + ( !l.active ? ' ' : ' cursor-pointer text-white bg-sky-500 hover:bg-sky-300')"
-    :href="useQueryParams(l.url, props.data)"
+    :href="useQueryParams(l.url, props.params)"
     v-html="l.label"/>
 </template>

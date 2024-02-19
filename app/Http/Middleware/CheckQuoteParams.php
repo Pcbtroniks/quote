@@ -17,9 +17,6 @@ class CheckQuoteParams
      */
     public function handle(Request $request, Closure $next)
     {
-        // $queryParams = QuoteFilterService::useFromRequest($request);
-        // dd($request->all(), $request->fullUrlWithQuery($queryParams));
-
         if(QuoteFilterService::canLoadFilter($request))
         {
             return $next($request);

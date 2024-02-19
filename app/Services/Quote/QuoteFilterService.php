@@ -4,23 +4,6 @@ namespace App\Services\Quote;
 
 class QuoteFilterService
 {
-    /**
-     * Get available filters as array
-     * 
-     * @return array
-     */
-    public static function GetFilters(): array
-    {
-        return [
-            'coupon_status',
-            'from_date',
-            'to_date',
-            'branch_id',
-            'user_id',
-            'page',
-        ];
-    }
-
     public static function GetDefaultFilterValues(): array
     {
         return [
@@ -33,11 +16,15 @@ class QuoteFilterService
             'action' => 'sing',
         ];
     }
+    public static function GetDefaultFiltersAsArray(): array
+    {
+        return array_keys(self::GetDefaultFilterValues());
+    }
 
     public static function ParseFiltersFromRequest($request)
     {
         $filters = [];
-        foreach (self::GetFilters() as $filter) {
+        foreach (self::GetDefaultFiltersAsArray() as $filter) {
             if ($request->has($filter)) {
                 $filters[$filter] = $request->input($filter);
             }
@@ -59,11 +46,12 @@ class QuoteFilterService
     public static function useFromRequest($request)
     {
         $filters = self::GetDefaultFilterValues();
-        foreach (self::GetFilters() as $filter) {
+        foreach (self::GetDefaultFiltersAsArray() as $filter) {
             if ($request->has($filter)) {
                 $filters[$filter] = $request->input($filter);
             }
         }
+        $filters['action'] = 'sing';
         return $filters;
     }
 
@@ -94,7 +82,7 @@ class QuoteFilterService
 
     public static function requestHasFilters($request)
     {
-        $filters = self::GetFilters();
+        $filters = self::GetDefaultFiltersAsArray();
         foreach ($filters as $filter) {
             if (!$request->has($filter)) {
                 return false;
