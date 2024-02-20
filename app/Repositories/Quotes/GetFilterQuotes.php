@@ -4,8 +4,6 @@ namespace App\Repositories\Quotes;
 
 use App\Models\Quote as QuoteModel;
 use App\Models\QuoteActivity;
-use App\Repositories\Permissions\UserPermission;
-use App\Repositories\Permissions\UserRole;
 
 class GetFilterQuotes {
 

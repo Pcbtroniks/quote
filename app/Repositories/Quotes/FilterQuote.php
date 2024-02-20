@@ -87,9 +87,27 @@ class FilterQuote {
         ->when( (UserPermission::CanManageBranches($request->user()) && $request->filter_branch), function ($q) use ($request){
             $q->where('team_id', $request->user()->currentTeam->id);
         })
-        ->when( $request->has('coupon_status') && $request->coupon_status != 'null', function($query) use($request) {
+        ->when( $request->has('coupon_status') && $request->coupon_status != 'none', function($query) use($request) {
             $query->where('status', $request->coupon_status)
             ;
+        })
+        ->when( $request->has('from_date'), function($query) use($request) {
+            $query->where(function ($query) use ($request){
+                    $query->select('date')
+                    ->from('quote_activity')
+                    ->whereColumn('quote_activity.quote_id', 'quotes.id')
+                    ->orderByDesc('quote_activity.date')
+                    ->limit(1);
+                }, '>=',$request->from_date);
+        })
+        ->when( $request->has('to_date'), function($query) use($request) {
+            $query->where(function ($query) use ($request){
+                    $query->select('date')
+                    ->from('quote_activity')
+                    ->whereColumn('quote_activity.quote_id', 'quotes.id')
+                    ->orderByDesc('quote_activity.date')
+                    ->limit(1);
+                }, '<=',$request->to_date);
         });
     }
     public static function ApplyScopeBasedOnUserRole($query, $request)

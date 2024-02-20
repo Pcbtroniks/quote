@@ -20,7 +20,7 @@ const props = defineProps({
                     Cotizaciones
                 </h2>
                 <div>
-                    <button class="border-2 border-sky-500 text-sky-500 hover:bg-sky-500 hover:text-white px-4 py-2 rounded-xl transition-all duration-200">Filtrar</button>
+                    <button class="border-2 border-sky-500 text-sky-500 hover:bg-sky-500 hover:text-white px-4 py-2 rounded-xl transition-all duration-200">Limpiar filtros</button>
                 </div>
             </div>
         </template>

@@ -178,9 +178,9 @@ const toggleShowFullText = () => {
                                 <th class="p-2 whitespace-nowrap">
                                     <div class="font-semibold text-left">Tipo Act.</div>
                                 </th>
-                                <th class="p-2 whitespace-nowrap">
+                                <!-- <th class="p-2 whitespace-nowrap">
                                     <div class="font-semibold text-left">Actividad</div>
-                                </th>
+                                </th> -->
                                 <th class="p-2 whitespace-nowrap">
                                     <div class="font-semibold text-left">Costo A.</div>
                                 </th>
@@ -251,11 +251,11 @@ const toggleShowFullText = () => {
                                         </span>
                                     </div>
                                 </td>
-                                <td class="p-2 whitespace-nowrap">
+                                <!-- <td class="p-2 whitespace-nowrap">
                                     <div class="text-left font-medium capitalize" >
                                         {{ quote.listed_activities[0]?.activity.name.toLowerCase() }}
                                     </div>
-                                </td>
+                                </td> -->
                                 <td class="p-2 whitespace-nowrap cursor-default">
                                     <div class="text-left font-medium text-green-500" title="Precio de venta">${{ quote.cost_amount }}</div>
                                 </td>
