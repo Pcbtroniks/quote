@@ -28,7 +28,7 @@ class QuoteController extends Controller
 
     public function archive($id)
     {
-        return PutQuote::archive($id);
+        PutQuote::archive($id);
         return redirect()->route('quote.index');
     }
 
