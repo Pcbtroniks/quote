@@ -37,4 +37,10 @@ const submitFilter = () => {
         <input :min="filterForm.from_date" @change="submitFilter" v-model="filterForm.to_date" class="w-full rounded-xl border-2 border-sky-500" type="date" name="to_date" id="to_date">
     </div>
 </div>
+<div class="w-full flex gap-4 flex-col md:flex-row justify-end items-end px-2 pt-2 pb-4">
+    <div>
+        <a :href="route('quote.index')" class="text-gray-400 underline underline-offset-2
+ hover:text-sky-600">Limpiar filtros</a>
+    </div>
+</div>
 </template>

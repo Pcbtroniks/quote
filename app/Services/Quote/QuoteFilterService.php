@@ -9,7 +9,7 @@ class QuoteFilterService
         return [
             'coupon_status' => 'none',
             'from_date' => date('Y-m-d', strtotime('-3 month')),
-            'to_date' => date('Y-m-d'),
+            'to_date' => date('Y-m-d', strtotime('+1 year')),
             'branch_id' => 'none',
             'user_id' => 'none',
             'page' => 1,

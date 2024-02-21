@@ -8,5 +8,7 @@ enum CouponStatus: string {
     case Confirmed = 'confirmed';
     case Pending = 'pending';
     case Cancelled = 'cancelled';
+    case Expired = 'expired';
+    case Archived = 'archived';
     
 }

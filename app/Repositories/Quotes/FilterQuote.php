@@ -138,6 +138,21 @@ class FilterQuote {
     {
         return $query->whereNotNull('branch_id');
     }
+    public static function excludeArchived($query)
+    {
+        return $query->where('status', '!=', 'archived');
+    }
+    public static function excludeExpiredListedActivities($query)
+    {
+        return $query->where(function ($query) {
+            $query->select('date')
+            ->from('quote_activity')
+            ->whereColumn('quote_activity.quote_id', 'quotes.id')
+            ->orderByDesc('quote_activity.date')
+            ->limit(1);
+        }, '>=', now()->format('Y-m-d'))
+        ->orWhere('status', '!=','created');
+    }
 
     public static function SortBy($query, $request)
     {

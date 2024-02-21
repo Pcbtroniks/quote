@@ -28,10 +28,10 @@ class GetFilterQuotes {
     {
         $query = QuoteModel::query();
 
-        $query = FilterQuote::ApplyRequestOptionalFilters($query, $request);
         $query = FilterQuote::ApplyScopeBasedOnUserRole($query, $request);
+        $query = FilterQuote::ApplyRequestOptionalFilters($query, $request);
         $query = FilterQuote::SortBy($query, $request);
-        // $query = FilterQuote::ForceOnlyQuotesWithBranch($query);
+        $query = FilterQuote::excludeArchived($query, $limit);
         
         return $query->where('created_at', '>', '2023-06-14')
         ->with([

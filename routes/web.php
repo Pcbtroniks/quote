@@ -57,6 +57,8 @@ Route::middleware([
 
     /* Quotes** */
     Route::get('/quotes', [QuotesQuoteController::class, 'index'])->middleware('check.quote.params')->name('quote.index');
+    Route::get('/quotes/{uuid}', [QuotesQuoteController::class, 'show'])->name('quote.show');
+    Route::post('/quotes/{id}/archive', [QuotesQuoteController::class, 'archive'])->name('quote.archive');
 
     /* Quoter */
     Route::get('/quoter/create', [QuoterController::class, 'create'])->name('quote.create');

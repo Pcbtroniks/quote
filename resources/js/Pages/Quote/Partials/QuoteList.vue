@@ -5,6 +5,7 @@ import SecondaryButton from '@/Components/SecondaryButton.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import axios from 'axios';
 import { ref } from 'vue';
+import { usePage } from '@inertiajs/inertia-vue3';
 
 const ShowProFormModal = ref(false);
 const CurrentProformQuote = ref(null);
@@ -190,6 +191,9 @@ const toggleShowFullText = () => {
                                 <th class="p-2 whitespace-nowrap">
                                     <div class="font-semibold text-left">Precio Publico</div>
                                 </th>
+                                <th v-if="usePage().props.value.user.is_freetraveler_admin" class="p-2 whitespace-nowrap">
+                                    <div class="font-semibold text-left">...</div>
+                                </th>
                             </tr>
                         </thead>
                         <tbody class="text-sm divide-y divide-gray-100">
@@ -264,6 +268,9 @@ const toggleShowFullText = () => {
                                 </td>
                                 <td class="p-2 whitespace-nowrap cursor-default">
                                     <div class="text-left font-medium text-green-500">${{ quote.public_price }}</div>
+                                </td>
+                                <td  v-if="usePage().props.value.user.is_freetraveler_admin" class="p-2 whitespace-nowrap cursor-default">
+                                    <a :href="route('quote.show', {uuid: quote.uuid})" class="text-left font-medium text-indigo-500 underline underline-offset-2">ver detalle</a>
                                 </td>
                             </tr>
                         </tbody>
