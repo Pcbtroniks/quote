@@ -11,6 +11,7 @@ class QuoteFilterService
             'from_date' => date('Y-m-d', strtotime('-3 month')),
             'to_date' => date('Y-m-d', strtotime('+1 year')),
             'branch_id' => 'none',
+            'team_id' => 'none',
             'user_id' => 'none',
             'page' => 1,
             'action' => 'sing',

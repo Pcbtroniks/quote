@@ -5,7 +5,7 @@ import SecondaryButton from '@/Components/SecondaryButton.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import axios from 'axios';
 import { ref } from 'vue';
-import { usePage } from '@inertiajs/inertia-vue3';
+import { usePage, useForm } from '@inertiajs/inertia-vue3';
 
 const ShowProFormModal = ref(false);
 const CurrentProformQuote = ref(null);
@@ -50,10 +50,8 @@ const requestCouponConfirmation = (Quote) => {
 }
 
 const LoadProFormModal = (Quote) => {
-    // return console.log(Quote);
     CurrentProformQuote.value = {...Quote,tmpFolio: printTempFolio(Quote)};
     ShowProFormModal.value = true;
-    console.log(Quote);
 }
 
 const printTempFolio = (quote) => {
@@ -69,6 +67,24 @@ const showFullText = ref(false);
 const toggleShowFullText = () => {
     showFullText.value = !showFullText.value;
 }
+
+const showSwitch = ref('text');
+const toggleSwitchInput = () => {
+    if(showSwitch.value == 'text') showSwitch.value = 'input';
+    else showSwitch.value = 'text';
+}
+
+const filterForm = useForm({
+    coupon_status: props.params.coupon_status,
+    from_date: props.params.from_date,
+    to_date: props.params.to_date,
+    team_id: props.params.to_date
+});
+
+const submitFilter = () => {
+    filterForm.get(route('quote.index', filterForm.data));
+}
+
 </script>
 
 <template>
@@ -164,8 +180,14 @@ const toggleShowFullText = () => {
                                 <th class="p-2 whitespace-nowrap">
                                     <div class="font-semibold text-left">No. Cupon</div>
                                 </th>
-                                <th class="p-2 whitespace-nowrap">
-                                    <div class="font-semibold text-left">Agencia</div>
+                                <th class="p-2 whitespace-nowrap flex flex-col">
+                                    <div v-if="showSwitch == 'text'" @click="toggleSwitchInput" class="font-semibold text-left cursor-pointer">Agencia</div>
+                                    <div v-else @dblclick="toggleSwitchInput">
+                                        <select @change="submitFilter" v-model="filterForm.team_id" class="border-none text-sm font-semibold w-full pl-1" name="agency" id="agency">
+                                            <option value="none" selected>Todas</option>
+                                            <option v-for="agency in props.agencies" :key="agency.id" :value="agency.id" :selected="filterForm.team_id == agency.id">{{ agency.name }}</option>
+                                        </select>
+                                    </div>
                                 </th>
                                 <th class="p-2 whitespace-nowrap">
                                     <div class="font-semibold text-left">Titular</div>

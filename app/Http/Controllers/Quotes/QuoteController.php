@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Quotes;
 
-use App\Http\Controllers\Controller;
 use App\Repositories\Quotes\GetFilterQuotes;
-use App\Repositories\Quotes\GetQuotes;
 use App\Repositories\Quotes\PutQuote;
+use App\Http\Controllers\Controller;
 use App\Repositories\Quotes\Quote;
+use App\Repositories\Teams\Team;
 use Illuminate\Http\Request;
 
 class QuoteController extends Controller
@@ -17,6 +17,7 @@ class QuoteController extends Controller
         return inertia('Quote/QuoteIndex', [
             'quotes' => $quotes->getScoped(request()),
             'params' => request()->all(),
+            'agencies' => Team::getTeams()
         ]);
     }
 

@@ -91,8 +91,12 @@ class FilterQuote {
             $query->where('status', $request->coupon_status)
             ;
         })
+        ->when( $request->has('team_id') && $request->team_id != 'none', function($query) use($request) {
+            $query->where('team_id', $request->team_id)
+            ;
+        })
         ->when( $request->has('from_date'), function($query) use($request) {
-            $query->where(function ($query) use ($request){
+            $query->where(function ($query) {
                     $query->select('date')
                     ->from('quote_activity')
                     ->whereColumn('quote_activity.quote_id', 'quotes.id')

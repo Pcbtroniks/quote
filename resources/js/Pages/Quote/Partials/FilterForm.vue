@@ -13,7 +13,6 @@ const filterForm = useForm({
 });
 
 const submitFilter = () => {
-    console.log(filterForm);
     filterForm.get(route('quote.index', filterForm.data));
 }
 </script>
