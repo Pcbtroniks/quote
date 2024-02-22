@@ -51,7 +51,7 @@ const logout = () => {
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
 
-                                <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
+                                <NavLink :href="route('quote.index')" :active="route().current('quote.index')">
                                     Mis cotizaciones
                                 </NavLink>
 
@@ -245,7 +245,7 @@ const logout = () => {
                 <!-- Responsive Navigation Menu -->
                 <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
                     <div class="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
+                        <ResponsiveNavLink :href="route('quote.index')" :active="route().current('quote.index')">
                             Mis cotizaciones
                         </ResponsiveNavLink>
                         <ResponsiveNavLink :href="route('quote.create')" :active="route().current('quote')">
