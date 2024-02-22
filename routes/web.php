@@ -41,8 +41,8 @@ Route::middleware([
     'check.current.team',
 ])->group(function () {
 
-    Route::get('/', [HomeController::class, 'index'])->name('home');
-    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+    Route::get('/', [QuotesQuoteController::class, 'index'])->middleware('check.quote.params')->name('home');
+    Route::get('/dashboard', [QuotesQuoteController::class, 'index'])->middleware('check.quote.params')->name('dashboard');
 
 
     Route::inertia('/inertia', 'Dashboard/Post/Index');
