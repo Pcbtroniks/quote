@@ -29,7 +29,7 @@ console.log(props.quote);
                 Detalles de la cotización
             </h2>
             <p class="text-sm text-gray-500">
-                {{ props.quote.team.name }}, {{ props.quote.created_at }}
+                <span class="capitalize font-bold text-sm text-gray-500">{{ props.quote.type }} -</span> <span class="font-bold text-sm text-gray-500">{{ props.quote.team.name }}</span>, {{ props.quote.listed_activities[0].date_string_formatted }}
             </p>
         </div>
         <div>
@@ -43,6 +43,14 @@ console.log(props.quote);
             </div>
             <div class="md:grid md:grid-cols-2 hover:bg-gray-50 md:space-y-0 space-y-1 p-4 border-b">
                 <p class="text-gray-600">
+                    Correo electrónico
+                </p>
+                <p>
+                    {{ props.quote.user.email }}
+                </p>
+            </div>
+            <div class="md:grid md:grid-cols-2 hover:bg-gray-50 md:space-y-0 space-y-1 p-4 border-b">
+                <p class="text-gray-600">
                     Titular
                 </p>
                 <p>
@@ -51,10 +59,13 @@ console.log(props.quote);
             </div>
             <div class="md:grid md:grid-cols-2 hover:bg-gray-50 md:space-y-0 space-y-1 p-4 border-b">
                 <p class="text-gray-600">
-                    Correo electrónico
+                    Pax
                 </p>
                 <p>
-                    {{ props.quote.user.email }}
+                    <span class="font-bold text-sm text-gray-500">Adultos</span> {{ props.quote.adults }} <br>
+                    <span class="font-bold text-sm text-gray-500">Menores</span> {{ props.quote.minors }} <br>
+                    <span class="font-bold text-sm text-gray-500">Infantes</span> {{ props.quote.infants }} <br>
+
                 </p>
             </div>
             <div class="md:grid md:grid-cols-2 hover:bg-gray-50 md:space-y-0 space-y-1 p-4 border-b">
