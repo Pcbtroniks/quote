@@ -1,5 +1,7 @@
 <script setup>
 import { useForm } from '@inertiajs/inertia-vue3';
+import { useToast } from "vue-toastification";
+import { GoBackAndRefresh } from '@/utils/Helpers.js';
 
 const props = defineProps({
     quote: Object,
@@ -8,12 +10,23 @@ const props = defineProps({
 const form = useForm({
     quote: props.quote,
 });
+const toast = useToast();
 
 const archive = () => {
     form.post(route('quote.archive', {id: props.quote.id}), {
         onSuccess: () => {
             form.reset();
+            toast("Cotización archivada, redirigiendo...", { 
+                type: "success",
+                timeout: 3000
+            });
         },
+        onFinish: () => {
+            form.reset();
+            setTimeout(() => {
+                GoBackAndRefresh();
+            }, 4000);
+        }
     });
 }
 
@@ -98,7 +111,7 @@ console.log(props.quote);
                         <div class="space-x-2 truncate">
                             <svg xmlns="http://www.w3.org/2000/svg" class="fill-current inline text-gray-500" width="24" height="24" viewBox="0 0 24 24"><path d="M17 5v12c0 2.757-2.243 5-5 5s-5-2.243-5-5v-12c0-1.654 1.346-3 3-3s3 1.346 3 3v9c0 .551-.449 1-1 1s-1-.449-1-1v-8h-2v8c0 1.657 1.343 3 3 3s3-1.343 3-3v-9c0-2.761-2.239-5-5-5s-5 2.239-5 5v12c0 3.866 3.134 7 7 7s7-3.134 7-7v-12h-2z"/></svg>
                             <span>
-                                freetraveler_coupon.pdf
+                                {{ props.quote.coupon?.code ?? 'freetraveler_coupon.pdf'}}
                             </span>
                         </div>
                         <a :href="route('export.pdf.quote.download', props.quote.id)" class="text-purple-700 hover:underline">

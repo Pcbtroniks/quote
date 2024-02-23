@@ -30,7 +30,7 @@ class QuoteController extends Controller
     public function archive($id)
     {
         PutQuote::archive($id);
-        return redirect()->route('quote.index');
+        return redirect()->back()->with(['success' => 'Cotización archivada']);
     }
 
 }
