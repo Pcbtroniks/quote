@@ -12,8 +12,10 @@ console.log('props.quote', props.quote);
         <!-- top -->
         <div class="flex justify-between" spellcheck="false">
 
-            <div>
-                <img class="w-[350px]" src="/assets/freetravelers-logo.jpg" alt="Logo Freetravelers">
+            <div class="w-full flex justify-center">
+                <img class="w-[350px] h-[120px]" src="/assets/freetravelers-logo.jpg" alt="Logo Freetravelers">
+                <!-- <img class="w-[350px] h-[120px] object-cover" src="/assets/Bag Fly.png" alt="Logo Freetravelers"> -->
+                <!-- <img class="w-[350px] h-[120px] object-cover" src="/assets/cupon conoce lo tuyo_page0_image.png" alt="Logo Freetravelers"> -->
             </div>
 
             <div>
