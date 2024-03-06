@@ -12,8 +12,8 @@
     <div class="QuotePDF px-[69px] py-[48px] max-w-[10in] w-[10in]" spellcheck="false" style="width: 10in; margin: 0 auto">
         <!-- top -->
         <div class="flex justify-between" spellcheck="false">
-            <div>
-                <img class="w-[350px]" src="/assets/freetravelers-logo.jpg" alt="Logo Freetravelers">
+            <div class="w-full flex justify-center" style="display: flex; justify-content: center;">
+                <img class="w-[350px] h-[120px]" src="/assets/freetravelers-logo.jpg" alt="Logo Freetravelers">
             </div>
 
             <div>
@@ -166,7 +166,7 @@
             </div>
         
             <div>
-                <img src="/assets/Logo.png" alt="Logo Freetraveler">
+                <img style="width: 301px; height: 121px;" src="/assets/freetravelers-logo.jpg" alt="Logo Freetraveler">
             </div>
             <div style="width: 7rem;">
                 <img style="width: 100%;" src="/assets/sello_vero_45.jpeg" alt="Sello Vero 45">

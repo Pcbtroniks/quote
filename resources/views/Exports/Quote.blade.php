@@ -64,7 +64,7 @@
     <div class="pdf-body">
 
         <div class="header" style="height: 100px;">
-            <div class="logo float" style="width: 60%; display: inline-block">
+            <div class="logo float" style="width: 53%; display: flex; margin-left: 44px;">
                 <img style="width: 300px;" src="{{asset('/assets/freetravelers-logo.jpg')}}" alt="">
             </div>
             <div style="width: 30%; display: inline-block; margin-left: 32px">
@@ -227,8 +227,8 @@
                 <div class="float" style="border-top: 1px solid #b3adad; width: 50%; margin-top: 40px">
                     Nombre y firma del titular / Main passanger`s singature
                 </div>
-                <div class="float" style="width: 25%; text-align: center;">
-                    <img style="width: 220px;" src="{{ asset('/assets/Logo.png') }}" alt="Logo rounded">
+                <div class="float" style="width: 25%; text-align: center; margin-right: 20px;">
+                    <img style="width: 220PX;" src="{{ asset('/assets/freetravelers-logo.jpg') }}" alt="Logo rounded">
                 </div>
                 <div class="float" style="width: 25%; text-align: end;">
                     <img style="width: 95px;" src="{{ asset('/assets/sello_vero_45.jpeg') }}" alt="Logo vero 45">

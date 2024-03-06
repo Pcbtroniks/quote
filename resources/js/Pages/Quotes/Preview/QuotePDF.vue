@@ -14,8 +14,6 @@ console.log('props.quote', props.quote);
 
             <div class="w-full flex justify-center">
                 <img class="w-[350px] h-[120px]" src="/assets/freetravelers-logo.jpg" alt="Logo Freetravelers">
-                <!-- <img class="w-[350px] h-[120px] object-cover" src="/assets/Bag Fly.png" alt="Logo Freetravelers"> -->
-                <!-- <img class="w-[350px] h-[120px] object-cover" src="/assets/cupon conoce lo tuyo_page0_image.png" alt="Logo Freetravelers"> -->
             </div>
 
             <div>
@@ -161,7 +159,7 @@ console.log('props.quote', props.quote);
             </div>
         
             <div>
-                <img src="/assets/Logo.png" alt="Logo Freetraveler">
+                <img style="width: 301px; height: 121px;" src="/assets/freetravelers-logo.jpg" alt="Logo Freetraveler">
             </div>
             <div style="width: 7rem;">
                 <img style="width: 100%;" src="/assets/sello_vero_45.jpeg" alt="Sello Vero 45">
