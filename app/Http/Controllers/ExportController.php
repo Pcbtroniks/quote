@@ -44,6 +44,24 @@ class ExportController extends Controller
         $pdf = Pdf::loadView('Exports.ProformQuote', ['quote' => $quote]);
         return $pdf->download('Proform-quote.pdf');
     }
+    public function exportPDFProformQuoteView(Quote $quote)
+    {
+        Pdf::setOption(['dpi' => 150, 'defaultFont' => 'sans-serif']);
+        $pdf = Pdf::loadView('Exports.ProformQuote', ['quote' => $quote]);
+        $quote->tmpFolio = $this->printTempFolio($quote);
+
+        if(request()->has('action') && request()->get('action') == 'download')
+        {
+            return $this->exportPDFProformQuote($quote);
+        } else if(request()->has('action') && request()->get('action') == 'view')
+        {
+            return view('Exports.ProformQuote', [
+                'quote' => $quote,
+            ]);
+        } else {
+            return $pdf->stream('Proform-quote.pdf');
+        }
+    }
 
     public function printTempFolio($quote) {
         $agency = $quote['team']['name'];

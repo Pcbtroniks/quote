@@ -139,6 +139,7 @@ Route::middleware([
 
     // Quote
     Route::get('export/pdf/proform/quote/{quote?}', [ExportController::class, 'exportPDFProformQuote'])->name('export.pdf.proform.quote');
+    Route::get('export/pdf/proform/quote/{quote?}/view', [ExportController::class, 'exportPDFProformQuoteView'])->name('export.pdf.proform.quote.view');
 
     // QR
     Route::get('qr/example/{text?}', [QRController::class, 'example'])->name('qr.example');
