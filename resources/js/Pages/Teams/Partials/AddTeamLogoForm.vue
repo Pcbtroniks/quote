@@ -46,6 +46,20 @@ const handleImage = (file) => {
         : file.size + "b";
 };
 
+const isDragOver = ref(false);
+const isDraggedOver = ref(false);
+const dragOver = (e) => {
+    e.preventDefault();
+    isDraggedOver.value = true;
+};
+const dragEnter = (e) => {
+    e.preventDefault();
+    isDraggedOver.value = true;
+};
+const dragLeave = (e) => {
+    e.preventDefault();
+    isDraggedOver.value = false;
+};
 </script>
 
 <template>
@@ -61,14 +75,18 @@ const handleImage = (file) => {
         <template #form>
             <!-- Upload logo -->
             <section class="col-span-6 p-8 w-full flex flex-col">
-                <header class="border-dashed border-2 border-gray-400 py-12 flex flex-col justify-center items-center">
-                <p class="mb-3 font-semibold text-gray-900 flex flex-wrap justify-center">
-                    <span>Arrastre y suelte su</span>&nbsp;<span>imagen donde sea o</span>
-                </p>
-                <input ref="imgInput" @change="onFileChange" id="hidden-input" type="file" multiple class="hidden" />
-                <button type="button" @click.native="imgInput.click()" class="mt-2 rounded-sm px-3 py-1 bg-gray-200 hover:bg-gray-300 focus:shadow-outline focus:outline-none">
-                    Subir imagen
-                </button>
+                <header @drop.prevent="onFileChange"
+                        @dragover.prevent="dragOver"
+                        @dragenter.prevent="dragEnter"
+                        @dragleave.prevent="dragLeave"
+                        :class="{ 'bg-blue-100 border-blue-300': isDragOver }" class="border-dashed border-2 border-gray-400 py-12 flex flex-col justify-center items-center">
+                    <p class="mb-3 font-semibold text-gray-900 flex flex-wrap justify-center">
+                        <span>Arrastre y suelte su</span>&nbsp;<span>imagen donde sea o</span>
+                    </p>
+                    <input ref="imgInput" @change="onFileChange" id="hidden-input" type="file" multiple class="hidden" />
+                    <button type="button" @click.native="imgInput.click()" class="mt-2 rounded-sm px-3 py-1 bg-gray-200 hover:bg-gray-300 focus:shadow-outline focus:outline-none">
+                        Subir imagen
+                    </button>
                 </header>
 
                 <h1 class="pt-8 pb-3 font-semibold sm:text-lg text-gray-900">
