@@ -133,7 +133,7 @@ const isFilter = (origin, type) => {
                 </div>
 
                 <div class="flex justify-center">    
-                    <Pagination :data="props.filters"  :links="activities" />
+                    <Pagination :params="props.filters"  :links="activities" />
                 </div>
             </div>
         </div>
