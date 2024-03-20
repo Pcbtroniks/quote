@@ -3,9 +3,7 @@ import { useForm } from '@inertiajs/inertia-vue3';
 import ActionMessage from '@/Components/ActionMessage.vue';
 import FormSection from '@/Components/FormSection.vue';
 import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
 import { ref } from 'vue';
 
 const props = defineProps({
@@ -45,8 +43,18 @@ const handleImage = (file) => {
             : Math.round(file.size / 1024) + "kb"
         : file.size + "b";
 };
+const resetImage = () => {
+    form.image = null;
+    form.image_name = null;
+    form.image_size = null;
+};
 
-const isDragOver = ref(false);
+const onFileDrop = (e) => {
+    e.preventDefault();
+    isDraggedOver.value = false;
+    form.image = e.dataTransfer.files[0];
+    handleImage(form.image);
+};
 const isDraggedOver = ref(false);
 const dragOver = (e) => {
     e.preventDefault();
@@ -75,11 +83,11 @@ const dragLeave = (e) => {
         <template #form>
             <!-- Upload logo -->
             <section class="col-span-6 p-8 w-full flex flex-col">
-                <header @drop.prevent="onFileChange"
+                <header @drop.prevent="onFileDrop"
                         @dragover.prevent="dragOver"
                         @dragenter.prevent="dragEnter"
                         @dragleave.prevent="dragLeave"
-                        :class="{ 'bg-blue-100 border-blue-300': isDragOver }" class="border-dashed border-2 border-gray-400 py-12 flex flex-col justify-center items-center">
+                        :class="{ 'bg-blue-100 border-blue-300': isDraggedOver }" class="border-dashed border-2 border-gray-400 py-12 flex flex-col justify-center items-center">
                     <p class="mb-3 font-semibold text-gray-900 flex flex-wrap justify-center">
                         <span>Arrastre y suelte su</span>&nbsp;<span>imagen donde sea o</span>
                     </p>
@@ -116,7 +124,9 @@ const dragLeave = (e) => {
                                     </span>
 
                                     <p class="p-1 size text-xs">{{form.image_size}}</p>
-                                    <button class="delete ml-auto focus:outline-none hover:text-red-500 hover:bg-gray-300 p-1 rounded-md">
+                                    <button
+                                        @click="resetImage"
+                                        class="delete ml-auto focus:outline-none hover:text-red-500 hover:bg-gray-300 p-1 rounded-md">
                                         <svg class="pointer-events-none fill-current w-4 h-4 ml-auto" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                         <path class="pointer-events-none" d="M3 6l3 18h12l3-18h-18zm19-4v2h-20v-2h5.711c.9 0 1.631-1.099 1.631-2h5.316c0 .901.73 2 1.631 2h5.711z" />
                                         </svg>
