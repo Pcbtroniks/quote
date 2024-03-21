@@ -15,12 +15,6 @@ return new class extends Migration
     {
         Schema::table('quotes', function (Blueprint $table) {
             $table->string('currency', 3)->default('MXN');
-            $table->foreignId('currency_id')
-                    ->constrained('currencies')
-                    ->onDelete('cascade')
-                    ->onUpdate('cascade')
-                    ->default(null)
-                    ->nullable();
         });
     }
 
