@@ -27,7 +27,7 @@
             <div class="w-full lg:w-1/2 flex flex-col items-center justify-center lg:px-2 xl:px-0 text-center">
                 <p class="text-7xl md:text-8xl lg:text-9xl font-bold tracking-wider text-gray-300">404</p>
                 <p class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-wider text-gray-300 mt-2">Pagina no encontrada</p>
-                <p class="text-lg md:text-xl lg:text-2xl text-gray-500 my-12">Lo sentimos, no ha sido posible encontrar la pagina que estas buscando.</p>
+                <p class="text-lg md:text-xl lg:text-2xl text-gray-500 my-12">Lo sentimos, no hemos encontrado el recurso o pagina solicitada.</p>
                 @auth
                     <p class="text-lg md:text-xl lg:text-2xl text-gray-500">{{ auth()->user()->name }}</p>
                     @if (count(auth()->user()->allTeams()) >= 1)
