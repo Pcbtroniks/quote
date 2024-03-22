@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('currencies', function (Blueprint $table) {
             $table->id();
-            $table->decimal('conversion_rate', 10, 4)->default(1.0);
+            $table->decimal('conversion_rate', 10, 2)->default(1.0);
             $table->string('code', 3);
             $table->string('name');
             $table->string('symbol', 5);

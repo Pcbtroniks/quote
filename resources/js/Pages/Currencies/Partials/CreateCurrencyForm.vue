@@ -44,8 +44,9 @@ const submit = () => {
         <template #description>
             Las monedas o divisas son utilizadas para el manejo de precios en la plataforma.
             Su funcion es la de poder manejar precios en diferentes monedas.
-            <span v-if="props.currency?.id">
-                Puedes <a :href="route('activity.search')" class="text-blue-500">ver todas las divisas</a> o
+            Puedes 
+            <span v-if="!props.currency?.id">
+                <a :href="route('activity.search')" class="text-blue-500">ver todas las divisas</a>
             </span>
             <span v-else>
                 <a :href="route('activity.search')" class="text-blue-500">agregar una nueva divisa</a>
