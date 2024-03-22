@@ -102,7 +102,7 @@ const logout = () => {
                                                     </div>
                                                     
                                                     <!-- Invoice Settings -->
-                                                    <DropdownLink v-if="$page.props.jetstream.canCreateTeams" :href="route('invoices', $page.props.user.current_team)">
+                                                    <DropdownLink v-if="$page.props.jetstream.canCreateTeams" :href="route('invoices', { invoice : $page.props.user.current_team?.id})">
                                                         Mis facturas
                                                     </DropdownLink>
                                                     <DropdownLink v-if="$page.props.jetstream.canCreateTeams" :href="route('providers')">

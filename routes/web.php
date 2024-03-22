@@ -124,8 +124,8 @@ Route::middleware([
     Route::post('coupons/{quote}/request-code', [CouponController::class, 'requestCode'])->name('coupon.request.code');
     Route::post('coupons/{coupon}/send-by-email', [CouponController::class, 'sendByEmail'])->name('coupon.send.by.email');
     /** Currencies **/
-    // Route::get('localisation/currencies', [CurrencyController::class, 'index'])->name('localisation.currencies.index');
-    Route::get('localisation/currencies/{currency?}', [CurrencyController::class, 'show'])->name('localisation.currencies.show');
+    Route::get('localisation/currencies', [CurrencyController::class, 'index'])->name('localisation.currencies.index');
+    Route::get('localisation/currencies/show/{currency?}', [CurrencyController::class, 'show'])->name('localisation.currencies.show');
     Route::post('localisation/currencies/store', [CurrencyController::class, 'store'])->name('localisation.currencies.store');
     /**
      * Preview coupon without restrictions

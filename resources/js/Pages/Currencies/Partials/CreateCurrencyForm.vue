@@ -7,7 +7,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { ErrorAlert } from '@/Services/Alerts.js';
-import { Inertia } from '@inertiajs/inertia';
+import { Inertia } from '@inertiajs/inertia'
 
 const props = defineProps({
     currency: Object,
@@ -46,10 +46,10 @@ const submit = () => {
             Su funcion es la de poder manejar precios en diferentes monedas.
             Puedes 
             <span v-if="!props.currency?.id">
-                <a :href="route('activity.search')" class="text-blue-500">ver todas las divisas</a>
+                <a :href="route('localisation.currencies.index')" class="text-blue-500">ver todas las divisas</a>
             </span>
             <span v-else>
-                <a :href="route('activity.search')" class="text-blue-500">agregar una nueva divisa</a>
+                <a :href="route('localisation.currencies.show')" class="text-blue-500">agregar una nueva divisa</a>
             </span>
         </template>
 
@@ -84,7 +84,7 @@ const submit = () => {
                 <TextInput
                     id="code"
                     v-model="form.code"
-                    placeholder="MXN, USD..."
+                    placeholder=""
                     type="text"
                     class="mt-1 block w-full"
                     spellcheck="false"
@@ -96,7 +96,7 @@ const submit = () => {
                 <TextInput
                     id="symbol"
                     v-model="form.symbol"
-                    placeholder="$, €..."
+                    placeholder=""
                     type="text"
                     class="mt-1 block w-full"
                     spellcheck="false"

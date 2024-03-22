@@ -1,11 +1,11 @@
 <script setup>
-import Pagination from '@/Shared/Pagination.vue';
-import DialogModal from '@/Components/DialogModal.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import { usePage, useForm } from '@inertiajs/inertia-vue3';
+import DialogModal from '@/Components/DialogModal.vue';
+import Pagination from '@/Shared/Pagination.vue';
 import axios from 'axios';
 import { ref } from 'vue';
-import { usePage, useForm } from '@inertiajs/inertia-vue3';
 
 const ShowProFormModal = ref(false);
 const CurrentProformQuote = ref(null);

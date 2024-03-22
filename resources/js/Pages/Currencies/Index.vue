@@ -1,7 +1,11 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import SectionBorder from '@/Components/SectionBorder.vue';
-import CreateCurrencyForm from './Partials/CreateCurrencyForm.vue';
+import CurrenciesList from './Partials/CurrenciesList.vue';
+import CurrencyMenu from './Partials/CurrencyMenu.vue';
+
+const props = defineProps({
+    currencies: Object,
+});
 
 </script>
 
@@ -13,18 +17,19 @@ import CreateCurrencyForm from './Partials/CreateCurrencyForm.vue';
             </h2>
         </template>
 
-        <div>
-            <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-
-                <div>
-                    <CreateCurrencyForm 
-                        class="mt-10 sm:mt-0"
+        <div class="py-12">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <CurrencyMenu class="mb-4"/>
+            </div>
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                    <CurrenciesList 
+                    class="mt-10 sm:mt-0"
+                    :currencies="props.currencies"
                     />
-
-                    <SectionBorder />
                 </div>
-
             </div>
         </div>
+
     </AppLayout>
 </template>
