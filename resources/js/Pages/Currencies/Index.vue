@@ -19,9 +19,6 @@ const props = defineProps({
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <CurrencyMenu class="mb-4"/>
-            </div>
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                     <CurrenciesList 
                     class="mt-10 sm:mt-0"

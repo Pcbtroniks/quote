@@ -66,6 +66,10 @@ const logout = () => {
                                 <NavLink v-if="$page.props.user.is_freetraveler_admin" :href="route('pickups.by.zone')" :active="route().current('pickups.*')">
                                     Pickups
                                 </NavLink>
+
+                                <NavLink v-if="$page.props.user.is_freetraveler_admin" :href="route('localisation.currencies.index')" :active="route().current('localisation.currencies.*')">
+                                    Divisas
+                                </NavLink>
                             </div>
                         </div>
 
@@ -189,7 +193,7 @@ const logout = () => {
                                     <template #content>
                                         <!-- Account Management -->
                                         <div class="block px-4 py-2 text-xs text-gray-400">
-                                            Manage Account
+                                            Mi cuenta
                                         </div>
 
                                         <DropdownLink :href="route('profile.show')">
@@ -257,7 +261,10 @@ const logout = () => {
                         <ResponsiveNavLink v-if="$page.props.user.is_freetraveler_admin" :href="route('pickups.by.zone')" :active="route().current('pickups.*')">
                             Pickups
                         </ResponsiveNavLink>
-                    </div>
+                        <ResponsiveNavLink v-if="$page.props.user.is_freetraveler_admin" :href="route('pickups.by.zone')" :active="route().current('pickups.*')">
+                            Divisas
+                        </ResponsiveNavLink>
+                        </div>
 
                     <!-- Responsive Settings Options -->
                     <div class="pt-4 pb-1 border-t border-gray-200">

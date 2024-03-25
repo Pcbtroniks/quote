@@ -5,4 +5,4 @@ export const GoBackAndRefresh = () => {
     } else {
         window.history.back();
     }
-}
+};

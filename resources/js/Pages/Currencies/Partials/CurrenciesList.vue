@@ -1,12 +1,16 @@
 <script setup>
 import Pagination from '@/Shared/Pagination.vue';
-import { Inertia } from '@inertiajs/inertia';
 import Format from '@/utils/Format.js';
+import { Inertia } from '@inertiajs/inertia';
+
+import NavigationButton from '@/Shared/NavigationButton.vue';
 
 const props = defineProps({
     currencies: Object,
 });
-
+const GoToRoute = (routeName, params = {}) => {
+    Inertia.visit(route(routeName, params));
+};
 </script>
 
 <template>
@@ -14,8 +18,11 @@ const props = defineProps({
         <div class="flex flex-col justify-center h-full">
             <!-- Table -->
             <div class="w-full mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
-                <header class="px-5 py-4 border-b border-gray-100">
+                <header class="px-5 py-4 border-b border-gray-100 flex flex-col md:flex-row justify-between">
                     <h2 class="font-bold text-gray-800 text-2xl">Divisas</h2>
+                    <NavigationButton class="max-w-md text-sky-600" @click.native="GoToRoute('localisation.currencies.show')">
+                        Agregar divisa
+                    </NavigationButton>
                 </header>
                 <div class="p-3">
                     <div class="overflow-x-auto">

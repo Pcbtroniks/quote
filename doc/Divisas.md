@@ -6,6 +6,8 @@ Este metodo requiere que el precio base sea en la moneda local MXN siempre.
 El modificador se basa en la moneda de la cotización
 logrando hacer la conversion de dinamica y precisa.
 
+Para que la tasa de conversion sea precisa se debe tener al menos 4 decimales.
+
 ## Modelos
 
 1. Quote 

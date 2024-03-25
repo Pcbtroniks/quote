@@ -33,4 +33,12 @@ class CurrencyController extends Controller
             'currency' => $currency
         ]);
     }
+
+    public function destroy(Currency $currency)
+    {
+        $currency->delete();
+        return redirect()->route('localisation.currencies.index')->with([
+            'success' => true
+        ]);
+    }
 }

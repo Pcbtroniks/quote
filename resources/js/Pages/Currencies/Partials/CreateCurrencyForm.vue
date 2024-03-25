@@ -8,10 +8,16 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { ErrorAlert } from '@/Services/Alerts.js';
 import { Inertia } from '@inertiajs/inertia'
+import { ref } from 'vue';
+import ConfirmationModal from '@/Components/ConfirmationModal.vue';
+import SecondaryButton from '@/Components/SecondaryButton.vue';
+import DangerButton from '@/Components/DangerButton.vue';
 
 const props = defineProps({
     currency: Object,
 });
+
+const confirmingCurrencyDeletion = ref(false);
 
 const form = useForm({
     name: props.currency?.name || null,
@@ -33,9 +39,47 @@ const submit = () => {
         },
     });
 };
+
+const submitDeleteCurrency = () => {
+    form.delete(route('localisation.currencies.destroy', { currency: props.currency.id }), {
+        preserveScroll: true,
+        onSuccess: () => {
+            Inertia.visit(route('localisation.currencies.index'));
+        },
+        onError: (errors) => {
+            console.log(errors);
+            const text = Object.values(errors).flat().join(' - ');
+            ErrorAlert('Error al eliminar la divisa', text);
+        },
+    });
+};
 </script>
 
 <template>
+
+<!-- Confirm Delete modal -->
+<ConfirmationModal :show="confirmingCurrencyDeletion && props.currency?.id" @close="confirmingCurrencyDeletion = false">
+    <template #title>
+        Se eliminara la divisa <span class="text-sm text-gray-500 font-bold">{{ props.currency?.name }} ({{ props.currency?.code }})</span>
+    </template>
+
+    <template #content>
+        <p class="text-sm">
+            ¿Estás seguro de que deseas eliminar esta divisa? Una vez eliminada, no se podrá recuperar.
+        </p>
+    </template>
+
+    <template #footer>
+        <SecondaryButton @click.native="confirmingCurrencyDeletion = false">
+            Cancelar operación
+        </SecondaryButton>
+
+        <DangerButton class="ml-2" @click.native="submitDeleteCurrency" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+            Eliminar divisa
+        </DangerButton>
+    </template>
+</ConfirmationModal>
+<!-- Confirm Delete modal -->
     <FormSection @submitted="submit">
         <template #title>
             Divisa
@@ -54,6 +98,10 @@ const submit = () => {
         </template>
 
         <template #form>
+
+            <div v-if="props.currency?.id" class="col-span-6 sm:col-span-4 flex justify-end">
+                <button type="button" @click.prevent="confirmingCurrencyDeletion = true" class="border-2 border-red-500 text-red-500 hover:bg-red-500 hover:text-white py-1 px-4 rounded-xl duration-150 hover:shadow-md hover:shadow-red-600">Eliminar divisa</button>
+            </div>
 
             <div class="col-span-6 sm:col-span-4">
                 <InputLabel for="adult_low_price" value="Nombre" />

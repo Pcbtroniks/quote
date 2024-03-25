@@ -127,6 +127,7 @@ Route::middleware([
     Route::get('localisation/currencies', [CurrencyController::class, 'index'])->name('localisation.currencies.index');
     Route::get('localisation/currencies/show/{currency?}', [CurrencyController::class, 'show'])->name('localisation.currencies.show');
     Route::post('localisation/currencies/store', [CurrencyController::class, 'store'])->name('localisation.currencies.store');
+    Route::delete('localisation/currencies/{currency}/destroy', [CurrencyController::class, 'destroy'])->name('localisation.currencies.destroy');
     /**
      * Preview coupon without restrictions
      */
