@@ -9,15 +9,18 @@ import TextInput from '@/Components/TextInput.vue';
 import InputRadio from '@/Shared/InputRadio.vue';
 import { ErrorAlert } from '@/Services/Alerts.js';
 import { aliasToZone} from '@/Services/Utils.js';
-import { onMounted, ref } from 'vue';
 import { sortPricesByzone } from '@/Helpers/PriceAdapter';
+import CurrencyService from '@/Services/LocalisationService.js';
+import { ref } from 'vue';
 
 const PricesObject = {
-        adult_low_price: '0.00',
-        kid_low_price: '0.00',
-        adult_high_price: '0.00',
-        kid_high_price: '0.00',
-    };
+    adult_low_price: '0.00',
+    kid_low_price: '0.00',
+    adult_high_price: '0.00',
+    kid_high_price: '0.00',
+};
+
+const Currency = ref(null);
 
 const props = defineProps({
     activity: Object,
@@ -108,7 +111,18 @@ const setPrice = (amount, activity_id = null, zone_id, season, type) => {
     }
 
 };
-
+const CallCurrencyAPI = async () => {
+    const response = await CurrencyService.GetCurrencyByCode('USD');
+    Currency.value = response.data.currency;
+    const convertedPrices = {
+        adult_low_price: CurrencyService.CalculateCurrencyConversion(form[form.price_zone].adult_low_price, response.data.currency.conversion_rate),
+        kid_low_price: CurrencyService.CalculateCurrencyConversion(form[form.price_zone].kid_low_price, response.data.currency.conversion_rate),
+        adult_high_price: CurrencyService.CalculateCurrencyConversion(form[form.price_zone].adult_high_price, response.data.currency.conversion_rate),
+        kid_high_price: CurrencyService.CalculateCurrencyConversion(form[form.price_zone].kid_high_price, response.data.currency.conversion_rate),
+    };
+    form.getConvertedPrcies = convertedPrices;
+    console.log(form.getConvertedPrcies);
+};
 </script>
 
 <template>
@@ -119,6 +133,7 @@ const setPrice = (amount, activity_id = null, zone_id, season, type) => {
 
         <template #description>
             Agregue los precios por temporada Alta y Baja para Adultos y Menores para la actividad.
+            <button type="button" @click.native="CallCurrencyAPI">Llamar API</button>
         </template>
 
         <template #form>
@@ -169,6 +184,7 @@ const setPrice = (amount, activity_id = null, zone_id, season, type) => {
                     type="text"
                     class="mt-1 block w-full"
                 />
+                <span class="mt-1 font-bold text-sm text-gray-500" v-if="form.getConvertedPrcies">{{ Currency.code }} {{ Currency.symbol }}{{ form.getConvertedPrcies.adult_low_price }}</span>
                 <InputError :message="form.errors.adult_low_price" class="mt-2" />
             </div>
 

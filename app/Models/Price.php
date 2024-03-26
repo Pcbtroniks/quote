@@ -5,10 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Activity;
+use App\Models\Mutators\CurrencyConverterMutator;
 
 class Price extends Model
 {
-    use HasFactory;
+    use HasFactory,
+        CurrencyConverterMutator;
 
     protected $fillable = [
         'amount',

@@ -10,4 +10,9 @@ class GetCurrency
     {
         return $currency;
     }
+
+    public static function getCurrencyByCode($code)
+    {
+        return Currency::where('code', $code)->first();
+    }
 }
