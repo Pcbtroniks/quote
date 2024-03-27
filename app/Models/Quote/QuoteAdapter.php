@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Models\Quote;
+
+use App\Services\Localisation\Currency\CurrencyService;
 use Illuminate\Support\Str;
 
 class QuoteAdapter {
@@ -23,6 +25,7 @@ class QuoteAdapter {
             'public_price' => $request->precioPublico,
             'sale_amount' => $request->importeVenta,
             'branch_id' => auth()->user()->branch_id,
+            'currency' => CurrencyService::GetCurrencyCode(),
         ];
     }
 

@@ -2,15 +2,17 @@
 import { useForm, usePage } from '@inertiajs/inertia-vue3';
 import { watchPostEffect, reactive, ref } from 'vue';
 import FormSection from '@/Components/FormSection.vue';
-
 import { getSeason } from '@/Services/Providers.js'
-import {
-  QuoteProgress, getTours, getPrice, loadHotels, getPickup,
-} from './Providers/Services.js';
-import {
-  Today, parseQuoteType, fixedAdd, hasAmount, zoneToString,
-} from './Providers/Helpers.js';
-
+import { QuoteProgress,
+          getTours, 
+          getPrice, 
+          loadHotels, 
+          getPickup } from './Providers/Services.js';
+import { Today,
+          parseQuoteType,
+          fixedAdd,
+          hasAmount,
+          zoneToString } from './Providers/Helpers.js';
 import TextError from '../../../Shared/TextError.vue';
 import InputNumber from './InputNumber.vue';
 import InputLabel from './InputLabel.vue';
@@ -20,6 +22,7 @@ import Alert from '@/Components/Alert.vue';
 import InputDate from './InputDate.vue';
 import ShowCosts from './ShowCosts.vue';
 import ShowCostsModal from './ShowCostsModal.vue';
+import { ApplyConversionRate } from '@/Services/Localisation/CurrenciesService.js';
 const props = defineProps({
   parks: Array,
   zones: Array,
@@ -45,18 +48,24 @@ const form = useForm({
   actividad: null,
 });
 
+const useCurrencyConversion = ( amount ) => {
+  const fromRate = usePage().props.value.localisation.currencies.find((currency) => currency.code == 'MXN');
+  const toRate = usePage().props.value.localisation.currencies.find((currency) => currency.code == usePage().props.value.localisation.current_currency);
+  return ApplyConversionRate( amount, fromRate.conversion_rate, toRate.conversion_rate);
+}
+
 const getCost = () => {
   QuoteProgress.resume.total.adults = form.adultos * QuoteProgress.prices.cost.adult;
   QuoteProgress.resume.total.minors = form.menores * QuoteProgress.prices.cost.minor;
-
-  QuoteProgress.prices.totalPublicPrice = fixedAdd(QuoteProgress.resume.total.adults, QuoteProgress.resume.total.minors);
+  const convertedTotalPublicPrice = useCurrencyConversion(fixedAdd(QuoteProgress.resume.total.adults, QuoteProgress.resume.total.minors));
+  QuoteProgress.prices.totalPublicPrice = convertedTotalPublicPrice;
   form.precioPublico = QuoteProgress.prices.totalPublicPrice;
-  form.importeVenta = getComputedPrice().toFixed(2);
+  form.importeVenta = useCurrencyConversion(getComputedPrice().toFixed(2));
   QuoteProgress.prices.totalAgencyPrice = form.importeVenta;
 
   QuoteProgress.prices.reference = (QuoteProgress.prices.totalPublicPrice - QuoteProgress.prices.totalAgencyPrice).toFixed(2);
 
-  console.log(QuoteProgress);
+  // console.log(QuoteProgress);
 };
 
 const getComputedPrice = () => QuoteProgress.prices.totalPublicPrice * ((100 - QuoteProgress.prices.profit.percentage) / 100);
@@ -220,7 +229,7 @@ class postActivities {
     
   async getActivityPublicPrice(index) {
     const price = await getPrice(this.activityList[index].activity, this.activityList[index].zone, form.season).then((data) => data) ?? 0;
-    return fixedAdd((form.adultos * Number(price.adult.amount)), (form.menores * Number(price.minor.amount)));
+    return useCurrencyConversion(fixedAdd((form.adultos * Number(price.adult.amount)), (form.menores * Number(price.minor.amount))));
   }
 
   setMinTourPackage(n = 2) {
@@ -346,8 +355,8 @@ const Activities = reactive(new postActivities());
                         <p class="mb-4">( Temporada {{ form.season == 'low' ? 'Baja' : 'Alta'}}, Tarifa {{ form.nacionales ? 'Nacional' : 'Internacional' }})</p>
                         <p>A nombre de: {{ form.nombreTitular }}</p>
                         <br>
-                        <p>Adultos: {{ `${form.adultos} x $${QuoteProgress.prices.cost.adult} = $${form.adultos * QuoteProgress.prices.cost.adult}` }}</p>
-                        <p>Menores: {{ `${form.menores} x $${QuoteProgress.prices.cost.minor} = $${form.menores * QuoteProgress.prices.cost.minor}` }}</p>
+                        <p>Adultos: {{ `${form.adultos} x $${useCurrencyConversion(QuoteProgress.prices.cost.adult)} = $${useCurrencyConversion(form.adultos * QuoteProgress.prices.cost.adult)}` }}</p>
+                        <p>Menores: {{ `${form.menores} x $${useCurrencyConversion(QuoteProgress.prices.cost.minor)} = $${useCurrencyConversion(form.menores * QuoteProgress.prices.cost.minor)}` }}</p>
                         <p>Infantes: {{ `${form.infantes}` }} - no pagan</p>
                         <br>
 
@@ -764,7 +773,7 @@ const Activities = reactive(new postActivities());
                                 </div>
 
                                 <div class="mb-5" v-if="act.pickup">
-                                    <Alert :msg="act.pickup == '00:00:00' ? pickupNotAvailable() : `Su pickup sera a las: ${act.pickup.slice(0,5)}.\n Precio publico de la actividad ${act.key}: $${act.public_price}, su precio de agencia: ${applyAgencyDiscount(act.public_price)}`" />
+                                    <Alert :msg="act.pickup == '00:00:00' ? pickupNotAvailable() : `Su pickup sera a las: ${act.pickup.slice(0,5)}.\n Precio publico de la actividad ${act.key}: $${act.public_price}, su precio de agencia: ${hasAmount(applyAgencyDiscount(act.public_price))}`" />
                                 </div>
 
                                 <hr>

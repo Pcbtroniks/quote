@@ -30,7 +30,8 @@ class Quote extends Model
         'sale_amount',
         'observations',
         'status',
-        'branch_id'
+        'branch_id',
+        'currency',
     ];
 
     public function user(){

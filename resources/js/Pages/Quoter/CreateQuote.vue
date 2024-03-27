@@ -1,6 +1,6 @@
 <script setup>
-    import AppLayout from '@/Layouts/AppLayout.vue';
-    import CreateFormQuote from '@/Pages/Quoter/partials/CreateFormQuote.vue';
+import AppLayout from '@/Layouts/AppLayout.vue';
+import CreateFormQuote from '@/Pages/Quoter/partials/CreateFormQuote.vue';
 
 defineProps(['parks','zones', 'errors'])
 </script> 

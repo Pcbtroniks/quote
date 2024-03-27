@@ -9,6 +9,11 @@ export const CalculateCurrencyConversion = (amount, toCurrencyRate) => {
     return Number.parseFloat(amount * toCurrencyRate).toFixed(2);
 }
 
+export const ApplyConversionRate = (amount, fromRate, toRate) => {
+    if(fromRate == toRate) return amount;
+    return CalculateCurrencyConversion(amount, toRate);
+};
+
 export const MultiplyCurrency = (amount, rate) => {
     return amount * rate;
 };

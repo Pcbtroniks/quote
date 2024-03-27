@@ -27,6 +27,11 @@ export const fixedAdd = ( n1, n2 ) => {
     return Number(Number(n1) + Number(n2)).toFixed(2);
 }
 
+/** return string like $9,999,99 **/
+export const formatPrice = (n) => {
+    return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 export const hasAmount = (n) => {
-    return n > 0 ? '$' + n  : ''
+    return n > 0 ? '$' + formatPrice(n)  : ''
 }
