@@ -34,7 +34,8 @@ class Team extends JetstreamTeam
         'name',
         'user_id',
         'personal_team',
-        'sale_amount_percentage'
+        'sale_amount_percentage',
+        'logo',
     ];
 
     /**

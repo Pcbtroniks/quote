@@ -11,6 +11,7 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\Localisation\API\CurrencyAPIController;
 use App\Http\Controllers\Localisation\CurrencyController;
 use App\Http\Controllers\Localisation\LocalisationController;
+use App\Http\Controllers\Media\UploadImageController;
 use App\Http\Controllers\NDController;
 use App\Http\Controllers\Pickups\PickupController;
 use App\Http\Controllers\Prices\PricesController;
@@ -135,6 +136,8 @@ Route::middleware([
     /** Currencies API **/
     Route::get('api/localisation/currencies/index', [CurrencyAPIController::class, 'index'])->name('localisation.currencies.api');
     Route::get('api/localisation/currencies/{currency?}', [CurrencyAPIController::class, 'get'])->name('localisation.currencies.api.get');
+    /** Media **/
+    Route::post('media/upload-logo', [UploadImageController::class, 'uploadTeamLogo'])->name('media.upload.team.logo');
     /**
      * Preview coupon without restrictions
      */

@@ -25,9 +25,8 @@ const onFileChange = (event) => {
     handleImage(form.image);
 };
 
-const updateTeamName = () => {
-    form.put(route('teams.update', props.team), {
-        errorBag: 'updateTeamName',
+const updateTeamLogo = () => {
+    form.post(route('media.upload.team.logo'), {
         preserveScroll: true,
     });
 };
@@ -71,7 +70,7 @@ const dragLeave = (e) => {
 </script>
 
 <template>
-    <FormSection @submitted="updateTeamName">
+    <FormSection @submitted="updateTeamLogo">
         <template #title>
             Agregar logo de la agencia
         </template>

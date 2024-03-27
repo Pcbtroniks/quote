@@ -86,7 +86,7 @@ console.log(props.quote);
                     Costo
                 </p>
                 <p>
-                    ${{ props.quote.cost_amount }}
+                    ${{ props.quote.cost_amount }} <span class="text-sm font-bold text-gray-500">{{ props.quote.currency }}</span>
                 </p>
             </div>
             <div class="md:grid md:grid-cols-2 hover:bg-gray-50 md:space-y-0 space-y-1 p-4 border-b">

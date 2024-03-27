@@ -6,7 +6,7 @@ import DialogModal from '@/Components/DialogModal.vue';
 import Pagination from '@/Shared/Pagination.vue';
 import axios from 'axios';
 import { ref } from 'vue';
-
+import { FormatPrice } from '@/utils/FormatNumber.js';
 const ShowProFormModal = ref(false);
 const CurrentProformQuote = ref(null);
 
@@ -84,7 +84,7 @@ const filterForm = useForm({
 const submitFilter = () => {
     filterForm.get(route('quote.index', filterForm.data));
 }
-
+console.log(props.quotes);
 </script>
 
 <template>
@@ -201,9 +201,9 @@ const submitFilter = () => {
                                 <th class="p-2 whitespace-nowrap">
                                     <div class="font-semibold text-left">Tipo Act.</div>
                                 </th>
-                                <!-- <th class="p-2 whitespace-nowrap">
-                                    <div class="font-semibold text-left">Actividad</div>
-                                </th> -->
+                                <th class="p-2 whitespace-nowrap">
+                                    <div class="font-semibold text-left">Divisa</div>
+                                </th>
                                 <th class="p-2 whitespace-nowrap">
                                     <div class="font-semibold text-left">Costo A.</div>
                                 </th>
@@ -238,7 +238,6 @@ const submitFilter = () => {
                                                     </svg>
                                                 </div>
                                             </a>
-                                            <!-- <button v-else-if="quote.status == 'created'" @click="requestCouponConfirmation(quote)" class="px-3 py-2 rounded-md text-sm font-medium border focus:outline-none focus:ring transition text-sky-600 border-sky-600 hover:text-white hover:bg-sky-600 active:bg-sky-700 focus:ring-sky-300" type="button"> -->
                                             <button v-else-if="quote.status == 'created'" @click="LoadProFormModal(quote)" class="px-3 py-2 rounded-md text-sm font-medium border focus:outline-none focus:ring transition text-sky-600 border-sky-600 hover:text-white hover:bg-sky-600 active:bg-sky-700 focus:ring-sky-300" type="button">
                                                 Solicitar
                                             </button>
@@ -277,19 +276,14 @@ const submitFilter = () => {
                                         </span>
                                     </div>
                                 </td>
-                                <!-- <td class="p-2 whitespace-nowrap">
-                                    <div class="text-left font-medium capitalize" >
-                                        {{ quote.listed_activities[0]?.activity.name.toLowerCase() }}
-                                    </div>
-                                </td> -->
                                 <td class="p-2 whitespace-nowrap cursor-default">
-                                    <div class="text-left font-medium text-green-500" title="Precio de venta">${{ quote.cost_amount }}</div>
-                                </td>
-                                <td class="p-2 whitespace-nowrap cursor-default hidden">
-                                    <div class="text-left font-medium text-green-500" title="Precio de venta">${{ quote.sale_amount }}</div>
+                                    <div class="text-left font-bold text-gray-500">{{ quote.currency }}</div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap cursor-default">
-                                    <div class="text-left font-medium text-green-500">${{ quote.public_price }}</div>
+                                    <div class="text-left font-medium text-green-500" title="Precio de venta">{{ FormatPrice(quote.cost_amount) }}</div>
+                                </td>
+                                <td class="p-2 whitespace-nowrap cursor-default">
+                                    <div class="text-left font-medium text-green-500">{{ FormatPrice(quote.public_price) }}</div>
                                 </td>
                                 <td  v-if="usePage().props.value.user.is_freetraveler_admin" class="p-2 whitespace-nowrap cursor-default">
                                     <a :href="route('quote.show', {uuid: quote.uuid})" class="text-left font-medium text-indigo-500 hover:text-sky-500 duration-150 hover:underline underline-offset-2">ver detalle</a>

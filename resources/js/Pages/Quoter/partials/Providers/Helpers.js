@@ -27,7 +27,8 @@ export const fixedAdd = ( n1, n2 ) => {
     return Number(Number(n1) + Number(n2)).toFixed(2);
 }
 
-/** return string like $9,999,99 **/
+/** return string like $9,999,99
+ * Moved to js/FormatNumber.js 27/03/2024**/
 export const formatPrice = (n) => {
     return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }

@@ -49,7 +49,8 @@ const form = useForm({
 });
 
 const useCurrencyConversion = ( amount ) => {
-  const fromRate = usePage().props.value.localisation.currencies.find((currency) => currency.code == 'MXN');
+  const fromRate = usePage().props.value.localisation.currencies.find((currency) => currency.code == 'MXN')
+                  ??  { code: 'MXN', conversion_rate: 1 };
   const toRate = usePage().props.value.localisation.currencies.find((currency) => currency.code == usePage().props.value.localisation.current_currency);
   return ApplyConversionRate( amount, fromRate.conversion_rate, toRate.conversion_rate);
 }
