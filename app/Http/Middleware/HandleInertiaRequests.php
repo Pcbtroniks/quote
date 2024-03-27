@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Repositories\Localisation\Currencies\GetCurrencies;
+use App\Services\Localisation\Currency\CurrencyService;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -39,6 +41,10 @@ class HandleInertiaRequests extends Middleware
         return array_merge(parent::share($request), [
             'flash' => [
                 'message' => $request->session()->get('message')
+            ],
+            'localisation' => [
+                'current_currency' => CurrencyService::GetCurrencyCode(),
+                'currencies' => GetCurrencies::all(),
             ],
         ]);
     }

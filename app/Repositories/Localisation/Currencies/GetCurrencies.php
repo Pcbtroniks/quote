@@ -10,4 +10,9 @@ class GetCurrencies
     {
         return Currency::paginate($limit);
     }
+
+    public static function all()
+    {
+        return Currency::all();
+    }
 }

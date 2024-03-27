@@ -10,6 +10,7 @@ use App\Http\Controllers\Hotels\HotelController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\Localisation\API\CurrencyAPIController;
 use App\Http\Controllers\Localisation\CurrencyController;
+use App\Http\Controllers\Localisation\LocalisationController;
 use App\Http\Controllers\NDController;
 use App\Http\Controllers\Pickups\PickupController;
 use App\Http\Controllers\Prices\PricesController;
@@ -51,14 +52,7 @@ Route::middleware([
     Route::resource('/category', CategoryController::class);
 
     /* Quotes */
-    Route::get('localisation/currency/{currency?}', function($currency = null){
-        
-        $currency = request()->currency ?? 'MXN';
-        session()->put('currency', $currency);
-
-        // dd(session()->get('currency'));
-        return redirect()->back();
-    });
+    Route::get('localisation/currency/{currency?}', [LocalisationController::class, 'currency'])->name('localisation.currency');
     /* Quotes */
     Route::get('/quote', [QuoteController::class, 'index'])->name('quote');
     Route::post('/quote/create', [QuoteController::class, 'store'])->name('quote.store');
