@@ -73,8 +73,8 @@ const logout = () => {
                             </div>
                         </div>
 
-                                                <!-- Localisation -->
-                                                <div class="hidden sm:flex sm:items-center">
+                        <!-- Localisation -->
+                        <div class="hidden sm:flex sm:items-center">
                             <div class="relative">
                                 <!-- Currency Dropdown -->
                                 <Dropdown align="right" width="60">
