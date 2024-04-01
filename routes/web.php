@@ -138,6 +138,7 @@ Route::middleware([
     Route::get('api/localisation/currencies/{currency?}', [CurrencyAPIController::class, 'get'])->name('localisation.currencies.api.get');
     /** Media **/
     Route::post('media/upload-logo', [UploadImageController::class, 'uploadTeamLogo'])->name('media.upload.team.logo');
+    Route::delete('media/reset-logo', [UploadImageController::class, 'resetTeamLogo'])->name('media.reset.team.logo');
     /**
      * Preview coupon without restrictions
      */

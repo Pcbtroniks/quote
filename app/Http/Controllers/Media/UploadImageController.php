@@ -4,28 +4,34 @@ namespace App\Http\Controllers\Media;
 
 use App\Http\Controllers\Controller;
 use App\Models\Team;
+use App\Services\Media\DestroyImageService;
+use App\Services\Media\UploadImageService;
 use Illuminate\Http\Request;
 
 class UploadImageController extends Controller
 {
     public function uploadTeamLogo(Request $request)
     {
-        $request->validate([
-            'image' => 'required|image|max:2048',
-        ]);
+        $filePath = UploadImageService::FromRequest($request, 'image', 'teams');
+        if ($filePath) {
 
-        if ($request->hasFile('image')) {
-            dd($request->file('image'));
-            $filename = time() . '-' . $request->file('image')->getClientOriginalName();
-            $filePath = $request['image']->storeAs('teams', $filename, 'public');
             $team = Team::find(auth()->user()->currentTeam->id);
-            $team->logo = $filePath;
-            $team->save();
+            $team->update(['logo' => $filePath]);
 
-            // Puedes devolver la información de la imagen o lo que necesites
-            return response()->json(['success' => 'Image Uploaded Successfully', 'image_path' => $filePath]);
+            return redirect()->back()->with('success', 'Image Uploaded Successfully');
         }
+        return redirect()->back()->with('error', 'Image Upload Failed');
+    }
 
-        return response()->json(['error' => 'Image Upload Failed'], 500);
+    public function resetTeamLogo(Request $request)
+    {
+        $team = Team::find(auth()->user()->currentTeam->id);
+        if(DestroyImageService::FromPath($team->logo) ) {
+            $defaultLogo = '\\assets\\freetravelers-logo.jpg';
+            $team->update(['logo' => $defaultLogo]);
+        } else {
+            return redirect()->back()->with('error', 'Image Delete Failed');
+        }
+        return redirect()->back()->with('success', 'Image Deleted Successfully');
     }
 }
