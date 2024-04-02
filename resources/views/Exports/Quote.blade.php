@@ -65,7 +65,9 @@
 
         <div class="header" style="height: 100px;">
             <div class="logo float" style="width: 53%; display: flex; margin-left: 44px;">
-                <img style="width: 300px;" src="{{asset('/assets/freetravelers-logo.jpg')}}" alt="">
+            <div style="width: 300px; height: 90px; position: relative;">
+                <img style="position: relative; top: 50%; left: 50%; transform: translate(-50%,-50%); height: auto; width: 100%;" src="{{$quote->logo}}" alt="">
+            </div>
             </div>
             <div style="width: 30%; display: inline-block; margin-left: 32px">
                 <table class="table-top-right">

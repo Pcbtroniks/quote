@@ -1,10 +1,19 @@
 <script setup>
+import { usePage } from '@inertiajs/inertia-vue3';
+import TeamHelper from '@/utils/TeamHelpers.js'
+
 
 const props = defineProps({
     quote: Object
 })
 
-console.log('props.quote', props.quote);
+const printLogo = () => {
+    return TeamHelper.isDefaultLogo(props.quote.team.logo)
+            ? '/assets/freetravelers-logo.jpg'
+            : '/storage/' + props.quote.team.logo
+}
+
+console.log(props.quote);
 </script>
 
 <template>
@@ -13,7 +22,7 @@ console.log('props.quote', props.quote);
         <div class="flex justify-between" spellcheck="false">
 
             <div class="w-full flex justify-center">
-                <img class="w-[350px] h-[120px]" src="/assets/freetravelers-logo.jpg" alt="Logo Freetravelers">
+                <img class="w-[350px] h-[120px] object-cover" :src="printLogo()" alt="Logo Freetravelers">
             </div>
 
             <div>

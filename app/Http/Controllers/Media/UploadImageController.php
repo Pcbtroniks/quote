@@ -16,6 +16,9 @@ class UploadImageController extends Controller
         if ($filePath) {
 
             $team = Team::find(auth()->user()->currentTeam->id);
+
+            DestroyImageService::FromPath($team->logo);
+
             $team->update(['logo' => $filePath]);
 
             return redirect()->back()->with('success', 'Image Uploaded Successfully');

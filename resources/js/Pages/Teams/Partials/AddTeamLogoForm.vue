@@ -5,6 +5,7 @@ import FormSection from '@/Components/FormSection.vue';
 import { useToast } from "vue-toastification";
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { ref } from 'vue';
+import { isDefaultLogo as isDefault }   from '@/utils/TeamHelpers.js';
 
 const toast = useToast();
 
@@ -14,6 +15,7 @@ const props = defineProps({
 
 const imgInput = ref(null);
 const isDefaultLogo = () => {
+    return isDefault(props.team.logo);
     return (props.team.logo == '\\assets\\freetravelers-logo.jpg');
 };
 const form = useForm({
@@ -23,8 +25,6 @@ const form = useForm({
     image_name: props.team.name,
     image_size: null,
 });
-console.log(props.team.logo);
-console.log(isDefaultLogo());
 const onFileChange = (event) => {
     form.image = event.target.files[0];
     form.image_src = form.image;
@@ -186,10 +186,10 @@ const dragLeave = (e) => {
                         </article>
                     </li>
                 </section>
-                <section v-if="isDefaultLogo() && form.image == null" class="col-span-6">
+                <section v-if="!isDefaultLogo() && form.image == null" class="col-span-6">
                     <li class="block p-1 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 xl:w-1/8">
                         <article tabindex="0" class="group hasImage w-full rounded-md focus:outline-none focus:shadow-outline bg-gray-100 cursor-pointer relative text-transparent hover:text-white shadow-sm">
-                            <img :src="`${team.logo}`" alt="upload preview" class="img-preview w-full h-full sticky object-cover rounded-md bg-fixed" />
+                            <img :src="`/storage/${team.logo}`" alt="upload preview" class="img-preview w-full h-full sticky object-cover rounded-md bg-fixed" />
 
                             <section class="flex flex-col rounded-md text-xs break-words w-full h-full min-h-[4rem] z-20 absolute top-0 py-2 px-3">
                                 <h1 class="flex-1">Imagen actual</h1>
