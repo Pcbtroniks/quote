@@ -31,14 +31,14 @@ class CouponController extends Controller
 
     public function getCode(QuoteModel $quote)
     {
-        Mail::to('freetraveler@freetraveler.com.mx')->send(new QuoteCreated($quote));
+        Mail::to('explore@exploreemotions.com.mx')->send(new QuoteCreated($quote));
         Coupon::setPendingStatus($quote->coupon);
         return response()->json(['ok' => Coupon::setCode($quote->coupon_id)]);
     }
 
     public function requestCode(QuoteModel $quote)
     {
-        Mail::to('freetraveler@freetraveler.com.mx')->send(new QuoteCreated($quote));
+        Mail::to('explore@exploreemotions.com.mx')->send(new QuoteCreated($quote));
         Quote::setPendingStatus($quote);
         return response()->json(['ok' => 'yes', 'msg' => 'Se ha realizado la solicitud de su código de cupón.']);
     }

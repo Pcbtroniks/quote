@@ -1,5 +1,5 @@
 export const isDefaultLogo = (logo) => {
-    return (logo == '\\assets\\freetravelers-logo.jpg');
+    return (logo == '\\assets\\exploreemotions-logo.png');
 };
 export const ParseAgencyLogo = (logo) => {
     return logo ? logo : '/images/agency/no-logo.png';

@@ -33,7 +33,7 @@ class Coupon {
      
     }
 
-    public static function generateCode($id, $prefix = 'PIC', $length = 5)
+    public static function generateCode($id, $prefix = 'EEM', $length = 5)
     {
         return $prefix . str_pad($id, $length, '0', STR_PAD_LEFT);
     }
