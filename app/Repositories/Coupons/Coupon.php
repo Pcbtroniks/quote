@@ -57,9 +57,9 @@ class Coupon {
             $coupon = CouponModel::create([
                 'status' => CouponStatus::Created,
             ]);
-
+            $id = self::countByPrefix('EEM') + 1;
             $coupon->update([
-                'code' => self::generateCode($coupon->id),
+                'code' => self::generateCode($id),
             ]);
 
             $quote->update([
@@ -88,5 +88,15 @@ class Coupon {
     public static function setCancelStatus(CouponModel $coupon)
     {     
             return $coupon->setStatus(CouponStatus::Cancelled);
+    }
+
+    /**
+     * Get count of coupons whose code begins with a given string
+     * @param string $prefix
+     * @return int
+     */
+    public static function countByPrefix($prefix)
+    {
+        return CouponModel::where('code', 'like', $prefix . '%')->count();
     }
 }

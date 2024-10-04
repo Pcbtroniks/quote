@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Freetravelers Proforma Cupon</title>
+    <title>Exploreemotions Proforma Cupon</title>
 
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -51,7 +51,7 @@
     <div style="left: 0px; top: 94px; position: absolute; color: black; font-size: 18px; font-family: Nunito; font-weight: 400; word-wrap: break-word">Nombre:  </div>
     <div style="left: 89px; top: 94px; position: absolute; color: black; font-size: 18px; font-family: Nunito; font-weight: 400; word-wrap: break-word">{{ $quote->holder_name ?? 'Holder name'}}</div>
   </div>
-  <img style="width: 286px; height: 99px; left: 53px; top: 40px; position: absolute" src="{{asset('assets/freetravelers-logo.jpg')}}" />
+  <img style="width: 286px; height: 99px; left: 53px; top: 40px; position: absolute" src="{{asset('assets/exploreemotions-logo.png')}}" />
 </div>
 </body>
 </html>
