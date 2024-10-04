@@ -12,7 +12,7 @@ console.log(props.quote);
         <!-- top -->
         <div class="" spellcheck="false">
             <div>
-                <img class="w-[350px]" src="/assets/freetravelers-logo.jpg" alt="Logo Freetravelers">
+                <img class="w-[350px]" src="/assets/exploreemotions-logo.png" alt="Logo Freetravelers">
             </div>
 
             <div>

@@ -9,7 +9,7 @@ const props = defineProps({
 
 const printLogo = () => {
     return TeamHelper.isDefaultLogo(props.quote.team.logo)
-            ? '/assets/freetravelers-logo.jpg'
+            ? '/assets/exploreemotions-logo.png'
             : '/storage/' + props.quote.team.logo
 }
 
@@ -22,7 +22,7 @@ console.log(props.quote);
         <div class="flex justify-between" spellcheck="false">
 
             <div class="w-full flex justify-center">
-                <img class="w-[350px] h-[120px] object-cover" :src="printLogo()" alt="Logo Freetravelers">
+                <img class="w-[350px] h-[120px] object-cover" :src="printLogo()" alt="Coupon logo">
             </div>
 
             <div>
@@ -160,7 +160,7 @@ console.log(props.quote);
         </div>
             
         <!-- Firma y sellos -->
-        <div class="mt-4 flex justify-between">
+        <div class="mt-4 flex justify-between items-center">
             
             <div style="margin: 2rem 0">
                 <span style="border-bottom: 1px solid #000000; height: 8px; width: 25rem; display: block;"></span>
@@ -168,10 +168,10 @@ console.log(props.quote);
             </div>
         
             <div>
-                <img style="width: 301px; height: 121px;" src="/assets/freetravelers-logo.jpg" alt="Logo Freetraveler">
+                <img style="width: 301px; height: 121px;" src="/assets/exploreemotions-logo.png" alt="Coupon logo">
             </div>
             <div style="width: 7rem;">
-                <img style="width: 100%;" src="/assets/sello_vero_45.jpeg" alt="Sello Vero 45">
+                <img style="width: 100%;" src="/assets/sello_vero_12.jpeg" alt="Sello Vero">
             </div>
 
         </div>

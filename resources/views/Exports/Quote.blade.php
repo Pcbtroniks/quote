@@ -226,27 +226,27 @@
         </div>
 
         <div class="sign clear-fix" style="width: 702px; font-size: 12px; height: 80px;">
-                <div class="float" style="border-top: 1px solid #b3adad; width: 50%; margin-top: 40px">
+                <div class="float" style="border-top: 1px solid #5c5c5c; width: 50%; margin-top: 54px;">
                     Nombre y firma del titular / Main passanger`s singature
                 </div>
                 <div class="float" style="width: 25%; text-align: center; margin-right: 20px;">
-                    <img style="width: 220PX;" src="{{ asset('/assets/freetravelers-logo.jpg') }}" alt="Logo rounded">
+                    <img style="width: 220PX;" src="{{ asset('/assets/exploreemotions-logo.png') }}" alt="Coupon logo">
                 </div>
-                <div class="float" style="width: 25%; text-align: end;">
-                    <img style="width: 95px;" src="{{ asset('/assets/sello_vero_45.jpeg') }}" alt="Logo vero 45">
+                <div class="float" style="width: 25%; text-align: end; margin-top: 30px;">
+                    <img style="width: 95px;" src="{{ asset('/assets/sello_vero_12.jpeg') }}" alt="Logo vero">
                 </div>
         </div>
 
-        <div class="policies" style="width: 702px; font-size: 12px;">
+        <div class="policies" style="width: 702px; font-size: 12px;margin-top: 40px">
             <p style="line-height: 12px; margin-bottom: 0px;">
                 <span style="font-weight: bold;">Politicas de Cancelacion/Cancellation policies</span> <br>
                 Todo cambio o cancelacion de una reservacion de: ENTRADA, TOUR O PAQUETE que se haya pagado con anticipacion se debera efectuar con 36 horas de anticipacion para proceder a su devolucion, para los casos de NO SHOW existe la posibilidad de reagendar la actividad con al menos 30 horas de anticipacion SIN PENALIDAD, en caso de no existir posibilidad de reagendar se aplica la politica de Certificado de Extension con validez de 1 año a partir de la fecha de la operacion del Tour. Para casos por afectaciones de salud, sera necesario presentar constancia medica que acredite su estado de salud para reagendar el servicio sin penalidad/ Any change or cancellation of a reservation paid in advance for an entrance, tour or package should be done 36 hours before the time on the reservation for a chance to be refunded, in case of not showing for the reservation the chance to reschedule the activity at least 30 hours in advance WITH NO PENALTY, in case of not having a chance to reschedule an extension certificate for one year will be extended for you, starting in the scheluded date for your tour. In case of health restrictions it will be necessary to show medical record to prove your health status to reschedule the servicie WITH NO PENALTY.
             </p>
-            <div style="font-size: 14px; line-height: 14px; text-align: right; vertical-align: middle;">
+            <div style="margin-top: 10px; font-size: 14px; line-height: 14px; text-align: right; vertical-align: middle;">
                 <p style="font-weight: bold; display: inline-block; margin-bottom: 0px;">
                 Clave de cancelacion / <br> Cancellation code
                 </p>
-                <span class="" style="border-bottom: 1px solid #b3adad; border-right: 1px solid #b3adad; border-left: 1px solid #b3adad; font-weight: bold; line-height: 12px; text-align: right; font-size: 12px; width: 390px; height: 26px; display: inline-block">
+                <span class="" style="margin-bottom: 2px; border-bottom: 1px solid #b3adad; border-right: 1px solid #b3adad; border-left: 1px solid #b3adad; border-top: 1px solid #b3adad; font-weight: bold; line-height: 14px; font-size: 14px; text-align: right; width: 390px; height: 26px; display: inline-block">
 
                 </span>
             </div>

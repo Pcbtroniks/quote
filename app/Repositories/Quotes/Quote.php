@@ -51,7 +51,7 @@ class Quote {
         $quote->activity = Activity::findOrFail($quote->listed_activity->activity_id) ?? '';
         $quote->hotel = DB::table('hotels')->where( 'id', $quote->listed_activity->hotel_id)->first('name') ?? '';
 
-        $quote->logo = $quote->team->logo == '\\assets\\freetravelers-logo.jpg' 
+        $quote->logo = $quote->team->logo == '\\assets\\exploreemotions-logo.png' 
                         ? $quote->team->logo
                         : asset('storage/'.$quote->team->logo);
 

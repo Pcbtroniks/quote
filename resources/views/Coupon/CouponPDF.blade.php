@@ -13,7 +13,7 @@
         <!-- top -->
         <div class="flex justify-between" spellcheck="false">
             <div class="w-full flex justify-center" style="display: flex; justify-content: center;">
-                <img class="w-[350px] h-[120px] object-cover" src="{{ $quote->logo }}" alt="Logo Freetravelers">
+                <img class="w-[350px] h-[120px] object-cover" src="{{ $quote->logo }}" alt="Coupon logo">
             </div>
 
             <div>
