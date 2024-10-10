@@ -16,6 +16,14 @@ class Activity {
         return ActivityModel::where('type', ActivityType::Tour->getType())->orderBy('name', 'asc')->get();
     }
 
+    public static function getToursSearch()
+    {
+        return ActivityModel::where('type', ActivityType::Tour->getType())
+                                ->orWhere('type', ActivityType::Park->getType())
+                                ->orderBy('name', 'asc')
+                                ->get();
+    }
+
     public function getActivities(Request $request, int $limit = 10)
     {
         return ActivityModel::where('type', $request->type ?? 'park')

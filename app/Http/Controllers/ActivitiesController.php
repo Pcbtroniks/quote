@@ -24,7 +24,7 @@ class ActivitiesController extends Controller
     public function search()
     {
         return inertia('Activities/SearchActivity',[
-            'activities' => Activity::getTours(),
+            'activities' => Activity::getToursSearch(),
         ]);
     }
 
