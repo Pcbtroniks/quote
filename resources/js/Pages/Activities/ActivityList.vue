@@ -28,12 +28,14 @@ const isFilter = (origin, type) => {
 <template>
   <Teleport to="body">
 
-    <component 
-        :is="props.filters.type == 'park' ? modalEntrance : modal" 
+    <component
+        v-if="showModal"
         :fields="act" 
         :show="showModal"
         :filters="props.filters"
-        @close="showModal = false"/>
+        @close="showModal = false"
+        :is="props.filters.type == 'park' ? modalEntrance : modal"
+    />
 
   </Teleport>
 <!-- component -->
@@ -92,7 +94,7 @@ const isFilter = (origin, type) => {
                             <tr v-for="activity in props.activities.data" class="hover:cursor-pointer hover:text-white hover:bg-sky-400 h-10">
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="flex items-center">
-                                        <div @click="useEditActivity(activity)" class="font-medium"><img v-if="$page.props.user.is_freetraveler_admin" class="w-3 inline mr-1 stroke-sky-500 fill-sky-500 text-sky-500" src="/assets/icons/edit-icon.svg" alt="Edit Icon">{{ activity.name }}</div>
+                                        <div @click.native="useEditActivity(activity)" class="font-medium"><img v-if="$page.props.user.is_freetraveler_admin" class="w-3 inline mr-1 stroke-sky-500 fill-sky-500 text-sky-500" src="/assets/icons/edit-icon.svg" alt="Edit Icon">{{ activity.name }}</div>
                                     </div>
                                 </td>
                                 <td class="p-2 whitespace-nowrap">

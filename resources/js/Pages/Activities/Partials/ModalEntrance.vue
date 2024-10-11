@@ -1,6 +1,6 @@
 <script setup>
 import { useForm } from '@inertiajs/inertia-vue3';
-import { reactive, defineEmits } from 'vue';
+import { reactive, defineEmits, ref } from 'vue';
 
 import FormError from '@/Pages/Activities/Partials/FormError.vue';
 
@@ -78,6 +78,19 @@ const submit = () => {
             })
         }
     });
+}
+console.log(props.fields);
+if(props.fields.filter_prices.length == 0) {
+    props.fields.filter_prices = {
+        low: {
+            adult: [{amount: 0}],
+            kid: [{amount: 0}]
+        },
+        high: {
+            adult: [{amount: 0}],
+            kid: [{amount: 0}]
+        }
+    }
 }
 
 </script>
