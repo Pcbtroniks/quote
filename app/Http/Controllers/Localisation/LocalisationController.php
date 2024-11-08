@@ -9,7 +9,7 @@ class LocalisationController extends Controller
 {
     public function currency($currency = null)
     {
-        $currency = request()->currency ?? 'MXN';
+        $currency = request()->currency ?? 'USD';
         session()->put('currency', $currency);
         return redirect()->back();
     }
