@@ -214,5 +214,5 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 
-    'currency' => 'MXN', 
+    'currency' => 'USD', 
 ];
