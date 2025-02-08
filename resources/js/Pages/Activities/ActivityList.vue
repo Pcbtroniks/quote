@@ -22,7 +22,7 @@ const useEditActivity = (activity) => {
 
 const isFilter = (origin, type) => {
     return origin == type;
-}
+};
 </script>
 
 <template>
@@ -101,13 +101,13 @@ const isFilter = (origin, type) => {
                                     ${{ activity.filter_prices.low?.adult[0].amount }}
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
-                                    ${{ activity.filter_prices.low?.kid[0].amount }}
+                                    ${{ activity.filter_prices.low?.kid ? activity.filter_prices.low?.kid[0].amount : 0 }}
                                 </td>
                                 <td class="p-2 whitespace-nowrap">
-                                    ${{ activity.filter_prices.high?.adult[0].amount }}
+                                    ${{ activity.filter_prices.high?.adult ? activity.filter_prices.high?.adult[0].amount : 0 }}
                                 </td>
                                 <td class="p-2 whitespace-nowrap cursor-default">
-                                    ${{ activity.filter_prices.high?.kid[0].amount }}
+                                    ${{ activity.filter_prices.high?.kid ? activity.filter_prices.high?.kid[0].amount : 0 }}
                                 </td>
                                 <template v-if="isFilter(props.filters.type, 'park')">
                                     <td class="p-2 whitespace-nowrap cursor-default">

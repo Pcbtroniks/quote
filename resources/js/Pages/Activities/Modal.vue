@@ -1,6 +1,6 @@
 <script setup>
 import { useForm } from '@inertiajs/inertia-vue3';
-import { reactive, defineEmits } from 'vue';
+import { reactive, defineEmits, onUnmounted } from 'vue';
 
 import FormError from './Partials/FormError.vue';
 
@@ -81,6 +81,38 @@ const submit = () => {
     });
 }
 
+const PrepareMissingPrices = () => {
+    const hasKidLowSeasonPrice = props.fields.filter_prices.low?.kid;
+    const hasKidHighSeasonPrice = props.fields.filter_prices.high?.kid;
+    const hasAdultLowSeasonPrice = props.fields.filter_prices.low?.adult == undefined ? false : true;
+    const hasAdultHighSeasonPrice = props.fields.filter_prices.high?.adult;
+
+    if (!hasKidLowSeasonPrice) {
+        // append missing kid price keeping adult price if exists
+        props.fields.filter_prices.low = {kid: [{ amount: 0 }], ...props.fields.filter_prices.low};
+    }
+    if (!hasAdultLowSeasonPrice) {
+        props.fields.filter_prices.low = {adult: [{ amount: 0 }], ...props.fields.filter_prices.low};
+    }
+    if (!hasKidHighSeasonPrice) {
+        props.fields.filter_prices.high = {kid: [{ amount: 0 }], ...props.fields.filter_prices.high};
+    }
+    if (!hasAdultHighSeasonPrice) {
+        props.fields.filter_prices.high = {adult: [{ amount: 0 }], ...props.fields.filter_prices.high};
+    }
+    return;
+    console.log(hasAdultLowSeasonPrice);
+    console.log(props.fields.filter_prices.low.adult);
+    console.log(hasAdultLowSeasonPrice);
+    console.log(props.fields.filter_prices.low);
+    console.log(props.fields.filter_prices.low.adult[0].amount);
+}
+console.log(props.fields.filter_prices);
+
+PrepareMissingPrices();
+onUnmounted(() => {
+    form.reset();
+});
 </script>
 <template>
     <section v-if="show" class="overlay w-full h-full absolute top-0 left-0 bg-black bg-opacity-50">
