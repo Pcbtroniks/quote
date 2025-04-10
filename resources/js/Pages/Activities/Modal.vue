@@ -1,6 +1,6 @@
 <script setup>
 import { useForm } from '@inertiajs/inertia-vue3';
-import { reactive, defineEmits, onUnmounted } from 'vue';
+import { reactive, defineEmits } from 'vue';
 
 import FormError from './Partials/FormError.vue';
 
@@ -77,6 +77,17 @@ const submit = () => {
                     emit('close');
                 }
             })
+        },
+        onError: (error) => {
+            console.log(error);
+            
+            Swal.fire({
+                title: '¡Error!',
+                text: 'Ha ocurrido un error al intentar actualizar la actividad.',
+                icon: 'error',
+                confirmButtonText: 'Aceptar',
+                confirmButtonColor: '#3B82F6',
+            })
         }
     });
 }
@@ -101,18 +112,9 @@ const PrepareMissingPrices = () => {
         props.fields.filter_prices.high = {adult: [{ amount: 0 }], ...props.fields.filter_prices.high};
     }
     return;
-    console.log(hasAdultLowSeasonPrice);
-    console.log(props.fields.filter_prices.low.adult);
-    console.log(hasAdultLowSeasonPrice);
-    console.log(props.fields.filter_prices.low);
-    console.log(props.fields.filter_prices.low.adult[0].amount);
 }
-console.log(props.fields.filter_prices);
 
 PrepareMissingPrices();
-onUnmounted(() => {
-    form.reset();
-});
 </script>
 <template>
     <section v-if="show" class="overlay w-full h-full absolute top-0 left-0 bg-black bg-opacity-50">
