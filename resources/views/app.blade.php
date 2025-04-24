@@ -10,13 +10,11 @@
         <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
 
         <!-- Scripts -->
-        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         @routes
         @vite('resources/js/app.js')
         @inertiaHead
     </head>
     <body class="font-sans antialiased relative">
         @inertia
-        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </body>
 </html>

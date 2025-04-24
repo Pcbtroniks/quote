@@ -1,4 +1,6 @@
 <script setup>
+import Swal from 'sweetalert2';
+
 import BodySection from '@/Components/BodySection.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';

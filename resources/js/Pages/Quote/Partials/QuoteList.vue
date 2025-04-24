@@ -1,4 +1,5 @@
 <script setup>
+import Swal from 'sweetalert2';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { usePage, useForm } from '@inertiajs/inertia-vue3';
@@ -18,8 +19,8 @@ const props = defineProps({
 
 const requestCouponConfirmation = (Quote) => {
     Swal.fire({
-    title: 'Solicitar cupon?',
-    text: "Se generara tu cupon para poder usarlo posteriormente!",
+    title: '¿Solicitar cupon?',
+    text: "¡Se generara tu cupon para poder usarlo posteriormente!",
     icon: 'question',
     showCancelButton: true,
     confirmButtonColor: '#38bdf8',

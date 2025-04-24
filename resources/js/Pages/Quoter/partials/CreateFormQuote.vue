@@ -1,4 +1,6 @@
 <script setup>
+import Swal from 'sweetalert2';
+
 import { useForm, usePage } from '@inertiajs/inertia-vue3';
 import { watchPostEffect, reactive, ref } from 'vue';
 import FormSection from '@/Components/FormSection.vue';

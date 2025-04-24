@@ -1,4 +1,6 @@
 <script setup>
+import Swal from 'sweetalert2';
+
 import { useForm } from '@inertiajs/inertia-vue3';
 import { reactive, defineEmits, ref } from 'vue';
 
