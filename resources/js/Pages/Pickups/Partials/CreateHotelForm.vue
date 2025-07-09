@@ -3,6 +3,7 @@
 import Button from "@/Components/Button.vue";
 import { zoneIdToZoneName, ReloadPage } from "@/Services/Utils.js";
 import axios from "axios";
+import Swal from 'sweetalert2';
 
 const props = defineProps({
     zone: Number | String,
