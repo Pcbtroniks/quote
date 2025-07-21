@@ -69,7 +69,19 @@ const logout = () => {
 
                                 <NavLink v-if="$page.props.user.is_freetraveler_admin" :href="route('localisation.currencies.index')" :active="route().current('localisation.currencies.*')">
                                     Divisas
-                                </NavLink>
+                                </NavLink>        
+                                                
+                                    <!-- Link button -->
+                                        <div class="w-60">
+                                            <div>
+                                                <a href="https://exploreemotions.agency/" target="_blank">
+                                                    <button class="block w-full px-4 py-2 bg-maingreen text-sm leading-5 text-white hover:bg-green-900 transition duration-150 ease-in-out text-center">
+                                                        Ir a exploreemotions
+                                                    </button>
+                                                </a>
+                                            </div>
+                                            <div class="border-t border-gray-100"></div>
+                                            </div>
                             </div>
                         </div>
 
