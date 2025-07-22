@@ -166,9 +166,9 @@ console.log(props.quotes);
 <section class="w-full antialiased bg-gray-100 text-gray-600">
     <div class="flex flex-col justify-center h-full">
         <!-- Table -->
-        <div class="w-full mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
-            <header class="px-5 py-4 border-b border-gray-100">
-                <h2 class="font-bold text-gray-800 text-2xl">Cotizaciones</h2>
+        <div class="w-full mx-auto bg-white shadow-lg rounded-sm border-2">
+            <header class="px-5 py-4 border-b border-gray-100 bg-mainblue">
+                <h2 class="font-bold text-white text-2xl">Cotizaciones</h2>
             </header>
             <div class="p-3">
                 <div class="overflow-x-auto">

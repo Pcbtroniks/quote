@@ -16,7 +16,7 @@ const props = defineProps({
         <template #header>
             <div class="flex justify-between items-baseline gap-4">
 
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                <h2 class="font-semibold text-xl text-white leading-tight">
                     Cotizaciones
                 </h2>
             </div>

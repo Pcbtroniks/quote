@@ -39,8 +39,8 @@ const logout = () => {
 
         <Banner />
 
-        <div class="min-h-screen bg-gray-100">
-            <nav class="bg-white border-b border-gray-100">
+        <div class="min-h-screen bg-maingre">
+            <nav class="bg-gray-50 border-b border-gray-100">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
@@ -111,8 +111,12 @@ const logout = () => {
                                     Divisas
                                 </NavLink>
 
-                                <!-- Link button -->
-                                <div class="w-60">
+                            </div>
+
+
+                        </div>
+                                                  <!-- Link button -->
+                                <div class="hidden sm:block w-1/4 ml-8">
                                     <div>
                                         <a
                                             href="https://exploreemotions.agency/"
@@ -127,8 +131,6 @@ const logout = () => {
                                     </div>
                                     <div class="border-t border-gray-100"></div>
                                 </div>
-                            </div>
-                        </div>
 
                         <!-- Localisation -->
                         <div class="hidden sm:flex sm:items-center">
@@ -780,7 +782,7 @@ const logout = () => {
             </nav>
 
             <!-- Page Heading -->
-            <header v-if="$slots.header" class="bg-white shadow">
+            <header v-if="$slots.header" class="bg-mainblue shadow">
                 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                     <slot name="header" />
                 </div>
@@ -788,6 +790,11 @@ const logout = () => {
 
             <!-- Page Content -->
             <main>
+                     <div class="bg-black/70 inset-0 absolute w-screen -z-10"></div>
+
+                    <div class="w-screen  inset-0 absolute -z-20">
+                         <img src="/assets/background.png" class="w-full h-full object-cover blur-sm" alt="Background Image" />
+                    </div>
                 <slot />
             </main>
         </div>
