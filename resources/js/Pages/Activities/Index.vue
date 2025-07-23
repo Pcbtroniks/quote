@@ -13,7 +13,7 @@ const props = defineProps({
 <template>
     <AppLayout title="Actividades Freetravelers">
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class="font-semibold text-xl text-white leading-tight">
                 Activities <BreadCrumbArrow /> Parks and Tours
             </h2>
         </template>

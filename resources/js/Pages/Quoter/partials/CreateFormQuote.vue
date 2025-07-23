@@ -812,12 +812,12 @@ const Activities = reactive(new postActivities());
                 <button
                 type="button"
                 @click="resetForm()"
-                class="hover:shadow-form rounded-md mr-16 bg-red-500 py-3 px-8 text-center text-base font-semibold text-white outline-none"
+                class="hover:shadow-form rounded-md mr-16 bg-red-500 hover:bg-red-800 py-3 px-8 text-center text-base font-semibold text-white outline-none"
               >
                 Reiniciar Cotización
               </button>
               <button
-                class="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-center text-base font-semibold text-white outline-none"
+                class="hover:shadow-form rounded-md bg-mainblue hover:bg-blue-950 py-3 px-8 text-center text-base font-semibold text-white outline-none"
               >
                 Guardar Cotización
               </button>

@@ -40,10 +40,10 @@ const logout = () => {
         <Banner />
 
         <div class="min-h-screen bg-maingre">
-            <nav class="bg-gray-50 border-b border-gray-100">
+            <nav class="bg-gray-50 border-b border-maingreen">
                 <!-- Primary Navigation Menu -->
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="grid grid-cols-3 j h-full">
+                <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
+                    <div class="grid grid-cols-2 md:grid-cols-3 j h-full">
                         <div class="flex">
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
@@ -56,7 +56,7 @@ const logout = () => {
 
                             <!-- Navigation Links -->
                             <div
-                                class="hidden sm:flex"
+                                class="hidden md:flex"
                             >
                                 <NavLink
                                     :href="route('quote.index')"
@@ -118,14 +118,14 @@ const logout = () => {
                         </div>
 
                                                                           <!-- Link button -->
-                                <div class="hidden sm:block w-3/4 mx-auto">
+                                <div class="hidden md:flex justify-center w-full relative">
                                     <div>
                                         <a
                                             href="https://exploreemotions.agency/"
                                             target="_blank"
                                         >
                                             <button
-                                                class="block w-full px-4 py-2 bg-maingreen text-sm leading-5 text-white hover:bg-green-900 transition duration-150 ease-in-out text-center"
+                                                class=" rounded-b-xl  block px-4 py-4 bg-maingreen text-md leading-5 text-white hover:bg-green-900 hover:font-bold transition-all duration-300 ease-in-out text-center"
                                             >
                                                 Ir a Explore Emotions
                                             </button>
@@ -137,15 +137,15 @@ const logout = () => {
 
                         <!-- Localisation -->
                     <div class="flex gap-10  justify-end">
-                        <div class="hidden sm:flex sm:items-center">
+                        <div class="hidden md:flex md:items-center">
                             <div class="relative">
                                 <!-- Currency Dropdown -->
-                                <Dropdown align="right" width="60">
+                                <Dropdown align="left" width="60">
                                     <template #trigger>
                                         <span class="inline-flex rounded-md">
                                             <button
                                                 type="button"
-                                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition"
+                                                class="inline-flex items-center px-3 py-2 border border-transparent text-md leading-4 font-medium rounded-md text-gray-500 bg-white hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition"
                                             >
                                                 <span class="font-bold">{{
                                                     $page.props.localisation
@@ -275,19 +275,19 @@ const logout = () => {
                             </div>
                         </div>
                         <!--  -->
-                        <div class="hidden sm:grid grid-cols-2 gap-20 sm:items-center justify-end ">
+                        <div class="hidden md:grid grid-cols-2 gap-20 md:items-center justify-end ">
                             <div class="relative">
                                 <!-- Teams Dropdown -->
                                 <Dropdown
                                     v-if="$page.props.jetstream.hasTeamFeatures"
-                                    align="right"
+                                    align="left"
                                     width="60"
                                 >
                                     <template #trigger>
                                         <span class="inline-flex rounded-md">
                                             <button
                                                 type="button"
-                                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition"
+                                                class="inline-flex items-center px-3 py-2 border border-transparent text-md leading-4 font-medium rounded-md text-gray-500 bg-white hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition"
                                             >
                                                 {{
                                                     $page.props.user
@@ -473,14 +473,14 @@ const logout = () => {
 
                             <!-- Settings Dropdown -->
                             <div class="relative w-10 place-items-end">
-                                <Dropdown align="right" width="48">
+                                <Dropdown align="left" width="48">
                                     <template #trigger>
                                         <button
                                             v-if="
                                                 $page.props.jetstream
                                                     .managesProfilePhotos
                                             "
-                                            class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition"
+                                            class="flex text-md border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition"
                                         >
                                             <img
                                                 class="h-8 w-8 rounded-full object-cover"
@@ -498,7 +498,7 @@ const logout = () => {
                                         >
                                             <button
                                                 type="button"
-                                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition"
+                                                class="inline-flex items-center px-3 py-2 border border-transparent text-md leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition"
                                             >
                                                 {{ $page.props.user.name }}
 
@@ -555,7 +555,7 @@ const logout = () => {
                             </div>
                         </div>
                         <!-- Hamburger -->
-                        <div class="-mr-2 flex items-center sm:hidden">
+                        <div class="-mr-2 flex items-center md:hidden">
                             <button
                                 class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition"
                                 @click="
@@ -604,7 +604,7 @@ const logout = () => {
                         block: showingNavigationDropdown,
                         hidden: !showingNavigationDropdown,
                     }"
-                    class="sm:hidden"
+                    class="md:hidden"
                 >
                     <div class="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink
@@ -671,7 +671,7 @@ const logout = () => {
                                 >
                                     {{ $page.props.user.name }}
                                 </div>
-                                <div class="font-medium text-sm text-gray-500">
+                                <div class="font-medium text-md text-gray-500">
                                     {{ $page.props.user.email }}
                                 </div>
                             </div>
@@ -788,18 +788,18 @@ const logout = () => {
 
             <!-- Page Heading -->
             <header v-if="$slots.header" class="bg-mainblue shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                <div class="max-w-7xl mx-auto py-6 px-4 md:px-6 lg:px-8">
                     <slot name="header" />
                 </div>
             </header>
 
             <!-- Page Content -->
             <main>
-                     <div class="bg-black/70 inset-0 absolute w-screen -z-10"></div>
+                            <div class="bg-black/70 inset-0 absolute w-full -z-10 object-cover"></div>
 
-                    <div class="w-screen  inset-0 absolute -z-20">
-                         <img src="/assets/background.png" class="w-full h-full object-cover blur-sm" alt="Background Image" />
-                    </div>
+                            <div class="w-full  inset-0 absolute -z-20 ">
+                                <img src="/assets/background.png" class="w-full h-full object-cover blur-md" alt="Background Image" />
+                            </div>
                 <slot />
             </main>
         </div>
