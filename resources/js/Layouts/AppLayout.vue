@@ -43,7 +43,7 @@ const logout = () => {
             <nav class="bg-gray-50 border-b border-gray-100">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="flex justify-between h-16">
+                    <div class="grid grid-cols-3 j h-full">
                         <div class="flex">
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
@@ -56,7 +56,7 @@ const logout = () => {
 
                             <!-- Navigation Links -->
                             <div
-                                class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex"
+                                class="hidden sm:flex"
                             >
                                 <NavLink
                                     :href="route('quote.index')"
@@ -111,12 +111,14 @@ const logout = () => {
                                     Divisas
                                 </NavLink>
 
+                                
                             </div>
 
 
                         </div>
-                                                  <!-- Link button -->
-                                <div class="hidden sm:block w-1/4 ml-8">
+
+                                                                          <!-- Link button -->
+                                <div class="hidden sm:block w-3/4 mx-auto">
                                     <div>
                                         <a
                                             href="https://exploreemotions.agency/"
@@ -132,7 +134,9 @@ const logout = () => {
                                     <div class="border-t border-gray-100"></div>
                                 </div>
 
+
                         <!-- Localisation -->
+                    <div class="flex gap-10  justify-end">
                         <div class="hidden sm:flex sm:items-center">
                             <div class="relative">
                                 <!-- Currency Dropdown -->
@@ -271,8 +275,8 @@ const logout = () => {
                             </div>
                         </div>
                         <!--  -->
-                        <div class="hidden sm:flex sm:items-center sm:ml-6">
-                            <div class="ml-3 relative">
+                        <div class="hidden sm:grid grid-cols-2 gap-20 sm:items-center justify-end ">
+                            <div class="relative">
                                 <!-- Teams Dropdown -->
                                 <Dropdown
                                     v-if="$page.props.jetstream.hasTeamFeatures"
@@ -468,7 +472,7 @@ const logout = () => {
                             </div>
 
                             <!-- Settings Dropdown -->
-                            <div class="ml-3 relative">
+                            <div class="relative w-10 place-items-end">
                                 <Dropdown align="right" width="48">
                                     <template #trigger>
                                         <button
@@ -592,6 +596,7 @@ const logout = () => {
                         </div>
                     </div>
                 </div>
+            </div>
 
                 <!-- Responsive Navigation Menu -->
                 <div

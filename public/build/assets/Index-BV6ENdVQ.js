@@ -1,1 +1,0 @@
-import{_ as e}from"./_plugin-vue_export-helper-DlAUqK2U.js";import{e as o,o as t,a as s}from"./app-BDCeMI-n.js";const c={},n=s("h1",null,"Listado de Post",-1),r=[n];function a(_,d){return t(),o("div",null,r)}const f=e(c,[["render",a]]);export{f as default};
