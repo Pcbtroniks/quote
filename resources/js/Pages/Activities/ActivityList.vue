@@ -11,6 +11,8 @@ const props = defineProps({
     filters: Object,
 });
 
+console.log(props.activities);
+
 const act = ref({});
 const showModal = ref(false);
 
@@ -23,6 +25,15 @@ const useEditActivity = (activity) => {
 const isFilter = (origin, type) => {
     return origin == type;
 };
+
+const formatAmount = (amount, locale = 'en-US', currency = 'USD') =>{
+
+    return new Intl.NumberFormat(locale, {
+        style: 'currency',
+        currency: currency,
+    }).format(amount);
+}
+
 </script>
 
 <template>
@@ -182,10 +193,10 @@ const isFilter = (origin, type) => {
                                     <td
                                         class="p-2 whitespace-nowrap cursor-default"
                                     >
-                                        ${{
+                                        {{
                                             activity.filter_prices.high?.kid
-                                                ? activity.filter_prices.high
-                                                      ?.kid[0].amount
+                                                ? formatAmount(activity.filter_prices.high
+                                                      ?.kid[0].amount)
                                                 : 0
                                         }}
                                     </td>
