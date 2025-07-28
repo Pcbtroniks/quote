@@ -34,6 +34,7 @@ const formatAmount = (amount, locale = 'en-US', currency = 'USD') =>{
     }).format(amount);
 }
 
+
 </script>
 
 <template>
@@ -169,24 +170,25 @@ const formatAmount = (amount, locale = 'en-US', currency = 'USD') =>{
                                         </div>
                                     </td>
                                     <td class="p-2 whitespace-nowrap">
-                                        ${{
+                                        {{
                                             activity.filter_prices.low?.adult[0]
-                                                .amount
+                                                .amount ? formatAmount(activity.filter_prices.low?.adult[0]
+                                                .amount ) : 0
                                         }}
                                     </td>
                                     <td class="p-2 whitespace-nowrap">
-                                        ${{
+                                        {{
                                             activity.filter_prices.low?.kid
-                                                ? activity.filter_prices.low
-                                                      ?.kid[0].amount
+                                                ? formatAmount(activity.filter_prices.low
+                                                      ?.kid[0].amount)
                                                 : 0
                                         }}
                                     </td>
                                     <td class="p-2 whitespace-nowrap">
-                                        ${{
+                                        {{
                                             activity.filter_prices.high?.adult
-                                                ? activity.filter_prices.high
-                                                      ?.adult[0].amount
+                                                ? formatAmount(activity.filter_prices.high
+                                                      ?.adult[0].amount)
                                                 : 0
                                         }}
                                     </td>
