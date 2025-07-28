@@ -173,7 +173,7 @@ const formatAmount = (amount, locale = 'en-US', currency = 'USD') =>{
                                         {{
                                             activity.filter_prices.low?.adult[0]
                                                 .amount ? formatAmount(activity.filter_prices.low?.adult[0]
-                                                .amount ) : 0
+                                                .amount ) : 1
                                         }}
                                     </td>
                                     <td class="p-2 whitespace-nowrap">

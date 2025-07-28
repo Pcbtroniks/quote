@@ -42,21 +42,21 @@ const logout = () => {
         <div class="min-h-screen bg-maingre">
             <nav class="bg-gray-50 border-b border-maingreen">
                 <!-- Primary Navigation Menu -->
-                <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
-                    <div class="grid grid-cols-2 md:grid-cols-3 j h-full">
+                <div class=" mx-auto px-4 md:px-6 lg:px-8 w-full">
+                    <div class="flex justify-between 2xl:grid 2xl:grid-cols-3 ">
                         <div class="flex">
-                            <!-- Logo -->
-                            <div class="shrink-0 flex items-center">
+                            <!-- Logo --> 
+                            <div class="flex items-center md:w-40">
                                 <Link :href="route('dashboard')">
                                     <ApplicationMark
-                                        class="block h-10 w-auto"
+                                        class="md:h-fit"
                                     />
                                 </Link>
                             </div>
 
                             <!-- Navigation Links -->
                             <div
-                                class="hidden md:flex"
+                                class="hidden md:flex mx-auto gap-2 lg-gap-0"
                             >
                                 <NavLink
                                     :href="route('quote.index')"
@@ -111,14 +111,16 @@ const logout = () => {
                                     Divisas
                                 </NavLink>
 
-                                
+
                             </div>
 
+                                                                                                                                               <!-- Link button -->
+    
 
                         </div>
 
-                                                                          <!-- Link button -->
-                                <div class="hidden md:flex justify-center w-full relative">
+                                                                                                                   <!-- Link button -->
+                                <div class="hidden md:flex justify-center px-8 lg:px-0">
                                     <div>
                                         <a
                                             href="https://exploreemotions.agency/"
@@ -133,12 +135,13 @@ const logout = () => {
                                     </div>
                                     <div class="border-t border-gray-100"></div>
                                 </div>
+               
 
 
                         <!-- Localisation -->
-                    <div class="flex gap-10  justify-end">
-                        <div class="hidden md:flex md:items-center">
-                            <div class="relative">
+                    <div class="grid grid-cols-2">
+                        <div class="hidden md:flex md:items-center mx-auto">
+                            <div class="flex">
                                 <!-- Currency Dropdown -->
                                 <Dropdown align="left" width="60">
                                     <template #trigger>
@@ -275,7 +278,7 @@ const logout = () => {
                             </div>
                         </div>
                         <!--  -->
-                        <div class="hidden md:grid grid-cols-2 gap-20 md:items-center justify-end ">
+                        <div class="hidden md:grid grid-cols-2 md:items-center justify-end gap-20 lg:gap-0 ">
                             <div class="relative">
                                 <!-- Teams Dropdown -->
                                 <Dropdown
