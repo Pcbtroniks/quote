@@ -17,7 +17,7 @@
     </style>
 </head>
 <body>
-<div style="width: 595px; height: 842px; position: relative; background: white">
+<div style="width: 595px; height: 842px; position: relative; background: white; border: 1px solid gray; display: flex; justify-content: center; margin: 0 auto">
   <div style="width: 211px; height: 159px; left: 53px; top: 441px; position: absolute">
     <div style="left: 0px; top: 99px; position: absolute; color: black; font-size: 18px; font-family: Nunito; font-weight: 400; word-wrap: break-word">Precio publico: </div>
     <div style="left: 0px; top: 125px; position: absolute; color: black; font-size: 18px; font-family: Nunito; font-weight: 400; word-wrap: break-word">Precio a pagar: </div>
