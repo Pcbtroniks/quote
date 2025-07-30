@@ -8,6 +8,7 @@ import Pagination from '@/Shared/Pagination.vue';
 import axios from 'axios';
 import { ref } from 'vue';
 import { FormatPrice } from '@/utils/FormatNumber.js';
+import ThirdButton from '@/Components/ThirdButton.vue';
 const ShowProFormModal = ref(false);
 const CurrentProformQuote = ref(null);
 
@@ -19,7 +20,7 @@ const props = defineProps({
 
 const requestCouponConfirmation = (Quote) => {
     Swal.fire({
-    title: '¿Solicitar cupon?',
+    title: 'Confirmar cupón?',
     text: "¡Se generara tu cupon para poder usarlo posteriormente!",
     icon: 'question',
     showCancelButton: true,
@@ -153,12 +154,12 @@ console.log(props.quotes);
         </a>
 
         <PrimaryButton v-if="CurrentProformQuote.status == 'created'" class="ml-2" @click="requestCouponConfirmation(CurrentProformQuote)">
-            Solicitar
+            confirmar
         </PrimaryButton>
 
-        <PrimaryButton class="ml-2" @click.native="ShowProFormModal = false">
+        <ThirdButton class="ml-2" @click.native="ShowProFormModal = false">
             Aceptar
-        </PrimaryButton>
+        </ThirdButton>
     </template>
 </DialogModal>
 <!-- /modal -->
@@ -240,7 +241,7 @@ console.log(props.quotes);
                                                 </div>
                                             </a>
                                             <button v-else-if="quote.status == 'created'" @click="LoadProFormModal(quote)" class="px-3 py-2 rounded-md text-sm font-medium border focus:outline-none focus:ring transition text-sky-600 border-sky-600 hover:text-white hover:bg-sky-600 active:bg-sky-700 focus:ring-sky-300" type="button">
-                                                Solicitar
+                                                Confirmar
                                             </button>
                                             <button v-else-if="quote.status == 'pending'" @click="LoadProFormModal(quote)" class="px-3 py-2 rounded-md text-sm font-medium border focus:outline-none focus:ring transition text-yellow-600 border-yellow-600 hover:text-white hover:bg-yellow-600 active:bg-yellow-700 focus:ring-yellow-300" type="button">
                                                     {{ printTempFolio(quote) }}
