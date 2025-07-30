@@ -187,7 +187,7 @@
                             <td colspan="2" style="font-weight: bold; font-size:11px; padding: 0px; line-height: 12px">
                             @if ($quote->type == 'pack' && count($quote->listed_activities))                                 
                             @foreach ($quote->listed_activities as $activity)
-                               {{ $activity->activity->name }}, <span style="font-weight: normal;"> {{ $activity->date_string_formatted . ', ' .  $activity->hotel->name . ' ' . (substr($activity->pickup_time, 0, 5) ?? 'n/d') . ' h' }}</span>
+                                {{ $activity->date_string_formatted . ', ' . ($activity->hotel->name ?? '') . ' ' . ($activity->pickup_time ? substr($activity->pickup_time, 0, 5) : 'n/d') . ' h' }}
                                <br>
                             @endforeach
                             @endif

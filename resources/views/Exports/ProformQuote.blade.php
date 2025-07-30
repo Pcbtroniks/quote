@@ -6,52 +6,102 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exploreemotions Proforma Cupon</title>
 
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
     <style>
-      html, body {
-        font-family: 'Nunito', sans-serif;
-      }
+        html, body {
+            font-family: 'Nunito', sans-serif;
+        }
     </style>
 </head>
 <body>
-<div style="width: 595px; height: 842px; position: relative; background: white; border: 1px solid gray; display: flex; justify-content: center; margin: 0 auto">
-  <div style="width: 211px; height: 159px; left: 53px; top: 441px; position: absolute">
-    <div style="left: 0px; top: 99px; position: absolute; color: black; font-size: 18px; font-family: Nunito; font-weight: 400; word-wrap: break-word">Precio publico: </div>
-    <div style="left: 0px; top: 125px; position: absolute; color: black; font-size: 18px; font-family: Nunito; font-weight: 400; word-wrap: break-word">Precio a pagar: </div>
-    <div style="left: 142px; top: 99px; position: absolute; color: black; font-size: 18px; font-family: Nunito; font-weight: 400; word-wrap: break-word">${{ $quote->public_price ?? 'n/d'}}</div>
-    <div style="left: 142px; top: 125px; position: absolute; color: black; font-size: 18px; font-family: Nunito; font-weight: 400; word-wrap: break-word">${{ $quote->cost_amount ?? 'n/d'}}</div>
-    <div style="left: 0px; top: 70px; position: absolute; color: black; font-size: 20px; font-family: Nunito; font-weight: 700; word-wrap: break-word">Importes totales</div>
-    <div style="left: 0px; top: 155px; position: absolute; color: black; font-size: 20px; font-family: Nunito; font-weight: 700; word-wrap: break-word">Comisiones: ${{ ($quote->public_price - $quote->cost_amount) ?? 'n/d'}}</div>
-  </div>
-  <div style="width: 580px; height: 95px; left: 53px; top: 317px; position: absolute">
-    @if ($quote->type == 'entrance')
-      <div style="left: 0px; top: 65px; position: absolute; color: black; font-size: 18px; font-family: Nunito; font-weight: 400;">{{ $quote->listed_activities[0]->activity->name }}</div>  
-    @else
-      @foreach ($quote->listed_activities as $activity)
-        <div style="left: 0px; top: {{ (40 + (55 * $loop->index)) }}px; position: absolute; color: black; font-size: 18px; font-family: Nunito; font-weight: 400; line-height: 15px;">{{ $activity->activity->name }} {{ substr($activity->hotel->name, 0, 28) . '...' ?? '' }} {{ ($activity->pickup_time != null && $activity->pickup_time != '00:00:00') ? substr($activity->pickup_time, 0, 5) : '' }}</div>  
-      @endforeach
-    @endif
-    <div style="left: 0px; top: 0px; position: absolute; color: black; font-size: 20px; font-family: Nunito; font-weight: 700; word-wrap: break-word">Actividades</div>
-  </div>
-  <div style="width: 500px; height: 25px; left: 53px; top: 263px; position: absolute">
-    <div style="width: 351px; height: 25px; left: 0px; top: 0px; position: absolute; justify-content: flex-start; align-items: flex-start; gap: 16px; display: flex; flex-direction: row">
-      <div style="color: black; font-size: 18px; font-family: Nunito; font-weight: 400;">Adultos: <span>{{ $quote->adults ?? ' ' }}</span> - Menor:  <span>{{ $quote->minors ?? ' '}}</span> - Infante:  <span>{{ $quote->infants ?? ' '}}</span></div>
+<div style="width: 595px; height: 1000px; position: relative; background: white; border: 1px solid gray; display: flex; justify-content: center; margin: 0 auto">
+
+    <!-- LOGO -->
+    <img style="width: 200px; height: 99px; left: 200px; top: 40px; position: absolute" src="{{ asset('assets/exploreemotions-logo.png') }}" />
+
+    {{-- Introducción --}}
+    <div style="width: 500px; height: 259px; left: 53px; top: 139px; position: absolute">
+      <div style="left: 0px; top: 0px; position: absolute; font-size: 30px; font-weight: bold; color: black;">Confirmación de Reserva</div>
+      <div style="left: 0px; top: 60px; position: absolute; font-size: 18px; font-weight: 700; color: gray;">Estimado/a {{ $quote->holder_name ?? 'Holder name' }} favor de presentar esta confimación de reserva al abordar.</div>
     </div>
-  </div>
-  <div style="width: 500px; height: 25px; left: 53px; top: 179px; position: absolute">
-    <div style="left: 0px; top: 0px; position: absolute; color: black; font-size: 18px; font-family: Nunito; font-weight: 400; word-wrap: break-word">Fecha: </div>
-    <div style="left: 73px; top: 0px; position: absolute; color: black; font-size: 18px; font-family: Nunito; font-weight: 400; word-wrap: break-word">{{ $quote->listed_activities[0]->date_string_formatted ?? 'invalid date' }}</div>
-  </div>
-  <div style="width: 500px; height: 119px; left: 53px; top: 139px; position: absolute">
-    <div style="left: 0px; top: 0px; position: absolute; color: black; font-size: 20px; font-family: Nunito; font-weight: 700; word-wrap: break-word">Número de solicitud: </div>
-    <div style="left: 224px; top: 0px; position: absolute; color: #CA8A04; font-size: 20px; font-family: Nunito; font-weight: 700; word-wrap: break-word">{{ $quote->tmpFolio ?? 'not-available'}}</div>
-    <div style="left: 0px; top: 94px; position: absolute; color: black; font-size: 18px; font-family: Nunito; font-weight: 400; word-wrap: break-word">Nombre:  </div>
-    <div style="left: 89px; top: 94px; position: absolute; color: black; font-size: 18px; font-family: Nunito; font-weight: 400; word-wrap: break-word">{{ $quote->holder_name ?? 'Holder name'}}</div>
-  </div>
-  <img style="width: 286px; height: 99px; left: 53px; top: 40px; position: absolute" src="{{asset('assets/exploreemotions-logo.png')}}" />
+
+    <!-- Fondo del contenido -->
+    <div style="width: 500px; height: 500px; left: 53px; top: 300px; position: absolute; background-color: #f8fafc">
+    <div style="width: 500px; height: 150px; left: 0px; top: 500px; position: absolute; background-color: #a5c296"></div>
+
+    <div style="width: 20; height: 10; left: 35px; top: 20px; position: absolute; background-color: #324160"></div>
+    <div style="width: 500px; height: 119px; left: 80px; top: 0px; position: absolute; font-weight: bold; font-size: 24px">Información de la Reserva</div>
+
+
+    <!-- NÚMERO DE SOLICITUD + FECHA -->
+    <div style="width: 500px; height: 180px; left: 0px; top: 50px; position: absolute;">
+        <div style="left: 20px; top: 0px; position: absolute; font-size: 19px; font-weight: bold; color: rgb(80, 80, 80);">Número de solicitud:</div>
+        <div style="left: 20px; top: 20px; position: absolute; font-size: 20px; font-weight: 700; color: #52763e;">{{ $quote->tmpFolio ?? 'not-available' }}</div>
+
+        <div style="left: 250px; top: 0px; font-size: 19px; font-weight: bold; color: rgb(80, 80, 80); position: absolute">Fecha:</div>
+        <div style="left: 250px; top: 24px; font-size: 16px; font-weight: 20px; color: black; position: absolute;">{{ $quote->listed_activities[0]->date_string_formatted ?? 'invalid date' }}</div>
+    </div>
+
+    <!-- NOMBRE + ACTIVIDAD -->
+    <div style="width: 200px; height: 25px; left: 0px; top: 20px; position: absolute">
+    <div style="left: 20px; top: 94px; position: absolute; font-size: 19px; font-weight: bold; color: rgb(80, 80, 80);">Nombre:</div>
+    <div style="left: 20px; top: 118px; position: absolute; font-size: 18px; font-weight: 400; color: black;">{{ $quote->holder_name ?? 'Holder name' }}</div>
+    </div>
+
+    <div style="width: 500px; height: 25px; left: 0px; top: 20px; position: absolute">
+    <div style="left: 250px; top: 94px; position: absolute; font-size: 19px; font-weight: bold; color: rgb(80, 80, 80);">TOUR:</div>
+    <div style="left: 250px; top: 118px; position: absolute; font-size: 16px; color: black;">{{ $quote->listed_activities[0]->activity->name }}</div>
+
+    </div>
+
+    
+    <!-- ACTIVIDADES -->
+    <div style="width: 500px; height: 200px; left: 0px; top: 240px; position: absolute">
+      <div style="left: 20px; top: 0px; position: absolute; font-size: 19px; font-weight: bold; color: rgb(80, 80, 80);">Punto de Encuentro y Hora</div>
+      
+      @if ($quote->type == 'entrance')
+      <div style="left: 20px; top: 94px; position: absolute; font-size: 16px; color: black;">
+        {{ $quote->listed_activities[0]->activity->name }}
+      </div>
+      @else
+      @foreach ($quote->listed_activities as $index => $activity)
+      <div style="left: 20px; top: {{ 40 + (55 * $index) }}px; position: absolute; font-size: 16px; color: black; line-height: 15px;">
+          {{ optional($activity->hotel)->name ?? '' }} <br>
+          {{ $activity->pickup_time ? substr($activity->pickup_time, 0, 5) : 'n/d' }} h
+      </div>
+      @endforeach
+      @endif
+    </div>
+    
+    <!-- ADULTOS, MENORES, INFANTES -->
+    <div style="width: 500px; height: 400px; left: 0px; top: 360px; position: absolute">
+        <div style="left: 20px; top: 0px; position: absolute; font-size: 19px; font-weight: bold; color: rgb(80, 80, 80);">Pasajeros:</div>
+        <div style="left: 20px; top: 30px; font-size: 16px; color: black; position: absolute;">
+            Adultos: <span>{{ $quote->adults ?? ' ' }}</span> <br>
+            Menores: <span>{{ $quote->minors ?? ' ' }}</span> <br>
+            Infantes: <span>{{ $quote->infants ?? ' ' }}</span> <br>
+        </div>
+        <div style="left: 250px; top: 0px; position: absolute; font-size: 19px; font-weight: bold; color: rgb(80, 80, 80);">PAÍS:</div>
+    <div style="left: 250px; top: 24px; position: absolute; font-size: 16px; color: black;">MX</div>
+    </div>
+
+    <!-- IMPORTES TOTALES -->
+    <div style="width: 250px; height: 159px; left: 120px; top: 430px; position: absolute">
+        <div style="left: 20px; top: 70px; font-size: 20px; font-weight: 700; color: black; position: absolute;">Importes totales</div>
+
+        <div style="left: 20px; top: 99px; font-size: 18px; font-weight: 400; color: black; position: absolute;">Precio publico:</div>
+        <div style="left: 142px; top: 99px; font-size: 18px; font-weight: 400; color: black; position: absolute;">${{ $quote->public_price ?? 'n/d' }}</div>
+
+        <div style="left: 20px; top: 125px; font-size: 18px; font-weight: 400; color: black; position: absolute;">Precio a pagar:</div>
+        <div style="left: 142px; top: 125px; font-size: 18px; font-weight: 400; color: black; position: absolute;">${{ $quote->cost_amount ?? 'n/d' }}</div>
+
+        <div style="left: 20px; top: 155px; font-size: 20px; font-weight: 700; color: black; position: absolute;">
+            Comisiones: ${{ isset($quote->public_price, $quote->cost_amount) ? number_format($quote->public_price - $quote->cost_amount, 2) : 'n/d' }}
+        </div>
+    </div>
+</div>
 </div>
 </body>
 </html>

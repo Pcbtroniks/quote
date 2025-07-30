@@ -148,6 +148,8 @@ Route::middleware([
 
     Route::get('exports/manifest/{invoiceID}', [ExportController::class, 'exportManifest'])->name('exports.manifest.byInvoiceId');
     Route::get('exports/view/manifest/{invoiceID}', [ExportController::class, 'viewManifest'])->name('exports.view.manifest.byInvoiceId');
+    Route::get('/proforma/preview', [ExportController::class, 'mostrarPDF']);
+
 
     // Export PDF Quote
     Route::get('export/pdf/quote/{quote?}', [ExportController::class, 'exportPDFQuote'])->name('export.pdf.quote');
