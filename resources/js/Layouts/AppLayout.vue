@@ -40,7 +40,7 @@ const logout = () => {
         <Banner />
 
         <div class="min-h-screen bg-maingre">
-            <nav class="bg-gray-50 border-b border-maingreen">
+            <nav class="bg-gray-50 b border-maingreen">
                 <!-- Primary Navigation Menu -->
                 <div class=" mx-auto px-4 md:px-6 lg:px-8 w-full">
                     <div class="flex justify-between 2xl:grid 2xl:grid-cols-3 ">
