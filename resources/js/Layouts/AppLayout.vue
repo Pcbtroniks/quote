@@ -67,7 +67,7 @@ const logout = () => {
 
                                 <NavLink
                                     :href="route('quote.create')"
-                                    :active="route().current('quote')"
+                                    :active="route().current('quote.create')"
                                 >
                                     Cotizador
                                 </NavLink>
