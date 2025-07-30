@@ -38,36 +38,36 @@
     <!-- NÚMERO DE SOLICITUD + FECHA -->
     <div style="width: 500px; height: 180px; left: 0px; top: 50px; position: absolute;">
         <div style="left: 20px; top: 0px; position: absolute; font-size: 19px; font-weight: bold; color: rgb(80, 80, 80);">Número de solicitud:</div>
-        <div style="left: 20px; top: 20px; position: absolute; font-size: 20px; font-weight: 700; color: #52763e;">{{ $quote->tmpFolio ?? 'not-available' }}</div>
+        <div style="left: 20px; top: 24px; position: absolute; font-size: 20px; font-weight: 700; color: #52763e;">{{ $quote->tmpFolio ?? 'not-available' }}</div>
 
         <div style="left: 250px; top: 0px; font-size: 19px; font-weight: bold; color: rgb(80, 80, 80); position: absolute">Fecha:</div>
-        <div style="left: 250px; top: 24px; font-size: 16px; font-weight: 20px; color: black; position: absolute;">{{ $quote->listed_activities[0]->date_string_formatted ?? 'invalid date' }}</div>
+        <div style="left: 250px; top: 33px; font-size: 16px; font-weight: 800; color: black; position: absolute;">{{ $quote->listed_activities[0]->date_string_formatted ?? 'invalid date' }}</div>
     </div>
 
     <!-- NOMBRE + ACTIVIDAD -->
     <div style="width: 200px; height: 25px; left: 0px; top: 20px; position: absolute">
     <div style="left: 20px; top: 94px; position: absolute; font-size: 19px; font-weight: bold; color: rgb(80, 80, 80);">Nombre:</div>
-    <div style="left: 20px; top: 118px; position: absolute; font-size: 18px; font-weight: 400; color: black;">{{ $quote->holder_name ?? 'Holder name' }}</div>
+    <div style="left: 20px; top: 125px; position: absolute; font-size: 18px; font-weight: 900; color: black;">{{ $quote->holder_name ?? 'Holder name' }}</div>
     </div>
 
     <div style="width: 500px; height: 25px; left: 0px; top: 20px; position: absolute">
     <div style="left: 250px; top: 94px; position: absolute; font-size: 19px; font-weight: bold; color: rgb(80, 80, 80);">TOUR:</div>
-    <div style="left: 250px; top: 118px; position: absolute; font-size: 16px; color: black;">{{ $quote->listed_activities[0]->activity->name }}</div>
+    <div style="left: 250px; top: 125px; position: absolute; font-size: 16px; color: black; font-weight: 900;">{{ $quote->listed_activities[0]->activity->name }}</div>
 
     </div>
 
     
     <!-- ACTIVIDADES -->
-    <div style="width: 500px; height: 200px; left: 0px; top: 240px; position: absolute">
-      <div style="left: 20px; top: 0px; position: absolute; font-size: 19px; font-weight: bold; color: rgb(80, 80, 80);">Punto de Encuentro y Hora</div>
+    <div style="width: 500px; height: 120px; left: 0px; top: 240px; position: absolute">
+      <div style="left: 20px; top: 0px; position: absolute; font-size: 19px; font-weight: bold; color: rgb(80, 80, 80);">Punto de Encuentro/Hora:</div>
       
       @if ($quote->type == 'entrance')
-      <div style="left: 20px; top: 94px; position: absolute; font-size: 16px; color: black;">
+      <div style="left: 20px; top: 24px; position: absolute; font-size: 16px; color: black; font-weight: 800">
         {{ $quote->listed_activities[0]->activity->name }}
       </div>
       @else
       @foreach ($quote->listed_activities as $index => $activity)
-      <div style="left: 20px; top: {{ 40 + (55 * $index) }}px; position: absolute; font-size: 16px; color: black; line-height: 15px;">
+      <div style="left: 20px; top:  {{ (40 + (36 * $loop->index)) }}px; position: absolute; font-size: 16px; color: black; line-height: 15px; font-weight: 800">
           {{ optional($activity->hotel)->name ?? '' }} <br>
           {{ $activity->pickup_time ? substr($activity->pickup_time, 0, 5) : 'n/d' }} h
       </div>
@@ -78,13 +78,13 @@
     <!-- ADULTOS, MENORES, INFANTES -->
     <div style="width: 500px; height: 400px; left: 0px; top: 360px; position: absolute">
         <div style="left: 20px; top: 0px; position: absolute; font-size: 19px; font-weight: bold; color: rgb(80, 80, 80);">Pasajeros:</div>
-        <div style="left: 20px; top: 30px; font-size: 16px; color: black; position: absolute;">
+        <div style="left: 20px; top: 33px; font-size: 16px; color: black; position: absolute; font-weight: 800">
             Adultos: <span>{{ $quote->adults ?? ' ' }}</span> <br>
             Menores: <span>{{ $quote->minors ?? ' ' }}</span> <br>
             Infantes: <span>{{ $quote->infants ?? ' ' }}</span> <br>
         </div>
         <div style="left: 250px; top: 0px; position: absolute; font-size: 19px; font-weight: bold; color: rgb(80, 80, 80);">PAÍS:</div>
-    <div style="left: 250px; top: 24px; position: absolute; font-size: 16px; color: black;">MX</div>
+    <div style="left: 250px; top: 35px; position: absolute; font-size: 16px; color: black; font-weight: 800">MX</div>
     </div>
 
     <!-- IMPORTES TOTALES -->

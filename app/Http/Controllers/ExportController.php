@@ -84,7 +84,7 @@ class ExportController extends Controller
         : public_path('/storage/' . $quote->team->logo);
         Pdf::setOption(['dpi' => 150, 'defaultFont' => 'sans-serif']);
         $pdf = Pdf::loadView('Exports.Quote', ['quote' => $quote]);
-        return $pdf->stream('exploreemotions-quote.pdf');
+        return $pdf->download('exploreemotions-quote.pdf');
     }
 
     public function exportPDFQuoteView(Quote $quote)
