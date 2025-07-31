@@ -9,7 +9,7 @@ import DropdownLink from "@/Components/DropdownLink.vue";
 import NavLink from "@/Components/NavLink.vue";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
 import { userHasPermission, PERMISSIONS } from "@/Helpers/Permissions";
-
+import DropdownHover from "../Components/DropdownHover.vue";
 defineProps({
     title: String,
 });
@@ -113,30 +113,64 @@ const logout = () => {
 
 
                             </div>
-
-                                                                                                                                               <!-- Link button -->
-    
-
                         </div>
 
-                                                                                                                   <!-- Link button -->
-                                <div class="hidden md:flex justify-center px-8 lg:px-0">
-                                    <div>
+                        <!-- Link button -->
+
+                               <DropdownHover></DropdownHover>
+                                                    
+                        <!-- <div class="hidden md:flex justify-center px-8 lg:px-0">
+                            <div>
+                                        <Dropdown @click="handleMenuClick" v-on="">
+                                            <template #trigger>
                                         <a
                                             href="https://exploreemotions.agency/"
                                             target="_blank"
                                         >
                                             <button
+                                                type="button"
                                                 class=" rounded-b-xl  block px-4 py-4 bg-maingreen text-md leading-5 text-white hover:bg-green-900 hover:font-bold transition-all duration-300 ease-in-out text-center"
                                             >
                                                 Ir a Explore Emotions
                                             </button>
-                                        </a>
-                                    </div>
-                                    <div class="border-t border-gray-100"></div>
-                                </div>
-               
-
+                                        </a>                                  
+                                         </template>
+                                         <template #content>                                            
+                                                    <DropdownLink class="bg-mainblue/5 font-bold text-center"
+                                                    >
+                                                    <a href="http://exploreemotions.agency/parques#275a359a-92a5-4eef-836d-0c57b1211fad">
+                                                        Tour Xenses
+                                                        </a>
+                                                    </DropdownLink>
+                                                    <DropdownLink class="bg-maingreen/10 font-bold text-center"
+                                                    >
+                                                    <a href="http://exploreemotions.agency/parques#275a359a-92a5-4eef-836d-0c57b1211fad">
+                                                        Tour Xplore Fuego
+                                                        </a>
+                                                    </DropdownLink>
+                                                    <DropdownLink class="bg-mainblue/10 font-bold text-center"
+                                                    >
+                                                    <a href="http://exploreemotions.agency/parques#275a359a-92a5-4eef-836d-0c57b1211fad">
+                                                        Tour Xichen Itza
+                                                        </a>
+                                                    </DropdownLink>
+                                                    <DropdownLink class="bg-maingreen/10 font-bold text-center"
+                                                    >
+                                                    <a href="http://exploreemotions.agency/parques#275a359a-92a5-4eef-836d-0c57b1211fad">
+                                                        Tour Xelha
+                                                        </a>
+                                                    </DropdownLink>
+                                                    <DropdownLink class="bg-mainblue/10 font-bold text-center"
+                                                    >
+                                                    <a href="http://exploreemotions.agency/parques#275a359a-92a5-4eef-836d-0c57b1211fad">
+                                                        Tour Xplor Día
+                                                        </a>
+                                                    </DropdownLink>
+                                         </template>
+                                        </Dropdown>
+                            </div>
+                            <div class="border-t border-gray-100"></div>
+                        </div> -->
 
                         <!-- Localisation -->
                     <div class="grid grid-cols-2">
