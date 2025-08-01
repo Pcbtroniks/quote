@@ -10,6 +10,7 @@ import NavLink from "@/Components/NavLink.vue";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
 import { userHasPermission, PERMISSIONS } from "@/Helpers/Permissions";
 import DropdownHover from "../Components/DropdownHover.vue";
+import DropdownHoverV2 from "@/Components/DropdownHoverV2.vue";
 defineProps({
     title: String,
 });
@@ -42,22 +43,18 @@ const logout = () => {
         <div class="min-h-screen bg-maingre">
             <nav class="bg-gray-50 b border-maingreen">
                 <!-- Primary Navigation Menu -->
-                <div class=" mx-auto px-4 md:px-6 lg:px-8 w-full">
-                    <div class="flex justify-between 2xl:grid 2xl:grid-cols-3 ">
+                <div class="mx-auto px-4 md:px-6 lg:px-8 w-full">
+                    <div class="flex justify-between 2xl:grid 2xl:grid-cols-3">
                         <div class="flex">
-                            <!-- Logo --> 
+                            <!-- Logo -->
                             <div class="flex items-center md:w-40">
                                 <Link :href="route('dashboard')">
-                                    <ApplicationMark
-                                        class="md:h-fit"
-                                    />
+                                    <ApplicationMark class="md:h-fit" />
                                 </Link>
                             </div>
 
                             <!-- Navigation Links -->
-                            <div
-                                class="hidden md:flex mx-auto gap-2 lg-gap-0"
-                            >
+                            <div class="hidden md:flex mx-auto gap-2 lg-gap-0">
                                 <NavLink
                                     :href="route('quote.index')"
                                     :active="route().current('quote.index')"
@@ -110,265 +107,369 @@ const logout = () => {
                                 >
                                     Divisas
                                 </NavLink>
-
-
                             </div>
                         </div>
 
                         <!-- Link button -->
 
-                               <DropdownHover></DropdownHover>
-                                                    
-                        <!-- <div class="hidden md:flex justify-center px-8 lg:px-0">
+                        <!-- <DropdownHover></DropdownHover> -->
+
+                        <div class="flex justify-center px-2 lg:px-4 2xl:px-0">
                             <div>
-                                        <Dropdown @click="handleMenuClick" v-on="">
-                                            <template #trigger>
+                                <DropdownHoverV2
+                                    align="center"
+                                    width="60"
+                                    @click="handleMenuClick"
+                                    v-on=""
+                                >
+                                    <template #trigger>
                                         <a
-                                            href="https://exploreemotions.agency/"
+                                            href="https://exploreemotions.agency/parques"
                                             target="_blank"
+                                            @click.stop
                                         >
                                             <button
                                                 type="button"
-                                                class=" rounded-b-xl  block px-4 py-4 bg-maingreen text-md leading-5 text-white hover:bg-green-900 hover:font-bold transition-all duration-300 ease-in-out text-center"
+                                                class="rounded-b-xl block px-4 py-4 bg-maingreen lg:text-lg leading-5 text-white hover:bg-green-900 font-extrabold transition-all duration-300 ease-in-out text-center hover:text-xl w-52 sm:w-full"
                                             >
-                                                Ir a Explore Emotions
+                                                Ver los Tours
                                             </button>
-                                        </a>                                  
-                                         </template>
-                                         <template #content>                                            
-                                                    <DropdownLink class="bg-mainblue/5 font-bold text-center"
-                                                    >
-                                                    <a href="http://exploreemotions.agency/parques#275a359a-92a5-4eef-836d-0c57b1211fad">
-                                                        Tour Xenses
-                                                        </a>
-                                                    </DropdownLink>
-                                                    <DropdownLink class="bg-maingreen/10 font-bold text-center"
-                                                    >
-                                                    <a href="http://exploreemotions.agency/parques#275a359a-92a5-4eef-836d-0c57b1211fad">
-                                                        Tour Xplore Fuego
-                                                        </a>
-                                                    </DropdownLink>
-                                                    <DropdownLink class="bg-mainblue/10 font-bold text-center"
-                                                    >
-                                                    <a href="http://exploreemotions.agency/parques#275a359a-92a5-4eef-836d-0c57b1211fad">
-                                                        Tour Xichen Itza
-                                                        </a>
-                                                    </DropdownLink>
-                                                    <DropdownLink class="bg-maingreen/10 font-bold text-center"
-                                                    >
-                                                    <a href="http://exploreemotions.agency/parques#275a359a-92a5-4eef-836d-0c57b1211fad">
-                                                        Tour Xelha
-                                                        </a>
-                                                    </DropdownLink>
-                                                    <DropdownLink class="bg-mainblue/10 font-bold text-center"
-                                                    >
-                                                    <a href="http://exploreemotions.agency/parques#275a359a-92a5-4eef-836d-0c57b1211fad">
-                                                        Tour Xplor Día
-                                                        </a>
-                                                    </DropdownLink>
-                                         </template>
-                                        </Dropdown>
+                                        </a>
+                                    </template>
+                                    <template #content>
+                                        <DropdownLink
+                                            class="bg-mainblue/5 font-bold text-center p-2"
+                                        >
+                                            <a
+                                                class="text-[16px]"
+                                                href="http://exploreemotions.agency/parques#275a359a-92a5-4eef-836d-0c57b1211fad"
+                                                target="_blank"
+                                                @click.stop
+                                            >
+                                                Tour Xenses
+                                            </a>
+                                        </DropdownLink>
+                                        <DropdownLink
+                                            class="bg-maingreen/10 font-bold text-center p-2"
+                                        >
+                                            <a
+                                                class="text-[16px]"
+                                                href="https://exploreemotions.agency/parques#897b6013-1742-4345-9a88-27fc957cc1f9"
+                                                target="_blank"
+                                                @click.stop
+                                            >
+                                                Tour Xplore Fuego
+                                            </a>
+                                        </DropdownLink>
+                                        <DropdownLink
+                                            class="bg-mainblue/10 font-bold text-center p-2"
+                                        >
+                                            <a
+                                                class="text-[16px]"
+                                                href="https://exploreemotions.agency/parques#dd4c6220-15e6-415a-92e0-2aed83022e4f"
+                                                target="_blank"
+                                                @click.stop
+                                            >
+                                                Tour Xichen Itza
+                                            </a>
+                                        </DropdownLink>
+                                        <DropdownLink
+                                            class="bg-maingreen/10 font-bold text-center p-2"
+                                        >
+                                            <a
+                                                class="text-[16px]"
+                                                href="https://exploreemotions.agency/parques#e04bf8bd-3b3d-4812-b013-5729658fde65"
+                                                target="_blank"
+                                                @click.stop
+                                            >
+                                                Tour Xelha
+                                            </a>
+                                        </DropdownLink>
+                                        <DropdownLink
+                                            class="bg-mainblue/10 font-bold text-center p-2"
+                                        >
+                                            <a
+                                                class="text-[16px]"
+                                                href="https://exploreemotions.agency/parques#691c9d5c-ccbe-4302-9a26-6046d3472efb"
+                                                target="_blank"
+                                                @click.stop
+                                            >
+                                                Tour Xplor Día
+                                            </a>
+                                        </DropdownLink>
+                                    </template>
+                                </DropdownHoverV2>
                             </div>
                             <div class="border-t border-gray-100"></div>
-                        </div> -->
+                        </div>
 
                         <!-- Localisation -->
-                    <div class="grid grid-cols-2">
-                        <div class="hidden md:flex md:items-center mx-auto">
-                            <div class="flex">
-                                <!-- Currency Dropdown -->
-                                <Dropdown align="left" width="60">
-                                    <template #trigger>
-                                        <span class="inline-flex rounded-md">
-                                            <button
-                                                type="button"
-                                                class="inline-flex items-center px-3 py-2 border border-transparent text-md leading-4 font-medium rounded-md text-gray-500 bg-white hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition"
+                        <div class="grid grid-cols-2">
+                            <div class="hidden md:flex md:items-center mx-auto">
+                                <div class="flex">
+                                    <!-- Currency Dropdown -->
+                                    <Dropdown align="left" width="60">
+                                        <template #trigger>
+                                            <span
+                                                class="inline-flex rounded-md"
                                             >
-                                                <span class="font-bold">{{
-                                                    $page.props.localisation
-                                                        .current_currency
-                                                }}</span>
-
-                                                <svg
-                                                    class="ml-2 -mr-0.5 h-4 w-4"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 20 20"
-                                                    fill="currentColor"
+                                                <button
+                                                    type="button"
+                                                    class="inline-flex items-center px-3 py-2 border border-transparent text-md leading-4 font-medium rounded-md text-gray-500 bg-white hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition"
                                                 >
-                                                    <path
-                                                        fill-rule="evenodd"
-                                                        d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-                                                        clip-rule="evenodd"
-                                                    />
-                                                </svg>
-                                            </button>
-                                        </span>
-                                    </template>
+                                                    <span class="font-bold">{{
+                                                        $page.props.localisation
+                                                            .current_currency
+                                                    }}</span>
 
-                                    <template #content>
-                                        <div class="w-60">
-                                            <!-- Team Management -->
-                                            <template
-                                                v-if="
-                                                    $page.props.localisation
-                                                        .currencies
-                                                "
-                                            >
+                                                    <svg
+                                                        class="ml-2 -mr-0.5 h-4 w-4"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 20 20"
+                                                        fill="currentColor"
+                                                    >
+                                                        <path
+                                                            fill-rule="evenodd"
+                                                            d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                                                            clip-rule="evenodd"
+                                                        />
+                                                    </svg>
+                                                </button>
+                                            </span>
+                                        </template>
+
+                                        <template #content>
+                                            <div class="w-60">
+                                                <!-- Team Management -->
                                                 <template
                                                     v-if="
-                                                        $page.props.user
-                                                            .is_freetraveler_admin
+                                                        $page.props.localisation
+                                                            .currencies
                                                     "
                                                 >
+                                                    <template
+                                                        v-if="
+                                                            $page.props.user
+                                                                .is_freetraveler_admin
+                                                        "
+                                                    >
+                                                        <div
+                                                            class="block px-4 py-2 text-xs text-gray-400"
+                                                        >
+                                                            Seleccionar moneda
+                                                        </div>
+
+                                                        <!-- Invoice Settings -->
+                                                        <DropdownLink
+                                                            v-if="
+                                                                $page.props
+                                                                    .jetstream
+                                                                    .canCreateTeams
+                                                            "
+                                                            :href="
+                                                                route(
+                                                                    'localisation.currencies.index'
+                                                                )
+                                                            "
+                                                        >
+                                                            Divisas
+                                                        </DropdownLink>
+                                                    </template>
+
+                                                    <div
+                                                        class="border-t border-gray-100"
+                                                    ></div>
+
                                                     <div
                                                         class="block px-4 py-2 text-xs text-gray-400"
-                                                    >
-                                                        Seleccionar moneda
-                                                    </div>
-
-                                                    <!-- Invoice Settings -->
-                                                    <DropdownLink
-                                                        v-if="
-                                                            $page.props
-                                                                .jetstream
-                                                                .canCreateTeams
-                                                        "
-                                                        :href="
-                                                            route(
-                                                                'localisation.currencies.index'
-                                                            )
-                                                        "
                                                     >
                                                         Divisas
-                                                    </DropdownLink>
-                                                </template>
+                                                    </div>
 
-                                                <div
-                                                    class="border-t border-gray-100"
-                                                ></div>
-
-                                                <div
-                                                    class="block px-4 py-2 text-xs text-gray-400"
-                                                >
-                                                    Divisas
-                                                </div>
-
-                                                <template
-                                                    v-for="currency in $page
-                                                        .props.localisation
-                                                        .currencies"
-                                                    :key="currency.id"
-                                                >
-                                                    <a
-                                                        :href="
-                                                            route(
-                                                                'localisation.currency',
-                                                                {
-                                                                    currency:
-                                                                        currency.code,
-                                                                }
-                                                            )
-                                                        "
+                                                    <template
+                                                        v-for="currency in $page
+                                                            .props.localisation
+                                                            .currencies"
+                                                        :key="currency.id"
                                                     >
-                                                        <DropdownLink
-                                                            as="button"
+                                                        <a
+                                                            :href="
+                                                                route(
+                                                                    'localisation.currency',
+                                                                    {
+                                                                        currency:
+                                                                            currency.code,
+                                                                    }
+                                                                )
+                                                            "
                                                         >
-                                                            <div
-                                                                class="flex items-center"
+                                                            <DropdownLink
+                                                                as="button"
                                                             >
-                                                                <svg
-                                                                    v-if="
-                                                                        currency.code ==
-                                                                        $page
-                                                                            .props
-                                                                            .localisation
-                                                                            .current_currency
-                                                                    "
-                                                                    class="mr-2 h-5 w-5 text-green-400"
-                                                                    fill="none"
-                                                                    stroke-linecap="round"
-                                                                    stroke-linejoin="round"
-                                                                    stroke-width="2"
-                                                                    stroke="currentColor"
-                                                                    viewBox="0 0 24 24"
+                                                                <div
+                                                                    class="flex items-center"
                                                                 >
-                                                                    <path
-                                                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                                                                    />
-                                                                </svg>
-                                                                <div>
-                                                                    {{
-                                                                        currency.name
-                                                                    }}
+                                                                    <svg
+                                                                        v-if="
+                                                                            currency.code ==
+                                                                            $page
+                                                                                .props
+                                                                                .localisation
+                                                                                .current_currency
+                                                                        "
+                                                                        class="mr-2 h-5 w-5 text-green-400"
+                                                                        fill="none"
+                                                                        stroke-linecap="round"
+                                                                        stroke-linejoin="round"
+                                                                        stroke-width="2"
+                                                                        stroke="currentColor"
+                                                                        viewBox="0 0 24 24"
+                                                                    >
+                                                                        <path
+                                                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                                                        />
+                                                                    </svg>
+                                                                    <div>
+                                                                        {{
+                                                                            currency.name
+                                                                        }}
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </DropdownLink>
-                                                    </a>
+                                                            </DropdownLink>
+                                                        </a>
+                                                    </template>
                                                 </template>
-                                            </template>
-                                        </div>
-                                    </template>
-                                </Dropdown>
+                                            </div>
+                                        </template>
+                                    </Dropdown>
+                                </div>
                             </div>
-                        </div>
-                        <!--  -->
-                        <div class="hidden md:grid grid-cols-2 md:items-center justify-end gap-20 lg:gap-0 ">
-                            <div class="relative">
-                                <!-- Teams Dropdown -->
-                                <Dropdown
-                                    v-if="$page.props.jetstream.hasTeamFeatures"
-                                    align="left"
-                                    width="60"
-                                >
-                                    <template #trigger>
-                                        <span class="inline-flex rounded-md">
-                                            <button
-                                                type="button"
-                                                class="inline-flex items-center px-3 py-2 border border-transparent text-md leading-4 font-medium rounded-md text-gray-500 bg-white hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition"
+                            <!--  -->
+                            <div
+                                class="hidden md:grid grid-cols-2 md:items-center justify-end gap-20 lg:gap-0"
+                            >
+                                <div class="relative">
+                                    <!-- Teams Dropdown -->
+                                    <Dropdown
+                                        v-if="
+                                            $page.props.jetstream
+                                                .hasTeamFeatures
+                                        "
+                                        align="left"
+                                        width="60"
+                                    >
+                                        <template #trigger>
+                                            <span
+                                                class="inline-flex rounded-md"
                                             >
-                                                {{
-                                                    $page.props.user
-                                                        .current_team.name
-                                                }}
-
-                                                <svg
-                                                    class="ml-2 -mr-0.5 h-4 w-4"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 20 20"
-                                                    fill="currentColor"
+                                                <button
+                                                    type="button"
+                                                    class="inline-flex items-center px-3 py-2 border border-transparent text-md leading-4 font-medium rounded-md text-gray-500 bg-white hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition"
                                                 >
-                                                    <path
-                                                        fill-rule="evenodd"
-                                                        d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-                                                        clip-rule="evenodd"
-                                                    />
-                                                </svg>
-                                            </button>
-                                        </span>
-                                    </template>
+                                                    {{
+                                                        $page.props.user
+                                                            .current_team.name
+                                                    }}
 
-                                    <template #content>
-                                        <div class="w-60">
-                                            <!-- Team Management -->
-                                            <template
-                                                v-if="
-                                                    $page.props.jetstream
-                                                        .hasTeamFeatures
-                                                "
-                                            >
+                                                    <svg
+                                                        class="ml-2 -mr-0.5 h-4 w-4"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 20 20"
+                                                        fill="currentColor"
+                                                    >
+                                                        <path
+                                                            fill-rule="evenodd"
+                                                            d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                                                            clip-rule="evenodd"
+                                                        />
+                                                    </svg>
+                                                </button>
+                                            </span>
+                                        </template>
+
+                                        <template #content>
+                                            <div class="w-60">
+                                                <!-- Team Management -->
                                                 <template
                                                     v-if="
-                                                        $page.props.user
-                                                            .is_freetraveler_admin
+                                                        $page.props.jetstream
+                                                            .hasTeamFeatures
                                                     "
                                                 >
+                                                    <template
+                                                        v-if="
+                                                            $page.props.user
+                                                                .is_freetraveler_admin
+                                                        "
+                                                    >
+                                                        <div
+                                                            class="block px-4 py-2 text-xs text-gray-400"
+                                                        >
+                                                            Gestionar facturas
+                                                        </div>
+
+                                                        <!-- Invoice Settings -->
+                                                        <DropdownLink
+                                                            v-if="
+                                                                $page.props
+                                                                    .jetstream
+                                                                    .canCreateTeams
+                                                            "
+                                                            :href="
+                                                                route(
+                                                                    'invoices',
+                                                                    {
+                                                                        invoice:
+                                                                            $page
+                                                                                .props
+                                                                                .user
+                                                                                .current_team
+                                                                                ?.id,
+                                                                    }
+                                                                )
+                                                            "
+                                                        >
+                                                            Mis facturas
+                                                        </DropdownLink>
+                                                        <DropdownLink
+                                                            v-if="
+                                                                $page.props
+                                                                    .jetstream
+                                                                    .canCreateTeams
+                                                            "
+                                                            :href="
+                                                                route(
+                                                                    'providers'
+                                                                )
+                                                            "
+                                                        >
+                                                            Provedores
+                                                        </DropdownLink>
+                                                    </template>
+
+                                                    <div
+                                                        class="border-t border-gray-100"
+                                                    />
+
                                                     <div
                                                         class="block px-4 py-2 text-xs text-gray-400"
                                                     >
-                                                        Gestionar facturas
+                                                        Gestionar agencia
                                                     </div>
 
-                                                    <!-- Invoice Settings -->
+                                                    <!-- Team Settings -->
+                                                    <DropdownLink
+                                                        :href="
+                                                            route(
+                                                                'teams.show',
+                                                                $page.props.user
+                                                                    .current_team
+                                                            )
+                                                        "
+                                                    >
+                                                        Ajustes de la agencia
+                                                    </DropdownLink>
+                                                    <!-- Team Branches -->
                                                     <DropdownLink
                                                         v-if="
                                                             $page.props
@@ -376,17 +477,12 @@ const logout = () => {
                                                                 .canCreateTeams
                                                         "
                                                         :href="
-                                                            route('invoices', {
-                                                                invoice:
-                                                                    $page.props
-                                                                        .user
-                                                                        .current_team
-                                                                        ?.id,
-                                                            })
+                                                            route('branches')
                                                         "
                                                     >
-                                                        Mis facturas
+                                                        Sucursales
                                                     </DropdownLink>
+
                                                     <DropdownLink
                                                         v-if="
                                                             $page.props
@@ -394,246 +490,209 @@ const logout = () => {
                                                                 .canCreateTeams
                                                         "
                                                         :href="
-                                                            route('providers')
+                                                            route(
+                                                                'teams.create'
+                                                            )
                                                         "
                                                     >
-                                                        Provedores
+                                                        Crear nueva agencia
                                                     </DropdownLink>
-                                                </template>
 
-                                                <div
-                                                    class="border-t border-gray-100"
-                                                />
-
-                                                <div
-                                                    class="block px-4 py-2 text-xs text-gray-400"
-                                                >
-                                                    Gestionar agencia
-                                                </div>
-
-                                                <!-- Team Settings -->
-                                                <DropdownLink
-                                                    :href="
-                                                        route(
-                                                            'teams.show',
-                                                            $page.props.user
-                                                                .current_team
-                                                        )
-                                                    "
-                                                >
-                                                    Ajustes de la agencia
-                                                </DropdownLink>
-                                                <!-- Team Branches -->
-                                                <DropdownLink
-                                                    v-if="
-                                                        $page.props.jetstream
-                                                            .canCreateTeams
-                                                    "
-                                                    :href="route('branches')"
-                                                >
-                                                    Sucursales
-                                                </DropdownLink>
-
-                                                <DropdownLink
-                                                    v-if="
-                                                        $page.props.jetstream
-                                                            .canCreateTeams
-                                                    "
-                                                    :href="
-                                                        route('teams.create')
-                                                    "
-                                                >
-                                                    Crear nueva agencia
-                                                </DropdownLink>
-
-                                                <div
-                                                    class="border-t border-gray-100"
-                                                />
-
-                                                <!-- Team Switcher -->
-                                                <div
-                                                    class="block px-4 py-2 text-xs text-gray-400"
-                                                >
-                                                    Cambiar agencia
-                                                </div>
-
-                                                <template
-                                                    v-for="team in $page.props
-                                                        .user.all_teams"
-                                                    :key="team.id"
-                                                >
-                                                    <form
-                                                        @submit.prevent="
-                                                            switchToTeam(team)
-                                                        "
-                                                    >
-                                                        <DropdownLink
-                                                            as="button"
-                                                        >
-                                                            <div
-                                                                class="flex items-center"
-                                                            >
-                                                                <svg
-                                                                    v-if="
-                                                                        team.id ==
-                                                                        $page
-                                                                            .props
-                                                                            .user
-                                                                            .current_team_id
-                                                                    "
-                                                                    class="mr-2 h-5 w-5 text-green-400"
-                                                                    fill="none"
-                                                                    stroke-linecap="round"
-                                                                    stroke-linejoin="round"
-                                                                    stroke-width="2"
-                                                                    stroke="currentColor"
-                                                                    viewBox="0 0 24 24"
-                                                                >
-                                                                    <path
-                                                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                                                                    />
-                                                                </svg>
-                                                                <div>
-                                                                    {{
-                                                                        team.name
-                                                                    }}
-                                                                </div>
-                                                            </div>
-                                                        </DropdownLink>
-                                                    </form>
-                                                </template>
-                                            </template>
-                                        </div>
-                                    </template>
-                                </Dropdown>
-                            </div>
-
-                            <!-- Settings Dropdown -->
-                            <div class="relative w-10 place-items-end">
-                                <Dropdown align="left" width="48">
-                                    <template #trigger>
-                                        <button
-                                            v-if="
-                                                $page.props.jetstream
-                                                    .managesProfilePhotos
-                                            "
-                                            class="flex text-md border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition"
-                                        >
-                                            <img
-                                                class="h-8 w-8 rounded-full object-cover"
-                                                :src="
-                                                    $page.props.user
-                                                        .profile_photo_url
-                                                "
-                                                :alt="$page.props.user.name"
-                                            />
-                                        </button>
-
-                                        <span
-                                            v-else
-                                            class="inline-flex rounded-md"
-                                        >
-                                            <button
-                                                type="button"
-                                                class="inline-flex items-center px-3 py-2 border border-transparent text-md leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition"
-                                            >
-                                                {{ $page.props.user.name }}
-
-                                                <svg
-                                                    class="ml-2 -mr-0.5 h-4 w-4"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 20 20"
-                                                    fill="currentColor"
-                                                >
-                                                    <path
-                                                        fill-rule="evenodd"
-                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                        clip-rule="evenodd"
+                                                    <div
+                                                        class="border-t border-gray-100"
                                                     />
-                                                </svg>
+
+                                                    <!-- Team Switcher -->
+                                                    <div
+                                                        class="block px-4 py-2 text-xs text-gray-400"
+                                                    >
+                                                        Cambiar agencia
+                                                    </div>
+
+                                                    <template
+                                                        v-for="team in $page
+                                                            .props.user
+                                                            .all_teams"
+                                                        :key="team.id"
+                                                    >
+                                                        <form
+                                                            @submit.prevent="
+                                                                switchToTeam(
+                                                                    team
+                                                                )
+                                                            "
+                                                        >
+                                                            <DropdownLink
+                                                                as="button"
+                                                            >
+                                                                <div
+                                                                    class="flex items-center"
+                                                                >
+                                                                    <svg
+                                                                        v-if="
+                                                                            team.id ==
+                                                                            $page
+                                                                                .props
+                                                                                .user
+                                                                                .current_team_id
+                                                                        "
+                                                                        class="mr-2 h-5 w-5 text-green-400"
+                                                                        fill="none"
+                                                                        stroke-linecap="round"
+                                                                        stroke-linejoin="round"
+                                                                        stroke-width="2"
+                                                                        stroke="currentColor"
+                                                                        viewBox="0 0 24 24"
+                                                                    >
+                                                                        <path
+                                                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                                                        />
+                                                                    </svg>
+                                                                    <div>
+                                                                        {{
+                                                                            team.name
+                                                                        }}
+                                                                    </div>
+                                                                </div>
+                                                            </DropdownLink>
+                                                        </form>
+                                                    </template>
+                                                </template>
+                                            </div>
+                                        </template>
+                                    </Dropdown>
+                                </div>
+
+                                <!-- Settings Dropdown -->
+                                <div class="relative w-10 place-items-end">
+                                    <Dropdown align="left" width="48">
+                                        <template #trigger>
+                                            <button
+                                                v-if="
+                                                    $page.props.jetstream
+                                                        .managesProfilePhotos
+                                                "
+                                                class="flex text-md border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition"
+                                            >
+                                                <img
+                                                    class="h-8 w-8 rounded-full object-cover"
+                                                    :src="
+                                                        $page.props.user
+                                                            .profile_photo_url
+                                                    "
+                                                    :alt="$page.props.user.name"
+                                                />
                                             </button>
-                                        </span>
-                                    </template>
 
-                                    <template #content>
-                                        <!-- Account Management -->
-                                        <div
-                                            class="block px-4 py-2 text-xs text-gray-400"
-                                        >
-                                            Mi cuenta
-                                        </div>
+                                            <span
+                                                v-else
+                                                class="inline-flex rounded-md"
+                                            >
+                                                <button
+                                                    type="button"
+                                                    class="inline-flex items-center px-3 py-2 border border-transparent text-md leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition"
+                                                >
+                                                    {{ $page.props.user.name }}
 
-                                        <DropdownLink
-                                            :href="route('profile.show')"
-                                        >
-                                            Perfil
-                                        </DropdownLink>
+                                                    <svg
+                                                        class="ml-2 -mr-0.5 h-4 w-4"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 20 20"
+                                                        fill="currentColor"
+                                                    >
+                                                        <path
+                                                            fill-rule="evenodd"
+                                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                            clip-rule="evenodd"
+                                                        />
+                                                    </svg>
+                                                </button>
+                                            </span>
+                                        </template>
 
-                                        <DropdownLink
-                                            v-if="
-                                                $page.props.jetstream
-                                                    .hasApiFeatures
-                                            "
-                                            :href="route('api-tokens.index')"
-                                        >
-                                            API Tokens
-                                        </DropdownLink>
+                                        <template #content>
+                                            <!-- Account Management -->
+                                            <div
+                                                class="block px-4 py-2 text-xs text-gray-400"
+                                            >
+                                                Mi cuenta
+                                            </div>
 
-                                        <div class="border-t border-gray-100" />
-
-                                        <!-- Authentication -->
-                                        <form @submit.prevent="logout">
-                                            <DropdownLink as="button">
-                                                Cerrar sesion
+                                            <DropdownLink
+                                                :href="route('profile.show')"
+                                            >
+                                                Perfil
                                             </DropdownLink>
-                                        </form>
-                                    </template>
-                                </Dropdown>
+
+                                            <DropdownLink
+                                                v-if="
+                                                    $page.props.jetstream
+                                                        .hasApiFeatures
+                                                "
+                                                :href="
+                                                    route('api-tokens.index')
+                                                "
+                                            >
+                                                API Tokens
+                                            </DropdownLink>
+
+                                            <div
+                                                class="border-t border-gray-100"
+                                            />
+
+                                            <!-- Authentication -->
+                                            <form @submit.prevent="logout">
+                                                <DropdownLink as="button">
+                                                    Cerrar sesion
+                                                </DropdownLink>
+                                            </form>
+                                        </template>
+                                    </Dropdown>
+                                </div>
                             </div>
-                        </div>
-                        <!-- Hamburger -->
-                        <div class="-mr-2 flex items-center md:hidden">
-                            <button
-                                class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition"
-                                @click="
-                                    showingNavigationDropdown =
-                                        !showingNavigationDropdown
-                                "
-                            >
-                                <svg
-                                    class="h-6 w-6"
-                                    stroke="currentColor"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
+                            <!-- Hamburger -->
+                            <div class="-mr-2 flex items-center md:hidden">
+                                <button
+                                    class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition"
+                                    @click="
+                                        showingNavigationDropdown =
+                                            !showingNavigationDropdown
+                                    "
                                 >
-                                    <path
-                                        :class="{
-                                            hidden: showingNavigationDropdown,
-                                            'inline-flex':
-                                                !showingNavigationDropdown,
-                                        }"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M4 6h16M4 12h16M4 18h16"
-                                    />
-                                    <path
-                                        :class="{
-                                            hidden: !showingNavigationDropdown,
-                                            'inline-flex':
-                                                showingNavigationDropdown,
-                                        }"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
-                                </svg>
-                            </button>
+                                    <svg
+                                        class="h-6 w-6"
+                                        stroke="currentColor"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            :class="{
+                                                hidden: showingNavigationDropdown,
+                                                'inline-flex':
+                                                    !showingNavigationDropdown,
+                                            }"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M4 6h16M4 12h16M4 18h16"
+                                        />
+                                        <path
+                                            :class="{
+                                                hidden: !showingNavigationDropdown,
+                                                'inline-flex':
+                                                    showingNavigationDropdown,
+                                            }"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M6 18L18 6M6 6l12 12"
+                                        />
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
                 <!-- Responsive Navigation Menu -->
                 <div
@@ -832,11 +891,17 @@ const logout = () => {
 
             <!-- Page Content -->
             <main>
-                            <div class="bg-black/70 inset-0 absolute w-full -z-10 object-cover"></div>
+                <div
+                    class="bg-black/70 inset-0 absolute w-full -z-10 object-cover"
+                ></div>
 
-                            <div class="w-full  inset-0 absolute -z-20 ">
-                                <img src="/assets/background.png" class="w-full h-full object-cover blur-md" alt="Background Image" />
-                            </div>
+                <div class="w-full inset-0 absolute -z-20">
+                    <img
+                        src="/assets/background.png"
+                        class="w-full h-full object-cover blur-md"
+                        alt="Background Image"
+                    />
+                </div>
                 <slot />
             </main>
         </div>

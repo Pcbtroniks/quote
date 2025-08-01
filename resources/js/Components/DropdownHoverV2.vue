@@ -17,6 +17,7 @@ const props = defineProps({
 });
 
 let open = ref(false);
+let hoverTimeout;
 
 const closeOnEscape = (e) => {
     if (open.value && e.key === "Escape") {
@@ -41,13 +42,28 @@ const alignmentClasses = computed(() => {
     if (props.align === "right") {
         return "origin-top-right right-0";
     }
+    if (props.align === "center") {
+        return "origin-top-center mx-auto";
+    }
 
     return "origin-top";
 });
+
+// Hover control
+const openMenu = () => {
+    clearTimeout(hoverTimeout);
+    open.value = true;
+};
+
+const closeMenu = () => {
+    hoverTimeout = setTimeout(() => {
+        open.value = false;
+    }, 200); // slight delay for smoother UX
+};
 </script>
 
 <template>
-    <div class="relative">
+    <div class="relative" @mouseenter="openMenu" @mouseleave="closeMenu">
         <div @click="open = !open">
             <slot name="trigger" />
         </div>
@@ -67,8 +83,9 @@ const alignmentClasses = computed(() => {
                 v-show="open"
                 class="absolute z-50 mt-2 rounded-md shadow-lg"
                 :class="[widthClass, alignmentClasses]"
-                style="display: none"
                 @click="open = false"
+                @mouseenter="openMenu"
+                @mouseleave="closeMenu"
             >
                 <div
                     class="rounded-md ring-1 ring-black ring-opacity-5"
