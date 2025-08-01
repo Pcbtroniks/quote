@@ -40,11 +40,15 @@ const updatePassword = () => {
 <template>
     <FormSection @submitted="updatePassword">
         <template #title>
-            Información de la actividad	
+            <h3 class="text-gray-300">
+            Información de la actividad
+            </h3>
         </template>
 
         <template #description>
+            <span class="text-white">
             Seleccione un nombre y el tipo de actividad, puede ser una Entrada al parque o Tour. o visite la sección de <a :href="route('activity.search')" class="text-blue-500">Busqueda</a>
+            </span>
         </template>
 
         <template #form>

@@ -82,13 +82,16 @@ const submitDeleteCurrency = () => {
 <!-- Confirm Delete modal -->
     <FormSection @submitted="submit">
         <template #title>
+            <h3 class="text-gray-300">
             Divisa
+            </h3>
         </template>
 
         <template #description>
+            <span class="text-white">
             Las monedas o divisas son utilizadas para el manejo de precios en la plataforma.
             Su funcion es la de poder manejar precios en diferentes monedas.
-            Puedes 
+            Puedes </span>
             <span v-if="!props.currency?.id">
                 <a :href="route('localisation.currencies.index')" class="text-blue-500">ver todas las divisas</a>
             </span>

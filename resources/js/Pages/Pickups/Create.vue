@@ -11,7 +11,7 @@ const props = defineProps({
 <template>
     <AppLayout title="Pickups">
         <template #header>
-            <h2 class="uppercase font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class="uppercase font-semibold text-xl text-white leading-tight">
                 Crear Pickup
             </h2>
         </template>

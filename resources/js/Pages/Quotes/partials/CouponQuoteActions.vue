@@ -140,11 +140,15 @@ const getStatusColor = (status) => {
 <template>
     <BodySection>
         <template #title>
+            <h3 class="text-gray-300">
             Acciones
+            </h3>
         </template>
 
         <template #description>
+            <span class="text-white">
             Genere un folio / Muestre oculte el folio
+            </span>
         </template>
 
         <template #content>

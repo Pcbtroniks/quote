@@ -14,11 +14,11 @@ const back = () => {
     <AppLayout title="Cotización">
         <template #header>
             <div class="flex justify-between items-baseline gap-4">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight"> 
+                <h2 class="font-semibold text-xl text-white leading-tight"> 
                     <span class="cursor-pointer text-gray-400 hover:text-gray-600" @click.native="back">
                         Cotizaciones 
                     </span>
-                    <span class="text-gray-300"> / </span>
+                    <span class="text-white"> / </span>
                      Cotización
                 </h2>
             </div>

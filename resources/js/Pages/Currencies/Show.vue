@@ -13,7 +13,7 @@ console.log(props.currency);
 <template>
     <AppLayout title="Divisas - Freetraveler">
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class="font-semibold text-xl text-white leading-tight">
                 Divisas
             </h2>
         </template>
