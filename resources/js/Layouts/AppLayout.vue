@@ -40,21 +40,21 @@ const logout = () => {
 
         <Banner />
 
-        <div class="min-h-screen bg-maingre">
+        <div class="min-h-screen">
             <nav class="bg-gray-50 b border-maingreen">
                 <!-- Primary Navigation Menu -->
-                <div class="mx-auto px-4 md:px-6 lg:px-8 w-full">
-                    <div class="flex justify-between 2xl:grid 2xl:grid-cols-3">
+                <div class="mx-auto w-full">
+                    <div class="flex justify-between sm:justify-normal 2xl:grid 2xl:grid-cols-3">
                         <div class="flex">
                             <!-- Logo -->
-                            <div class="flex items-center md:w-40">
+                            <div class="items-center  block">
                                 <Link :href="route('dashboard')">
-                                    <ApplicationMark class="md:h-fit" />
+                                    <ApplicationMark class="" />
                                 </Link>
                             </div>
 
-                            <!-- Navigation Links -->
-                            <div class="hidden md:flex mx-auto gap-2 lg-gap-0">
+  <!-- Navigation Links -->
+                            <div class="hidden md:flex mx-auto gap-2  h-20 w-full">
                                 <NavLink
                                     :href="route('quote.index')"
                                     :active="route().current('quote.index')"
