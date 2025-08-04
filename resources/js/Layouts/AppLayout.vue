@@ -44,8 +44,8 @@ const logout = () => {
             <nav class="bg-gray-50 b border-maingreen">
                 <!-- Primary Navigation Menu -->
                 <div class="mx-auto w-full">
-                    <div class="flex justify-between sm:justify-normal 2xl:grid 2xl:grid-cols-3">
-                        <div class="flex">
+                    <div class="flex justify-between">
+                        <div class="flex w-fit">
                             <!-- Logo -->
                             <div class="items-center  block">
                                 <Link :href="route('dashboard')">
@@ -114,7 +114,7 @@ const logout = () => {
 
                         <!-- <DropdownHover></DropdownHover> -->
 
-                        <div class="flex justify-center px-2 lg:px-4 2xl:px-0">
+                        <div class="flex justify-start lg:px-4 2xl:px-0 relative">
                             <div>
                                 <DropdownHoverV2
                                     align="center"
@@ -130,7 +130,7 @@ const logout = () => {
                                         >
                                             <button
                                                 type="button"
-                                                class="rounded-b-xl block px-4 py-4 bg-maingreen lg:text-lg leading-5 text-white hover:bg-green-900 font-extrabold transition-all duration-300 ease-in-out text-center hover:text-xl w-52 sm:w-full"
+                                                class="rounded-b-xl block px-4 py-4 bg-maingreen lg:text-md leading-5 text-white hover:bg-green-900 font-extrabold transition-all duration-300 ease-in-out text-center hover:text-lg w-52 sm:w-full"
                                             >
                                                 Ver los Tours
                                             </button>
@@ -565,7 +565,7 @@ const logout = () => {
 
                                 <!-- Settings Dropdown -->
                                 <div class="relative w-10 place-items-end">
-                                    <Dropdown align="left" width="48">
+                                    <Dropdown align="right" width="48">
                                         <template #trigger>
                                             <button
                                                 v-if="

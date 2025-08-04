@@ -11,8 +11,8 @@ const props = defineProps({
 <template>
     <AppLayout title="Freetravelers - Providers">
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Providers
+            <h2 class="font-semibold text-xl text-white leading-tight">
+                Provdeedores
             </h2>
         </template>
 

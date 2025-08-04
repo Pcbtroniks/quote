@@ -31,13 +31,13 @@ const sendEmailTo = (coupon) => {
 <template>
     <FormSection @submitted="sendEmailTo(props.coupon.id)">
         <template #title>
-            Enviar cupón
+            <span class="text-gray-300">Enviar cupón</span>
         </template>
 
         <template #description>
-            Enviar por correo electronico al usuario que realizo la cotización.
+            <span class="text-white">Enviar por correo electronico al usuario que realizo la cotización.
             <br>
-            Puede enviar una copia del cupon.
+            Puede enviar una copia del cupon.</span> 
         </template>
 
         <template #form>

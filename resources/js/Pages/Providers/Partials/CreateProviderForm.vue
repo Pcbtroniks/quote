@@ -23,11 +23,11 @@ const createTeam = () => {
 <template>
     <FormSection @submitted="createTeam">
         <template #title>
-            Add Provider
+            <span class="text-gray-300">Añadir Proveedor</span>
         </template>
 
         <template #description>
-            Create a new provider to start assigning it to invoices.
+           <span class="text-white">Crear un nuevo proveedor para empezar asignar a las facturas.</span> 
         </template>
 
         <template #form>
@@ -59,7 +59,7 @@ const createTeam = () => {
 
         <template #actions>
             <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                Create
+                Crear
             </PrimaryButton>
         </template>
     </FormSection>

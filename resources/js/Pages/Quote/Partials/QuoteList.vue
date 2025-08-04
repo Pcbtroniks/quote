@@ -167,7 +167,7 @@ console.log(props.quotes);
 <section class="w-full antialiased bg-gray-100 text-gray-600">
     <div class="flex flex-col justify-center h-full">
         <!-- Table -->
-        <div class="w-full mx-auto bg-white shadow-lg rounded-sm border-2">
+        <div class="w-full mx-auto bg-white/100 shadow-lg rounded-sm border-2">
             <header class="px-5 py-4 border-b border-gray-100 bg-mainblue">
                 <h2 class="font-bold text-white text-2xl">Cotizaciones</h2>
             </header>
@@ -221,7 +221,7 @@ console.log(props.quotes);
                             </tr>
                         </thead>
                         <tbody class="text-sm divide-y divide-gray-100">
-                            <tr v-for="quote in quotes.data" :key="quote.id" class="h-14 hover:bg-sky-300">
+                            <tr v-for="quote in quotes.data" :key="quote.id" class="h-14 hover:bg-green-300">
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <div class="font-medium text-gray-800">{{ quote.listed_activities[0]?.date ?? 'n/d' }}</div>
@@ -240,7 +240,7 @@ console.log(props.quotes);
                                                     </svg>
                                                 </div>
                                             </a>
-                                            <button v-else-if="quote.status == 'created'" @click="LoadProFormModal(quote)" class="px-3 py-2 rounded-md text-sm font-medium border focus:outline-none focus:ring transition text-sky-600 border-sky-600 hover:text-white hover:bg-sky-600 active:bg-sky-700 focus:ring-sky-300" type="button">
+                                            <button v-else-if="quote.status == 'created'" @click="LoadProFormModal(quote)" class="px-3 py-2 rounded-md text-sm font-medium border focus:outline-none focus:ring transition text-green-600 border-green-600 hover:text-white hover:bg-green-600 active:bg-sky-700 focus:ring-sky-300" type="button">
                                                 Confirmar
                                             </button>
                                             <button v-else-if="quote.status == 'pending'" @click="LoadProFormModal(quote)" class="px-3 py-2 rounded-md text-sm font-medium border focus:outline-none focus:ring transition text-yellow-600 border-yellow-600 hover:text-white hover:bg-yellow-600 active:bg-yellow-700 focus:ring-yellow-300" type="button">

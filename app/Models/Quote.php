@@ -32,6 +32,7 @@ class Quote extends Model
         'status',
         'branch_id',
         'currency',
+        "park_id"
     ];
 
     public function user(){

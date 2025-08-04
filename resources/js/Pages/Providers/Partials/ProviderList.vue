@@ -39,11 +39,11 @@ const del = (ID) => {
     <FormSection>
 
     <template #title>
-        Provider List
+        <span class="text-gray-300">Lista de proveedores</span>
     </template>
 
     <template #description>
-        Check the providers created.
+        <span class="text-white">Verificar los proveedores creados.</span>
     </template>
 
     <template #form>
