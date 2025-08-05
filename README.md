@@ -7,4 +7,7 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## Learning Laravel Jetstream Inertia
+# FT - Exploreemotions
+
+## Quick Guide
+[a relative link](doc/guia_db.md)
