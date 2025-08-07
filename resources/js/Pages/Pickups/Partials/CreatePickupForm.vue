@@ -99,7 +99,7 @@ const submitPickupForm = async () => {
 
 <template>
 <!-- component -->
-<section class="w-full antialiased bg-gray-100 text-gray-600">
+<section class="w-full antialiased bg-gray-300 text-gray-600">
     <div class="flex flex-col justify-center h-full">
         <!-- Table -->
         <div class="w-full mx-auto bg-white shadow-lg rounded-sm">

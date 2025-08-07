@@ -1,0 +1,1 @@
+.toggle-path[data-v-a8ac4738]{transition:background .3s ease-in-out}.toggle-circle[data-v-a8ac4738]{top:.2rem;left:.25rem;transition:all .3s ease-in-out}input:checked~.toggle-circle[data-v-a8ac4738]{transform:translate(100%)}input:checked~.toggle-path[data-v-a8ac4738]{background-color:#2536eb}

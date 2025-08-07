@@ -1,4 +1,3 @@
-
 # Guía Rápida para Agentes - Exploreemotions
 
 Esta guía está diseñada para agentes que utilizan la aplicación **Exploreemotions** para crear cotizaciones de actividades turísticas en la Riviera Maya.

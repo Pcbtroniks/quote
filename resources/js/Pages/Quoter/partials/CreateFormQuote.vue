@@ -331,11 +331,11 @@ const Activities = reactive(new postActivities());
 
 <template>
 
-    <div>
-        <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
+    <div class="bg-gray-100">
+        <div class="p-6 sm:px-20 bg-gray-100 border-b border-gray-100">
 
-            <div class="mt-4 text-2xl text-center">
-                Nueva Cotización
+            <div class="mt-4 text-2xl text-center font-bold">
+                <h1>Nueva Cotización</h1>
                 <p class="text-lg">Fecha de hoy: {{ Today }}</p>
             </div>
 

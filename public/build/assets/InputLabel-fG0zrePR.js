@@ -1,0 +1,1 @@
+import{e as o,o as r,s}from"./app-B5gBv8jV.js";const a=["for"],c={__name:"InputLabel",props:{for:String,text:String},setup(e){return(t,n)=>(r(),o("label",{for:e.for,class:"mb-3 block text-base font-medium text-[#07074D]"},[s(t.$slots,"default")],8,a))}};export{c as default};
