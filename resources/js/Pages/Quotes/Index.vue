@@ -10,7 +10,7 @@ defineProps(['parks','zones'])
     <AppLayout title="Freetravelers reservaciones">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Reservaciones Freetravelers
+                Reservaciones
             </h2>
         </template>
 

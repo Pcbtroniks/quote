@@ -30,7 +30,7 @@ class UploadImageController extends Controller
     {
         $team = Team::find(auth()->user()->currentTeam->id);
         if(DestroyImageService::FromPath($team->logo) ) {
-            $defaultLogo = '\\assets\\freetravelers-logo.jpg';
+            $defaultLogo = '\\assets\\exploreemotions-logo.png';
             $team->update(['logo' => $defaultLogo]);
         } else {
             return redirect()->back()->with('error', 'Image Delete Failed');

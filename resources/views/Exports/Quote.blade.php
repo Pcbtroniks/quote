@@ -230,7 +230,7 @@
                     Nombre y firma del titular / Main passanger`s singature
                 </div>
                 <div class="float" style="width: 25%; text-align: center; margin-right: 20px;">
-                    <img style="width: 220PX;" src="{{ asset('/assets/exploreemotions-logo.png') }}" alt="Coupon logo">
+                    <img style="width: 220px;" src="{{ asset('/assets/exploreemotions-logo.png') }}" alt="Coupon logo">
                 </div>
                 <div class="float" style="width: 25%; text-align: end; margin-top: 30px;">
                     <img style="width: 95px;" src="{{ asset('/assets/sello_vero_12.jpeg') }}" alt="Logo vero">
