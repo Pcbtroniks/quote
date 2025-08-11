@@ -17,9 +17,68 @@ console.log(props.quote);
 </script>
 
 <template>
-    <div  class="QuotePDF px-[69px] py-[48px]" spellcheck="false">
+    <div  class="mx-auto m-6 w-[500px] border-[3px] p-8 border-gray-400" spellcheck="false">
+        <div class="w-full mb-6">
+            <h1 class="font-bold text-2xl py-1">Confirmación de Reserva</h1>
+            <p class="py-1 text-gray-600">Estimado/a {{ quote.holder_name }}</p>
+            <p class="py-1 text-gray-600">Su reserva ha sido confirmada exitosamente. Nos complace acompañarle en su experiencia en {{ quote.activity.name }} garantizamos un servicio de excelencia.</p>
+        </div>
+
+        <div class="bg-backgroundcoupon p-6 h-[540px]">
+            <div class="flex gap-2">
+                <div class="w-[30px] h-[30px] rounded-lg bg-bluecoupon"><img class="p-1 w-full" src="/assets/icons/calendar.svg"></div>
+                <h2 class="font-bold text-xl py-1">Información de la Reserva</h2>
+            </div>
+
+            <div class="flex justify-between p-2">
+                <div>
+                    <h3 class="text-gray-600 text-sm font-bold">CÓDIGO DE RESERVA</h3>
+                    <span class="font-bold text-blue-600">{{ quote.tmpfolio ?? 'not-availble' }}</span>
+                </div>
+
+                <div>
+                    <h3 class="text-gray-600 text-sm font-bold">FECHA DE VISITA</h3>
+                    <span class="font-bold">{{ quote.listed_activity.date ?? 'invalid date' }}</span>
+                </div>
+            </div>
+
+            <div class="p-2">
+                <h3 class="text-gray-600 text-sm font-bold">TOUR</h3>
+                <span class="font-bold">{{ quote.activity.name }}</span>
+            </div>
+
+            <div class="p-2 h-[120px]">
+                <h3 class="text-gray-600 text-sm font-bold">PUNTO DE ENCUENTRO/HORA</h3>
+                <span class="font-bold"></span>
+            </div>
+
+            <div class="p-2 flex justify-between w-3/4 py-20">
+                <div class="grid gap-1">
+                    <h3 class="text-gray-600 text-sm font-bold">PASAJEROS</h3>
+                    <span class="font-bold">Adultos: {{ quote.adults ?? '' }}</span>
+                    <span class="font-bold">Menores: {{ quote.minors ?? '' }}</span>
+                    <span class="font-bold">Infantes: {{ quote.infants ?? '' }}</span>
+                </div>
+                <div>
+                    <h3 class="text-gray-600 text-sm font-bold">PAÍS</h3>
+                    <span class="font-bold">MX</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-backgroundQouteCouponCode h-[150px]">
+            <div class="text-center">
+                <h3 class="font-bold">Número de confirmación del proveedor:</h3>
+                <span class="text-2xl">...</span>
+            </div>
+
+        </div>
+
+        <div>
+
+        </div>
         <!-- top -->
-        <div class="flex justify-between" spellcheck="false">
+        <!-- <div class="flex justify-between" spellcheck="false">
 
             <div class="w-full flex justify-center">
                 <img class="w-[350px] h-[120px] object-cover" :src="printLogo()" alt="Coupon logo">
@@ -44,7 +103,9 @@ console.log(props.quote);
                     </tbody>
                 </table>
             </div>
-        </div>
+        </div> -->
+
+        
 
         <!-- Name and Passengers -->
         <div class="flex mt-4">

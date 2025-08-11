@@ -19,6 +19,11 @@ module.exports = {
             colors:{
                 'mainblue':'#2D435E',
                 'maingreen':'#53763E',
+                'bluecoupon' : '#2763EC',
+                'textCouponCode' : '#85CE94',
+                'textQuoteCouponCode' : '##3465EE',
+                'backgroundcoupon' : '#F8FAFC',
+                'backgroundQouteCouponCode' : '#DCFCE7'
             },
         },
     },

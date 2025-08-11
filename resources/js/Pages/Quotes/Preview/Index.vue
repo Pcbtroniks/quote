@@ -14,7 +14,7 @@
 <template>
     <AppLayout title="Previzulizar Cotización">
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class="font-semibold text-xl text-white leading-tight">
                 Cotización
             </h2>
         </template>

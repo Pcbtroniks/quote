@@ -88,6 +88,7 @@
                 </table>
             </div>
         </div>
+        
         <div class="pax" style="margin-top: 10px; width: 702px">
             <div style="width: 100%; height: 100px">
                 <table class="table-pax" style="width: 100%;">

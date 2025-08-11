@@ -127,6 +127,7 @@ Route::middleware([
     Route::post('coupons/{coupon}/confirm-coupon', [CouponController::class, 'confirmCoupon'])->name('coupon.confirm');
     Route::post('coupons/{quote}/request-code', [CouponController::class, 'requestCode'])->name('coupon.request.code');
     Route::post('coupons/{coupon}/send-by-email', [CouponController::class, 'sendByEmail'])->name('coupon.send.by.email');
+    Route::get('coupons/{coupon}/update', [CouponController::class, 'couponUpdate'])->name('coupon.update.code');
     
     /** Currencies **/
     Route::get('localisation/currencies', [CurrencyController::class, 'index'])->name('localisation.currencies.index');
