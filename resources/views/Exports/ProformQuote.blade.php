@@ -44,7 +44,7 @@
         <div style="left: 30px; top: 15px; position: absolute; font-size: 20px; font-weight: 700; color: #2763EC;">{{ $quote->tmpFolio ?? 'not-available' }}</div>
 
         <div style="left: 250px; top: 0px; font-size: 12px; font-weight: bold; color: rgb(80, 80, 80); position: absolute">FECHA DE VISITA:</div>
-        <div style="left: 250px; top: 20px; font-size: 16px; font-weight: 700; color: black; position: absolute;">{{ $quote->listed_activities[0]->date_string_formatted ?? 'invalid date' }}</div>
+        <div style="left: 250px; top: 20px; font-size: 16px; font-weight: 700; color: black; position: absolute;">{{ substr($quote->listed_activities[0]->date ?? 'invalid date', 0, 10) }}</div>
     </div>
 
     <!-- NOMBRE + ACTIVIDAD -->
@@ -108,7 +108,7 @@
     <div style="width: 500px; height: 150px; left: 0px; top: 500px; position: absolute;">
         <div style="width: 500px; top: 10px; font-size: 16px; font-weight: 700; color: #59CB85; position: absolute; text-align: center;">Número de confirmación del proveedor:</div>
 
-        <div style="width: 500px; top: 50px; font-size: 40px; font-weight: 700; color: #59CB85; position: absolute; text-align: center;">{{ $quote->public_pric ?? '...' }}</div>
+        <div style="width: 500px; top: 50px; font-size: 40px; font-weight: 700; color: #59CB85; position: absolute; text-align: center;">{{ $quote->coupon->confirmation_key ?? '...' }}</div>
     </div>
     
 

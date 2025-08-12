@@ -1,63 +1,107 @@
 <script setup>
-import { usePage } from '@inertiajs/inertia-vue3';
-import TeamHelper from '@/utils/TeamHelpers.js'
-
+import { usePage } from "@inertiajs/inertia-vue3";
+import TeamHelper from "@/utils/TeamHelpers.js";
 
 const props = defineProps({
-    quote: Object
-})
+    quote: Object,
+});
 
 const printLogo = () => {
     return TeamHelper.isDefaultLogo(props.quote.team.logo)
-            ? '/assets/exploreemotions-logo.png'
-            : '/storage/' + props.quote.team.logo
-}
+        ? "/assets/exploreemotions-logo.png"
+        : "/storage/" + props.quote.team.logo;
+};
 
 console.log(props.quote);
 </script>
 
 <template>
-    <div  class="mx-auto m-6 w-[500px] border-[3px] p-8 border-gray-400" spellcheck="false">
+    <div
+        class="mx-auto m-6 w-[500px] border-[3px] p-8 border-gray-400"
+        spellcheck="false"
+    >
         <div class="w-full mb-6">
             <h1 class="font-bold text-2xl py-1">Confirmación de Reserva</h1>
             <p class="py-1 text-gray-600">Estimado/a {{ quote.holder_name }}</p>
-            <p class="py-1 text-gray-600">Su reserva ha sido confirmada exitosamente. Nos complace acompañarle en su experiencia en {{ quote.activity.name }} garantizamos un servicio de excelencia.</p>
+            <p class="py-1 text-gray-600">
+                Su reserva ha sido confirmada exitosamente. Nos complace
+                acompañarle en su experiencia en
+                {{ quote.activity.name }} garantizamos un servicio de
+                excelencia.
+            </p>
         </div>
 
-        <div class="bg-backgroundcoupon p-6 h-[540px]">
+        <div class="bg-backgroundcoupon p-6 h-[500px]">
             <div class="flex gap-2">
-                <div class="w-[30px] h-[30px] rounded-lg bg-bluecoupon"><img class="p-1 w-full" src="/assets/icons/calendar.svg"></div>
-                <h2 class="font-bold text-xl py-1">Información de la Reserva</h2>
+                <div class="w-[30px] h-[30px] rounded-lg bg-bluecoupon">
+                    <img class="p-1 w-full" src="/assets/icons/calendar.svg" />
+                </div>
+                <h2 class="font-bold text-xl py-1">
+                    Información de la Reserva
+                </h2>
             </div>
 
             <div class="flex justify-between p-2">
                 <div>
-                    <h3 class="text-gray-600 text-sm font-bold">CÓDIGO DE RESERVA</h3>
-                    <span class="font-bold text-blue-600">{{ quote.tmpfolio ?? 'not-availble' }}</span>
+                    <h3 class="text-gray-600 text-sm font-bold">
+                        CÓDIGO DE RESERVA
+                    </h3>
+                    <span class="font-bold text-blue-600">{{
+                        quote.coupon?.code
+                    }}</span>
                 </div>
 
                 <div>
-                    <h3 class="text-gray-600 text-sm font-bold">FECHA DE VISITA</h3>
-                    <span class="font-bold">{{ quote.listed_activity.date ?? 'invalid date' }}</span>
+                    <h3 class="text-gray-600 text-sm font-bold">
+                        FECHA DE VISITA
+                    </h3>
+                    <span class="font-bold">{{
+                        quote.listed_activity.date ?? "invalid date"
+                    }}</span>
                 </div>
             </div>
 
             <div class="p-2">
                 <h3 class="text-gray-600 text-sm font-bold">TOUR</h3>
-                <span class="font-bold">{{ quote.activity.name }}</span>
+                <span class="font-bold">{{
+                    quote.activity.name ?? "N/A"
+                }}</span>
             </div>
 
-            <div class="p-2 h-[120px]">
-                <h3 class="text-gray-600 text-sm font-bold">PUNTO DE ENCUENTRO/HORA</h3>
-                <span class="font-bold"></span>
+            <!--Hotel and pickup time -->
+            <div class="p-2">
+                <h3 class="text-gray-600 text-sm font-bold">
+                    PUNTO DE ENCUENTRO/HORA
+                </h3>
+                <p
+                    class="font-bold"
+                    v-if="
+                        quote.type == 'pack' ||
+                        quote.type == 'tour' ||
+                        quote.type == 'entrance'
+                    "
+                    v-for="a in quote.listed_activities"
+                >
+                    {{ a.hotel.name }}
+                    <span>( {{ a.pickup_time.slice(0, 5) }}</span>
+                    h )
+                    <!-- <br />
+                    <span>{{ a.date_string_formatted }}</span> -->
+                </p>
             </div>
 
             <div class="p-2 flex justify-between w-3/4 py-20">
                 <div class="grid gap-1">
                     <h3 class="text-gray-600 text-sm font-bold">PASAJEROS</h3>
-                    <span class="font-bold">Adultos: {{ quote.adults ?? '' }}</span>
-                    <span class="font-bold">Menores: {{ quote.minors ?? '' }}</span>
-                    <span class="font-bold">Infantes: {{ quote.infants ?? '' }}</span>
+                    <span class="font-bold"
+                        >Adultos: {{ quote.adults ?? "" }}</span
+                    >
+                    <span class="font-bold"
+                        >Menores: {{ quote.minors ?? "" }}</span
+                    >
+                    <span class="font-bold"
+                        >Infantes: {{ quote.infants ?? "" }}</span
+                    >
                 </div>
                 <div>
                     <h3 class="text-gray-600 text-sm font-bold">PAÍS</h3>
@@ -65,17 +109,16 @@ console.log(props.quote);
                 </div>
             </div>
         </div>
-        
+
         <div class="bg-backgroundQouteCouponCode h-[150px]">
-            <div class="text-center">
-                <h3 class="font-bold">Número de confirmación del proveedor:</h3>
-                <span class="text-2xl">...</span>
+            <div class="text-center mx-auto p-6 gap-2 flex flex-col">
+                <h3 class="font-bold text-green-400">
+                    Número de confirmación del proveedor:
+                </h3>
+                <span class="text-2xl">{{
+                    quote.coupon?.confirmation_key
+                }}</span>
             </div>
-
-        </div>
-
-        <div>
-
         </div>
         <!-- top -->
         <!-- <div class="flex justify-between" spellcheck="false">
@@ -105,155 +148,395 @@ console.log(props.quote);
             </div>
         </div> -->
 
-        
-
         <!-- Name and Passengers -->
-        <div class="flex mt-4">
-
-            <table class="border-collapse border" style="width: 1084px;">
+        <!-- <div class="flex mt-4">
+            <table class="border-collapse border" style="width: 1084px">
                 <tbody>
-                    <tr style="height: 60px; text-align: center;">
-                        <td style="height: 60px; border: 1px solid; width: 301px;" spellcheck="false">Nombre / Name</td>
-                        <td style="height: 60px; border: 1px solid;" colspan="3">{{ quote.holder_name }}</td>
+                    <tr style="height: 60px; text-align: center">
+                        <td
+                            style="
+                                height: 60px;
+                                border: 1px solid;
+                                width: 301px;
+                            "
+                            spellcheck="false"
+                        >
+                            Nombre / Name
+                        </td>
+                        <td style="height: 60px; border: 1px solid" colspan="3">
+                            {{ quote.holder_name }}
+                        </td>
                     </tr>
-                    <tr style="height: 26.5px; text-align: center;">
-                        <td style="height: 58.5px; border: 1px solid;" rowspan="2">Pasajeros / Passengers</td>
-                        <td style="height: 26.5px; border: 1px solid; width: 258.66px; font-size: x-small;">Adultos ( 12 años o mas ) / Adults ( ages 12 and more )</td>
-                        <td style="height: 26.5px; border: 1px solid; width: 258.66px; font-size: x-small;">Menores (5 a 11 años)/Minors (ages 5 to 11)</td>
-                        <td style="height: 26.5px; border: 1px solid; width: 258.66px; font-size: x-small;">Infantes (0 a 4 años)/Infants (ages 0 to 4)</td>
+                    <tr style="height: 26.5px; text-align: center">
+                        <td
+                            style="height: 58.5px; border: 1px solid"
+                            rowspan="2"
+                        >
+                            Pasajeros / Passengers
+                        </td>
+                        <td
+                            style="
+                                height: 26.5px;
+                                border: 1px solid;
+                                width: 258.66px;
+                                font-size: x-small;
+                            "
+                        >
+                            Adultos ( 12 años o mas ) / Adults ( ages 12 and
+                            more )
+                        </td>
+                        <td
+                            style="
+                                height: 26.5px;
+                                border: 1px solid;
+                                width: 258.66px;
+                                font-size: x-small;
+                            "
+                        >
+                            Menores (5 a 11 años)/Minors (ages 5 to 11)
+                        </td>
+                        <td
+                            style="
+                                height: 26.5px;
+                                border: 1px solid;
+                                width: 258.66px;
+                                font-size: x-small;
+                            "
+                        >
+                            Infantes (0 a 4 años)/Infants (ages 0 to 4)
+                        </td>
                     </tr>
-                    <tr style="height: 32px; text-align: center;">
-                        <td style="height: 32px; border: 1px solid;">{{ quote.adults }}</td>
-                        <td style="height: 32px; border: 1px solid;">{{ quote.minors }}</td>
-                        <td style="height: 32px; border: 1px solid;">{{ quote.infants }}</td>
+                    <tr style="height: 32px; text-align: center">
+                        <td style="height: 32px; border: 1px solid">
+                            {{ quote.adults }}
+                        </td>
+                        <td style="height: 32px; border: 1px solid">
+                            {{ quote.minors }}
+                        </td>
+                        <td style="height: 32px; border: 1px solid">
+                            {{ quote.infants }}
+                        </td>
                     </tr>
                 </tbody>
-            </table>
-            <!-- DivTable.com -->
+            </table> -->
+        <!-- DivTable.com 
+        </div> -->
 
-        </div>
-
-        
         <!-- Entrances Tours Packages -->
-        <div class="mt-4 flex flex-col">
-            <!-- Description of the services -->
-            <div>
-                <p class="font-bold">Descripción del servicio / Description of the service:</p>
+        <!-- <div class="mt-4 flex flex-col"> -->
+        <!-- Description of the services -->
+        <!-- <div>
+                <p class="font-bold">
+                    Descripción del servicio / Description of the service:
+                </p>
             </div>
-            <table style="width: 1077; border: solid 1px;">
+            <table style="width: 1077; border: solid 1px">
                 <tbody>
-                    <tr style="height: 59px; text-align: center;" spellcheck="false">
-                        <td style="height: 59px; border: 1px solid; width: 301px;">Fecha Actividad/ Date of the activity:</td>
-                        <td style="height: 59px; border: 1px solid; width: 474.98px; max-width: 1px;" colspan="2">{{ quote.type == 'tour' ? quote.listed_activity.date : '' }}</td>
-                        <td style="height: 59px; border: 1px solid; width: 301.2px; text-align: left;">Horario /<br>Schedule <span style="padding-left: 24px">{{ quote.type == 'tour' && quote.listed_activity.pickup_time != '00:00' ? quote.listed_activity.pickup_time.slice(0,5) : 'n/d' }}</span></td>
+                    <tr
+                        style="height: 59px; text-align: center"
+                        spellcheck="false"
+                    >
+                        <td
+                            style="
+                                height: 59px;
+                                border: 1px solid;
+                                width: 301px;
+                            "
+                        >
+                            Fecha Actividad/ Date of the activity:
+                        </td>
+                        <td
+                            style="
+                                height: 59px;
+                                border: 1px solid;
+                                width: 474.98px;
+                                max-width: 1px;
+                            "
+                            colspan="2"
+                        >
+                            {{
+                                quote.type == "tour"
+                                    ? quote.listed_activity.date
+                                    : ""
+                            }}
+                        </td>
+                        <td
+                            style="
+                                height: 59px;
+                                border: 1px solid;
+                                width: 301.2px;
+                                text-align: left;
+                            "
+                        >
+                            Horario /<br />Schedule
+                            <span style="padding-left: 24px">{{
+                                quote.type == "tour" &&
+                                quote.listed_activity.pickup_time != "00:00"
+                                    ? quote.listed_activity.pickup_time.slice(
+                                          0,
+                                          5
+                                      )
+                                    : "n/d"
+                            }}</span>
+                        </td>
                     </tr>
-                    <tr style="height: 59px; text-align: center;">
-                        <td style="height: 59px; border: 1px solid">Lugar de Pick up</td>
-                        <td style="height: 59px; border: 1px solid; width: 474.98px; max-width: 1px;" colspan="2" >{{quote.type == 'tour' ? quote.hotel.name : '' }}</td>
-                        <td style="height: 59px; border: 1px solid; width: 301.2px; text-align: left; font-style: bold;">Cuarto /<br>Room <span style="padding-left: 24px"> </span></td>
+                    <tr style="height: 59px; text-align: center">
+                        <td style="height: 59px; border: 1px solid">
+                            Lugar de Pick up
+                        </td>
+                        <td
+                            style="
+                                height: 59px;
+                                border: 1px solid;
+                                width: 474.98px;
+                                max-width: 1px;
+                            "
+                            colspan="2"
+                        >
+                            {{ quote.type == "tour" ? quote.hotel.name : "" }}
+                        </td>
+                        <td
+                            style="
+                                height: 59px;
+                                border: 1px solid;
+                                width: 301.2px;
+                                text-align: left;
+                                font-style: bold;
+                            "
+                        >
+                            Cuarto /<br />Room
+                            <span style="padding-left: 24px"> </span>
+                        </td>
                     </tr>
-                    <tr style="height: 59px;text-align: center;">
-                        <td style="height: 59px; border: 1px solid">Entrada/ Entrance</td>
-                        <td style="height: 59px; border: 1px solid; width: 474.98px; max-width: 1px;" colspan="2">{{ quote.type == 'entrance' ? quote.activity.name : '' }}</td>
-                        <td style="height: 59px; border: 1px solid">{{ quote.national == 1 ? 'PROMOMEX' : '' }}</td>
+                    <tr style="height: 59px; text-align: center">
+                        <td style="height: 59px; border: 1px solid">
+                            Entrada/ Entrance
+                        </td>
+                        <td
+                            style="
+                                height: 59px;
+                                border: 1px solid;
+                                width: 474.98px;
+                                max-width: 1px;
+                            "
+                            colspan="2"
+                        >
+                            {{
+                                quote.type == "entrance"
+                                    ? quote.activity.name
+                                    : ""
+                            }}
+                        </td>
+                        <td style="height: 59px; border: 1px solid">
+                            {{ quote.national == 1 ? "PROMOMEX" : "" }}
+                        </td>
                     </tr>
-                    <tr style="height: 59px; text-align: center;">
+                    <tr style="height: 59px; text-align: center">
                         <td style="height: 59px; border: 1px solid">Tour</td>
-                        <td style="height: 59px; border: 1px solid; max-width: 11.27px;" colspan="2">{{ quote.type == 'tour' ? quote.activity.name : '' }}</td>
+                        <td
+                            style="
+                                height: 59px;
+                                border: 1px solid;
+                                max-width: 11.27px;
+                            "
+                            colspan="2"
+                        >
+                            {{
+                                quote.type == "tour" ? quote.activity.name : ""
+                            }}
+                        </td>
                         <td style="height: 59px; border: 1px solid">&nbsp;</td>
                     </tr>
-                    <tr style="height: 59px;">
-                        <td style="height: 59px; border: 1px solid; text-align: center;">PAQUETE/ PACKAGE</td>
-                        <td style="height: 59px; padding-top: 1rem;" colspan="3">
-                            <p style="margin-left: 1rem; text-transform: lowercase;" v-if="quote.type == 'pack'" v-for="a in quote.listed_activities">
-                                <span class="capitalize font-bold">"{{a.activity.name.toLowerCase()}}"</span>
-                                el {{a.date_string_formatted}}
-                                en <span class="capitalize"> "{{ a.hotel.name.toLowerCase() }}"a </span>
-                                 a las {{a.pickup_time == '00:00:00' ? 'N/D' : a.pickup_time.slice(0,5)}} 
+                    <tr style="height: 59px">
+                        <td
+                            style="
+                                height: 59px;
+                                border: 1px solid;
+                                text-align: center;
+                            "
+                        >
+                            PAQUETE/ PACKAGE
+                        </td>
+                        <td style="height: 59px; padding-top: 1rem" colspan="3">
+                            <p
+                                style="
+                                    margin-left: 1rem;
+                                    text-transform: lowercase;
+                                "
+                                v-if="quote.type == 'pack'"
+                                v-for="a in quote.listed_activities"
+                            >
+                                <span class="capitalize font-bold"
+                                    >"{{ a.activity.name.toLowerCase() }}"</span
+                                >
+                                el {{ a.date_string_formatted }}
+
+                                en
+                                <span class="capitalize">
+                                    "{{ a.hotel.name.toLowerCase() }}"a
+                                </span>
+                                a las
+                                {{
+                                    a.pickup_time == "00:00:00"
+                                        ? "N/D"
+                                        : a.pickup_time.slice(0, 5)
+                                }}
                             </p>
                         </td>
                     </tr>
-                    <tr style="height: 59px;">
-                        <td v-if="quote.type == 'pack'"><p style="text-align:center;">PAQ#{{ quote.listed_activities.length }}</p></td>
-                        <td style="height: 59px;" colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <tr style="height: 59px">
+                        <td v-if="quote.type == 'pack'">
+                            <p style="text-align: center">
+                                PAQ#{{ quote.listed_activities.length }}
+                            </p>
+                        </td>
+                        <td style="height: 59px" colspan="3">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                        </td>
                     </tr>
                 </tbody>
-            </table>
-<!-- DivTable.com -->
+            </table> -->
         <!-- DivTable.com -->
-            <div class="self-end flex">
-                <p class="font-bold">Clave de confirmacion / <br> Confirmation code</p>
-                <div class="w-[576px] h-[59px] border border-black border-t-0 p-4"> {{ quote.coupon?.confirmation_key }}</div>
+        <!-- DivTable.com -->
+        <!-- <div class="self-end flex">
+                <p class="font-bold">
+                    Clave de confirmacion / <br />
+                    Confirmation code
+                </p>
+                <div
+                    class="w-[576px] h-[59px] border border-black border-t-0 p-4"
+                >
+                    {{ quote.coupon?.confirmation_key }}
+                </div>
             </div>
-        </div>
+        </div> -->
 
         <!-- Clausula descuentos ncionales -->
-        <div class="mt-4 flex flex-col">
-            
-            <div style="text-align:center; width: 100%;">
-                <p style="font-weight: bold; font-size:x-large" v-show="quote.national == 1">Descuento para  mexicanos, presentar INE o pasaporte</p>
-            
+        <!-- <div class="mt-4 flex flex-col">
+            <div style="text-align: center; width: 100%">
+                <p
+                    style="font-weight: bold; font-size: x-large"
+                    v-show="quote.national == 1"
+                >
+                    Descuento para mexicanos, presentar INE o pasaporte
+                </p>
             </div>
 
-            <div style="width: 100%;">
-                <p style="font-weight: bold;">
-                    Requisitos para recibir el servicio según sea el caso/ Requirements to recieve the service, as the case may be:
+            <div style="width: 100%">
+                <p style="font-weight: bold">
+                    Requisitos para recibir el servicio según sea el caso/
+                    Requirements to recieve the service, as the case may be:
                 </p>
 
                 <ol>
-                    <li>1.- Verificar que el cupon tenga clave de confirmacion ya que sin ella no se podra brindar el servicio/Verify the confirmation code in the coupon, for in case of not having it the service won't be provided</li>
+                    <li>
+                        1.- Verificar que el cupon tenga clave de confirmacion
+                        ya que sin ella no se podra brindar el servicio/Verify
+                        the confirmation code in the coupon, for in case of not
+                        having it the service won't be provided
+                    </li>
                 </ol>
 
                 <ol>
-                    <li>2.- Presentar este cupon impreso y firmado por el titular/ Show this coupon printed and signed by the titular</li>
+                    <li>
+                        2.- Presentar este cupon impreso y firmado por el
+                        titular/ Show this coupon printed and signed by the
+                        titular
+                    </li>
                 </ol>
 
                 <ol>
-                    <li>3.- Presentar identificacion oficial con fotografia/ Show official ID with photo</li>
+                    <li>
+                        3.- Presentar identificacion oficial con fotografia/
+                        Show official ID with photo
+                    </li>
                 </ol>
 
                 <ol>
-                    <li>4.- Una vez entregado lo anterior debera recibir los brazaletes con los cuales podra disfrutar del parque/ After showing the above you should recieve the bracelets with which you will be able to enter the park</li>
+                    <li>
+                        4.- Una vez entregado lo anterior debera recibir los
+                        brazaletes con los cuales podra disfrutar del parque/
+                        After showing the above you should recieve the bracelets
+                        with which you will be able to enter the park
+                    </li>
                 </ol>
-
             </div>
+        </div> -->
 
-        </div>
-            
         <!-- Firma y sellos -->
-        <div class="mt-4 flex justify-between items-center">
-            
+        <!-- <div class="mt-4 flex justify-between items-center">
             <div style="margin: 2rem 0">
-                <span style="border-bottom: 1px solid #000000; height: 8px; width: 25rem; display: block;"></span>
+                <span
+                    style="
+                        border-bottom: 1px solid #000000;
+                        height: 8px;
+                        width: 25rem;
+                        display: block;
+                    "
+                ></span>
                 <p>Nombre y firma del titular/Main passanger`s singature</p>
             </div>
-        
-            <div>
-                <img style="width: 301px; height: 121px;" src="/assets/exploreemotions-logo.png" alt="Coupon logo">
-            </div>
-            <div style="width: 7rem;">
-                <img style="width: 100%;" src="/assets/sello_vero_12.jpeg" alt="Sello Vero">
-            </div>
 
-        </div>
+            <div>
+                <img
+                    style="width: 301px; height: 121px"
+                    src="/assets/exploreemotions-logo.png"
+                    alt="Coupon logo"
+                />
+            </div>
+            <div style="width: 7rem">
+                <img
+                    style="width: 100%"
+                    src="/assets/sello_vero_12.jpeg"
+                    alt="Sello Vero"
+                />
+            </div>
+        </div> -->
 
         <!-- Politicas de cancelacion -->
-        <div class="mt-4 flex flex-col">
-
+        <!-- <div class="mt-4 flex flex-col">
             <div>
-                <p style="font-weight: bold;">Politicas de Cancelacion/Cancellation policies</p>
-            </div>
-            
-            <div>
-                <p style="font-size: small;">
-                    Todo cambio o cancelacion de una reservacion de: ENTRADA, TOUR O PAQUETE  que se haya pagado con anticipacion se debera efectuar con 36 horas de anticipacion para proceder a su devolucion, para los casos de NO SHOW existe la posibilidad de reagendar la actividad con al menos 30 horas de anticipacion SIN PENALIDAD, en caso de no existir posibilidad de reagendar se aplica la politica de Certificado de Extension con validez de 1 año a partir de la fecha de la operacion del Tour. Para casos por afectaciones de salud, sera necesario presentar constancia medica que acredite su estado de salud para reagendar el servicio sin penalidad/ Any change or cancellation of a reservation paid in advance for an entrance, tour or package should be done 36 hours before the time on the reservation for a chance to be refunded, in case of not showing for the reservation the chance to reschedule the activity at least 30 hours in advance WITH NO PENALTY, in case of not having a chance to reschedule an extension certificate for one year will be extended for you, starting in the scheluded date for your tour. In case of health restrictions it will be necessary to show medical record to prove your health status to reschedule the servicie WITH NO PENALTY.
+                <p style="font-weight: bold">
+                    Politicas de Cancelacion/Cancellation policies
                 </p>
             </div>
-            
-            <div class="self-end flex">
-                <p class="font-bold">Clave de cancelacion / <br> Cancellation code</p>
-                <div class="w-[576px] h-[59px] border border-black border-t-0"></div>
+
+            <div>
+                <p style="font-size: small">
+                    Todo cambio o cancelacion de una reservacion de: ENTRADA,
+                    TOUR O PAQUETE que se haya pagado con anticipacion se debera
+                    efectuar con 36 horas de anticipacion para proceder a su
+                    devolucion, para los casos de NO SHOW existe la posibilidad
+                    de reagendar la actividad con al menos 30 horas de
+                    anticipacion SIN PENALIDAD, en caso de no existir
+                    posibilidad de reagendar se aplica la politica de
+                    Certificado de Extension con validez de 1 año a partir de la
+                    fecha de la operacion del Tour. Para casos por afectaciones
+                    de salud, sera necesario presentar constancia medica que
+                    acredite su estado de salud para reagendar el servicio sin
+                    penalidad/ Any change or cancellation of a reservation paid
+                    in advance for an entrance, tour or package should be done
+                    36 hours before the time on the reservation for a chance to
+                    be refunded, in case of not showing for the reservation the
+                    chance to reschedule the activity at least 30 hours in
+                    advance WITH NO PENALTY, in case of not having a chance to
+                    reschedule an extension certificate for one year will be
+                    extended for you, starting in the scheluded date for your
+                    tour. In case of health restrictions it will be necessary to
+                    show medical record to prove your health status to
+                    reschedule the servicie WITH NO PENALTY.
+                </p>
             </div>
-        </div>
+
+            <div class="self-end flex">
+                <p class="font-bold">
+                    Clave de cancelacion / <br />
+                    Cancellation code
+                </p>
+                <div
+                    class="w-[576px] h-[59px] border border-black border-t-0"
+                ></div>
+            </div>
+        </div> -->
     </div>
 </template>
