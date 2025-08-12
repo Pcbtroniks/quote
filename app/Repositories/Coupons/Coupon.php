@@ -38,6 +38,16 @@ class Coupon {
         return $prefix . str_pad($id, $length, '0', STR_PAD_LEFT);
     }
 
+    public static function updateCode($data)
+    {
+        $coupon = CouponModel::find($data['coupon_id']);
+        if ($coupon) {
+            $coupon->update(['code' => $data['code'] ?? self::generateCode($data['coupon_id'])]);
+            return response()->json(['status' => 'ok', 'msg' => 'Coupon code updated successfully.', 'data' => $coupon]);
+        }
+        return response()->json(['status' => 'error', 'msg' => 'Coupon not found.'], 404);
+    }
+
     /**
      * Generate and Set a new code for a coupon
      * 

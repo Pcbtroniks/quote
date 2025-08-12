@@ -67,4 +67,13 @@ class CouponController extends Controller
         $quote = $quoteData->preview($uuid);
         return view('Coupon.CouponPDF', compact('quote'));
     }
+
+    public function updateCode(Request $request)
+    {
+        $request->validate([
+            'coupon_id' => 'required|integer|exists:coupons,id',
+            'code' => 'nullable|string|max:255',
+        ]);
+        return Coupon::updateCode($request->all());
+    }
 }
