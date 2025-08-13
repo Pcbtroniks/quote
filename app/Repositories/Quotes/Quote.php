@@ -239,4 +239,11 @@ class Quote {
     {     
         return $quote->update(['status' => CouponStatus::Confirmed]);
     }
+
+    public function updateListedActivities($quoteActivityID, $newPickupTime)
+    {
+        $quoteActivity = QuoteActivity::find($quoteActivityID);
+        $quoteActivity->pickup_time = $newPickupTime;
+        $quoteActivity->save();
+    }
 }

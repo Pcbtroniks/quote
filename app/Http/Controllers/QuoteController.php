@@ -63,4 +63,10 @@ class QuoteController extends Controller
         return inertia('Quotes/Preview/Index', compact('quote'));
     }
 
+
+    public function updateListedActivities(Request $request, Quote $quote)
+    {
+        $quote->updateListedActivities($request->quote_activity_id, $request->pickup_time);
+        return response()->json(['status' => 'ok', 'message' => 'Listed activities updated successfully.']);
+    }
 }
