@@ -33,7 +33,7 @@
     <div style="width: 500px; height: 150px; left: 0px; top: 500px; position: absolute; background-color: #DCFCE7"></div>
 
     <div style="width: 8px; height: 8px; left: 28px; top: 16px; border-radius: 5px; position: absolute; z-index: 1;">
-        <img class="width: 8px; height: 8px;" src="{{ $quote->logo }}">
+        <!-- <img style="width: 8px; height: 8px;" src="{{ $quote->logo }}"> -->
     </div>
     <div style="width: 30px; height: 30px; left: 25px; top: 14px; border-radius: 5px; position: absolute; background-color: #2763EC"></div>
     
@@ -110,7 +110,7 @@
     <div style="width: 500px; height: 150px; left: 0px; top: 500px; position: absolute;">
         <div style="width: 500px; top: 10px; font-size: 16px; font-weight: 700; color: #59CB85; position: absolute; text-align: center;">Número de confirmación del proveedor:</div>
 
-        <div style="width: 500px; top: 50px; font-size: 40px; font-weight: 700; color: #59CB85; position: absolute; text-align: center;">@if ($quote->coupon->confirmation_key)
+        <div style="width: 500px; top: 40px; font-size: 26px; font-weight: 700; color: #16A34A; position: absolute; text-align: center;">@if ($quote->coupon->confirmation_key)
                                     {{ $quote->coupon->confirmation_key ?? '' }}
                                 @endif</div>
     </div>

@@ -117,7 +117,7 @@ console.log(props.quote);
                 <h3 class="font-bold text-green-400">
                     Número de confirmación del proveedor:
                 </h3>
-                <span class="text-2xl">{{
+                <span class="text-[25px] font-extrabold text-green-600">{{
                     quote.coupon?.confirmation_key
                 }}</span>
             </div>
