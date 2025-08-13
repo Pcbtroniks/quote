@@ -89,9 +89,7 @@ class ExportController extends Controller
 
     public function exportPDFQuoteView(Quote $quote)
     {
-        $quote->logo = ($quote->team->logo == '\\assets\\exploreemotions-logo.png')
-            ? public_path('assets/exploreemotions-logo.png')
-            : public_path('/storage/' . $quote->team->logo);
+        $quote->logo = public_path('assets/icons/calendar.svg');
         Pdf::setOption(['dpi' => 150, 'defaultFont' => 'sans-serif']);
         $pdf = Pdf::loadView('Exports.Quote', ['quote' => $quote]);
         return $pdf->stream("dompdf_out.pdf", array("Attachment" => false));

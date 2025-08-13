@@ -32,7 +32,9 @@
     <div style="width: 500px; height: 540px; left: 53px; top: 280px; position: absolute; background-color: #f8fafc">
     <div style="width: 500px; height: 150px; left: 0px; top: 500px; position: absolute; background-color: #DCFCE7"></div>
 
-    <div style="width: 8px; height: 8px; left: 28px; top: 16px; border-radius: 5px; position: absolute; z-index: 1;"><img class="width: 8px; height: 8px;" src="{{ asset ('assets/icons/calendar.svg') }} "></div>
+    <div style="width: 8px; height: 8px; left: 28px; top: 16px; border-radius: 5px; position: absolute; z-index: 1;">
+        <img class="width: 8px; height: 8px;" src="{{ $quote->logo }}">
+    </div>
     <div style="width: 30px; height: 30px; left: 25px; top: 14px; border-radius: 5px; position: absolute; background-color: #2763EC"></div>
     
     <div style="width: 500px; height: 116px; left: 65px; top: 2px; position: absolute; font-weight: bold; font-size: 24px">Información de la Reserva</div>
@@ -41,7 +43,7 @@
     <!-- NÚMERO DE SOLICITUD + FECHA -->
     <div style="width: 500px; height: 180px; left: 0px; top: 60px; position: absolute;">
         <div style="left: 30px; top: 0px; position: absolute; font-size: 12px; font-weight: bold; color: rgb(80, 80, 80);">CÓDIGO DE RESERVA:</div>
-        <div style="left: 30px; top: 15px; position: absolute; font-size: 20px; font-weight: 700; color: #2763EC;">{{ $quote->tmpFolio ?? 'not-available' }}</div>
+        <div style="left: 30px; top: 15px; position: absolute; font-size: 20px; font-weight: 700; color: #2763EC;">{{ $quote->coupon->code ?? 'not-available' }}</div>
 
         <div style="left: 250px; top: 0px; font-size: 12px; font-weight: bold; color: rgb(80, 80, 80); position: absolute">FECHA DE VISITA</div>
         <div style="left: 250px; top: 20px; font-size: 16px; font-weight: 700; color: black; position: absolute;">{{ substr($quote->listed_activities[0]->date ?? 'invalid date', 0, 10) }}</div>
