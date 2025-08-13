@@ -1,1 +1,0 @@
-import{c as e,o,w as s,a as t,u as a,d as r}from"./app-B5gBv8jV.js";const n=t("img",{class:"h-40",src:"/assets/exploreemotions-logo.png",alt:"Logo Explore Emotions"},null,-1),i={__name:"LogoFreeTraveler",setup(c){return(l,_)=>(o(),e(a(r.Link),null,{default:s(()=>[n]),_:1}))}};export{i as _};

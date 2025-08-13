@@ -313,6 +313,7 @@ const updateCouponCode = async (coupon) => {
                             type="text"
                             class="flex-1 p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                             placeholder="Código del cupón"
+                            maxlength="16"
                         />
                         <span class="text-sm text-gray-500">ID:</span>
                         <input
