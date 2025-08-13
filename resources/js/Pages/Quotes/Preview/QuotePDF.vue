@@ -77,14 +77,16 @@ console.log(props.quote);
                     class="font-bold"
                     v-if="
                         quote.type == 'pack' ||
-                        quote.type == 'tour' ||
-                        quote.type == 'entrance'
+                        quote.type == 'tour' 
                     "
                     v-for="a in quote.listed_activities"
                 >
                     {{ a.hotel.name }}
-                    <span>( {{ a.pickup_time.slice(0, 5) }}</span>
-                    h )
+                                <span>
+                                (
+                                {{ a.pickup_time && a.pickup_time !== '00:00:00' ? a.pickup_time.slice(0, 5) : 'N/D' }} h
+                                )
+                                </span>
                     <!-- <br />
                     <span>{{ a.date_string_formatted }}</span> -->
                 </p>

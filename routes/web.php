@@ -64,7 +64,7 @@ Route::middleware([
     Route::get('/quotes', [QuotesQuoteController::class, 'index'])->middleware('check.quote.params')->name('quote.index');
     Route::get('/quotes/{uuid}', [QuotesQuoteController::class, 'show'])->name('quote.show');
     Route::post('/quotes/{id}/archive', [QuotesQuoteController::class, 'archive'])->name('quote.archive');
-    Route::get('quote/listed-activities/update', [QuoteController::class, 'updateListedActivities'])->name('quote.listed.activities.update');
+    Route::post('quote/listed-activities/update/{quoteId}', [QuoteController::class, 'updateListedActivities'])->name('quote.listed.activities.update');
 
 
     /* Quoter */

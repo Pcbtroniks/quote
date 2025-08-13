@@ -1,6 +1,6 @@
 <script setup>
 import Swal from "sweetalert2";
-
+import DialogModal from '@/Components/DialogModal.vue';
 import BodySection from "@/Components/BodySection.vue";
 import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
@@ -14,6 +14,7 @@ import { userHasPermission, PERMISSIONS } from "@/Helpers/Permissions.js";
 
 const props = defineProps({
     quote: Object,
+    pickupTime: Object
 });
 
 const Search = reactive({
@@ -195,6 +196,45 @@ const updateCouponCode = async (coupon) => {
         });
     }
 };
+
+const showModal = ref(false);
+
+const modalUpdatePickupTimes = () => {
+    showModal.value = true;
+};
+
+const updatePickupTimes = async (activity) => {
+    try {
+        const response = await axios.post(route('quote.listed.activities.update', props.quote.id), {
+            quote_activity_id: activity.id,
+            pickup_time: activity.pickup_time,
+        });
+
+        if (response.data.status === 'ok') {
+    Swal.fire({
+        title: 'Éxito',
+        text: 'Horarios de pickup actualizado correctamente.',
+        icon: 'success',
+    });
+    Inertia.reload();
+} else {
+    Swal.fire({
+        title: 'Error',
+        text: response.data.message || 'No se pudieron actualizar los horarios.',
+        icon: 'error',
+    });
+}
+    } catch (error) {
+        console.error('Error updating pickup times:', error);
+        Swal.fire({
+            title: 'Error',
+            text: 'Ocurrió un error al actualizar los horarios de pickup.',
+            icon: 'error',
+        });
+    }
+};
+
+
 </script>
 
 <template>
@@ -220,6 +260,10 @@ const updateCouponCode = async (coupon) => {
                             ? "Ocultar"
                             : "Actualizar Codigo de Reserva"
                     }}
+                </button>
+                <button class="text-white hover:text-gray-300 font-bold bg-green-600 hover:bg-green-700 active:bg-green-700 px-4 py-2 rounded"
+                @click="modalUpdatePickupTimes">
+                    Actualizar Horarios de Pickup
                 </button>
             </div>
         </template>
@@ -313,7 +357,6 @@ const updateCouponCode = async (coupon) => {
                             type="text"
                             class="flex-1 p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                             placeholder="Código del cupón"
-                            maxlength="16"
                         />
                         <span class="text-sm text-gray-500">ID:</span>
                         <input
@@ -331,6 +374,49 @@ const updateCouponCode = async (coupon) => {
                     </div>
                 </div>
             </Transition>
+
+            <!--Modal Pickup Times Update-->
+<DialogModal :show="showModal" @close="showModal = false">
+    <template #title>
+        <span class="font-bold justify-center flex">Actualizar Horarios de Pickup</span>
+    </template>
+    <template #content>
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead>
+                <tr class="bg-gray-100 uppercase text-xs">
+                    <th class="px-4 py-2 text-gray-400">Parque</th>
+                    <th class="px-4 py-2 text-gray-400">Hora del pickup</th>
+                    <th class="px-4 py-2 text-gray-400"></th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="activity in props.quote.listed_activities" :key="activity.id">
+                    <td>{{ activity.activity?.name }}</td>
+                    <td>
+                        <input
+                            v-model="activity.pickup_time"
+                            type="time"
+                            class="w-full"
+                        />
+                    </td>
+                    <td>
+                        <button
+                            class="bg-blue-900 text-white px-2 py-1 rounded"
+                            @click="updatePickupTimes(activity)"
+                        >
+                            Guardar
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </template>
+    <template #footer>
+        <button class="bg-red-500 text-white px-4 py-2 rounded" @click="showModal = false">Cerrar</button>
+    </template>
+</DialogModal>
+
         </template>
     </BodySection>
 </template>
