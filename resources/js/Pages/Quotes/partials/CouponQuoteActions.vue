@@ -1,19 +1,19 @@
 <script setup>
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
-import BodySection from '@/Components/BodySection.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import Button from '@/Components/Button.vue';
-import TextInput from '@/Components/TextInput.vue';
-import { Link } from '@inertiajs/inertia-vue3';
-import { Inertia } from '@inertiajs/inertia';
-import axios from 'axios';
-import { reactive } from 'vue';
-import { userHasPermission, PERMISSIONS } from '@/Helpers/Permissions.js';
+import BodySection from "@/Components/BodySection.vue";
+import InputError from "@/Components/InputError.vue";
+import InputLabel from "@/Components/InputLabel.vue";
+import Button from "@/Components/Button.vue";
+import TextInput from "@/Components/TextInput.vue";
+import { Link } from "@inertiajs/inertia-vue3";
+import { Inertia } from "@inertiajs/inertia";
+import axios from "axios";
+import { reactive, ref } from "vue";
+import { userHasPermission, PERMISSIONS } from "@/Helpers/Permissions.js";
 
 const props = defineProps({
-    quote: Object
+    quote: Object,
 });
 
 const Search = reactive({
@@ -21,19 +21,21 @@ const Search = reactive({
     error: null,
     couponCode: null,
     processing: false,
-    syncing: false
+    syncing: false,
 });
 
 const searchCoupon = async (couponCode) => {
-    if( !couponCode ) return false;
-    
+    if (!couponCode) return false;
+
     Search.coupon = null;
     Search.processing = true;
-    const data = await HttpGet(route('coupon.search.code', {code: couponCode}));
+    const data = await HttpGet(
+        route("coupon.search.code", { code: couponCode })
+    );
 
-    if(data.status == 404){
+    if (data.status == 404) {
         Search.processing = false;
-        Search.error = 'No se ha encontrado un cupon';
+        Search.error = "No se ha encontrado un cupon";
         setTimeout(() => {
             Search.error = null;
         }, 3000);
@@ -42,155 +44,292 @@ const searchCoupon = async (couponCode) => {
         Search.coupon = data;
         console.log(data);
     }
-}
+};
 
 const getCoupon = async (quote) => {
-    const data = await axios.post(route('coupon.get.coupon', { quote }));
+    const data = await axios.post(route("coupon.get.coupon", { quote }));
     console.log(data);
     Swal.fire({
-        title: 'Código de cupón',
+        title: "Código de cupón",
         text: data.data.code,
-        icon: 'success',
-        confirmButtonText: 'Ok'
+        icon: "success",
+        confirmButtonText: "Ok",
     }).then((result) => {
         if (result.isConfirmed) {
             location.reload();
         }
-    })
-}
+    });
+};
 const confirmCoupon = async (coupon) => {
-    const data = await axios.post(route('coupon.confirm', { coupon }));
+    const data = await axios.post(route("coupon.confirm", { coupon }));
     console.log(data);
     Swal.fire({
-        title: 'Cupon confirmado!',
-        text: 'El cupón ha sido confirmado y estara disponible para su uso',
-        icon: 'success',
-        confirmButtonText: 'Ok'
+        title: "Cupon confirmado!",
+        text: "El cupón ha sido confirmado y estara disponible para su uso",
+        icon: "success",
+        confirmButtonText: "Ok",
     }).then((result) => {
         if (result.isConfirmed) {
             location.reload();
         }
-    })
-}
+    });
+};
 
 const useConfirmCoupon = async (coupon) => {
     Swal.fire({
-        title: '¿Estás seguro?',
+        title: "¿Estás seguro?",
         text: "¡No podrás revertir esto!",
-        icon: 'warning',
+        icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, ¡aplicar cupón!'
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, ¡aplicar cupón!",
     }).then((result) => {
         if (result.isConfirmed) {
             confirmCoupon(coupon);
         }
-    })
-}
+    });
+};
 
-const syncCoupon = async ( invoice, coupon ) => {
-
-    if( !coupon ) return false;
+const syncCoupon = async (invoice, coupon) => {
+    if (!coupon) return false;
     Search.syncing = true;
     try {
-    
-        const data = await axios.post(route('invoices.sync.coupon', { invoice }), {
-            coupon
-        });
+        const data = await axios.post(
+            route("invoices.sync.coupon", { invoice }),
+            {
+                coupon,
+            }
+        );
 
         Search.coupon.invoice_id = invoice;
         Inertia.reload();
-        
     } catch (error) {
-         
-        alert('Ha ocurrido un error: ' + error.message)
-    
+        alert("Ha ocurrido un error: " + error.message);
     } finally {
-    
         Search.syncing = false;
-
-    };
-}
+    }
+};
 
 const HttpGet = async (URL, Options) => {
-    try {        
+    try {
         const response = await fetch(URL, Options);
-        const data = await response.json()
-        
+        const data = await response.json();
+
         return data;
     } catch (error) {
-        console.error(await  error.json());
-    } 
-}
+        console.error(await error.json());
+    }
+};
 const getStatusColor = (status) => {
     switch (status) {
-        case 'pending':
-            return 'bg-yellow-100 text-yellow-500';
-        case 'confirmed':
-            return 'bg-green-100 text-green-500';
-        case 'canceled':
-            return 'bg-red-100 text-red-500';
+        case "pending":
+            return "bg-yellow-100 text-yellow-500";
+        case "confirmed":
+            return "bg-green-100 text-green-500";
+        case "canceled":
+            return "bg-red-100 text-red-500";
         default:
-            return 'bg-gray-100 text-gray-500';
+            return "bg-gray-100 text-gray-500";
     }
-}
+};
+
+const showCouponUpdate = ref(false);
+
+const openCouponUpdate = () => {
+    showCouponUpdate.value = !showCouponUpdate.value;
+    const couponUpdateSection = document.querySelector(".couponUpdate");
+    if (couponUpdateSection) {
+        couponUpdateSection.classList.toggle("hidden");
+    }
+};
+
+const updateCouponCode = async (coupon) => {
+    if (!coupon) return false;
+
+    try {
+        const data = await axios.post(
+            route("coupon.update.code", { coupon: coupon.id }),
+            {
+                code: coupon.code,
+                coupon_id: coupon.id,
+            }
+        );
+
+        console.log(data);
+        Swal.fire({
+            title: "Código de cupón actualizado",
+            text: "El código de cupón ha sido actualizado",
+            icon: "success",
+            confirmButtonText: "Ok",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                location.reload();
+            }
+        });
+    } catch (error) {
+        console.error("Error updating coupon:", error);
+
+        let errorMessage = "Ha ocurrido un error al actualizar el cupón";
+
+        if (
+            error.response &&
+            error.response.data &&
+            error.response.data.errors
+        ) {
+            const errors = Object.values(error.response.data.errors).flat();
+            errorMessage = errors.join(", ");
+        } else if (
+            error.response &&
+            error.response.data &&
+            error.response.data.message
+        ) {
+            errorMessage = error.response.data.message;
+        }
+
+        Swal.fire({
+            title: "Error",
+            text: errorMessage,
+            icon: "error",
+            confirmButtonText: "Ok",
+        });
+    }
+};
 </script>
 
 <template>
     <BodySection>
         <template #title>
-            <h3 class="text-gray-300">
-            Acciones
-            </h3>
+            <h3 class="text-gray-300">Acciones</h3>
         </template>
 
         <template #description>
-            <span class="text-white">
-            Genere un folio / Muestre oculte el folio
-            </span>
+            <div
+                class="flex flex-col justify-start items-center gap-2 rounded-lg p-4 shadow-md bg-white/10"
+            >
+                <span class="text-white font-bold">
+                    Genere un folio / Muestre u oculte el folio
+                </span>
+                <br />
+                <button
+                    class="text-white hover:text-gray-300 font-bold bg-blue-900 hover:bg-mainblue active:bg-mainblue px-4 py-2 rounded"
+                    @click="openCouponUpdate"
+                >
+                    {{
+                        showCouponUpdate
+                            ? "Ocultar"
+                            : "Actualizar Codigo de Reserva"
+                    }}
+                </button>
+            </div>
         </template>
 
         <template #content>
             <!-- Overview -->
             <div class="col-span-6">
-                <div class="text-lg font-medium text-gray-900">Cotización <span :class="getStatusColor(props.quote.status)" class="p-2 rounded">status {{ props.quote.status }}</span></div>
-                <div v-if="userHasPermission($page.props.user, PERMISSIONS.MANAGE_BRANCH)">
-                    <span class="text-sm text-gray-500">Realizada por: {{ props.quote.user.name }} en ({{ props.quote.team.name }}) el dia {{ props.quote.created_at }}</span>
-                    <br>
-                    <span class="text-sm text-gray-500">Precio publico: ${{ props.quote.public_price }}</span>
-                    <br>
-                    <span class="text-sm text-gray-500">Costo: ${{ props.quote.cost_amount }}</span>
+                <div class="text-lg font-medium text-gray-900">
+                    Cotización
+                    <span
+                        :class="getStatusColor(props.quote.status)"
+                        class="p-2 rounded"
+                        >status {{ props.quote.status }}</span
+                    >
+                </div>
+                <div
+                    v-if="
+                        userHasPermission(
+                            $page.props.user,
+                            PERMISSIONS.MANAGE_BRANCH
+                        )
+                    "
+                >
+                    <span class="text-sm text-gray-500"
+                        >Realizada por: {{ props.quote.user.name }} en ({{
+                            props.quote.team.name
+                        }}) el dia {{ props.quote.created_at }}</span
+                    >
+                    <br />
+                    <span class="text-sm text-gray-500"
+                        >Precio publico: ${{ props.quote.public_price }}</span
+                    >
+                    <br />
+                    <span class="text-sm text-gray-500"
+                        >Costo: ${{ props.quote.cost_amount }}</span
+                    >
                 </div>
             </div>
 
-            <div class="col-span-6 sm:col-span-4">
-
+            <div class="col-span-6 sm:col-span-4 hidden">
                 <!-- Coupon Flow -->
                 <div class="relative flex items-center gap-1">
-
                     <Button
                         v-if="!quote.coupon?.code"
                         @click="getCoupon(props.quote.id)"
-                        :class="{ 'opacity-25': Search.processing }" 
+                        :class="{ 'opacity-25': Search.processing }"
                         :isLoading="Search.processing"
                         msg="Generar Folio"
                     />
 
                     <Button
-                        v-if="quote.coupon?.code && quote.coupon.status != 'confirmed'"
+                        v-if="
+                            quote.coupon?.code &&
+                            quote.coupon.status != 'confirmed'
+                        "
                         @click="useConfirmCoupon(props.quote.coupon.id)"
-                        class="bg-green-500 hover:bg-green-600" 
+                        class="bg-green-500 hover:bg-green-600"
                         :isLoading="Search.processing"
                         :disabled="quote.coupon.confirmation_key == null"
                         msg="Aceptar cupon"
                     />
                 </div>
-                <small v-if="quote.coupon?.confirmation_key == null" class="mt-2" > Nota: debe agregar la clave de confirmación para poder aceptar el cupon. </small>
-                  <!-- Card 1 -->
+                <small
+                    v-if="quote.coupon?.confirmation_key == null"
+                    class="mt-2"
+                >
+                    Nota: debe agregar la clave de confirmación para poder
+                    aceptar el cupon.
+                </small>
             </div>
+
+            <!-- Coupon Update -->
+            <Transition
+                enter-active-class="transition-all duration-300 ease-out"
+                enter-from-class="opacity-0 transform -translate-y-4 scale-95"
+                enter-to-class="opacity-100 transform translate-y-0 scale-100"
+                leave-active-class="transition-all duration-200 ease-in"
+                leave-from-class="opacity-100 transform translate-y-0 scale-100"
+                leave-to-class="opacity-0 transform -translate-y-4 scale-95"
+            >
+                <div
+                    v-if="quote.coupon?.code && showCouponUpdate"
+                    class="col-span-6 mt-4 p-4 rounded-lg bg-white/10 shadow-lg"
+                >
+                    <h4 class="text-black font-bold mb-3">
+                        Actualizar código de Reserva
+                    </h4>
+                    <div class="flex items-center gap-2">
+                        <input
+                            v-model="quote.coupon.code"
+                            type="text"
+                            class="flex-1 p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                            placeholder="Código del cupón"
+                        />
+                        <span class="text-sm text-gray-500">ID:</span>
+                        <input
+                            v-model="quote.coupon.id"
+                            type="text"
+                            class="flex-1 p-2 border border-gray-300 rounded bg-gray-100"
+                            readonly
+                        />
+                        <button
+                            class="text-white hover:text-gray-300 font-bold bg-blue-900 hover:bg-mainblue active:bg-mainblue px-4 py-2 rounded transition-all duration-200 hover:shadow-lg transform hover:scale-105"
+                            @click="updateCouponCode(quote.coupon)"
+                        >
+                            Actualizar
+                        </button>
+                    </div>
+                </div>
+            </Transition>
         </template>
-
-
     </BodySection>
 </template>
