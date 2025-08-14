@@ -6,6 +6,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
 import Button from '../../../Components/Button.vue';
 import ButtonPdf from '../../../Shared/ButtonPdf.vue';
+import ButtonPdfV from '../../../Shared/ButtonPdfV.vue';
 
 const props = defineProps({
     coupon: Object,
@@ -42,7 +43,7 @@ const sendEmailTo = (coupon) => {
 
         <template #form>
             <!-- Invoice Folio -->
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-10">
                 <InputLabel for="folio" value="Enviar copia a: " />
                 <div class="flex gap-4">
 
@@ -65,7 +66,10 @@ const sendEmailTo = (coupon) => {
                 <InputError :message="form.errors.folio" class="mt-2" />
 
                 <template v-if="quote.status == 'confirmed'">
-                    <ButtonPdf :quote="quote" />
+                    <div class="w-full flex justify-center gap-10">
+                    <ButtonPdfV :quote="quote" />
+                    <ButtonPdf :quote="quote" /> 
+                    </div>
                 </template>
             </div>
         </template>

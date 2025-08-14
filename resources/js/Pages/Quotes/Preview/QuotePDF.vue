@@ -31,7 +31,7 @@ console.log(props.quote);
             </p>
         </div>
 
-        <div class="bg-backgroundcoupon p-6 h-[500px]">
+        <div class="bg-backgroundcoupon p-6 h-full">
             <div class="flex gap-2">
                 <div class="w-[30px] h-[30px] rounded-lg bg-bluecoupon">
                     <img class="p-1 w-full" src="/assets/icons/calendar.svg" />
@@ -92,16 +92,16 @@ console.log(props.quote);
                 </p>
             </div>
 
-            <div class="p-2 flex justify-between w-3/4 py-20">
+            <div class="p-2 flex justify-between w-3/4 mt-20">
                 <div class="grid gap-1">
                     <h3 class="text-gray-600 text-sm font-bold">PASAJEROS</h3>
-                    <span class="font-bold"
+                    <span v-if="quote.adults" class="font-bold"
                         >Adultos: {{ quote.adults ?? "" }}</span
                     >
-                    <span class="font-bold"
+                    <span v-if="quote.minors" class="font-bold"
                         >Menores: {{ quote.minors ?? "" }}</span
                     >
-                    <span class="font-bold"
+                    <span v-if="quote.infants" class="font-bold"
                         >Infantes: {{ quote.infants ?? "" }}</span
                     >
                 </div>
@@ -122,6 +122,12 @@ console.log(props.quote);
                 }}</span>
             </div>
         </div>
+                    <div class="text-gray-700 pl-8 mt-2">
+                <ul class="mx-auto">
+                    <li class="list-disc text-[12px]">Presentarse en el punto de reunión 10 min antes del horario señalado.</li>
+                    <li class="list-disc text-[12px]">Identificación oficial será requerida en taquillas y/o punto de PickUp.</li>
+                </ul>
+            </div>
         <!-- top -->
         <!-- <div class="flex justify-between" spellcheck="false">
 

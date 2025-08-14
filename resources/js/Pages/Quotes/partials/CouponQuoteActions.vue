@@ -240,19 +240,19 @@ const updatePickupTimes = async (activity) => {
 <template>
     <BodySection>
         <template #title>
-            <h3 class="text-gray-300">Acciones</h3>
+            <h3 class="text-gray-300 text-center sm:text-start">Acciones</h3>
         </template>
 
         <template #description>
             <div
-                class="flex flex-col justify-start items-center gap-2 rounded-lg p-4 shadow-md bg-white/10"
+                class="flex flex-col items-center gap-2 rounded-lg p-4 shadow-md bg-white/20"
             >
                 <span class="text-white font-bold">
                     Genere un folio / Muestre u oculte el folio
                 </span>
                 <br />
                 <button
-                    class="text-white hover:text-gray-300 font-bold bg-blue-900 hover:bg-mainblue active:bg-mainblue px-4 py-2 rounded"
+                    class="text-white hover:text-gray-300 font-bold bg-blue-900 hover:bg-mainblue active:bg-mainblue px-4 py-2 rounded-md mb-4"
                     @click="openCouponUpdate"
                 >
                     {{
@@ -261,7 +261,7 @@ const updatePickupTimes = async (activity) => {
                             : "Actualizar Codigo de Reserva"
                     }}
                 </button>
-                <button class="text-white hover:text-gray-300 font-bold bg-green-600 hover:bg-green-700 active:bg-green-700 px-4 py-2 rounded"
+                <button class="text-white hover:text-gray-300 font-bold bg-green-600 hover:bg-green-700 active:bg-green-700 px-4 py-2 rounded-md"
                 @click="modalUpdatePickupTimes">
                     Actualizar Horarios de Pickup
                 </button>
@@ -345,7 +345,7 @@ const updatePickupTimes = async (activity) => {
                 leave-to-class="opacity-0 transform -translate-y-4 scale-95"
             >
                 <div
-                    v-if="quote.coupon?.code && showCouponUpdate"
+                    v-if="showCouponUpdate"
                     class="col-span-6 mt-4 p-4 rounded-lg bg-white/10 shadow-lg"
                 >
                     <h4 class="text-black font-bold mb-3">
@@ -357,16 +357,17 @@ const updatePickupTimes = async (activity) => {
                             type="text"
                             class="flex-1 p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                             placeholder="Código del cupón"
+                            maxlength="16"
                         />
                         <span class="text-sm text-gray-500">ID:</span>
                         <input
                             v-model="quote.coupon.id"
                             type="text"
-                            class="flex-1 p-2 border border-gray-300 rounded bg-gray-100"
+                            class="flex-1 p-2 border border-gray-300 rounded bg-gray-100 selected-none"
                             readonly
                         />
                         <button
-                            class="text-white hover:text-gray-300 font-bold bg-blue-900 hover:bg-mainblue active:bg-mainblue px-4 py-2 rounded transition-all duration-200 hover:shadow-lg transform hover:scale-105"
+                            class="text-white hover:text-gray-300 font-bold bg-blue-900 hover:bg-mainblue active:bg-mainblue px-4 py-2 rounded-md transition-all duration-200 hover:shadow-lg transform hover:scale-105"
                             @click="updateCouponCode(quote.coupon)"
                         >
                             Actualizar
