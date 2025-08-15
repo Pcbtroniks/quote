@@ -82,9 +82,15 @@
     <div style="width: 500px; height: 400px; left: 0px; top: 350px; position: absolute">
         <div style="left: 30px; top: 0px; position: absolute; font-size: 16px; font-weight: bold; color: rgb(80, 80, 80);">PASAJEROS:</div>
         <div style="left: 30px; top: 33px; font-size: 16px; color: black; position: absolute; font-weight: 700">
-            Adultos: <span>{{ $quote->adults ?? ' ' }}</span> <br>
-            Menores: <span>{{ $quote->minors ?? ' ' }}</span> <br>
-            Infantes: <span>{{ $quote->infants ?? ' ' }}</span> <br>
+            @if ($quote->adults)
+            <span>Adultos: {{ $quote->adults ?? ' ' }}</span> <br>
+            @endif
+            @if ($quote->minors)
+            <span>Menores: {{ $quote->minors ?? ' ' }}</span> <br>
+            @endif
+            @if ($quote->infants)
+            <span>Infantes: {{ $quote->infants ?? ' ' }}</span> <br>
+            @endif
         </div>
         <div style="left: 250px; top: 0px; position: absolute; font-size: 16px; font-weight: bold; color: rgb(80, 80, 80);">PAÍS:</div>
     <div style="left: 250px; top: 35px; position: absolute; font-size: 16px; color: black; font-weight: 700">MX</div>

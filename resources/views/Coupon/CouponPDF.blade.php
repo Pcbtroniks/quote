@@ -2,197 +2,133 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Cupon Freetravelers</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exploreemotions Proforma Cupon</title>
 
-    @vite('resources/js/app.js')
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        html, body {
+            font-family: 'Nunito', sans-serif;
+        }
+    </style>
 </head>
 <body>
+<div style="width: 595px; height: 1000px; position: relative; background: white; border: 1px solid gray; display: flex; justify-content: center; margin: 0 auto">
 
-    <div class="QuotePDF px-[69px] py-[48px] max-w-[10in] w-[10in]" spellcheck="false" style="width: 10in; margin: 0 auto">
-        <!-- top -->
-        <div class="flex justify-between" spellcheck="false">
-            <div class="w-full flex justify-center" style="display: flex; justify-content: center;">
-                <img class="w-[350px] h-[120px] object-cover" src="{{ $quote->logo }}" alt="Coupon logo">
-            </div>
+    <!-- LOGO -->
+    <!-- <img style="width: 200px; height: 99px; left: 200px; top: 40px; position: absolute" src="{{ asset('assets/exploreemotions-logo.png') }}" /> -->
 
-            <div>
-                <table class="border-collapse border w-[517px] text-center" style="width: 517px;" border="1">
-                    <thead></thead>
-                    <tbody>
-                        <tr style="height: 30px;">
-                            <td style="height: 30px;" class="border">Cúpon de servicio / service coupon</td>
-                        </tr>
-                        <tr style="height: 40px;">
-                            <td style="height: 40px;" class="border">{{ $quote->coupon->code }}</td>
-                        </tr>
-                        <tr style="height: 30px;">
-                            <td style="height: 30px;" class="border">Lugar y fecha / Date and place</td>
-                        </tr>
-                        <tr style="height: 40px;">
-                            <td style="height: 40px;" class="border">{{ $quote->created_at }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+    {{-- Introducción --}}
+    <div style="width: 500px; height: 259px; left: 53px; top: 20px; position: absolute">
+      <div style="left: 0px; top: 0px; position: absolute; font-size: 30px; font-weight: bold; color: black;">Confirmación de Reserva</div>
+      <div style="left: 0px; top: 60px; position: absolute; font-size: 18px; font-weight: 700; color: gray;">Estimado/a {{ $quote->holder_name ?? 'Holder name' }},</div>
+      <div style="left: 0px; top: 100px; position: absolute; font-size: 18px; font-weight: 700; color: gray;">Su reserva ha sido confirmada exitosamente. Nos complace acompañarle en su experiencia en {{ $quote->listed_activities[0]->activity->name }} garantizamos un servicio de excelencia.</div>
+    </div>
 
-        <!-- Name and Passengers -->
-        <div class="flex mt-4">
+    <!-- Fondo del contenido -->
+    <div style="width: 500px; height: 450px; left: 53px; top: 280px; position: absolute; background-color: #f8fafc">
+    <div style="width: 500px; height: 150px; left: 0px; top: 450px; position: absolute; background-color: #DCFCE7"></div>
 
-            <table class="border-collapse border" style="width: 1084px;">
-                <tbody>
-                    <tr style="height: 60px; text-align: center;">
-                        <td style="height: 60px; border: 1px solid; width: 301px;" spellcheck="false">Nombre / Name</td>
-                        <td style="height: 60px; border: 1px solid;" colspan="3">{{ $quote->holder_name }}</td>
-                    </tr>
-                    <tr style="height: 26.5px; text-align: center;">
-                        <td style="height: 58.5px; border: 1px solid;" rowspan="2">Pasajeros / Passengers</td>
-                        <td style="height: 26.5px; border: 1px solid; width: 258.66px; font-size: x-small;">Adultos ( 12 años o mas ) / Adults ( ages 12 and more )</td>
-                        <td style="height: 26.5px; border: 1px solid; width: 258.66px; font-size: x-small;">Menores (5 a 11 años)/Minors (ages 5 to 11)</td>
-                        <td style="height: 26.5px; border: 1px solid; width: 258.66px; font-size: x-small;">Infantes (0 a 4 años)/Infants (ages 0 to 4)</td>
-                    </tr>
-                    <tr style="height: 32px; text-align: center;">
-                        <td style="height: 32px; border: 1px solid;">{{ $quote->adults }}</td>
-                        <td style="height: 32px; border: 1px solid;">{{ $quote->minors }}</td>
-                        <td style="height: 32px; border: 1px solid;">{{ $quote->infants }}</td>
-                    </tr>
-                </tbody>
-            </table>
-            <!-- DivTable.com -->
+    <div style="width: 8px; height: 8px; left: 28px; top: 16px; border-radius: 5px; position: absolute; z-index: 1;">
+        <!-- <img style="width: 8px; height: 8px;" src="{{ $quote->logo }}"> -->
+    </div>
+    <div style="width: 30px; height: 30px; left: 25px; top: 14px; border-radius: 5px; position: absolute; background-color: #2763EC"></div>
+    
+    <div style="width: 500px; height: 116px; left: 65px; top: 12px; position: absolute; font-weight: bold; font-size: 24px">Información de la Reserva</div>
 
-        </div>
 
-        
-        <!-- Entrances Tours Packages -->
-        <div class="mt-4 flex flex-col">
-            <!-- Description of the services -->
-            <div>
-                <p class="font-bold">Descripción del servicio / Description of the service:</p>
-            </div>
-            <table style="width: 1077; border: solid 1px;">
-                <tbody>
-                    <tr style="height: 59px; text-align: center;" spellcheck="false">
-                        <td style="height: 59px; border: 1px solid; width: 301px;">Fecha Actividad/ Date of the activity:</td>
-                        <td style="height: 59px; border: 1px solid; width: 474.98px; max-width: 1px;" colspan="2">{{ $quote->type == 'tour' ? $quote->listed_activity->date : '' }}</td>
-                        <td style="height: 59px; border: 1px solid; width: 301.2px; text-align: left;">Horario /<br>Schedule <span style="padding-left: 24px">{{ $quote->type == 'tour' && $quote->listed_activity->pickup_time != '00:00:00' ? $quote->listed_activity->pickup_time : 'N/D' }}</span></td>
-                    </tr>
-                    <tr style="height: 59px; text-align: center;">
-                        <td style="height: 59px; border: 1px solid">Lugar de Pick up</td>
-                        <td style="height: 59px; border: 1px solid; width: 474.98px; max-width: 1px;" colspan="2" >{{$quote->type == 'tour' ? $quote->hotel->name : '' }}</td>
-                        <td style="height: 59px; border: 1px solid; width: 301.2px; text-align: left; font-style: bold;">Cuarto /<br>Room <span style="padding-left: 24px"> </span></td>
-                    </tr>
-                    <tr style="height: 59px;text-align: center;">
-                        <td style="height: 59px; border: 1px solid">Entrada/ Entrance</td>
-                        <td style="height: 59px; border: 1px solid; width: 474.98px; max-width: 1px;" colspan="2">{{ $quote->type == 'entrance' ? $quote->activity->name : '' }}</td>
-                        <td style="height: 59px; border: 1px solid">{{ $quote->national == 1 ? 'PROMOMEX' : '' }}</td>
-                    </tr>
-                    <tr style="height: 59px; text-align: center;">
-                        <td style="height: 59px; border: 1px solid">Tour</td>
-                        <td style="height: 59px; border: 1px solid; max-width: 11.27px;" colspan="2">{{ $quote->type == 'tour' ? $quote->activity->name : '' }}</td>
-                        <td style="height: 59px; border: 1px solid">&nbsp;</td>
-                    </tr>
-                    <tr style="height: 59px;">
-                        <td style="height: 59px; border: 1px solid; text-align: center;">PAQUETE/ PACKAGE</td>
-                        <td style="height: 59px; padding-top: 1rem;" colspan="3">
-                            @if ($quote->type == 'paquete' || $quote->type == 'pack')                                
-                            @foreach ($quote->listed_activities as $a)    
-                                <p style="margin-left: 1rem; text-transform: lowercase;" v-if="quote.type == 'paquete'" v-for="a in quote.listed_activities">
-                                    <span class="capitalize font-bold">"{{$a->activity->name}}"</span>
-                                    el {{$a->date_string_formatted}}
-                                    en <span class="capitalize"> "{{ $a->hotel->name ?? 'N/D' }}" </span>
-                                    a las {{$a->pickup_time == '00:00:00' ? 'N/D' : $a->pickup_time}} 
-                                </p>
-                            @endforeach
-                            @endif
+    <!-- NÚMERO DE SOLICITUD + FECHA -->
+    <div style="width: 500px; height: 180px; left: 0px; top: 60px; position: absolute;">
+        <div style="left: 30px; top: 0px; position: absolute; font-size: 12px; font-weight: bold; color: rgb(80, 80, 80);">CÓDIGO DE RESERVA:</div>
+        <div style="left: 30px; top: 15px; position: absolute; font-size: 20px; font-weight: 700; color: #2763EC;">{{ $quote->coupon->code ?? 'not-available' }}</div>
 
-                        </td>
-                    </tr>
-                    <tr style="height: 59px;">
-                        @if ($quote->type == 'paquete' || $quote->type == 'pack') 
-                        <td v-if="quote.type == 'pack'"><p style="text-align:center;">PAQ#{{ count($quote->listed_activities) }}</p></td>
-                        @endif
-                        <td style="height: 59px;" colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                    </tr>
-                </tbody>
-            </table>
-<!-- DivTable.com -->
-        <!-- DivTable.com -->
-            <div class="self-end flex">
-                <p class="font-bold">Clave de confirmacion / <br> Confirmation code</p>
-                <div class="w-[576px] h-[59px] border border-black border-t-0 p-4"> {{ $quote->coupon->confirmation_key }}</div>
-            </div>
-        </div>
+        <div style="left: 250px; top: 0px; font-size: 12px; font-weight: bold; color: rgb(80, 80, 80); position: absolute">FECHA DE VISITA</div>
+        <div style="left: 250px; top: 20px; font-size: 16px; font-weight: 700; color: black; position: absolute;">{{ substr($quote->listed_activities[0]->date ?? 'invalid date', 0, 10) }}</div>
+    </div>
 
-        <!-- Clausula descuentos ncionales -->
-        <div class="mt-4 flex flex-col">
-            
-            <div style="text-align:center; width: 100%;">
-                <p style="font-weight: bold; font-size:x-large">Descuento para  mexicanos, presentar INE o pasaporte</p>
-            
-            </div>
+    <!-- NOMBRE + ACTIVIDAD -->
+    <div style="width: 500px; height: 35px; left: 0px; top: 30px; position: absolute">
+    <div style="left: 30px; top: 94px; position: absolute; font-size: 12px; font-weight: bold; color: rgb(80, 80, 80);">TOUR:</div>
+    <div style="left: 30px; top: 110px; position: absolute; font-size: 18px; font-weight: 700; color: black; line-height: 1.0;">{{ $quote->listed_activities[0]->activity->name }}</div>
+    </div>
 
-            <div style="width: 100%;">
-                <p style="font-weight: bold;">
-                    Requisitos para recibir el servicio según sea el caso/ Requirements to recieve the service, as the case may be:
-                </p>
+    <div style="width: 500px; height: 25px; left: 0px; top: 30px; position: absolute">
+    <!-- <div style="left: 250px; top: 94px; position: absolute; font-size: 12px; font-weight: bold; color: rgb(80, 80, 80);">TOUR:</div>
+    <div style="left: 250px; top: 125px; position: absolute; font-size: 16px; color: black; font-weight: 700;">{{ $quote->listed_activities[0]->activity->name }}</div> -->
 
-                <ol>
-                    <li>1.- Verificar que el cupon tenga clave de confirmacion ya que sin ella no se podra brindar el servicio/Verify the confirmation code in the coupon, for in case of not having it the service won't be provided</li>
-                </ol>
+    </div>
 
-                <ol>
-                    <li>2.- Presentar este cupon impreso y firmado por el titular/ Show this coupon printed and signed by the titular</li>
-                </ol>
-
-                <ol>
-                    <li>3.- Presentar identificacion oficial con fotografia/ Show official ID with photo</li>
-                </ol>
-
-                <ol>
-                    <li>4.- Una vez entregado lo anterior debera recibir los brazaletes con los cuales podra disfrutar del parque/ After showing the above you should recieve the bracelets with which you will be able to enter the park</li>
-                </ol>
-
-            </div>
-
-        </div>
-            
-        <!-- Firma y sellos -->
-        <div class="mt-4 flex justify-between">
-            
-            <div style="margin: 2rem 0">
-                <span style="border-bottom: 1px solid #000000; height: 8px; width: 25rem; display: block;"></span>
-                <p>Nombre y firma del titular/Main passanger`s singature</p>
-            </div>
-        
-            <div>
-                <img style="width: 301px; height: 121px;" src="/assets/freetravelers-logo.jpg" alt="Logo Freetraveler">
-            </div>
-            <div style="width: 7rem;">
-                <img style="width: 100%;" src="/assets/sello_vero_45.jpeg" alt="Sello Vero 45">
-            </div>
-
-        </div>
-
-        <!-- Politicas de cancelacion -->
-        <div class="mt-4 flex flex-col">
-
-            <div>
-                <p style="font-weight: bold;">Politicas de Cancelacion/Cancellation policies</p>
-            </div>
-            
-            <div>
-                <p style="font-size: small;">
-                    Todo cambio o cancelacion de una reservacion de: ENTRADA, TOUR O PAQUETE  que se haya pagado con anticipacion se debera efectuar con 36 horas de anticipacion para proceder a su devolucion, para los casos de NO SHOW existe la posibilidad de reagendar la actividad con al menos 30 horas de anticipacion SIN PENALIDAD, en caso de no existir posibilidad de reagendar se aplica la politica de Certificado de Extension con validez de 1 año a partir de la fecha de la operacion del Tour. Para casos por afectaciones de salud, sera necesario presentar constancia medica que acredite su estado de salud para reagendar el servicio sin penalidad/ Any change or cancellation of a reservation paid in advance for an entrance, tour or package should be done 36 hours before the time on the reservation for a chance to be refunded, in case of not showing for the reservation the chance to reschedule the activity at least 30 hours in advance WITH NO PENALTY, in case of not having a chance to reschedule an extension certificate for one year will be extended for you, starting in the scheluded date for your tour. In case of health restrictions it will be necessary to show medical record to prove your health status to reschedule the servicie WITH NO PENALTY.
-                </p>
-            </div>
-            
-            <div class="self-end flex">
-                <p class="font-bold">Clave de cancelacion / <br> Cancellation code</p>
-                <div class="w-[576px] h-[59px] border border-black border-t-0"></div>
-            </div>
-        </div>
+    
+    <!-- ACTIVIDADES -->
+    <div style="width: 500px; height: 120px; left: 0px; top: 190px; position: absolute">
+      <div style="left: 30px; top: 0px; position: absolute; font-size: 12px; font-weight: bold; color: rgb(80, 80, 80);">PUNTO DE ENCUENTRO/HORA:</div>
+      
+      @if ($quote->type == 'entrance')
+      <div style="left: 30px; top: 33px; position: absolute; font-size: 16px; color: black; font-weight: 700">
+        {{ $quote->listed_activities[0]->activity->name }}
+      </div>
+      @else
+      @foreach ($quote->listed_activities as $index => $activity)
+      <div style="left: 30px; top:  {{ (30 + (30 * $loop->index)) }}px; position: absolute; font-size: 16px; color: black; line-height: 15px; font-weight: 700">
+          {{ optional($activity->hotel)->name ?? '' }}
+         ( {{ $activity->pickup_time ? substr($activity->pickup_time, 0, 5) : 'n/d' }} h )
+      </div>
+      @endforeach
+      @endif
     </div>
     
+    <!-- ADULTOS, MENORES, INFANTES -->
+    <div style="width: 500px; height: 400px; left: 0px; top: 350px; position: absolute">
+        <div style="left: 30px; top: 0px; position: absolute; font-size: 16px; font-weight: bold; color: rgb(80, 80, 80);">PASAJEROS:</div>
+        <div style="left: 30px; top: 33px; font-size: 16px; color: black; position: absolute; font-weight: 700; line-height: 1;">
+            <span> Adultos: {{ $quote->adults ?? ' '  }}</span> <br>
+            @if ($quote->minors)
+            <span > Menores: {{ $quote->minors ?? '' }}</span> <br>
+            @endif
+            @if ($quote->infants)  
+            <span> Infantes: {{ $quote->infants ?? ' ' }}</span> <br>
+            @endif
+        </div>
+        <div style="left: 250px; top: 0px; position: absolute; font-size: 16px; font-weight: bold; color: rgb(80, 80, 80);">PAÍS:</div>
+    <div style="left: 250px; top: 35px; position: absolute; font-size: 16px; color: black; font-weight: 700">MX</div>
+    </div>
+
+    <!-- IMPORTES TOTALES -->
+    <!-- <div style="width: 250px; height: 159px; left: 120px; top: 430px; position: absolute">
+        <div style="left: 30px; top: 70px; font-size: 20px; font-weight: 700; color: black; position: absolute;">Importes totales</div>
+
+        <div style="left: 30px; top: 99px; font-size: 18px; font-weight: 400; color: black; position: absolute;">Precio publico:</div>
+        <div style="left: 142px; top: 99px; font-size: 18px; font-weight: 400; color: black; position: absolute;">${{ $quote->public_price ?? 'n/d' }}</div>
+
+        <div style="left: 30px; top: 125px; font-size: 18px; font-weight: 400; color: black; position: absolute;">Precio a pagar:</div>
+        <div style="left: 142px; top: 125px; font-size: 18px; font-weight: 400; color: black; position: absolute;">${{ $quote->cost_amount ?? 'n/d' }}</div>
+
+        <div style="left: 30px; top: 155px; font-size: 20px; font-weight: 700; color: black; position: absolute;">
+            Comisiones: ${{ isset($quote->public_price, $quote->cost_amount) ? number_format($quote->public_price - $quote->cost_amount, 2) : 'n/d' }}
+        </div>
+    </div> -->
+
+    <div style="width: 500px; height: 150px; left: 0px; top: 460px; position: absolute;">
+        <div style="width: 500px; top: 0px; font-size: 16px; font-weight: 700; color: #59CB85; position: absolute; text-align: center;">Número de confirmación del proveedor:</div>
+
+        <div style="width: 500px; top: 30px; font-size: 26px; font-weight: 700; color: #16A34A; position: absolute; text-align: center;">@if ($quote->coupon->confirmation_key)
+                                    {{ $quote->coupon->confirmation_key ?? '' }}
+                                @endif</div>
+    </div>
+    
+            <div style="width: 500px; height: 150px; left: 16px; top: 580px; position: absolute;">
+                <ul>
+                    <li style="list-style-type: disc; font-size: 12px;  top: 30px;  color: #374151; position: absolute; text-align: center;">Presentarse en el punto de reunión 10 min antes del horario señalado.</li>
+                    <li style="list-style-type: disc; font-size: 12px;  top: 50px;  color: #374151; position: absolute; text-align: center;">Identificación oficial será requerida en taquillas y/o punto de PickUp.</li>
+                </ul>
+            </div>
+    
+
+
+</div>
+</div>
 </body>
 </html>
