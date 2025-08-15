@@ -252,6 +252,7 @@ const updatePickupTimes = async (activity) => {
                 </span>
                 <br />
                 <button
+                    v-if="userHasPermission($page.props.user, PERMISSIONS.ADMIN)"
                     class="text-white hover:text-gray-300 font-bold bg-blue-900 hover:bg-mainblue active:bg-mainblue px-4 py-2 rounded-md mb-4"
                     @click="openCouponUpdate"
                 >
@@ -261,8 +262,11 @@ const updatePickupTimes = async (activity) => {
                             : "Actualizar Codigo de Reserva"
                     }}
                 </button>
-                <button class="text-white hover:text-gray-300 font-bold bg-green-600 hover:bg-green-700 active:bg-green-700 px-4 py-2 rounded-md"
-                @click="modalUpdatePickupTimes">
+                <button
+                    v-if="userHasPermission($page.props.user, MANAGE_BRANCH)"
+                    class="text-white hover:text-gray-300 font-bold bg-green-600 hover:bg-green-700 active:bg-green-700 px-4 py-2 rounded-md"
+                    @click="modalUpdatePickupTimes"
+                >
                     Actualizar Horarios de Pickup
                 </button>
             </div>
@@ -345,7 +349,7 @@ const updatePickupTimes = async (activity) => {
                 leave-to-class="opacity-0 transform -translate-y-4 scale-95"
             >
                 <div
-                    v-if="showCouponUpdate"
+                    v-if="showCouponUpdate "
                     class="col-span-6 mt-4 p-4 rounded-lg bg-white/10 shadow-lg"
                 >
                     <h4 class="text-black font-bold mb-3">
