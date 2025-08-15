@@ -29,10 +29,12 @@
     </div>
 
     <!-- Fondo del contenido -->
-    <div style="width: 500px; height: 540px; left: 53px; top: 280px; position: absolute; background-color: #f8fafc">
-    <div style="width: 500px; height: 150px; left: 0px; top: 500px; position: absolute; background-color: #DCFCE7"></div>
+    <div style="width: 500px; height: 450px; left: 53px; top: 280px; position: absolute; background-color: #f8fafc">
+    <div style="width: 500px; height: 150px; left: 0px; top: 450px; position: absolute; background-color: #DCFCE7"></div>
 
-    <div style="width: 8px; height: 8px; left: 28px; top: 16px; border-radius: 5px; position: absolute; z-index: 1;"><img class="width: 8px; height: 8px;" src="{{ asset ('assets/icons/calendar.svg') }} "></div>
+    <div style="width: 8px; height: 8px; left: 28px; top: 16px; border-radius: 5px; position: absolute; z-index: 1;">
+        <!-- <img style="width: 8px; height: 8px;" src="{{ $quote->logo }}"> -->
+    </div>
     <div style="width: 30px; height: 30px; left: 25px; top: 14px; border-radius: 5px; position: absolute; background-color: #2763EC"></div>
     
     <div style="width: 500px; height: 116px; left: 65px; top: 2px; position: absolute; font-weight: bold; font-size: 24px">Información de la Reserva</div>
@@ -41,16 +43,16 @@
     <!-- NÚMERO DE SOLICITUD + FECHA -->
     <div style="width: 500px; height: 180px; left: 0px; top: 60px; position: absolute;">
         <div style="left: 30px; top: 0px; position: absolute; font-size: 12px; font-weight: bold; color: rgb(80, 80, 80);">CÓDIGO DE RESERVA:</div>
-        <div style="left: 30px; top: 15px; position: absolute; font-size: 20px; font-weight: 700; color: #2763EC;">{{ $quote->tmpFolio ?? 'not-available' }}</div>
+        <div style="left: 30px; top: 15px; position: absolute; font-size: 20px; font-weight: 700; color: #2763EC;">{{ $quote->coupon->code ?? 'not-available' }}</div>
 
-        <div style="left: 250px; top: 0px; font-size: 12px; font-weight: bold; color: rgb(80, 80, 80); position: absolute">FECHA DE VISITA:</div>
+        <div style="left: 250px; top: 0px; font-size: 12px; font-weight: bold; color: rgb(80, 80, 80); position: absolute">FECHA DE VISITA</div>
         <div style="left: 250px; top: 20px; font-size: 16px; font-weight: 700; color: black; position: absolute;">{{ substr($quote->listed_activities[0]->date ?? 'invalid date', 0, 10) }}</div>
     </div>
 
     <!-- NOMBRE + ACTIVIDAD -->
-    <div style="width: 600px; height: 25px; left: 0px; top: 30px; position: absolute">
+    <div style="width: 500px; height: 35px; left: 0px; top: 30px; position: absolute">
     <div style="left: 30px; top: 94px; position: absolute; font-size: 12px; font-weight: bold; color: rgb(80, 80, 80);">TOUR:</div>
-    <div style="left: 30px; top: 110px; position: absolute; font-size: 18px; font-weight: 700; color: black;">{{ $quote->listed_activities[0]->activity->name }}</div>
+    <div style="left: 30px; top: 110px; position: absolute; font-size: 18px; font-weight: 700; color: black; line-height: 1.0;">{{ $quote->listed_activities[0]->activity->name }}</div>
     </div>
 
     <div style="width: 500px; height: 25px; left: 0px; top: 30px; position: absolute">
@@ -61,7 +63,7 @@
 
     
     <!-- ACTIVIDADES -->
-    <div style="width: 500px; height: 120px; left: 0px; top: 190px; position: absolute">
+    <div style="width: 500px; height: 120px; left: 0px; top: 200px; position: absolute">
       <div style="left: 30px; top: 0px; position: absolute; font-size: 12px; font-weight: bold; color: rgb(80, 80, 80);">PUNTO DE ENCUENTRO/HORA:</div>
       
       @if ($quote->type == 'entrance')
@@ -81,15 +83,13 @@
     <!-- ADULTOS, MENORES, INFANTES -->
     <div style="width: 500px; height: 400px; left: 0px; top: 350px; position: absolute">
         <div style="left: 30px; top: 0px; position: absolute; font-size: 16px; font-weight: bold; color: rgb(80, 80, 80);">PASAJEROS:</div>
-        <div style="left: 30px; top: 33px; font-size: 16px; color: black; position: absolute; font-weight: 700">
-            @if ($quote->adults)
-            <span>Adultos: {{ $quote->adults ?? ' ' }}</span> <br>
-            @endif
+        <div style="left: 30px; top: 33px; font-size: 16px; color: black; position: absolute; font-weight: 700; line-height: 1;">
+            <span> Adultos: {{ $quote->adults ?? ' '  }}</span> <br>
             @if ($quote->minors)
-            <span>Menores: {{ $quote->minors ?? ' ' }}</span> <br>
+            <span > Menores: {{ $quote->minors ?? '' }}</span> <br>
             @endif
-            @if ($quote->infants)
-            <span>Infantes: {{ $quote->infants ?? ' ' }}</span> <br>
+            @if ($quote->infants)  
+            <span> Infantes: {{ $quote->infants ?? ' ' }}</span> <br>
             @endif
         </div>
         <div style="left: 250px; top: 0px; position: absolute; font-size: 16px; font-weight: bold; color: rgb(80, 80, 80);">PAÍS:</div>
@@ -111,11 +111,19 @@
         </div>
     </div> -->
 
-    <div style="width: 500px; height: 150px; left: 0px; top: 500px; position: absolute;">
-        <div style="width: 500px; top: 10px; font-size: 16px; font-weight: 700; color: #59CB85; position: absolute; text-align: center;">Número de confirmación del proveedor:</div>
+    <div style="width: 500px; height: 150px; left: 0px; top: 460px; position: absolute;">
+        <div style="width: 500px; top: 0px; font-size: 16px; font-weight: 700; color: #59CB85; position: absolute; text-align: center;">Número de confirmación del proveedor:</div>
 
-        <div style="width: 500px; top: 50px; font-size: 40px; font-weight: 700; color: #59CB85; position: absolute; text-align: center;">{{ $quote->coupon->confirmation_key ?? '...' }}</div>
+        <div style="width: 500px; top: 30px; font-size: 26px; font-weight: 700; color: #16A34A; position: absolute; text-align: center;">
+                                    {{ $quote->coupon->confirmation_key ?? '' }}</div>
     </div>
+    
+            <div style="width: 500px; height: 150px; left: 0px; top: 580px; position: absolute;">
+                <ul>
+                    <li style="list-style-type: disc; font-size: 12px;  top: 30px;  color: #374151; position: absolute; text-align: center;">Presentarse en el punto de reunión 10 min antes del horario señalado.</li>
+                    <li style="list-style-type: disc; font-size: 12px;  top: 50px;  color: #374151; position: absolute; text-align: center;">Identificación oficial será requerida en taquillas y/o punto de PickUp.</li>
+                </ul>
+            </div>
     
 
 
