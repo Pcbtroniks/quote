@@ -303,7 +303,7 @@ const updatePickupTimes = async (activity) => {
                 </div>
             </div>
 
-            <div class="col-span-6 sm:col-span-4 hidden">
+            <div class="col-span-6 sm:col-span-4 ">
                 <!-- Coupon Flow -->
                 <div class="relative flex items-center gap-1">
                     <Button

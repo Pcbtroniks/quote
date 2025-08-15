@@ -30,11 +30,13 @@ const saveConfirmation = (coupon) => {
 <template>
     <FormSection @submitted="saveConfirmation(props.coupon.id)">
         <template #title>
+            <span class="text-gray-300">
             Confirmation key
+            </span>
         </template>
 
         <template #description>
-            Add a confirmation key to the current coupon.
+            <span class="text-white">Add a confirmation key to the current coupon.</span>
         </template>
 
         <template #form>
