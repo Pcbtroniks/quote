@@ -109,6 +109,7 @@ Route::middleware([
     Route::get('invoice-coupons/{invoice}', [InvoiceController::class, 'invoiceCoupons'])->name('invoices.coupons');
     Route::post('invoice-coupons/sync/invoice', [InvoiceController::class, 'syncCoupon'])->name('invoices.sync.coupon');
     Route::post('invoice-coupons/unsync/invoice', [InvoiceController::class, 'unSyncCoupon'])->name('invoices.unsync.coupon');
+    Route::post('invoice-coupons/{invoice}/delete', [InvoiceController::class, 'destroy'])->name('invoices.coupon.destroy');
 
     // Providers
     Route::get('providers/', [ProviderController::class, 'index'])->name('providers');

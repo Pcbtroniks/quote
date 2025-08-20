@@ -62,4 +62,15 @@ class InvoiceController extends Controller
 
     }
 
+public function destroy($invoiceId)
+{
+    $invoiceRepo = new \App\Repositories\Invoices\Invoice(new \App\Models\Invoice());
+    $result = $invoiceRepo->delete($invoiceId);
+    if ($result) {
+        return response(['msg' => 'Invoice deleted successfully!', 'status' => 200]);
+    } else {
+        return response(['msg' => 'Invoice not found', 'status' => 404], 404);
+    }
+}
+
 }

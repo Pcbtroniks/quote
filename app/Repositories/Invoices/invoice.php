@@ -62,4 +62,13 @@ class Invoice {
 
     }
 
+        public function delete($invoiceId)
+    {
+        $invoice = $this->invoice::find($invoiceId);
+        if ($invoice) {
+            return $invoice->delete();
+        }
+        return false;
+    }
+
 }

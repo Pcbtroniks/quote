@@ -1,10 +1,25 @@
 <script setup>
     import FormSection from '@/Components/FormSection.vue';
     import Pagination from '../../../Shared/Pagination.vue';
-
+    import Button from '../../../Components/Button.vue';
+    import axios from 'axios';
+    import { Inertia } from '@inertiajs/inertia';
 const props = defineProps({
-invoices: Object
+invoices: Object,
+coupons: Object
 });
+
+const deleteInvoice = async (id) => { 
+    await axios.post(route('invoices.coupon.destroy', { invoice: id }))
+        .then(response => {
+            console.log(response.data);
+            Inertia.reload();
+        })
+        .catch(error => {
+            console.error('Error deleting invoice:', error);
+            alert('Error deleting invoice: ' + error.message);
+        });
+}
 </script>
 
 <template>
@@ -49,6 +64,8 @@ invoices: Object
                     <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
                         Created at
                     </th>
+                    <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                        Action</th>
                 </tr>
                 </thead>
 
@@ -66,6 +83,7 @@ invoices: Object
                     <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">
                         {{ invoice.created_at.slice(0,10) }}
                     </td>
+                    <td class="border-t-0"><Button msg="Eliminar" @click="deleteInvoice(invoice.id)" class="bg-red-500 text-white active:bg-red-600 text-xs font-bold  px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button"></Button></td>
                 </tr>
                 </tbody>
 
