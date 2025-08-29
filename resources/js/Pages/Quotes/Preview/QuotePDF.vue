@@ -23,87 +23,54 @@ console.log(props.quote);
         <div class="w-full mb-6">
             <h1 class="font-bold text-2xl py-1">Confirmación de Reserva</h1>
             <p class="py-1 text-gray-600">Estimado/a {{ quote.holder_name }}</p>
-            <p class="py-1 text-gray-600">
+            <p  class="py-1 text-gray-600">
                 Su reserva ha sido confirmada exitosamente. Nos complace
                 acompañarle en su experiencia en
                 {{ quote.activity.name }} garantizamos un servicio de
                 excelencia.
             </p>
         </div>
-
-        <div class="bg-backgroundcoupon p-6 h-full">
-            <div class="flex gap-2">
+        
+    <template v-if="quote.listed_activities && quote.listed_activities.length > 0">
+                    <div class="flex gap-2 bg-backgroundcoupon pl-6 pt-6">
                 <div class="w-[30px] h-[30px] rounded-lg bg-bluecoupon">
                     <img class="p-1 w-full" src="/assets/icons/calendar.svg" />
                 </div>
-                <h2 class="font-bold text-xl py-1">
-                    Información de la Reserva
-                </h2>
+                <h2 class="font-bold text-xl py-1">Información de la Reserva</h2>
             </div>
+        <div v-for="a in quote.listed_activities" :key="a.id" class="bg-backgroundcoupon p-6 mb-4">
 
             <div class="flex justify-between p-2">
                 <div>
-                    <h3 class="text-gray-600 text-sm font-bold">
-                        CÓDIGO DE RESERVA
-                    </h3>
-                    <span class="font-bold text-blue-600">{{
-                        quote.coupon?.code
-                    }}</span>
+                    <h3 class="text-gray-600 text-sm font-bold">CÓDIGO DE RESERVA</h3>
+                    <span class="font-bold text-blue-600">{{ quote.coupon?.code }}</span>
                 </div>
-
                 <div>
-                    <h3 class="text-gray-600 text-sm font-bold">
-                        FECHA DE VISITA
-                    </h3>
-                    <span class="font-bold">{{
-                        quote.listed_activity.date ?? "invalid date"
-                    }}</span>
+                    <h3 class="text-gray-600 text-sm font-bold">FECHA DE VISITA</h3>
+                    <span class="font-bold">{{ a.date ?? 'invalid date' }}</span>
                 </div>
             </div>
-
             <div class="p-2">
                 <h3 class="text-gray-600 text-sm font-bold">TOUR</h3>
-                <span class="font-bold">{{
-                    quote.activity.name ?? "N/A"
-                }}</span>
+                <span class="font-bold">{{ a.activity?.name ?? 'N/A' }}</span>
             </div>
-
-            <!--Hotel and pickup time -->
             <div class="p-2">
-                <h3 class="text-gray-600 text-sm font-bold">
-                    PUNTO DE ENCUENTRO/HORA
-                </h3>
-                <p
-                    class="font-bold"
-                    v-if="
-                        quote.type == 'pack' ||
-                        quote.type == 'tour' 
-                    "
-                    v-for="a in quote.listed_activities"
-                >
-                    {{ a.hotel.name }}
-                                <span>
-                                (
-                                {{ a.pickup_time && a.pickup_time !== '00:00:00' ? a.pickup_time.slice(0, 5) : 'N/D' }} h
-                                )
-                                </span>
-                    <!-- <br />
-                    <span>{{ a.date_string_formatted }}</span> -->
-                </p>
+                <h3 class="text-gray-600 text-sm font-bold">PUNTO DE ENCUENTRO/HORA</h3>
+                <span class="font-bold">
+                    {{ a.hotel?.name ?? 'N/A' }}
+                    <span>
+                        (
+                        {{ a.pickup_time && a.pickup_time !== '00:00:00' ? a.pickup_time.slice(0, 5) : 'N/D' }} h
+                        )
+                    </span>
+                </span>
             </div>
-
-            <div class="p-2 flex justify-between w-3/4 mt-20">
+            <div class="p-2 flex justify-between w-3/4 mt-6">
                 <div class="grid gap-1">
                     <h3 class="text-gray-600 text-sm font-bold">PASAJEROS</h3>
-                    <span v-if="quote.adults" class="font-bold"
-                        >Adultos: {{ quote.adults ?? "" }}</span
-                    >
-                    <span v-if="quote.minors" class="font-bold"
-                        >Menores: {{ quote.minors ?? "" }}</span
-                    >
-                    <span v-if="quote.infants" class="font-bold"
-                        >Infantes: {{ quote.infants ?? "" }}</span
-                    >
+                    <span v-if="quote.adults" class="font-bold">Adultos: {{ quote.adults ?? '' }}</span>
+                    <span v-if="quote.minors" class="font-bold">Menores: {{ quote.minors ?? '' }}</span>
+                    <span v-if="quote.infants" class="font-bold">Infantes: {{ quote.infants ?? '' }}</span>
                 </div>
                 <div>
                     <h3 class="text-gray-600 text-sm font-bold">PAÍS</h3>
@@ -111,6 +78,54 @@ console.log(props.quote);
                 </div>
             </div>
         </div>
+    </template>
+    <template v-else>
+        <div class="bg-backgroundcoupon p-6 h-full">
+            <div class="flex gap-2">
+                <div class="w-[30px] h-[30px] rounded-lg bg-bluecoupon">
+                    <img class="p-1 w-full" src="/assets/icons/calendar.svg" />
+                </div>
+                <h2 class="font-bold text-xl py-1">Información de la Reserva</h2>
+            </div>
+            <div class="flex justify-between p-2">
+                <div>
+                    <h3 class="text-gray-600 text-sm font-bold">CÓDIGO DE RESERVA</h3>
+                    <span class="font-bold text-blue-600">{{ quote.coupon?.code }}</span>
+                </div>
+                <div>
+                    <h3 class="text-gray-600 text-sm font-bold">FECHA DE VISITA</h3>
+                    <span class="font-bold">{{ quote.listed_activity?.date ?? 'invalid date' }}</span>
+                </div>
+            </div>
+            <div class="p-2">
+                <h3 class="text-gray-600 text-sm font-bold">TOUR</h3>
+                <span class="font-bold">{{ quote.activity.name ?? 'N/A' }}</span>
+            </div>
+            <div class="p-2">
+                <h3 class="text-gray-600 text-sm font-bold">PUNTO DE ENCUENTRO/HORA</h3>
+                <span class="font-bold">
+                    {{ quote.listed_activity?.hotel?.name ?? 'N/A' }}
+                    <span>
+                        (
+                        {{ quote.listed_activity?.pickup_time && quote.listed_activity?.pickup_time !== '00:00:00' ? quote.listed_activity.pickup_time.slice(0, 5) : 'N/D' }} h
+                        )
+                    </span>
+                </span>
+            </div>
+            <div class="p-2 flex justify-between w-3/4 mt-6">
+                <div class="grid gap-1">
+                    <h3 class="text-gray-600 text-sm font-bold">PASAJEROS</h3>
+                    <span v-if="quote.adults" class="font-bold">Adultos: {{ quote.adults ?? '' }}</span>
+                    <span v-if="quote.minors" class="font-bold">Menores: {{ quote.minors ?? '' }}</span>
+                    <span v-if="quote.infants" class="font-bold">Infantes: {{ quote.infants ?? '' }}</span>
+                </div>
+                <div>
+                    <h3 class="text-gray-600 text-sm font-bold">PAÍS</h3>
+                    <span class="font-bold">MX</span>
+                </div>
+            </div>
+        </div>
+    </template>
 
         <div class="bg-backgroundQouteCouponCode h-[150px]">
             <div class="text-center mx-auto p-6 gap-2 flex flex-col">

@@ -12,8 +12,9 @@ coupons: Object
 const deleteInvoice = async (id) => { 
     await axios.post(route('invoices.coupon.destroy', { invoice: id }))
         .then(response => {
-            console.log(response.data);
             Inertia.reload();
+            console.log(response.data);
+            console.log("Invoice deleted successfully");
         })
         .catch(error => {
             console.error('Error deleting invoice:', error);

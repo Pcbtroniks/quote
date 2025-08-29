@@ -12,121 +12,224 @@
     <style>
         html, body {
             font-family: 'Nunito', sans-serif;
+            background: #f8fafc;
+        }
+        .pdf-container {
+            width: 595px;
+            min-height: 1000px;
+            background: white;
+            border: 1px solid gray;
+            margin: 0 auto;
+            padding: 0;
+        }
+        .pdf-main {
+            width: 500px;
+            margin: 0 auto;
+            padding: 32px;
+        }
+        .pdf-header {
+            margin-bottom: 24px;
+        }
+        .pdf-title {
+            font-size: 30px;
+            font-weight: bold;
+            color: black;
+            margin-bottom: 8px;
+        }
+        .pdf-greeting {
+            font-size: 18px;
+            font-weight: 700;
+            color: gray;
+            margin-bottom: 8px;
+        }
+        .pdf-message {
+            font-size: 18px;
+            font-weight: 700;
+            color: gray;
+            margin-bottom: 16px;
+        }
+        .pdf-block {
+            background: #f8fafc;
+            border: 3px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        .pdf-section-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .pdf-section-title-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            background: #2763EC;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .pdf-section-title-text {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .pdf-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        .pdf-label {
+            font-size: 14px;
+            font-weight: bold;
+            color: #374151;
+        }
+        .pdf-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2763EC;
+        }
+        .pdf-tour {
+            font-size: 18px;
+            font-weight: 700;
+            color: black;
+            margin-bottom: 8px;
+        }
+        .pdf-meeting {
+            font-size: 16px;
+            font-weight: 700;
+            color: black;
+            margin-bottom: 8px;
+        }
+        .pdf-passenger-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 32px;
+        }
+        .pdf-passenger-list {
+            display: grid;
+            gap: 4px;
+        }
+        .pdf-country {
+            font-size: 16px;
+            font-weight: 700;
+            color: black;
+        }
+        .pdf-confirm {
+            background: #DCFCE7;
+            padding: 24px;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .pdf-confirm-label {
+            font-size: 16px;
+            font-weight: 700;
+            color: #59CB85;
+            margin-bottom: 8px;
+        }
+        .pdf-confirm-value {
+            font-size: 26px;
+            font-weight: 700;
+            color: #16A34A;
+        }
+        .pdf-note {
+            color: #374151;
+            padding-left: 32px;
+            margin-top: 8px;
+        }
+        .pdf-note-list {
+            font-size: 12px;
+        }
+
+        .page_break { page-break-before: always; }
+
+        .spaceBetween {
+            width: 100%;
+            height: 40px;
+            background: red;
         }
     </style>
 </head>
 <body>
-<div style="width: 595px; height: 1000px; position: relative; background: white; border: 1px solid gray; display: flex; justify-content: center; margin: 0 auto">
+<div class="pdf-container">
+    <div class="pdf-main">
+        <!-- LOGO (opcional) -->
+        <!-- <img src="{{ asset('assets/exploreemotions-logo.png') }}" style="width: 200px; height: 99px; display: block; margin: 0 auto 24px auto;" /> -->
 
-    <!-- LOGO -->
-    <!-- <img style="width: 200px; height: 99px; left: 200px; top: 40px; position: absolute" src="{{ asset('assets/exploreemotions-logo.png') }}" /> -->
-
-    {{-- Introducción --}}
-    <div style="width: 500px; height: 259px; left: 53px; top: 20px; position: absolute">
-      <div style="left: 0px; top: 0px; position: absolute; font-size: 30px; font-weight: bold; color: black;">Confirmación de Reserva</div>
-      <div style="left: 0px; top: 60px; position: absolute; font-size: 18px; font-weight: 700; color: gray;">Estimado/a {{ $quote->holder_name ?? 'Holder name' }},</div>
-      <div style="left: 0px; top: 100px; position: absolute; font-size: 18px; font-weight: 700; color: gray;">Su reserva ha sido confirmada exitosamente. Nos complace acompañarle en su experiencia en {{ $quote->listed_activities[0]->activity->name }} garantizamos un servicio de excelencia.</div>
-    </div>
-
-    <!-- Fondo del contenido -->
-    <div style="width: 500px; height: 450px; left: 53px; top: 280px; position: absolute; background-color: #f8fafc">
-    <div style="width: 500px; height: 150px; left: 0px; top: 450px; position: absolute; background-color: #DCFCE7"></div>
-
-    <div style="width: 8px; height: 8px; left: 28px; top: 16px; border-radius: 5px; position: absolute; z-index: 1;">
-        <!-- <img style="width: 8px; height: 8px;" src="{{ $quote->logo }}"> -->
-    </div>
-    <div style="width: 30px; height: 30px; left: 25px; top: 14px; border-radius: 5px; position: absolute; background-color: #2763EC"></div>
-    
-    <div style="width: 500px; height: 116px; left: 65px; top: 2px; position: absolute; font-weight: bold; font-size: 24px">Información de la Reserva</div>
-
-
-    <!-- NÚMERO DE SOLICITUD + FECHA -->
-    <div style="width: 500px; height: 180px; left: 0px; top: 60px; position: absolute;">
-        <div style="left: 30px; top: 0px; position: absolute; font-size: 12px; font-weight: bold; color: rgb(80, 80, 80);">CÓDIGO DE RESERVA:</div>
-        <div style="left: 30px; top: 15px; position: absolute; font-size: 20px; font-weight: 700; color: #2763EC;">{{ $quote->coupon->code ?? 'not-available' }}</div>
-
-        <div style="left: 250px; top: 0px; font-size: 12px; font-weight: bold; color: rgb(80, 80, 80); position: absolute">FECHA DE VISITA</div>
-        <div style="left: 250px; top: 20px; font-size: 16px; font-weight: 700; color: black; position: absolute;">{{ substr($quote->listed_activities[0]->date ?? 'invalid date', 0, 10) }}</div>
-    </div>
-
-    <!-- NOMBRE + ACTIVIDAD -->
-    <div style="width: 500px; height: 35px; left: 0px; top: 30px; position: absolute">
-    <div style="left: 30px; top: 94px; position: absolute; font-size: 12px; font-weight: bold; color: rgb(80, 80, 80);">TOUR:</div>
-    <div style="left: 30px; top: 110px; position: absolute; font-size: 18px; font-weight: 700; color: black; line-height: 1.0;">{{ $quote->listed_activities[0]->activity->name }}</div>
-    </div>
-
-    <div style="width: 500px; height: 25px; left: 0px; top: 30px; position: absolute">
-    <!-- <div style="left: 250px; top: 94px; position: absolute; font-size: 12px; font-weight: bold; color: rgb(80, 80, 80);">TOUR:</div>
-    <div style="left: 250px; top: 125px; position: absolute; font-size: 16px; color: black; font-weight: 700;">{{ $quote->listed_activities[0]->activity->name }}</div> -->
-
-    </div>
-
-    
-    <!-- ACTIVIDADES -->
-    <div style="width: 500px; height: 120px; left: 0px; top: 200px; position: absolute">
-      <div style="left: 30px; top: 0px; position: absolute; font-size: 12px; font-weight: bold; color: rgb(80, 80, 80);">PUNTO DE ENCUENTRO/HORA:</div>
-      
-      @if ($quote->type == 'entrance')
-      <div style="left: 30px; top: 33px; position: absolute; font-size: 16px; color: black; font-weight: 700">
-        {{ $quote->listed_activities[0]->activity->name }}
-      </div>
-      @else
-      @foreach ($quote->listed_activities as $index => $activity)
-      <div style="left: 30px; top:  {{ (30 + (30 * $loop->index)) }}px; position: absolute; font-size: 16px; color: black; line-height: 15px; font-weight: 700">
-          {{ optional($activity->hotel)->name ?? '' }}
-         ( {{ $activity->pickup_time ? substr($activity->pickup_time, 0, 5) : 'n/d' }} h )
-      </div>
-      @endforeach
-      @endif
-    </div>
-    
-    <!-- ADULTOS, MENORES, INFANTES -->
-    <div style="width: 500px; height: 400px; left: 0px; top: 350px; position: absolute">
-        <div style="left: 30px; top: 0px; position: absolute; font-size: 16px; font-weight: bold; color: rgb(80, 80, 80);">PASAJEROS:</div>
-        <div style="left: 30px; top: 33px; font-size: 16px; color: black; position: absolute; font-weight: 700; line-height: 1;">
-            <span> Adultos: {{ $quote->adults ?? ' '  }}</span> <br>
-            @if ($quote->minors)
-            <span > Menores: {{ $quote->minors ?? '' }}</span> <br>
-            @endif
-            @if ($quote->infants)  
-            <span> Infantes: {{ $quote->infants ?? ' ' }}</span> <br>
-            @endif
-        </div>
-        <div style="left: 250px; top: 0px; position: absolute; font-size: 16px; font-weight: bold; color: rgb(80, 80, 80);">PAÍS:</div>
-    <div style="left: 250px; top: 35px; position: absolute; font-size: 16px; color: black; font-weight: 700">MX</div>
-    </div>
-
-    <!-- IMPORTES TOTALES -->
-    <!-- <div style="width: 250px; height: 159px; left: 120px; top: 430px; position: absolute">
-        <div style="left: 30px; top: 70px; font-size: 20px; font-weight: 700; color: black; position: absolute;">Importes totales</div>
-
-        <div style="left: 30px; top: 99px; font-size: 18px; font-weight: 400; color: black; position: absolute;">Precio publico:</div>
-        <div style="left: 142px; top: 99px; font-size: 18px; font-weight: 400; color: black; position: absolute;">${{ $quote->public_price ?? 'n/d' }}</div>
-
-        <div style="left: 30px; top: 125px; font-size: 18px; font-weight: 400; color: black; position: absolute;">Precio a pagar:</div>
-        <div style="left: 142px; top: 125px; font-size: 18px; font-weight: 400; color: black; position: absolute;">${{ $quote->cost_amount ?? 'n/d' }}</div>
-
-        <div style="left: 30px; top: 155px; font-size: 20px; font-weight: 700; color: black; position: absolute;">
-            Comisiones: ${{ isset($quote->public_price, $quote->cost_amount) ? number_format($quote->public_price - $quote->cost_amount, 2) : 'n/d' }}
-        </div>
-    </div> -->
-
-    <div style="width: 500px; height: 150px; left: 0px; top: 460px; position: absolute;">
-        <div style="width: 500px; top: 0px; font-size: 16px; font-weight: 700; color: #59CB85; position: absolute; text-align: center;">Número de confirmación del proveedor:</div>
-
-        <div style="width: 500px; top: 30px; font-size: 26px; font-weight: 700; color: #16A34A; position: absolute; text-align: center;">
-                                    {{ $quote->coupon->confirmation_key ?? '' }}</div>
-    </div>
-    
-            <div style="width: 500px; height: 150px; left: 0px; top: 580px; position: absolute;">
-                <ul>
-                    <li style="list-style-type: disc; font-size: 12px;  top: 30px;  color: #374151; position: absolute; text-align: center;">Presentarse en el punto de reunión 10 min antes del horario señalado.</li>
-                    <li style="list-style-type: disc; font-size: 12px;  top: 50px;  color: #374151; position: absolute; text-align: center;">Identificación oficial será requerida en taquillas y/o punto de PickUp.</li>
-                </ul>
+        <div class="pdf-header">
+            <div class="pdf-title">Confirmación de Reserva</div>
+            <div class="pdf-greeting">Estimado/a {{ $quote->holder_name ?? 'Holder name' }},</div>
+            <div class="pdf-message">
+                Su reserva ha sido confirmada exitosamente. Nos complace acompañarle en su experiencia en
+                @if(count($quote->listed_activities) > 1)
+                    @foreach($quote->listed_activities as $i => $activity)
+                        {{ $activity->activity->name }}@if($i < count($quote->listed_activities)-1), @endif
+                    @endforeach
+                @else
+                    {{ $quote->listed_activities[0]->activity->name ?? '' }}
+                @endif
+                garantizamos un servicio de excelencia.
             </div>
-    
+        </div>
 
-
+        @foreach($quote->listed_activities as $activity)
+        <div class="pdf-block">
+            <div class="pdf-section-title">
+                <div class="pdf-section-title-icon">
+                    <!-- Icono calendario -->
+                    <img src="{{ asset('assets/icons/calendar.svg') }}" style="width: 9.5px; height: 9.5px;" />
+                </div>
+                <div class="pdf-section-title-text">Información de la Reserva</div>
+            </div>
+            <div class="pdf-row">
+                <div>
+                    <div class="pdf-label">CÓDIGO DE RESERVA</div>
+                    <div class="pdf-value">{{ $quote->coupon->code ?? 'not-available' }}</div>
+                </div>
+                <div>
+                    <div class="pdf-label">FECHA DE VISITA</div>
+                    <div class="pdf-value">{{ substr($activity->date ?? 'invalid date', 0, 10) }}</div>
+                </div>
+            </div>
+            <div class="pdf-tour">
+                <span class="pdf-label">TOUR</span><br>
+                {{ $activity->activity->name ?? 'N/A' }}
+            </div>
+            <div class="pdf-meeting">
+                <span class="pdf-label">PUNTO DE ENCUENTRO/HORA</span><br>
+                {{ optional($activity->hotel)->name ?? 'N/A' }}
+                ({{ $activity->pickup_time ? substr($activity->pickup_time, 0, 5) : 'N/D' }} h)
+            </div>
+            <div class="pdf-passenger-row">
+                <div class="pdf-passenger-list">
+                    <span class="pdf-label">PASAJEROS</span>
+                    <span>Adultos: {{ $quote->adults ?? '' }}</span>
+                    @if ($quote->minors)
+                    <span>Menores: {{ $quote->minors ?? '' }}</span>
+                    @endif
+                    @if ($quote->infants)
+                    <span>Infantes: {{ $quote->infants ?? '' }}</span>
+                    @endif
+                </div>
+                <div>
+                    <span class="pdf-label">PAÍS</span><br>
+                    <span class="pdf-country">MX</span>
+                </div>
+            </div>
+        </div>
+        @endforeach
+        
+        <div class="pdf-confirm">
+            <div class="pdf-confirm-label">Número de confirmación del proveedor:</div>
+            <div class="pdf-confirm-value">{{ $quote->coupon->confirmation_key ?? '' }}</div>
+        </div>
+        <div class="pdf-note">
+            <ul class="pdf-note-list">
+                <li>Presentarse en el punto de reunión 10 min antes del horario señalado.</li>
+                <li>Identificación oficial será requerida en taquillas y/o punto de PickUp.</li>
+            </ul>
+        </div>
+    </div>
 </div>
 </div>
 </body>
