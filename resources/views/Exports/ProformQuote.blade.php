@@ -12,7 +12,6 @@
     <style>
         html, body {
             font-family: 'Nunito', sans-serif;
-            background: #f8fafc;
         }
         .pdf-container {
             width: 595px;
@@ -66,9 +65,12 @@
             height: 30px;
             border-radius: 8px;
             background: #2763EC;
-            display: flex;
+            float: left;
+            vertical-align: middle;
             align-items: center;
             justify-content: center;
+            margin-right: 10px;
+            margin-top: 10px;
         }
         .pdf-section-title-text {
             font-size: 24px;
@@ -89,6 +91,11 @@
             font-weight: 700;
             color: #2763EC;
         }
+        .pdf-float{
+            float: left;
+            vertical-align: middle;
+            margin-right: 30%;
+        }
         .pdf-tour {
             font-size: 18px;
             font-weight: 700;
@@ -102,13 +109,13 @@
             margin-bottom: 8px;
         }
         .pdf-passenger-row {
-            display: flex;
+            display: inline-flex;
             justify-content: space-between;
-            margin-top: 32px;
+            margin-top: 40px;
         }
         .pdf-passenger-list {
-            display: grid;
-            gap: 4px;
+            display: inline-flex;
+
         }
         .pdf-country {
             font-size: 16px;
@@ -145,8 +152,8 @@
 
         .spaceBetween {
             width: 100%;
-            height: 40px;
-            background: red;
+            height: 100px;
+            
         }
     </style>
 </head>
@@ -172,17 +179,16 @@
             </div>
         </div>
 
-        @foreach($quote->listed_activities as $activity)
-        <div class="pdf-block">
-            <div class="pdf-section-title">
+        <div class="pdf-section-title">
                 <div class="pdf-section-title-icon">
-                    <!-- Icono calendario -->
-                    <img src="{{ asset('assets/icons/calendar.svg') }}" style="width: 9.5px; height: 9.5px;" />
+                    <img src="{{ asset('assets/icons/calendar.svg') }}" style="width: 8px; height: 8px; margin-top: 2px; margin-left: 3px;" />
                 </div>
                 <div class="pdf-section-title-text">Información de la Reserva</div>
-            </div>
+        </div>
+        @foreach($quote->listed_activities as $activity)
+        <div class="pdf-block">
             <div class="pdf-row">
-                <div>
+                <div class="pdf-float">
                     <div class="pdf-label">CÓDIGO DE RESERVA</div>
                     <div class="pdf-value">{{ $quote->coupon->code ?? 'not-available' }}</div>
                 </div>
@@ -200,8 +206,9 @@
                 {{ optional($activity->hotel)->name ?? 'N/A' }}
                 ({{ $activity->pickup_time ? substr($activity->pickup_time, 0, 5) : 'N/D' }} h)
             </div>
-            <div class="pdf-passenger-row">
-                <div class="pdf-passenger-list">
+            <div class="pdf-row">
+            <div  style="display: inline-flex; margin-top: 40px;">
+                <div class="pdf-float">
                     <span class="pdf-label">PASAJEROS</span>
                     <span>Adultos: {{ $quote->adults ?? '' }}</span>
                     @if ($quote->minors)
@@ -211,12 +218,15 @@
                     <span>Infantes: {{ $quote->infants ?? '' }}</span>
                     @endif
                 </div>
+            </div>
+
                 <div>
                     <span class="pdf-label">PAÍS</span><br>
                     <span class="pdf-country">MX</span>
                 </div>
-            </div>
+                                        </div>
         </div>
+        <div class="spaceBetween"></div>
         @endforeach
         
         <div class="pdf-confirm">
