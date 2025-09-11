@@ -16,7 +16,7 @@ console.log(props.users);
 <template>
     <AppLayout title="Gestinar sucursales">
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class="font-semibold text-xl text-white leading-tight">
                 Nueva sucursal
             </h2>
         </template>

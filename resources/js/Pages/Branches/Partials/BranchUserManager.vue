@@ -86,11 +86,15 @@ const deleteBranch = () => {
             <div class="mt-10 sm:mt-0">
                 <ActionSection>
                     <template #title>
-                        Gestionar sucursales
+                        <h2 class="font-semibold text-xl text-white leading-tight">
+                            Gestionar sucursales
+                        </h2>
                     </template>
 
                     <template #description>
-                        Puedes administrar los usuarios de la sucursal, así como a sus integrantes.
+                        <h3 class="text-md text-gray-300">
+                            Puedes administrar los usuarios de la sucursal, así como a sus integrantes.
+                        </h3>
                     </template>
 
                     <!-- Branch List -->

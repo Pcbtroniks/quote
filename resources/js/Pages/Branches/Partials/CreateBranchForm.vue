@@ -27,12 +27,16 @@ onMounted(() => {
 <template>
     <FormSection @submitted="createTeam">
         <template #title>
-            Detalles de la sucursal
+            <h2 class="font-semibold text-xl text-white leading-tight">
+                Detalles de la sucursal
+            </h2>
         </template>
 
         <template #description>
+            <h3 class="text-md text-gray-300">
             Las sucursales son una forma de agrupar a los integrantes,
             agregue una nueva sucursal para los colaborades de su agencia.
+            </h3>
         </template>
 
         <template #form>
