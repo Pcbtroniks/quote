@@ -1,0 +1,1 @@
+import{l as e,m as s,e as r,o as a,t as o}from"./app-CPE2G4wC.js";const i={__name:"FormError",props:{msg:String},setup(t){return(m,c)=>e((a(),r("p",{class:"text-xs text-red-600 mt-2"},o(t.msg),513)),[[s,t.msg]])}};export{i as default};
