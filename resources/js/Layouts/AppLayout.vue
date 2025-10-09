@@ -116,13 +116,9 @@ const logout = () => {
 
                         <div class="flex justify-start lg:px-4 2xl:px-0 relative">
                             <div>
-                                <DropdownHoverV2
-                                    align="center"
-                                    width="60"
-                                    @click="handleMenuClick"
-                                    v-on=""
+                                <NavLink
                                 >
-                                    <template #trigger>
+                                    <template #>
                                         <a
                                             href="https://xcaretservices.com/seleccion-de-parques"
                                             target="_blank"
@@ -130,13 +126,13 @@ const logout = () => {
                                         >
                                             <button
                                                 type="button"
-                                                class="rounded-b-xl block px-4 py-4 bg-maingreen lg:text-md leading-5 text-white hover:bg-green-900 font-extrabold transition-all duration-300 ease-in-out text-center hover:text-lg w-52 sm:w-full"
+                                                class="rounded-b-xl block px-4 py-4 lg:text-md leading-5 text-white font-extrabold transition-all duration-300 ease-in-out text-center hover:text-lg w-52 sm:w-full"
                                             >
                                                 Ver     los Tours
                                             </button>
                                         </a>
                                     </template>
-                                    <template #content>
+                                    <!-- <template #content>
                                         <DropdownLink
                                             class="bg-mainblue/5 font-bold text-center p-2"
                                         >
@@ -197,8 +193,8 @@ const logout = () => {
                                                 Tour Xplor Día
                                             </a>
                                         </DropdownLink>
-                                    </template>
-                                </DropdownHoverV2>
+                                    </template> -->
+                                </NavLink>
                             </div>
                             <div class="border-t border-gray-100"></div>
                         </div>
