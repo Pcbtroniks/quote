@@ -124,7 +124,7 @@ const logout = () => {
                                 >
                                     <template #trigger>
                                         <a
-                                            href="https://exploreemotions.agency/parques"
+                                            href="https://xcaretservices.com/seleccion-de-parques"
                                             target="_blank"
                                             @click.stop
                                         >
@@ -132,7 +132,7 @@ const logout = () => {
                                                 type="button"
                                                 class="rounded-b-xl block px-4 py-4 bg-maingreen lg:text-md leading-5 text-white hover:bg-green-900 font-extrabold transition-all duration-300 ease-in-out text-center hover:text-lg w-52 sm:w-full"
                                             >
-                                                Ver los Tours
+                                                Ver     los Tours
                                             </button>
                                         </a>
                                     </template>
