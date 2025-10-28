@@ -101,6 +101,7 @@ Route::middleware([
     Route::post('pickups/store', [PickupController::class, 'store'])->name('pickups.store');
     Route::post('pickups/{pickup}', [PickupController::class, 'update'])->name('pickups.update');
     Route::post('pickups/update-multiple/{pickup}', [PickupController::class, 'updateMultiple'])->name('pickups.update.multiple');
+    Route::post('pickups/archive/{pickup}', [PickupController::class, 'archive'])->name('pickups.archive');
 
     // Invoices
     Route::get('invoices/', [InvoiceController::class, 'index'])->name('invoices');

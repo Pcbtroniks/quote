@@ -154,6 +154,26 @@ const filterPickupsByHotel = (hotelName) => {
 
     filterPickupsByHotelName.value = props.pickups.filter(pickup => pickup.hotel.toLowerCase().includes(hotelName.toLowerCase()));
 }
+
+// Delete pickup
+
+const deletePickup = async(pickupID, index) => {
+
+    try {
+        
+        const response = await axios.post(route('pickups.archive', pickupID));
+        props.pickups.splice(index, 1);
+        await successToast().fire({
+            icon: 'success',
+            title: 'Pickup eliminado'
+        });
+
+    } catch (error) {
+
+        console.log(error);
+    
+    }
+}
 </script>
 
 <template>
@@ -308,7 +328,8 @@ const filterPickupsByHotel = (hotelName) => {
 
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="flex items-center">
-                                        <div class="font-medium text-gray-400">...</div>
+                                        <!-- <div class="font-medium text-gray-400">...</div> -->
+                                        <button @click="deletePickup(pickup.id, index)"  class="border-2 border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-white py-2 px-4 rounded-xl duration-150 hover:shadow-md hover:shadow-amber-600 active:bg-amber-600">Eliminar</button>
                                     </div>
                                 </td>
                             </tr>

@@ -89,5 +89,11 @@ class PickupController extends Controller
         ]);
     }
 
-
+    public function archive($pickup)
+    {
+        return response()->json([
+            'message' => 'success',
+            'data' => \App\Repositories\Activities\Pickup::archivePickup($pickup)
+        ]);
+    }
 }

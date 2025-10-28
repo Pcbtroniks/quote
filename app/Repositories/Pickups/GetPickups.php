@@ -12,6 +12,7 @@ class GetPickups
         return DB::table('pickups as p')
                 ->orderBy('h.name', 'asc')
                 ->where('p.zone_id', $zone)
+                ->whereNull('p.deleted_at')
                 ->where('p.activity_id', $activity)
                 ->join('hotels as h', 'p.hotel_id', '=', 'h.id')
                 ->join('activities as a', 'p.activity_id', '=', 'a.id')
@@ -22,6 +23,7 @@ class GetPickups
     {
         return DB::table('pickups as p')
                 ->where('p.hotel_id', $hotel)
+                ->whereNull('p.deleted_at')
                 ->join('hotels as h', 'p.hotel_id', '=', 'h.id')
                 ->join('activities as a', 'p.activity_id', '=', 'a.id')
                 ->orderBy('a.name', 'asc')

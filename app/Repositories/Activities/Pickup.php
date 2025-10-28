@@ -17,6 +17,7 @@ class Pickup {
         return DB::table('pickups', 'p')
         ->where('hotel_id', $hotel)
         ->where('activity_id', $activity)
+        ->whereNull('p.deleted_at')
         ->join('activities as a', 'p.activity_id', '=', 'a.id')
         ->join('hotels as h', 'p.hotel_id', '=', 'h.id')
         ->join('zones as z', 'p.zone_id', '=', 'z.id')
@@ -36,4 +37,9 @@ class Pickup {
         ->get(['p.pickup_time', 'a.name as activity', 'h.name as hotel', 'z.name as zone']);
     }
 
+    public static function archivePickup( $pickupId ){
+        return DB::table('pickups')
+        ->where('id', $pickupId)
+        ->update(['deleted_at' => now()]);
+    }
 }
