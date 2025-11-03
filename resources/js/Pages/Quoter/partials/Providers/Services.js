@@ -25,6 +25,7 @@ export const QuoteProgress = reactive({
             minors: 0,
         }
     },
+    pickups: {},
     prices: {
         totalPublicPrice: 0,
         totalAgencyPrice: 0,
@@ -63,6 +64,11 @@ export const getTours = async () =>
 export const fetchHotels = async ( zone ) => 
 {
     return await HttpGet(route('hotels', {'zone': zone}));   
+}
+
+export const fetchPickups = async ( activity, zone ) => 
+{
+    return await HttpGet(route('api.pickups', { activity, zone }));
 }
 
 export const getHotels = async ( zone ) => 
@@ -126,4 +132,16 @@ export const loadHotels = async ( zone, hotelList = {}) => {
     }
 
     return hotelList;
+}
+
+export const loadPickups = async ( activity, zone, pickupList ) => {
+    if(!activity || !zone ){
+        console.warn(`activity( ${activity} )  or zone( ${zone} ) invalid:`);
+        return;
+    }
+
+    pickupList = await fetchPickups(activity, zone);
+    console.log(pickupList);
+
+   return pickupList;
 }

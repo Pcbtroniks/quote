@@ -80,6 +80,8 @@ Route::middleware([
     Route::get('parks', [QuoteController::class, 'parks'])->name('parks');
     Route::get('tours', [QuoteController::class, 'tours'])->name('tours');
     Route::get('hotels/{zone}', [QuoteController::class, 'hotels'])->name('hotels');
+    Route::get('api/pickups/{zone}/{activity}', [QuoteController::class, 'pickups'])->name('api.pickups');
+    Route::get('api/pickups-hotels/{zone}/{activity}', [QuoteController::class, 'getHotelsByActivityAndZone'])->name('api.pickups.hotels');
     Route::get('prices/{activity}/{zone}/{season}', [QuoteController::class, 'price'])->name('prices');
 
     // From Create activity page Prices

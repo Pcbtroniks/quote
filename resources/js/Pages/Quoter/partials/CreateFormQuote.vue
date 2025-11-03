@@ -8,7 +8,8 @@ import { getSeason } from '@/Services/Providers.js'
 import { QuoteProgress,
           getTours, 
           getPrice, 
-          loadHotels, 
+          loadHotels,
+          loadPickups,
           getPickup } from './Providers/Services.js';
 import { Today,
           parseQuoteType,
@@ -193,22 +194,20 @@ function pickupNotAvailable() {
 }
 
 class postActivities {
+  hotelList;
+  pickupList;
   activityList;
-
+  publicPrice;
+  minTourPackage;
   NumberOfActivities;
 
-  hotelList;
-
-  publicPrice;
-
-  minTourPackage;
-
   constructor() {
-    this.activityList = [];
-    this.NumberOfActivities = 1;
     this.hotelList = {};
+    this.pickupList = {};
     this.publicPrice = 0;
+    this.activityList = [];
     this.minTourPackage = 2;
+    this.NumberOfActivities = 1;
   }
 
   getFirstTour(index = 0) {
@@ -282,6 +281,7 @@ class postActivities {
 
   async loadHotels(zone) {
     this.hotelList = await loadHotels(zone, this.hotelList);
+    this.pickupList = await loadPickups(this.activityList[0].activity, zone, this.pickupList);
     return this.hotelList;
   }
 
@@ -317,6 +317,9 @@ class postActivities {
       return true;
     }
     await this.loadHotels(zoneID);
+    // console.clear();
+    console.log(this.hotelList);
+    console.log(this.pickupList);
     return true;
   }
 

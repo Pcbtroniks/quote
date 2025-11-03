@@ -10,6 +10,7 @@ use App\Repositories\Zones\Hotel;
 use App\Repositories\Zones\Zone;
 use Illuminate\Http\Request;
 use App\Mail\QuoteCreated;
+use Illuminate\Support\Facades\DB;
 
 class QuoteController extends Controller
 {
@@ -41,6 +42,11 @@ class QuoteController extends Controller
     
     }
 
+    public function pickups($zone, $activity){
+        return response()->json($this->getPickupsByZoneAndActivity($zone, $activity));
+    
+    }
+
     public function price($activity, $zone, $season){
         if($zone == 2) $zone = 1;
         return response()->json(Price::get($activity, $zone, $season));
@@ -69,4 +75,40 @@ class QuoteController extends Controller
         $quote->updateListedActivities($request->quote_activity_id, $request->pickup_time);
         return response()->json(['status' => 'ok', 'message' => 'Listed activities updated successfully.']);
     }
+
+    public function getPickupsByZoneAndActivity($zone, $activity)
+    {
+        $pickups = DB::table('pickups as p')
+            ->where('p.zone_id', $zone)
+            ->where('p.activity_id', $activity)
+            ->join('zones as z', 'p.zone_id', '=', 'z.id')
+            ->join('activities as a', 'p.activity_id', '=', 'a.id')
+            ->join('hotels as h', 'p.hotel_id', '=', 'h.id')
+            ->get(['p.id', 'p.hotel_id', 'a.name as activity', 'z.name as zone','p.pickup_time', 'p.activity_id', 'p.zone_id']);
+
+        return $pickups;
+    }
+
+    // Returns hotels with pickups for a given activity and zone
+    public function getHotelsByActivityAndZone($zone, $activity)
+    {
+        $hotels = DB::table('pickups as p')
+            ->join('zones as z', 'p.zone_id', '=', 'z.id')
+            ->join('activities as a', 'p.activity_id', '=', 'a.id')
+            ->join('hotels as h', 'p.hotel_id', '=', 'h.id')
+            ->where('p.zone_id', $zone)
+            ->where('p.activity_id', $activity)
+            ->select(
+                'h.id as hotel_id',
+                'h.name as hotel_name',
+                'z.name as zone',
+                DB::raw('COUNT(p.id) as total_pickups')
+            )
+            ->groupBy('h.id', 'h.name', 'z.name')
+            ->orderBy('h.name')
+            ->get();
+
+        return response()->json($hotels);
+    }
+
 }
