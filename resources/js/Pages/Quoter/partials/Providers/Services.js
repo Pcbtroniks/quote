@@ -68,7 +68,7 @@ export const fetchHotels = async ( zone ) =>
 
 export const fetchPickups = async ( activity, zone ) => 
 {
-    return await HttpGet(route('api.pickups', { activity, zone }));
+    return await HttpGet(route('api.pickups.hotels', { activity, zone }));
 }
 
 export const getHotels = async ( zone ) => 

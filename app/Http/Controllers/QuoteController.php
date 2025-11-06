@@ -99,8 +99,8 @@ class QuoteController extends Controller
             ->where('p.zone_id', $zone)
             ->where('p.activity_id', $activity)
             ->select(
-                'h.id as hotel_id',
-                'h.name as hotel_name',
+                'h.id as id',
+                'h.name as name',
                 'z.name as zone',
                 DB::raw('COUNT(p.id) as total_pickups')
             )

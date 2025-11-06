@@ -330,6 +330,10 @@ class postActivities {
 
 const Activities = reactive(new postActivities());
 
+
+const DebugActivities = () => {
+  console.log(Activities);
+};
 </script>
 
 <template>
@@ -665,7 +669,7 @@ const Activities = reactive(new postActivities());
                                         class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                                     >
                                             <option value="null" selected disabled>-- Seleccione un hotel para su pickup --</option>
-                                            <option class="capitalize" v-if="Activities.isHotelListByZoneLoaded(Activities.getFirstTour().zone)" v-for="h in Activities.hotelList[zoneToString(Activities.getFirstTour().zone)]" :value="h.id">{{ h.name }}</option>
+                                            <option class="capitalize" v-if="Activities.isHotelListByZoneLoaded(Activities.getFirstTour().zone)" v-for="h in Activities.pickupList" :value="h.id">{{ h.name }}</option>
                                     </select>
 
                                 </div>
@@ -811,6 +815,14 @@ const Activities = reactive(new postActivities());
             </template>
 
             <template #actions>
+
+                <button
+                    type="button"
+                    @click="DebugActivities()"
+                    class="hover:shadow-form rounded-md mr-16 bg-gray-500 hover:bg-gray-800 py-3 px-8 text-center text-base font-semibold text-white outline-none"
+                  >
+                    Debug Activities
+                </button>
 
                 <button
                 type="button"
