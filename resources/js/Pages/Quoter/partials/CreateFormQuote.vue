@@ -253,6 +253,9 @@ class postActivities {
 
   setActivityZone(index, zone){
     this.activityList[index].zone = zone;
+    this.activityList[index].hotel = null;
+    this.activityList[index].pickup = null;
+    this.loadPickupHotels(this.activityList[index].activity, zone);
   }
 
   addActivity(key = this.activityList.length + 1, activitity, season = form.season, zone = null, hotel = null, pickup = null, activity_date = form.fechaActividad) {
@@ -271,6 +274,7 @@ class postActivities {
       public_price: 0,
     };
 
+    this.loadPickupHotels(activitity, zone);
     this.activityList.push(act);
   }
 
@@ -281,8 +285,12 @@ class postActivities {
 
   async loadHotels(zone) {
     this.hotelList = await loadHotels(zone, this.hotelList);
-    this.pickupList = await loadPickups(this.activityList[0].activity, zone, this.pickupList);
     return this.hotelList;
+  }
+
+  async loadPickupHotels(activity, zone) {
+    this.pickupList = await loadPickups(activity, zone, this.pickupList);
+    return this.pickupList;
   }
 
   describe() {
@@ -313,11 +321,12 @@ class postActivities {
   }
 
   async isHotelListByZoneLoaded(zoneID) {
+    
     if (this.hotelList[zoneToString(zoneID)]?.length && this.hotelList[zoneToString(zoneID)].length > 0) {
       return true;
     }
     await this.loadHotels(zoneID);
-    // console.clear();
+    
     console.log(this.hotelList);
     console.log(this.pickupList);
     return true;
@@ -639,6 +648,7 @@ const DebugActivities = () => {
                                         Zona
                                     </InputLabel>
                                     <select
+                                        @change="Activities.setActivityZone(0, $event.target.value)"
                                         v-model="Activities.getFirstTour().zone"
                                         id="zone"
                                         name="zone"
