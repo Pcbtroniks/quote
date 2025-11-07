@@ -272,9 +272,10 @@ class postActivities {
       minors: form.menores,
       infants: form.infantes,
       public_price: 0,
+      available_pickup_hotels: [],
     };
 
-    this.loadPickupHotels(activitity, zone);
+    console.log('[ADD ACTIVITY]: activity list; ', this.activityList);
     this.activityList.push(act);
   }
 
@@ -321,14 +322,35 @@ class postActivities {
   }
 
   async isHotelListByZoneLoaded(zoneID) {
-    
+
+    if(!zoneID){
+      return false;
+    }
     if (this.hotelList[zoneToString(zoneID)]?.length && this.hotelList[zoneToString(zoneID)].length > 0) {
       return true;
     }
     await this.loadHotels(zoneID);
+    await this.loadPickupHotels(this.getFirstTour().activity, zoneID);
+    console.log('[isHotelListByZoneLoaded]: ZoneID: ', zoneID);
     
-    console.log(this.hotelList);
-    console.log(this.pickupList);
+    console.log('[LOAD HOTELS]: hotel list; ', this.hotelList);
+    console.log('[LOAD PICKUPS]: pickup list; ', this.pickupList);
+    return true;
+  }
+
+  async isHotelPickupListByZoneLoaded(activity, zoneID, index = 0) {
+
+    if(!activity || !zoneID){
+      return false;
+    }
+
+    if (this.activityList[index].available_pickup_hotels?.length && this.activityList[index].available_pickup_hotels.length > 0) {
+      return true;
+    }
+    this.activityList[index].available_pickup_hotels = await this.loadPickupHotels(activity, zoneID);
+
+    console.log('[isHotelPickupListByZoneLoaded]: ZoneID: ', zoneID);
+    console.log('[LOAD PICKUPS]: pickup hotel list; ', this.activityList[index].available_pickup_hotels);
     return true;
   }
 
@@ -339,10 +361,6 @@ class postActivities {
 
 const Activities = reactive(new postActivities());
 
-
-const DebugActivities = () => {
-  console.log(Activities);
-};
 </script>
 
 <template>
@@ -761,7 +779,7 @@ const DebugActivities = () => {
                                     </InputLabel>
                                     <select
                                         v-model="act.zone"
-                                        @change="Activities.isHotelListByZoneLoaded($event.target.value)"
+                                        @change="Activities.isHotelPickupListByZoneLoaded(act.activity, $event.target.value, act.key - 1)"
                                             id="zone"
                                             name="zone"
                                             class="capitalize w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
@@ -779,7 +797,7 @@ const DebugActivities = () => {
                                     </InputLabel>
 
                                     <select
-                                        v-if="Activities.isHotelListByZoneLoaded(act.zone)"
+                                        
                                         v-model="act.hotel"
                                         @change="Activities.setTourHotel($event.target.value, act.key - 1)"
                                         name="pickUpZone"
@@ -787,7 +805,7 @@ const DebugActivities = () => {
                                         class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                                         >
                                         <option value="null" selected disabled>-- Seleccione un hotel --</option>
-                                        <option class="capitalize" v-for="h in Activities.hotelList[zoneToString(act.zone)]" :value="h.id">{{ h.name }}</option>
+                                        <option class="capitalize" v-for="h in Activities.activityList[act.key - 1].available_pickup_hotels" :value="h.id">{{ h.name }}</option>
                                     </select>
 
                                 </div>
@@ -825,14 +843,6 @@ const DebugActivities = () => {
             </template>
 
             <template #actions>
-
-                <button
-                    type="button"
-                    @click="DebugActivities()"
-                    class="hover:shadow-form rounded-md mr-16 bg-gray-500 hover:bg-gray-800 py-3 px-8 text-center text-base font-semibold text-white outline-none"
-                  >
-                    Debug Activities
-                </button>
 
                 <button
                 type="button"

@@ -1,3 +1,4 @@
+import { pick } from 'lodash';
 import { reactive } from 'vue';
 
 // Main Objects
@@ -137,11 +138,10 @@ export const loadHotels = async ( zone, hotelList = {}) => {
 export const loadPickups = async ( activity, zone, pickupList ) => {
     if(!activity || !zone ){
         console.warn(`activity( ${activity} )  or zone( ${zone} ) invalid:`);
-        return;
+        return pickupList;
     }
 
     pickupList = await fetchPickups(activity, zone);
-    console.log(pickupList);
 
    return pickupList;
 }
