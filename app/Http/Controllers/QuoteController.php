@@ -98,6 +98,7 @@ class QuoteController extends Controller
             ->join('hotels as h', 'p.hotel_id', '=', 'h.id')
             ->where('p.zone_id', $zone)
             ->where('p.activity_id', $activity)
+            ->whereNull('p.deleted_at')
             ->select(
                 'h.id as id',
                 'h.name as name',
