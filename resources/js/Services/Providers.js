@@ -1,7 +1,7 @@
 // Date and seasons
 
 export const getSeason = (Date) => {
-    return isDateInRange('2025-07-01', '2025-08-15', Date) 
+    return isDateInRange('2025-12-26', '2025-12-31', Date) 
         ? 'high' 
         : 'low';
 }
