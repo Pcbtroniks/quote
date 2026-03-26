@@ -27,7 +27,7 @@ const requestCouponConfirmation = (Quote) => {
     confirmButtonColor: '#38bdf8',
     cancelButtonColor: '#d33',
     confirmButtonText: 'Si, Solicitar!',
-    cancelButtonText: 'Cancelar'
+    cancelButtonText: 'No, Cancelar'
     }).then((result) => {
     if (result.isConfirmed) {
 
@@ -45,7 +45,8 @@ const requestCouponConfirmation = (Quote) => {
         'Estamos generando tu cupon.',
         'success'
         ).then(function() {
-            location.reload();
+            //return location.reload();
+            alert('Por favor, recarga la pagina para ver el cupón generado.');
         })
     }
     })
